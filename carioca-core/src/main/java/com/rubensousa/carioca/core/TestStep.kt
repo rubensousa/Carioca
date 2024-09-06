@@ -11,8 +11,9 @@ import java.io.BufferedOutputStream
 import java.io.IOException
 
 class TestStep(
-    private val outputDir: Uri,
-    private val title: String,
+    val id: String,
+    val title: String,
+    val outputDir: Uri,
 ) {
 
     private val TAG = "CariocaTestStep"
@@ -35,14 +36,14 @@ class TestStep(
         endTime = System.currentTimeMillis()
     }
 
-    fun screenshot(description: String, scale: Float = 0.5f) {
-        val screenshot = takeScreenshot(description, scale)
+    fun screenshot(description: String) {
+        val screenshot = takeScreenshot(description)
         if (screenshot != null) {
             screenshots.add(screenshot)
         }
     }
 
-    private fun takeScreenshot(description: String, scale: Float): TestScreenshot? {
+    private fun takeScreenshot(description: String): TestScreenshot? {
         val screenshot: Bitmap? = InstrumentationRegistry.getInstrumentation().uiAutomation.takeScreenshot()
         if (screenshot == null) {
             Log.w(TAG, "Failed to take screenshot")
@@ -54,11 +55,11 @@ class TestStep(
             BufferedOutputStream(outputStream).use { stream ->
                 val scaledScreenshot = Bitmap.createScaledBitmap(
                     screenshot,
-                    Math.round(scale * screenshot.width),
-                    Math.round(scale * screenshot.height),
+                    Math.round(CariocaScreenshots.scale * screenshot.width),
+                    Math.round(CariocaScreenshots.scale * screenshot.height),
                     false
                 )
-                scaledScreenshot.compress(Bitmap.CompressFormat.PNG, 70, stream)
+                scaledScreenshot.compress(CariocaScreenshots.format, CariocaScreenshots.quality, stream)
                 stream.flush()
                 return TestScreenshot(
                     uri = screenshotUri,

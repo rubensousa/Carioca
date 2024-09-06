@@ -1,10 +1,11 @@
 package com.rubensousa.carioca.core.internal
 
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.test.platform.io.PlatformTestStorageRegistry
+import com.rubensousa.carioca.core.CariocaScreenshots
 import org.junit.runner.Description
 import java.io.OutputStream
-import java.util.UUID
 
 internal object TestOutputLocation {
 
@@ -19,13 +20,21 @@ internal object TestOutputLocation {
     }
 
     fun getScreenshotUri(outputDir: Uri): Uri {
-        val filename = UUID.randomUUID().toString() + ".png"
-        val screenshotPath = "${outputDir.path}/$filename"
+        val filename = IdGenerator.get() + getExtension()
+        val screenshotPath = "${outputDir.path}/screenshots/$filename"
         return testStorage.getOutputFileUri(screenshotPath)
     }
 
     fun getScreenshotOutputStream(uri: Uri): OutputStream {
         return testStorage.openOutputFile(uri.path)
+    }
+
+    private fun getExtension(): String {
+        return when (CariocaScreenshots.format) {
+            Bitmap.CompressFormat.PNG -> ".png"
+            Bitmap.CompressFormat.JPEG -> ".jpg"
+            else -> ".webp"
+        }
     }
 
 }

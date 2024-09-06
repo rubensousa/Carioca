@@ -22,7 +22,6 @@ class SampleTest {
         step("Open Screen 2") {
             screenshot("Save this")
         }
-
     }
 
 }

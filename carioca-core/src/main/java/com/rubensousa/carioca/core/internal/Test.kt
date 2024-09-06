@@ -11,8 +11,6 @@ internal data class Test(
 
     companion object {
 
-
-
         fun from(description: Description): Test {
             return Test(
                 name = description.methodName,
