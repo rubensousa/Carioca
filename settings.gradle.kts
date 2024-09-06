@@ -20,6 +20,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "carioca"
-include(":app")
+include(":sample")
 include(":carioca-core")
 include(":carioca-allure")
