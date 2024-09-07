@@ -1,7 +1,7 @@
 package com.rubensousa.carioca.core
 
-import com.rubensousa.carioca.core.internal.IdGenerator
 import com.rubensousa.carioca.core.internal.Test
+import com.rubensousa.carioca.core.internal.TestReportBuilder
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
@@ -14,44 +14,44 @@ class CariocaReportRule(
     private val reporters: List<CariocaReporter>,
 ) : TestWatcher() {
 
-    private val steps = mutableListOf<TestStep>()
     private var test: Test? = null
+    private val reportBuilder = TestReportBuilder
 
     constructor(reporter: CariocaReporter) : this(listOf(reporter))
 
     override fun starting(description: Description) {
         super.starting(description)
-        test = Test.from(description)
+        test = reportBuilder.newTest(description)
         forEachReporter { onTestStarted(description) }
     }
 
     override fun failed(e: Throwable, description: Description) {
         super.failed(e, description)
-        steps.lastOrNull()?.let { step ->
+        test?.getLastStep()?.let { step ->
             step.fail()
             forEachReporter { onStepFailed(step) }
         }
+        test?.fail()
         forEachReporter { onTestFailed(e, description) }
     }
 
     override fun succeeded(description: Description) {
         super.succeeded(description)
         forEachReporter { onTestPassed(description) }
+        test?.pass()
     }
 
     fun step(title: String, action: TestStep.() -> Unit) {
-        val currentTest = requireNotNull(test) { "Test not started yet" }
-        val stepId = IdGenerator.get()
-        val step = TestStep(
-            id = stepId,
-            outputDir = currentTest.outputDir,
-            title = title
-        )
-        steps.add(step)
+        val step = createStep(title)
         forEachReporter { onStepStarted(step) }
         action(step)
         step.pass()
         forEachReporter { onStepPassed(step) }
+    }
+
+    private fun createStep(title: String): TestStep {
+        val currentTest = requireNotNull(test) { "Test not started yet" }
+        return currentTest.newStep(title)
     }
 
     private fun forEachReporter(action: CariocaReporter.() -> Unit) {

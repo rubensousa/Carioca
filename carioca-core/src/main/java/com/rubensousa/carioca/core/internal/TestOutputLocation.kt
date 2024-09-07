@@ -19,6 +19,20 @@ internal object TestOutputLocation {
         return testStorage.getOutputFileUri(relativePath)
     }
 
+    fun getStepUri(testUri: Uri, id: String): Uri {
+        return testStorage.getOutputFileUri("${testUri.path}/$id")
+    }
+
+    fun getReportOutputStream(testUri: Uri, filename: String): OutputStream {
+        val reportPath = "${testUri.path}/$filename"
+        return testStorage.openOutputFile(reportPath)
+    }
+
+    fun getGlobalReportOutputStream(filename: String): OutputStream {
+        val reportPath = "${reportDir}/$filename"
+        return testStorage.openOutputFile(reportPath)
+    }
+
     fun getScreenshotUri(outputDir: Uri): Uri {
         val filename = IdGenerator.get() + getExtension()
         val screenshotPath = "${outputDir.path}/screenshots/$filename"

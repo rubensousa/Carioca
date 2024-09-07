@@ -16,6 +16,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
         testInstrumentationRunnerArguments["useTestStorageService"] = "true"
+        testInstrumentationRunnerArguments["listener"] = "com.rubensousa.carioca.core.CariocaReportListener"
     }
 
     buildTypes {
@@ -48,4 +49,5 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(project(":carioca-core"))
     androidTestUtil(libs.androidx.test.services)
+    androidTestUtil(libs.androidx.test.orchestrator)
 }

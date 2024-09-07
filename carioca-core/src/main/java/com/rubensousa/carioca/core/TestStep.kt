@@ -4,32 +4,36 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
-import com.rubensousa.carioca.core.internal.ResultState
 import com.rubensousa.carioca.core.internal.TestOutputLocation
-import com.rubensousa.carioca.core.internal.TestScreenshot
 import java.io.BufferedOutputStream
 import java.io.IOException
 
-class TestStep(
+data class TestStep(
     val id: String,
     val title: String,
     val outputDir: Uri,
 ) {
 
+    var status = ReportStatus.SKIPPED
+        private set
+    var startTime = System.currentTimeMillis()
+        private set
+    var endTime = startTime
+        private set
+
     private val TAG = "CariocaTestStep"
     private val screenshots = mutableListOf<TestScreenshot>()
-    private var state = ResultState.SKIPPED
-    private var startTime = System.currentTimeMillis()
-    private var endTime = startTime
 
     internal fun pass() {
-        state = ResultState.PASSED
+        status = ReportStatus.PASSED
         saveEndTime()
     }
 
     internal fun fail() {
-        state = ResultState.FAILED
+        status = ReportStatus.FAILED
         saveEndTime()
+        // Take a screenshot to record the state on failures
+        screenshot("Failed")
     }
 
     private fun saveEndTime() {
@@ -41,6 +45,10 @@ class TestStep(
         if (screenshot != null) {
             screenshots.add(screenshot)
         }
+    }
+
+    fun getScreenshots(): List<TestScreenshot> {
+        return screenshots.toList()
     }
 
     private fun takeScreenshot(description: String): TestScreenshot? {
@@ -72,6 +80,10 @@ class TestStep(
         } finally {
             screenshot.recycle()
         }
+    }
+
+    override fun toString(): String {
+        return "$title - $id"
     }
 
 }

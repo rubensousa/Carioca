@@ -38,8 +38,9 @@ dependencies {
     implementation(libs.androidx.junit)
     implementation(libs.androidx.test.rules)
     implementation(libs.androidx.espresso.core)
-    implementation(libs.androidx.test.rules)
+    implementation(libs.androidx.test.runner)
     implementation(libs.androidx.test.uiautomator)
+    implementation(libs.kotlinx.serialization.json)
     androidTestUtil(libs.androidx.test.services)
 
     testImplementation(libs.junit)
