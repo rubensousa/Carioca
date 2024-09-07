@@ -11,11 +11,11 @@ import com.rubensousa.carioca.report.screenshot.TestScreenshot
 import java.io.BufferedOutputStream
 import java.io.IOException
 
-class ReportStep(
+class StepReport internal constructor(
     id: String,
     val title: String,
-    val outputDir: Uri,
-) : ReportStage(id), ReportStepScope {
+    val testOutputDir: Uri,
+) : StageReport(id), ReportStepScope {
 
     private val TAG = "CariocaTestStep"
     private val screenshots = mutableListOf<TestScreenshot>()
@@ -27,7 +27,7 @@ class ReportStep(
         }
     }
 
-    internal fun run(action: ReportStepScope.() -> Unit) {
+    internal fun report(action: ReportStepScope.() -> Unit) {
         action.invoke(this)
         pass()
     }
@@ -42,9 +42,9 @@ class ReportStep(
             Log.w(TAG, "Failed to take screenshot")
             return null
         }
-        val screenshotUri = TestOutputLocation.getScreenshotUri(outputDir)
         try {
-            val outputStream = TestOutputLocation.getScreenshotOutputStream(screenshotUri)
+            val screenshotUri = TestOutputLocation.getScreenshotUri(testOutputDir)
+            val outputStream = TestOutputLocation.getOutputStream(screenshotUri)
             BufferedOutputStream(outputStream).use { stream ->
                 val scaledScreenshot = Bitmap.createScaledBitmap(
                     screenshot,

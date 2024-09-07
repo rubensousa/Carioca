@@ -4,6 +4,6 @@ import com.rubensousa.carioca.report.scope.ReportScenarioScope
 
 interface TestScenario {
 
-    fun run(scope: ReportScenarioScope)
+    fun report(scope: ReportScenarioScope)
 
 }

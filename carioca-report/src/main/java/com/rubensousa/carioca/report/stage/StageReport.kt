@@ -2,7 +2,7 @@ package com.rubensousa.carioca.report.stage
 
 import com.rubensousa.carioca.report.internal.IdGenerator
 
-abstract class ReportStage(val id: String) {
+abstract class StageReport(val id: String) {
 
     var status = ReportStatus.SKIPPED
         private set

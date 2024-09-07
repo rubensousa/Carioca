@@ -1,16 +1,15 @@
 package com.rubensousa.carioca
 
-import androidx.test.espresso.Espresso
 import com.rubensousa.carioca.report.CariocaReportRule
-import com.rubensousa.carioca.report.LogcatReport
+import com.rubensousa.carioca.report.JsonReporter
 import com.rubensousa.carioca.report.annotations.TestId
 import org.junit.Rule
 import org.junit.Test
 
-class SampleReportTest {
+class SampleTestReport {
 
     @get:Rule
-    val reportRule = CariocaReportRule(reporter = LogcatReport())
+    val reportRule = CariocaReportRule(reporter = JsonReporter())
 
     @TestId(id = "This is a persistent test id")
     @Test

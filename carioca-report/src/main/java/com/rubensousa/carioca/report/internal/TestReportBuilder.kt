@@ -1,16 +1,18 @@
 package com.rubensousa.carioca.report.internal
 
-import com.rubensousa.carioca.report.CariocaReport
+import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.annotations.TestId
-import com.rubensousa.carioca.report.stage.ReportTest
+import com.rubensousa.carioca.report.stage.ReportStatus
+import com.rubensousa.carioca.report.stage.TestReport
+import com.rubensousa.carioca.report.stage.TestSuiteReport
 import org.junit.runner.Description
 
 internal object TestReportBuilder {
 
-    private val tests = mutableListOf<ReportTest>()
+    private val tests = mutableListOf<TestReport>()
     private var startTime = System.currentTimeMillis()
 
-    fun newTest(description: Description, reports: List<CariocaReport>): ReportTest {
+    fun newTest(description: Description, reports: List<CariocaReporter>): TestReport {
         val test = createTest(description, reports)
         tests.add(test)
         return test
@@ -21,17 +23,23 @@ internal object TestReportBuilder {
         tests.clear()
     }
 
-    fun build(): TestReport {
-        return TestReport(
+    fun build(): TestSuiteReport {
+        val hasAnyFailure = tests.any { it.status == ReportStatus.FAILED }
+        return TestSuiteReport(
             startTime = startTime,
             endTime = System.currentTimeMillis(),
             tests = tests.toList(),
+            status = if (hasAnyFailure) {
+                ReportStatus.FAILED
+            } else {
+                ReportStatus.PASSED
+            },
             id = IdGenerator.get()
         )
     }
 
-    private fun createTest(description: Description, reports: List<CariocaReport>): ReportTest {
-        return ReportTest(
+    private fun createTest(description: Description, reports: List<CariocaReporter>): TestReport {
+        return TestReport(
             id = getTestId(description),
             name = description.methodName,
             className = description.className,

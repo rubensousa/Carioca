@@ -4,21 +4,12 @@ plugins {
 }
 
 android {
-    namespace = "com.rubensousa.carioca.core"
+    namespace = "com.rubensousa.carioca.report"
     compileSdk = 34
 
     defaultConfig {
         minSdk = 21
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
     }
 
     compileOptions {
@@ -32,9 +23,6 @@ android {
 }
 
 dependencies {
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.material)
-    implementation(libs.junit)
     implementation(libs.androidx.junit)
     implementation(libs.androidx.test.rules)
     implementation(libs.androidx.espresso.core)

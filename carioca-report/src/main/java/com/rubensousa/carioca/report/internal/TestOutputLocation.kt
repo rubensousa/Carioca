@@ -19,15 +19,6 @@ internal object TestOutputLocation {
         return testStorage.getOutputFileUri(relativePath)
     }
 
-    fun getStepUri(testUri: Uri, id: String): Uri {
-        return testStorage.getOutputFileUri("${testUri.path}/$id")
-    }
-
-    fun getReportOutputStream(testUri: Uri, filename: String): OutputStream {
-        val reportPath = "${testUri.path}/$filename"
-        return testStorage.openOutputFile(reportPath)
-    }
-
     fun getGlobalReportOutputStream(filename: String): OutputStream {
         val reportPath = "$reportDir/$filename"
         return testStorage.openOutputFile(reportPath)
@@ -39,8 +30,13 @@ internal object TestOutputLocation {
         return testStorage.getOutputFileUri(screenshotPath)
     }
 
-    fun getScreenshotOutputStream(uri: Uri): OutputStream {
+    fun getOutputStream(uri: Uri): OutputStream {
         return testStorage.openOutputFile(uri.path)
+    }
+
+    fun getOutputStream(dir: Uri, filename: String): OutputStream {
+        val path = "${dir.path}/$filename"
+        return testStorage.openOutputFile(path)
     }
 
     private fun getExtension(): String {

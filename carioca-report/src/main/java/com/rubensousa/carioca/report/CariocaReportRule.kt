@@ -2,7 +2,7 @@ package com.rubensousa.carioca.report
 
 import com.rubensousa.carioca.report.internal.TestReportBuilder
 import com.rubensousa.carioca.report.scope.ReportTestScope
-import com.rubensousa.carioca.report.stage.ReportTest
+import com.rubensousa.carioca.report.stage.TestReport
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
@@ -15,13 +15,13 @@ import org.junit.runner.Description
  * Extend this class to provide a default report configuration across all tests
  */
 open class CariocaReportRule(
-    private val reporters: List<CariocaReport>,
+    private val reporters: List<CariocaReporter>,
 ) : TestWatcher() {
 
-    private var test: ReportTest? = null
+    private var test: TestReport? = null
     private val reportBuilder = TestReportBuilder
 
-    constructor(reporter: CariocaReport) : this(listOf(reporter))
+    constructor(reporter: CariocaReporter) : this(listOf(reporter))
 
     final override fun starting(description: Description) {
         super.starting(description)
@@ -45,7 +45,7 @@ open class CariocaReportRule(
         block(getCurrentTest())
     }
 
-    private fun getCurrentTest(): ReportTest {
+    private fun getCurrentTest(): TestReport {
         return requireNotNull(test) { "Test not started yet" }
     }
 
