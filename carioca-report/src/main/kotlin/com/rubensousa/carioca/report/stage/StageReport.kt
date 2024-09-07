@@ -13,7 +13,7 @@ abstract class StageReport(val id: String) {
     var endTime = startTime
         private set
 
-    internal val resultId = IdGenerator.get()
+    val executionId = IdGenerator.get()
 
     internal fun pass() {
         status = ReportStatus.PASSED

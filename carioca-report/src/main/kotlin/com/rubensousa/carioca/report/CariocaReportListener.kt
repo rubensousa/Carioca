@@ -19,8 +19,9 @@ class CariocaReportListener : InstrumentationRunListener() {
 
     override fun testRunFinished(result: Result) {
         super.testRunFinished(result)
-        val report = reportBuilder.build()
-        TestReportWriter.write(report)
+        // TODO
+        // val report = reportBuilder.buildSuiteReport()
+        // TestReportWriter.write(report)
     }
 
 }

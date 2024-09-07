@@ -1,8 +1,7 @@
 package com.rubensousa.carioca.report.screenshot
 
-import android.net.Uri
-
 data class TestScreenshot(
-    val uri: Uri,
+    val path: String,
     val description: String,
+    val extension: String
 )

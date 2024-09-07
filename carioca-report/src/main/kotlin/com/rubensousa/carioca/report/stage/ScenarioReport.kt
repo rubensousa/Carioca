@@ -6,6 +6,7 @@ import com.rubensousa.carioca.report.scope.ReportStepScope
 
 class ScenarioReport internal constructor(
     id: String,
+    val name: String,
     private val delegate: StepReportDelegate,
 ) : StageReport(id), ReportScenarioScope {
 
@@ -16,11 +17,11 @@ class ScenarioReport internal constructor(
         steps.add(step)
     }
 
+    fun getSteps() = steps.toList()
+
     internal fun report(scenario: TestScenario) {
         scenario.report(this)
         pass()
     }
-
-    internal fun getSteps() = steps.toList()
 
 }

@@ -1,10 +1,11 @@
 package com.rubensousa.carioca.report.stage
 
-import android.net.Uri
+import com.rubensousa.carioca.report.CariocaLogger
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.annotations.ScenarioId
 import com.rubensousa.carioca.report.internal.IdGenerator
 import com.rubensousa.carioca.report.internal.StepReportDelegate
+import com.rubensousa.carioca.report.internal.TestOutputLocation
 import com.rubensousa.carioca.report.internal.TestReportWriter
 import com.rubensousa.carioca.report.scope.ReportStepScope
 import com.rubensousa.carioca.report.scope.ReportTestScope
@@ -14,18 +15,20 @@ class TestReport internal constructor(
     id: String,
     val name: String,
     val className: String,
-    val outputDir: Uri,
-    val reporters: List<CariocaReporter>,
+    val packageName: String,
+    val reporter: CariocaReporter,
+    private val logger: CariocaLogger?,
 ) : StageReport(id), ReportTestScope {
 
     private val stageReports = mutableListOf<StageReport>()
     private val stepDelegate = StepReportDelegate(
-        outputDir = outputDir,
-        reports = reporters,
+        outputPath = reporter.getOutputDir(this, TestOutputLocation.getRootOutputDir()),
+        logger = logger,
+        reporter = reporter
     )
     private var currentScenario: ScenarioReport? = null
 
-    fun getStages(): List<StageReport> = stageReports.toList()
+    fun getStageReports(): List<StageReport> = stageReports.toList()
 
     override fun step(title: String, id: String?, action: ReportStepScope.() -> Unit) {
         stageReports.add(stepDelegate.step(title, id, action))
@@ -36,13 +39,13 @@ class TestReport internal constructor(
         currentScenario = null
         val scenarioReport = createScenarioReport(scenario)
         stageReports.add(scenarioReport)
-        forEachReporter { onScenarioStarted(scenarioReport) }
+        log { onScenarioStarted(scenarioReport) }
         scenarioReport.report(scenario)
-        forEachReporter { onScenarioPassed(scenarioReport) }
+        log { onScenarioPassed(scenarioReport) }
     }
 
     internal fun starting(description: Description) {
-        forEachReporter { onTestStarted(description) }
+        log { onTestStarted(description) }
     }
 
     internal fun failed(error: Throwable, description: Description) {
@@ -50,16 +53,16 @@ class TestReport internal constructor(
             step.fail()
             // Take a screenshot to record the state on failures
             step.screenshot("Failed")
-            forEachReporter { onStepFailed(step) }
+            log { onStepFailed(step) }
         }
         currentScenario?.let { scenario ->
             scenario.fail()
-            forEachReporter { onScenarioFailed(scenario) }
+            log { onScenarioFailed(scenario) }
         }
         stepDelegate.clearStep()
         currentScenario = null
         fail()
-        forEachReporter { onTestFailed(error, description) }
+        log { onTestFailed(error, description) }
         TestReportWriter.write(this)
     }
 
@@ -67,7 +70,7 @@ class TestReport internal constructor(
         stepDelegate.clearStep()
         currentScenario = null
         pass()
-        forEachReporter { onTestPassed(description) }
+        log { onTestPassed(description) }
         TestReportWriter.write(this)
     }
 
@@ -75,6 +78,7 @@ class TestReport internal constructor(
         return ScenarioReport(
             id = getScenarioId(scenario),
             delegate = stepDelegate,
+            name = scenario.name
         )
     }
 
@@ -87,9 +91,11 @@ class TestReport internal constructor(
         return "Test(id='$id', name='$name', className='$className')"
     }
 
-    private fun forEachReporter(action: CariocaReporter.() -> Unit) {
-        reporters.forEach { reporter ->
-            action(reporter)
+    private fun log(action: CariocaLogger.() -> Unit) {
+        if (logger != null) {
+            with(logger) {
+                action()
+            }
         }
     }
 

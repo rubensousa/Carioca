@@ -1,13 +1,14 @@
 package com.rubensousa.carioca.report.internal
 
-import android.net.Uri
+import com.rubensousa.carioca.report.CariocaLogger
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.scope.ReportStepScope
 import com.rubensousa.carioca.report.stage.StepReport
 
 internal class StepReportDelegate(
-    private val outputDir: Uri,
-    private val reports : List<CariocaReporter>,
+    private val outputPath: String,
+    private val logger: CariocaLogger?,
+    private val reporter: CariocaReporter,
 ) {
 
     var currentStep: StepReport? = null
@@ -20,9 +21,9 @@ internal class StepReportDelegate(
     fun step(title: String, id: String?, action: ReportStepScope.() -> Unit): StepReport {
         val stepReport = createStepReport(title, id)
         currentStep = stepReport
-        forEachReport { onStepStarted(stepReport) }
+        logger?.onStepStarted(stepReport)
         stepReport.report(action)
-        forEachReport { onStepPassed(stepReport) }
+        logger?.onStepPassed(stepReport)
         currentStep = null
         return stepReport
     }
@@ -32,17 +33,11 @@ internal class StepReportDelegate(
         val stepId = id ?: uniqueId
         val step = StepReport(
             id = stepId,
-            testOutputDir = outputDir,
+            outputPath = outputPath,
             title = title,
+            reporter = reporter
         )
         return step
-    }
-
-
-    private fun forEachReport(action: CariocaReporter.() -> Unit) {
-        reports.forEach { report ->
-            action(report)
-        }
     }
 
 }

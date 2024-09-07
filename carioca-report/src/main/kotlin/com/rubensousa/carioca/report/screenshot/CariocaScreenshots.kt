@@ -7,10 +7,10 @@ import android.graphics.Bitmap
  */
 object CariocaScreenshots {
 
-    var scale = 1f
+    var scale = 0.5f
         private set
 
-    var quality = 90
+    var quality = 80
         private set
 
     var format = Bitmap.CompressFormat.JPEG

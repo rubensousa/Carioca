@@ -1,5 +1,6 @@
 package com.rubensousa.carioca.report.internal
 
+import com.rubensousa.carioca.report.CariocaLogger
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.annotations.TestId
 import com.rubensousa.carioca.report.stage.ReportStatus
@@ -12,8 +13,12 @@ internal object TestReportBuilder {
     private val tests = mutableListOf<TestReport>()
     private var startTime = System.currentTimeMillis()
 
-    fun newTest(description: Description, reports: List<CariocaReporter>): TestReport {
-        val test = createTest(description, reports)
+    fun newTest(
+        description: Description,
+        logger: CariocaLogger?,
+        reporter: CariocaReporter,
+    ): TestReport {
+        val test = createTest(description, logger, reporter)
         tests.add(test)
         return test
     }
@@ -23,7 +28,7 @@ internal object TestReportBuilder {
         tests.clear()
     }
 
-    fun build(): TestSuiteReport {
+    fun buildSuiteReport(): TestSuiteReport {
         val hasAnyFailure = tests.any { it.status == ReportStatus.FAILED }
         return TestSuiteReport(
             startTime = startTime,
@@ -38,13 +43,18 @@ internal object TestReportBuilder {
         )
     }
 
-    private fun createTest(description: Description, reports: List<CariocaReporter>): TestReport {
+    private fun createTest(
+        description: Description,
+        logger: CariocaLogger?,
+        reporter: CariocaReporter,
+    ): TestReport {
         return TestReport(
             id = getTestId(description),
             name = description.methodName,
             className = description.className,
-            outputDir = TestOutputLocation.getOutputPath(description),
-            reporters = reports
+            packageName = description.testClass.`package`?.name ?: "",
+            logger = logger,
+            reporter = reporter
         )
     }
 

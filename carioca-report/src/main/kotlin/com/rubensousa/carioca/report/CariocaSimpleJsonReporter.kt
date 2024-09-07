@@ -1,6 +1,6 @@
 package com.rubensousa.carioca.report
 
-import com.rubensousa.carioca.report.stage.TestSuiteReport
+import android.net.Uri
 import com.rubensousa.carioca.report.stage.ScenarioReport
 import com.rubensousa.carioca.report.stage.ReportStatus
 import com.rubensousa.carioca.report.stage.StepReport
@@ -14,64 +14,9 @@ import java.io.BufferedOutputStream
 import java.io.OutputStream
 
 /**
- * Represents the test report in a json format with the following structure:
- *
- * ```
- * {
- *  "executionId": "bcd2d033-ecf9-4f66-b63c-399385cb63b8",
- *  "testId": "This is a persistent test id",
- *  "startTime": 1725741327159,
- *  "endTime": 1725741327621,
- *  "testClass": "com.rubensousa.carioca.SampleReportTest",
- *  "testName": "testSomethingHappens",
- *  "status": "passed",
- *  "stages": [
- *      {
- *        "type": "scenario",
- *        "properties": {
- *          "executionId": "25e88325-29ed-45d4-8440-edad04568bdf",
- *          "startTime": 1725741327161,
- *          "endTime": 1725741327162,
- *          "scenarioId": "Sample screen Scenario",
- *          "steps": [
- *            {
- *              "type": "step",
- *              "properties": {
- *                "executionId": "ac61c219-6aa3-405b-bf90-a4e1be45738d",
- *                "title": "Step 1 of Scenario",
- *                "startTime": 1725741327161,
- *                "endTime": 1725741327161,
- *                "status": "passed",
- *                "screenshots": null
- *              }
- *            }
- *          ]
- *        }
- *      },
- *      {
- *        "type": "step",
- *        "properties": {
- *          "executionId": "f0bf1745-c24f-4985-9e16-01566d5dac3b",
- *          "title": "Setup some state",
- *          "startTime": 1725741327162,
- *          "endTime": 1725741327442,
- *          "status": "passed",
- *          "screenshots": [
- *            {
- *              "file": "/carioca_report/com.rubensousa.carioca.SampleReportTest/testSomethingHappens/screenshots/2c7b0f84-9102-438e-babd-4001d9d27709.jpg",
- *              "description": "Save this"
- *            }
- *          ]
- *        }
- *      },
- *    ]
- * }
- * ```
+ * Represents the test report in a json format
  */
-class JsonReporter : CariocaReporter {
-
-    override val filename: String
-        get() = "carioca_report.json"
+class CariocaSimpleJsonReporter : CariocaReporter {
 
     private val startTimeKey = "startTime"
     private val endTimeKey = "endTime"
@@ -79,13 +24,20 @@ class JsonReporter : CariocaReporter {
     private val titleKey = "title"
     private val statusKey = "status"
 
-    override fun writeTestReport(report: TestReport, outputStream: OutputStream) {
-        val metadata = getTestResult(report)
-        serialize(metadata.toJson(), outputStream)
+    override fun getOutputDir(report: TestReport, outputDir: Uri): String {
+        return "${outputDir.path}/${report.className}/${report.name}"
     }
 
-    override fun writeTestSuiteReport(report: TestSuiteReport, outputStream: OutputStream) {
-        val metadata = getSuiteResult(report)
+    override fun getReportFilename(report: TestReport): String {
+        return "${report.executionId}_report.json"
+    }
+
+    override fun getScreenshotName(id: String): String {
+        return id
+    }
+
+    override fun writeTestReport(report: TestReport, outputStream: OutputStream) {
+        val metadata = getTestResult(report)
         serialize(metadata.toJson(), outputStream)
     }
 
@@ -96,26 +48,17 @@ class JsonReporter : CariocaReporter {
         }
     }
 
-    private fun getSuiteResult(report: TestSuiteReport): Map<String, Any?> {
-        val output = mutableMapOf<String, Any?>()
-        output[executionIdKey] = report.id
-        output[startTimeKey] = report.startTime
-        output[endTimeKey] = report.endTime
-        output.putStatus(report.status)
-        return output
-    }
-
     private fun getTestResult(test: TestReport): Map<String, Any?> {
         val map = mutableMapOf<String, Any?>()
-        val stages = mutableListOf<Map<String, Any>>()
-        test.getStages().forEach { stage ->
+        val stages = mutableListOf<Map<String, Any?>>()
+        test.getStageReports().forEach { stage ->
             if (stage is ScenarioReport) {
                 stages.add(getScenarioResult(stage))
             } else if (stage is StepReport) {
                 stages.add(getStepResult(stage))
             }
         }
-        map[executionIdKey] = test.resultId
+        map[executionIdKey] = test.executionId
         map["testId"] = test.id
         map[startTimeKey] = test.startTime
         map[endTimeKey] = test.endTime
@@ -126,13 +69,13 @@ class JsonReporter : CariocaReporter {
         return map
     }
 
-    private fun getScenarioResult(scenario: ScenarioReport): Map<String, Any> {
-        val map = mutableMapOf<String, Any>()
+    private fun getScenarioResult(scenario: ScenarioReport): Map<String, Any?> {
+        val map = mutableMapOf<String, Any?>()
         val steps = mutableListOf<Map<String, Any>>()
         scenario.getSteps().forEach { step ->
             steps.add(getStepResult(step))
         }
-        map[executionIdKey] = scenario.resultId
+        map[executionIdKey] = scenario.executionId
         map[startTimeKey] = scenario.startTime
         map[endTimeKey] = scenario.endTime
         map["scenarioId"] = scenario.id
@@ -149,12 +92,12 @@ class JsonReporter : CariocaReporter {
         step.getScreenshots().forEach { screenshot ->
             screenshots.add(
                 mapOf(
-                    "file" to screenshot.uri.path!!,
+                    "file" to screenshot.path,
                     "description" to screenshot.description
                 )
             )
         }
-        map[executionIdKey] = step.id
+        map[executionIdKey] = step.executionId
         map[titleKey] = step.title
         map[startTimeKey] = step.startTime
         map[endTimeKey] = step.endTime

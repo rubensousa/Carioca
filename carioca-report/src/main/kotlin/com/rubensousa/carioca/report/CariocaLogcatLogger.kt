@@ -1,19 +1,13 @@
 package com.rubensousa.carioca.report
 
 import android.util.Log
-import com.rubensousa.carioca.report.stage.TestSuiteReport
 import com.rubensousa.carioca.report.stage.ScenarioReport
 import com.rubensousa.carioca.report.stage.StepReport
-import com.rubensousa.carioca.report.stage.TestReport
 import org.junit.runner.Description
-import java.io.OutputStream
 
-class LogcatReporter : CariocaReporter {
+class CariocaLogcatLogger : CariocaLogger {
 
-    override val filename: String
-        get() = ""
-
-    private val tag = "CariocaReport"
+    private val tag = "CariocaLogger"
 
     override fun onTestStarted(description: Description) {
         log("Test started: $description")
@@ -49,14 +43,6 @@ class LogcatReporter : CariocaReporter {
 
     override fun onStepFailed(step: StepReport) {
         log("Step failed: ${step.title}")
-    }
-
-    override fun writeTestReport(report: TestReport, outputStream: OutputStream) {
-        // No-op
-    }
-
-    override fun writeTestSuiteReport(report: TestSuiteReport, outputStream: OutputStream) {
-        // No-op
     }
 
     private fun log(message: String) {

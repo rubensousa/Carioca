@@ -1,7 +1,5 @@
 package com.rubensousa.carioca
 
-import com.rubensousa.carioca.report.CariocaReportRule
-import com.rubensousa.carioca.report.JsonReporter
 import com.rubensousa.carioca.report.annotations.TestId
 import org.junit.Rule
 import org.junit.Test
@@ -9,7 +7,7 @@ import org.junit.Test
 class SampleTestReport {
 
     @get:Rule
-    val reportRule = CariocaReportRule(reporter = JsonReporter())
+    val reportRule = AllureReportRule()
 
     @TestId(id = "This is a persistent test id")
     @Test

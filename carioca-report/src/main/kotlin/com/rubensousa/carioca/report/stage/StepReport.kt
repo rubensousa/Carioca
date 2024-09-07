@@ -1,9 +1,9 @@
 package com.rubensousa.carioca.report.stage
 
 import android.graphics.Bitmap
-import android.net.Uri
 import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
+import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.internal.TestOutputLocation
 import com.rubensousa.carioca.report.scope.ReportStepScope
 import com.rubensousa.carioca.report.screenshot.CariocaScreenshots
@@ -14,7 +14,8 @@ import java.io.IOException
 class StepReport internal constructor(
     id: String,
     val title: String,
-    val testOutputDir: Uri,
+    val outputPath: String,
+    private val reporter: CariocaReporter,
 ) : StageReport(id), ReportStepScope {
 
     private val TAG = "CariocaTestStep"
@@ -32,7 +33,7 @@ class StepReport internal constructor(
         pass()
     }
 
-    internal fun getScreenshots(): List<TestScreenshot> {
+    fun getScreenshots(): List<TestScreenshot> {
         return screenshots.toList()
     }
 
@@ -43,7 +44,7 @@ class StepReport internal constructor(
             return null
         }
         try {
-            val screenshotUri = TestOutputLocation.getScreenshotUri(testOutputDir)
+            val screenshotUri = TestOutputLocation.getScreenshotUri(reporter, outputPath, getImageExtension())
             val outputStream = TestOutputLocation.getOutputStream(screenshotUri)
             BufferedOutputStream(outputStream).use { stream ->
                 val scaledScreenshot = Bitmap.createScaledBitmap(
@@ -55,8 +56,9 @@ class StepReport internal constructor(
                 scaledScreenshot.compress(CariocaScreenshots.format, CariocaScreenshots.quality, stream)
                 stream.flush()
                 return TestScreenshot(
-                    uri = screenshotUri,
-                    description = description
+                    path = screenshotUri.path!!,
+                    description = description,
+                    extension = getImageExtension()
                 )
             }
         } catch (exception: IOException) {
@@ -64,6 +66,14 @@ class StepReport internal constructor(
             return null
         } finally {
             screenshot.recycle()
+        }
+    }
+
+    private fun getImageExtension(): String {
+        return when (CariocaScreenshots.format) {
+            Bitmap.CompressFormat.PNG -> ".png"
+            Bitmap.CompressFormat.JPEG -> ".jpg"
+            else -> ".webp"
         }
     }
 

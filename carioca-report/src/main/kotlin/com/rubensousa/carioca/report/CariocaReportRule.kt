@@ -15,17 +15,16 @@ import org.junit.runner.Description
  * Extend this class to provide a default report configuration across all tests
  */
 open class CariocaReportRule(
-    private val reporters: List<CariocaReporter>,
+    private val reporter: CariocaReporter,
+    private val logger: CariocaLogger? = null,
 ) : TestWatcher() {
 
     private var test: TestReport? = null
     private val reportBuilder = TestReportBuilder
 
-    constructor(reporter: CariocaReporter) : this(listOf(reporter))
-
     final override fun starting(description: Description) {
         super.starting(description)
-        test = reportBuilder.newTest(description, reporters)
+        test = reportBuilder.newTest(description, logger, reporter)
         getCurrentTest().starting(description)
     }
 

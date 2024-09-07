@@ -11,6 +11,8 @@ fun sampleScreen(action: SampleScreen.() -> Unit) {
 @ScenarioId("Sample screen Scenario")
 class SampleScreenScenario : TestScenario {
 
+    override val name: String = "Sample Scenario"
+
     override fun report(scope: ReportScenarioScope) = with(scope) {
         step("Step 1 of Scenario") {
 
