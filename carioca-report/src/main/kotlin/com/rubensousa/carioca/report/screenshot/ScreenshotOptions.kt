@@ -13,4 +13,12 @@ data class ScreenshotOptions(
         require(scale > 0f && scale <= 1.0f)
     }
 
+    fun getFileExtension(): String {
+        return when (format) {
+            Bitmap.CompressFormat.PNG -> ".png"
+            Bitmap.CompressFormat.JPEG -> ".jpg"
+            else -> ".webp"
+        }
+    }
+
 }

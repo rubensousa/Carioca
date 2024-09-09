@@ -1,6 +1,5 @@
 package com.rubensousa.carioca
 
-import android.os.health.UidHealthStats
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.report.annotations.TestId
@@ -10,7 +9,7 @@ import org.junit.Test
 class SampleTest {
 
     @get:Rule
-    val reportRule = AllureReportRule()
+    val reportRule = SampleReportRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 

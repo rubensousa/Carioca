@@ -4,6 +4,7 @@ import com.rubensousa.carioca.report.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.annotations.TestId
 import com.rubensousa.carioca.report.recording.RecordingOptions
+import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.stage.ReportStatus
 import com.rubensousa.carioca.report.stage.TestReport
 import com.rubensousa.carioca.report.stage.TestSuiteReport
@@ -18,6 +19,7 @@ internal object TestReportBuilder {
     fun newTest(
         description: Description,
         recordingOptions: RecordingOptions,
+        screenshotOptions: ScreenshotOptions,
         logger: CariocaInterceptor?,
         reporter: CariocaReporter,
     ): TestReport {
@@ -28,6 +30,7 @@ internal object TestReportBuilder {
             className = description.className,
             packageName = description.testClass.`package`?.name ?: "",
             interceptor = logger,
+            screenshotOptions = screenshotOptions,
             reporter = reporter
         )
         tests.add(test)

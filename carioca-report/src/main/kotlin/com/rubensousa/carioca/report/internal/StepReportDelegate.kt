@@ -3,10 +3,12 @@ package com.rubensousa.carioca.report.internal
 import com.rubensousa.carioca.report.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.scope.ReportStepScope
+import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.stage.StepReport
 
 internal class StepReportDelegate(
     private val outputPath: String,
+    private val screenshotOptions: ScreenshotOptions,
     private val interceptor: CariocaInterceptor?,
     private val reporter: CariocaReporter,
 ) {
@@ -35,7 +37,8 @@ internal class StepReportDelegate(
             id = stepId,
             outputPath = outputPath,
             title = title,
-            reporter = reporter
+            reporter = reporter,
+            screenshotOptions = screenshotOptions
         )
         return step
     }

@@ -3,6 +3,7 @@ package com.rubensousa.carioca.report
 import com.rubensousa.carioca.report.internal.TestReportBuilder
 import com.rubensousa.carioca.report.recording.RecordingOptions
 import com.rubensousa.carioca.report.scope.ReportTestScope
+import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.stage.TestReport
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
@@ -19,6 +20,7 @@ import org.junit.runner.Description
 open class CariocaReportRule(
     private val reporter: CariocaReporter,
     private val recordingOptions: RecordingOptions = RecordingOptions(),
+    private val screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
     private val logger: CariocaInterceptor? = null,
 ) : TestWatcher() {
 
@@ -30,8 +32,9 @@ open class CariocaReportRule(
         test = reportBuilder.newTest(
             description = description,
             recordingOptions = recordingOptions,
+            screenshotOptions = screenshotOptions,
             logger = logger,
-            reporter = reporter,
+            reporter = reporter
         )
         getCurrentTest().starting(description)
     }

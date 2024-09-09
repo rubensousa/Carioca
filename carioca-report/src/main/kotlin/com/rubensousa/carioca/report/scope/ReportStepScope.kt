@@ -1,6 +1,6 @@
 package com.rubensousa.carioca.report.scope
 
-import com.rubensousa.carioca.report.screenshot.CariocaScreenshots
+import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 
 /**
  * Public API for a step block
@@ -8,7 +8,7 @@ import com.rubensousa.carioca.report.screenshot.CariocaScreenshots
 interface ReportStepScope {
 
     /**
-     * Takes a screenshot with the configuration set in [CariocaScreenshots].
+     * Takes a screenshot with the configuration set through [ScreenshotOptions].
      *
      * The generated file will be pulled from the device once the test runner finishes running all tests
      *

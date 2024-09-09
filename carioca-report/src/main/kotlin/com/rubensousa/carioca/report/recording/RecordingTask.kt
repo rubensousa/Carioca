@@ -16,10 +16,11 @@ import java.util.concurrent.TimeUnit
 internal class RecordingTask(
     private val tag: String,
     private val executor: Executor,
-    private val recording: ScreenRecording,
-    private val recordingFile: File,
+    private val recording: ReportRecording,
+    private val options: RecordingOptions,
 ) {
 
+    private val recordingFile = recording.tmpFile
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val recordingLatch = RecordingLatch()
     private val fileObserver = FileObserverCompat(recordingFile.path) { event ->
@@ -42,12 +43,10 @@ internal class RecordingTask(
     private fun startRecording() {
         val displayMetrics = InstrumentationRegistry.getInstrumentation().targetContext
             .applicationContext.resources.displayMetrics
-        val recordingOptions = recording.options
         try {
-            val width = scaleToDivisibleByEight(displayMetrics.widthPixels, recordingOptions.resolutionScale)
-            val height = scaleToDivisibleByEight(displayMetrics.heightPixels, recordingOptions.resolutionScale)
+            val width = scaleToDivisibleByEight(displayMetrics.widthPixels, options.resolutionScale)
+            val height = scaleToDivisibleByEight(displayMetrics.heightPixels, options.resolutionScale)
             val command = getScreenRecordingCommand(
-                options = recordingOptions,
                 primaryResolution = if (width > height) width else height,
                 secondaryResolution = if (width > height) height else width
             )
@@ -82,14 +81,13 @@ internal class RecordingTask(
                 device.executeShellCommand("rm ${recordingFile.path}")
             } else {
                 // Wait for a minimum amount of time before finishing to ensure the recording contains the last steps
-                Thread.sleep(recording.options.stopDelay)
+                Thread.sleep(options.stopDelay)
 
                 // Kill the process safely
                 device.executeShellCommand("pkill -SIGINT screenrecord")
 
                 // Wait for the last write before exiting
                 recordingLatch.awaitLastWrite()
-                Log.i(tag, "Saving recording: ${recording.absoluteFilePath}")
             }
         } catch (exception: Exception) {
             // Ignore
@@ -98,7 +96,6 @@ internal class RecordingTask(
     }
 
     private fun getScreenRecordingCommand(
-        options: RecordingOptions,
         primaryResolution: Int,
         secondaryResolution: Int,
     ): String {

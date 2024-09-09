@@ -7,16 +7,18 @@ import com.rubensousa.carioca.report.internal.IdGenerator
 import com.rubensousa.carioca.report.internal.StepReportDelegate
 import com.rubensousa.carioca.report.internal.TestStorageProvider
 import com.rubensousa.carioca.report.internal.TestReportWriter
-import com.rubensousa.carioca.report.recording.ScreenRecorder
-import com.rubensousa.carioca.report.recording.ScreenRecording
+import com.rubensousa.carioca.report.recording.DeviceScreenRecorder
+import com.rubensousa.carioca.report.recording.ReportRecording
 import com.rubensousa.carioca.report.recording.RecordingOptions
 import com.rubensousa.carioca.report.scope.ReportStepScope
 import com.rubensousa.carioca.report.scope.ReportTestScope
+import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 import org.junit.runner.Description
 
 class TestReport internal constructor(
     id: String,
     val recordingOptions: RecordingOptions,
+    val screenshotOptions: ScreenshotOptions,
     val name: String,
     val className: String,
     val packageName: String,
@@ -25,15 +27,16 @@ class TestReport internal constructor(
 ) : StageReport(id), ReportTestScope {
 
     private val stageReports = mutableListOf<StageReport>()
-    private val recordings = mutableListOf<ScreenRecording>()
+    private val recordings = mutableListOf<ReportRecording>()
     private val outputDir = TestStorageProvider.getTestOutputDir(this, reporter)
     private val stepDelegate = StepReportDelegate(
         outputPath = outputDir,
         interceptor = interceptor,
-        reporter = reporter
+        reporter = reporter,
+        screenshotOptions = screenshotOptions
     )
     private var currentScenario: ScenarioReport? = null
-    private var screenRecording: ScreenRecording? = null
+    private var screenRecording: ReportRecording? = null
 
     fun getStageReports(): List<StageReport> = stageReports.toList()
 
@@ -55,7 +58,11 @@ class TestReport internal constructor(
         intercept { onTestStarted(description) }
         if (recordingOptions.enabled) {
             val filename = reporter.getRecordingName(IdGenerator.get())
-            screenRecording = ScreenRecorder.startRecording(filename, recordingOptions, outputDir)
+            screenRecording = DeviceScreenRecorder.startRecording(
+                filename = filename,
+                options = recordingOptions,
+                relativeOutputDirPath = outputDir
+            )
         }
     }
 
@@ -67,7 +74,7 @@ class TestReport internal constructor(
             intercept { onStepFailed(step) }
         }
         screenRecording?.let {
-            ScreenRecorder.stopRecording(it, delete = false)
+            DeviceScreenRecorder.stopRecording(it, delete = false)
         }
         currentScenario?.let { scenario ->
             scenario.fail()
@@ -86,7 +93,7 @@ class TestReport internal constructor(
         pass()
         intercept { onTestPassed(description) }
         screenRecording?.let {
-            ScreenRecorder.stopRecording(
+            DeviceScreenRecorder.stopRecording(
                 recording = it,
                 delete = !recordingOptions.keepOnSuccess
             )

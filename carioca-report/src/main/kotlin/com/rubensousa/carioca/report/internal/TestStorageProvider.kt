@@ -14,23 +14,15 @@ internal object TestStorageProvider {
         return testStorage.getOutputFileUri("")
     }
 
+    fun getOutputUri(path: String): Uri {
+        return testStorage.getOutputFileUri(path)
+    }
+
     fun getTestOutputDir(
         report: TestReport,
         reporter: CariocaReporter,
     ): String {
         return "${getRootOutputDir().path}/${reporter.getOutputDir(report)}"
-    }
-
-    fun getScreenshotUri(
-        reporter: CariocaReporter,
-        testOutputPath: String,
-        extension: String,
-    ): Uri {
-        val id = IdGenerator.get()
-        val name = reporter.getScreenshotName(id)
-        val filename = name + extension
-        val screenshotPath = "$testOutputPath/$filename"
-        return testStorage.getOutputFileUri(screenshotPath)
     }
 
     fun getOutputStream(uri: Uri): OutputStream {
