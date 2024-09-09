@@ -35,7 +35,7 @@ object DeviceScreenRecorder {
         val newTask = RecordingTask(
             tag = TAG,
             executor = executor,
-            recording = recording,
+            recordingFile = recording.tmpFile,
             options = options
         )
         Log.i(TAG, "Requested recording for: $relativePath")

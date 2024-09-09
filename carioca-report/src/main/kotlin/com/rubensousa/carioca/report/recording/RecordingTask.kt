@@ -16,11 +16,10 @@ import java.util.concurrent.TimeUnit
 internal class RecordingTask(
     private val tag: String,
     private val executor: Executor,
-    private val recording: ReportRecording,
+    private val recordingFile: File,
     private val options: RecordingOptions,
 ) {
 
-    private val recordingFile = recording.tmpFile
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val recordingLatch = RecordingLatch()
     private val fileObserver = FileObserverCompat(recordingFile.path) { event ->

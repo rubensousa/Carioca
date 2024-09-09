@@ -6,6 +6,7 @@ import com.rubensousa.carioca.report.internal.TestReportBuilder
 import org.junit.runner.Description
 import org.junit.runner.Result
 
+@Suppress("unused")
 @SuppressLint("RestrictedApi")
 class CariocaReportListener : InstrumentationRunListener() {
 
@@ -18,7 +19,7 @@ class CariocaReportListener : InstrumentationRunListener() {
 
     override fun testRunFinished(result: Result) {
         super.testRunFinished(result)
-        // TODO
+        // TODO: compile final suite report
         // val report = reportBuilder.buildSuiteReport()
         // TestReportWriter.write(report)
     }
