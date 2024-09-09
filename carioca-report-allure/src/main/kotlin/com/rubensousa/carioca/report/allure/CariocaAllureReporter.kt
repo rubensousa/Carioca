@@ -16,7 +16,6 @@
 
 package com.rubensousa.carioca.report.allure
 
-import android.net.Uri
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.stage.ReportStatus
 import com.rubensousa.carioca.report.stage.ScenarioReport
@@ -73,7 +72,7 @@ class CariocaAllureReporter : CariocaReporter {
             statusDetails = null,
             stage = stageValue,
             steps = createSteps(report),
-            attachments = emptyList(),
+            attachments = getAttachments(report),
             start = report.startTime,
             stop = report.endTime
         )
@@ -127,12 +126,31 @@ class CariocaAllureReporter : CariocaReporter {
                 AllureAttachment(
                     name = screenshot.description,
                     // Ensure that the screenshot paths are relative to the same directory
-                    source = screenshot.path.replace("/$dirName/", ""),
+                    source = getAttachmentPath(screenshot.path),
                     type = getAttachmentType(screenshot.extension)
                 )
             )
         }
         return attachments
+    }
+
+    private fun getAttachments(report: TestReport): List<AllureAttachment> {
+        val attachments = mutableListOf<AllureAttachment>()
+        report.getRecording()?.let { recording ->
+            attachments.add(
+                AllureAttachment(
+                    name = "Screen recording",
+                    source = getAttachmentPath(recording.relativeFilePath),
+                    type = "video/mp4"
+                )
+            )
+        }
+        return attachments
+    }
+
+    // Ensures that all the attachments paths are relative to the same directory
+    private fun getAttachmentPath(path: String): String {
+        return path.replace("/$dirName/", "")
     }
 
     private fun getAttachmentType(extension: String): String {
@@ -180,4 +198,5 @@ class CariocaAllureReporter : CariocaReporter {
             ),
         )
     }
+
 }

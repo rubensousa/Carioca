@@ -16,13 +16,13 @@
 
 package com.rubensousa.carioca.report.stage
 
+import android.util.Log
 import com.rubensousa.carioca.report.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.annotations.ScenarioId
 import com.rubensousa.carioca.report.internal.IdGenerator
 import com.rubensousa.carioca.report.internal.StepReportDelegate
 import com.rubensousa.carioca.report.internal.TestStorageProvider
-import com.rubensousa.carioca.report.internal.TestReportWriter
 import com.rubensousa.carioca.report.recording.DeviceScreenRecorder
 import com.rubensousa.carioca.report.recording.ReportRecording
 import com.rubensousa.carioca.report.recording.RecordingOptions
@@ -63,7 +63,6 @@ class TestReport internal constructor(
 ) : StageReport(id), ReportTestScope {
 
     private val stageReports = mutableListOf<StageReport>()
-    private val recordings = mutableListOf<ReportRecording>()
     private val outputDir = TestStorageProvider.getTestOutputDir(this, reporter)
     private val stepDelegate = StepReportDelegate(
         outputPath = outputDir,
@@ -73,8 +72,6 @@ class TestReport internal constructor(
     )
     private var currentScenario: ScenarioReport? = null
     private var screenRecording: ReportRecording? = null
-
-    fun getStageReports(): List<StageReport> = stageReports.toList()
 
     override fun step(title: String, id: String?, action: StepReportScope.() -> Unit) {
         stageReports.add(stepDelegate.step(title, id, action))
@@ -89,6 +86,10 @@ class TestReport internal constructor(
         scenarioReport.report(scenario)
         intercept { onScenarioPassed(scenarioReport) }
     }
+
+    fun getStageReports(): List<StageReport> = stageReports.toList()
+
+    fun getRecording(): ReportRecording? = screenRecording
 
     internal fun starting(description: Description) {
         intercept { onTestStarted(description) }
@@ -120,7 +121,7 @@ class TestReport internal constructor(
         currentScenario = null
         fail()
         intercept { onTestFailed(error, description) }
-        TestReportWriter.write(this)
+        writeReport()
     }
 
     internal fun succeeded(description: Description) {
@@ -129,12 +130,16 @@ class TestReport internal constructor(
         pass()
         intercept { onTestPassed(description) }
         screenRecording?.let {
+            val delete = !recordingOptions.keepOnSuccess
             DeviceScreenRecorder.stopRecording(
                 recording = it,
-                delete = !recordingOptions.keepOnSuccess
+                delete = delete
             )
+            if (delete) {
+                screenRecording = null
+            }
         }
-        TestReportWriter.write(this)
+        writeReport()
     }
 
     private fun createScenarioReport(scenario: TestScenario): ScenarioReport {
@@ -150,8 +155,16 @@ class TestReport internal constructor(
         return scenarioId?.id ?: IdGenerator.get()
     }
 
-    override fun toString(): String {
-        return "Test(id='$id', name='$name', className='$className')"
+    private fun writeReport() {
+        val file = "$outputDir/${reporter.getReportFilename(this)}"
+        val outputStream = TestStorageProvider.getOutputStream(file)
+        try {
+            reporter.writeTestReport(this, outputStream)
+        } catch (exception: Exception) {
+            Log.e("CariocaReport", "Failed writing report for test ${this.name}", exception)
+        } finally {
+            outputStream.close()
+        }
     }
 
     private fun intercept(action: CariocaInterceptor.() -> Unit) {
@@ -160,6 +173,10 @@ class TestReport internal constructor(
                 action()
             }
         }
+    }
+
+    override fun toString(): String {
+        return "Test(id='$id', name='$name', className='$className')"
     }
 
 }

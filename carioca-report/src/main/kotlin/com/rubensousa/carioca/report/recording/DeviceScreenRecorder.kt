@@ -28,8 +28,7 @@ object DeviceScreenRecorder {
 
     private const val TAG = "ScreenRecorder"
 
-    // 1 thread for starting the recording, another thread to stop the recording
-    private val executor by lazy { Executors.newFixedThreadPool(2) }
+    private val executor by lazy { Executors.newFixedThreadPool(1) }
     private val buffer by lazy { ByteArray(1_000_000) }
     private var task: RecordingTask? = null
 

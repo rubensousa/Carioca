@@ -24,14 +24,19 @@ package com.rubensousa.carioca.report.recording
  * @param resolutionScale the video scale in relation to the original display size.
  * Default: 75% of the screen resolution
  * @param keepOnSuccess true if the recording should be kept if the test passes, false if it should be deleted
+ * @param startDelay the minimum amount of time to wait after the recording starts. Default: 1 second
  * @param stopDelay the minimum amount of time to wait before the recording should be stopped. Default: 1 second
+ * @param continueDelay the minimum amount of time to wait before assuming the recording was stopped.
+ * Default: 1 second
  */
 data class RecordingOptions(
     val enabled: Boolean = true,
     val bitrate: Int = 16_000_000,
     val resolutionScale: Float = 0.75f,
     val keepOnSuccess: Boolean = false,
+    val startDelay: Long = 1000L,
     val stopDelay: Long = 1000L,
+    val continueDelay: Long = 1000L
 ) {
     init {
         require(resolutionScale > 0 && resolutionScale <= 1) {

@@ -36,6 +36,7 @@ internal class RecordingTask(
     private val options: RecordingOptions,
 ) {
 
+    private val recordCommand = "screenrecord"
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val recordingLatch = RecordingLatch()
     private val fileObserver = FileObserverCompat(recordingFile.path) { event ->
@@ -45,7 +46,6 @@ internal class RecordingTask(
             recordingLatch.setWritingStarted()
         }
     }
-    private var requestStartTime = 0L
 
     fun start() {
         executor.execute {
@@ -65,8 +65,8 @@ internal class RecordingTask(
                 primaryResolution = if (width > height) width else height,
                 secondaryResolution = if (width > height) height else width
             )
+            Thread.sleep(options.startDelay)
             Log.i(tag, "Starting screen recording: $command")
-            requestStartTime = System.currentTimeMillis()
             fileObserver.startWatching()
             device.executeShellCommand(command)
         } catch (e: Exception) {
@@ -78,11 +78,10 @@ internal class RecordingTask(
 
     fun stop(delete: Boolean) {
         val stopLatch = CountDownLatch(1)
-        executor.execute {
+        InstrumentationRegistry.getInstrumentation().runOnMainSync {
             stopRecording(delete)
             stopLatch.countDown()
         }
-
         stopLatch.await()
         fileObserver.stopWatching()
     }
@@ -92,17 +91,20 @@ internal class RecordingTask(
         try {
             if (delete) {
                 // Kill the process immediately and delete the file
-                device.executeShellCommand("pkill -9 screenrecord")
+                device.executeShellCommand("pkill -9 $recordCommand")
                 device.executeShellCommand("rm ${recordingFile.path}")
             } else {
                 // Wait for a minimum amount of time before finishing to ensure the recording contains the last steps
                 Thread.sleep(options.stopDelay)
 
                 // Kill the process safely
-                device.executeShellCommand("pkill -SIGINT screenrecord")
+                device.executeShellCommand("pkill -SIGINT $recordCommand")
 
                 // Wait for the last write before exiting
                 recordingLatch.awaitLastWrite()
+
+                // Now wait again just to be safe
+                Thread.sleep(options.continueDelay)
             }
         } catch (exception: Exception) {
             // Ignore
@@ -115,7 +117,7 @@ internal class RecordingTask(
         secondaryResolution: Int,
     ): String {
         val commandBuilder = StringBuilder()
-        commandBuilder.append("screenrecord --size ${primaryResolution}x${secondaryResolution} ")
+        commandBuilder.append("$recordCommand --size ${primaryResolution}x${secondaryResolution} ")
         commandBuilder.append("--bit-rate ${options.bitrate} ")
         commandBuilder.append(recordingFile.absolutePath)
         return commandBuilder.toString()
