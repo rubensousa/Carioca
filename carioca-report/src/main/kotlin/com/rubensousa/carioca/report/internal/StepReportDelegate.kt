@@ -18,14 +18,17 @@ package com.rubensousa.carioca.report.internal
 
 import com.rubensousa.carioca.report.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.intercept
 import com.rubensousa.carioca.report.stage.StepReportScope
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.stage.StepReport
+import com.rubensousa.carioca.report.stage.TestReport
 
 internal class StepReportDelegate(
+    private val report: TestReport,
     private val outputPath: String,
     private val screenshotOptions: ScreenshotOptions,
-    private val interceptor: CariocaInterceptor?,
+    private val interceptors: List<CariocaInterceptor>,
     private val reporter: CariocaReporter,
 ) {
 
@@ -36,14 +39,18 @@ internal class StepReportDelegate(
         currentStep = null
     }
 
-    fun step(title: String, id: String?, action: StepReportScope.() -> Unit): StepReport {
+    fun createStep(title: String, id: String?): StepReport {
         val stepReport = createStepReport(title, id)
         currentStep = stepReport
-        interceptor?.onStepStarted(stepReport)
-        stepReport.report(action)
-        interceptor?.onStepPassed(stepReport)
-        currentStep = null
+        interceptors.intercept { onStepStarted(report, stepReport) }
         return stepReport
+    }
+
+    fun executeStep(action: StepReportScope.() -> Unit) {
+        val step = requireNotNull(currentStep)
+        step.report(action)
+        interceptors.intercept { onStepPassed(report, step) }
+        currentStep = null
     }
 
     private fun createStepReport(title: String, id: String?): StepReport {

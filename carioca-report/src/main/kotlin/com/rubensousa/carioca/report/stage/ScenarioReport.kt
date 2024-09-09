@@ -38,8 +38,9 @@ class ScenarioReport internal constructor(
     private val steps = mutableListOf<StepReport>()
 
     override fun step(title: String, id: String?, action: StepReportScope.() -> Unit) {
-        val step = delegate.step(title, id, action)
+        val step = delegate.createStep(title, id)
         steps.add(step)
+        delegate.executeStep(action)
     }
 
     fun getSteps() = steps.toList()

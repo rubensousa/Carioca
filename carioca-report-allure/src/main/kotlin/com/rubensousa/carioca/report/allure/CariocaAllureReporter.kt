@@ -125,7 +125,6 @@ class CariocaAllureReporter : CariocaReporter {
             attachments.add(
                 AllureAttachment(
                     name = screenshot.description,
-                    // Ensure that the screenshot paths are relative to the same directory
                     source = getAttachmentPath(screenshot.path),
                     type = getAttachmentType(screenshot.extension)
                 )

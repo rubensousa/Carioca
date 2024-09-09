@@ -19,6 +19,7 @@ package com.rubensousa.carioca.report.stage
 import android.util.Log
 import com.rubensousa.carioca.report.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.intercept
 import com.rubensousa.carioca.report.internal.IdGenerator
 import com.rubensousa.carioca.report.internal.StepReportDelegate
 import com.rubensousa.carioca.report.internal.TestStorageProvider
@@ -58,14 +59,15 @@ class TestReport internal constructor(
     val className: String,
     val packageName: String,
     val reporter: CariocaReporter,
-    private val interceptor: CariocaInterceptor?,
+    private val interceptors: List<CariocaInterceptor>,
 ) : StageReport(id), ReportTestScope {
 
     private val stageReports = mutableListOf<StageReport>()
     private val outputDir = TestStorageProvider.getTestOutputDir(this, reporter)
     private val stepDelegate = StepReportDelegate(
+        report = this,
         outputPath = outputDir,
-        interceptor = interceptor,
+        interceptors = interceptors,
         reporter = reporter,
         screenshotOptions = screenshotOptions
     )
@@ -73,7 +75,9 @@ class TestReport internal constructor(
     private var screenRecording: ReportRecording? = null
 
     override fun step(title: String, id: String?, action: StepReportScope.() -> Unit) {
-        stageReports.add(stepDelegate.step(title, id, action))
+        val step = stepDelegate.createStep(title, id)
+        stageReports.add(step)
+        stepDelegate.executeStep(action)
     }
 
     override fun scenario(scenario: TestScenario) {
@@ -81,9 +85,9 @@ class TestReport internal constructor(
         currentScenario = null
         val scenarioReport = createScenarioReport(scenario)
         stageReports.add(scenarioReport)
-        intercept { onScenarioStarted(scenarioReport) }
+        intercept { onScenarioStarted(this@TestReport, scenarioReport) }
         scenarioReport.report(scenario)
-        intercept { onScenarioPassed(scenarioReport) }
+        intercept { onScenarioPassed(this@TestReport, scenarioReport) }
     }
 
     fun getStageReports(): List<StageReport> = stageReports.toList()
@@ -91,7 +95,7 @@ class TestReport internal constructor(
     fun getRecording(): ReportRecording? = screenRecording
 
     internal fun starting(description: Description) {
-        intercept { onTestStarted(description) }
+        intercept { onTestStarted(this@TestReport, description) }
         if (recordingOptions.enabled) {
             val filename = reporter.getRecordingName(IdGenerator.get())
             screenRecording = DeviceScreenRecorder.startRecording(
@@ -107,19 +111,19 @@ class TestReport internal constructor(
             step.fail()
             // Take a screenshot to record the state on failures
             step.screenshot("Failed")
-            intercept { onStepFailed(step) }
+            intercept { onStepFailed(this@TestReport, step) }
         }
         screenRecording?.let {
             DeviceScreenRecorder.stopRecording(it, delete = false)
         }
         currentScenario?.let { scenario ->
             scenario.fail()
-            intercept { onScenarioFailed(scenario) }
+            intercept { onScenarioFailed(this@TestReport, scenario) }
         }
         stepDelegate.clearStep()
         currentScenario = null
         fail()
-        intercept { onTestFailed(error, description) }
+        intercept { onTestFailed(this@TestReport, error, description) }
         writeReport()
     }
 
@@ -127,7 +131,7 @@ class TestReport internal constructor(
         stepDelegate.clearStep()
         currentScenario = null
         pass()
-        intercept { onTestPassed(description) }
+        intercept { onTestPassed(this@TestReport, description) }
         screenRecording?.let {
             val delete = !recordingOptions.keepOnSuccess
             DeviceScreenRecorder.stopRecording(
@@ -166,11 +170,7 @@ class TestReport internal constructor(
     }
 
     private fun intercept(action: CariocaInterceptor.() -> Unit) {
-        if (interceptor != null) {
-            with(interceptor) {
-                action()
-            }
-        }
+        interceptors.intercept(action)
     }
 
     override fun toString(): String {

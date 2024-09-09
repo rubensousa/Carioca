@@ -19,45 +19,46 @@ package com.rubensousa.carioca.report
 import android.util.Log
 import com.rubensousa.carioca.report.stage.ScenarioReport
 import com.rubensousa.carioca.report.stage.StepReport
+import com.rubensousa.carioca.report.stage.TestReport
 import org.junit.runner.Description
 
 class CariocaLogcatInterceptor : CariocaInterceptor {
 
     private val tag = "CariocaLogger"
 
-    override fun onTestStarted(description: Description) {
+    override fun onTestStarted(report: TestReport, description: Description) {
         log("Test started: $description")
     }
 
-    override fun onTestFailed(error: Throwable, description: Description) {
+    override fun onTestFailed(report: TestReport, error: Throwable, description: Description) {
         log("Test failed: $description", error)
     }
 
-    override fun onTestPassed(description: Description) {
+    override fun onTestPassed(report: TestReport, description: Description) {
         log("Test passed: $description")
     }
 
-    override fun onScenarioStarted(scenario: ScenarioReport) {
+    override fun onScenarioStarted(report: TestReport, scenario: ScenarioReport) {
         log("Scenario started: ${scenario.id}")
     }
 
-    override fun onScenarioPassed(scenario: ScenarioReport) {
-        log("Step passed: ${scenario.id}")
+    override fun onScenarioPassed(report: TestReport, scenario: ScenarioReport) {
+        log("Scenario passed: ${scenario.id}")
     }
 
-    override fun onScenarioFailed(scenario: ScenarioReport) {
-        log("Step passed: ${scenario.id}")
+    override fun onScenarioFailed(report: TestReport, scenario: ScenarioReport) {
+        log("Scenario failed: ${scenario.id}")
     }
 
-    override fun onStepStarted(step: StepReport) {
+    override fun onStepStarted(report: TestReport, step: StepReport) {
         log("Step started: ${step.title}")
     }
 
-    override fun onStepPassed(step: StepReport) {
+    override fun onStepPassed(report: TestReport, step: StepReport) {
         log("Step passed: ${step.title}")
     }
 
-    override fun onStepFailed(step: StepReport) {
+    override fun onStepFailed(report: TestReport, step: StepReport) {
         log("Step failed: ${step.title}")
     }
 

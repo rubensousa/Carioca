@@ -18,6 +18,7 @@ package com.rubensousa.carioca.report
 
 import com.rubensousa.carioca.report.stage.ScenarioReport
 import com.rubensousa.carioca.report.stage.StepReport
+import com.rubensousa.carioca.report.stage.TestReport
 import org.junit.runner.Description
 
 /**
@@ -32,22 +33,28 @@ import org.junit.runner.Description
  */
 interface CariocaInterceptor {
 
-    fun onTestStarted(description: Description) {}
+    fun onTestStarted(report: TestReport, description: Description) {}
 
-    fun onScenarioStarted(scenario: ScenarioReport) {}
+    fun onScenarioStarted(report: TestReport, scenario: ScenarioReport) {}
 
-    fun onStepStarted(step: StepReport) {}
+    fun onStepStarted(report: TestReport, step: StepReport) {}
 
-    fun onStepPassed(step: StepReport) {}
+    fun onStepPassed(report: TestReport, step: StepReport) {}
 
-    fun onScenarioPassed(scenario: ScenarioReport) {}
+    fun onScenarioPassed(report: TestReport, scenario: ScenarioReport) {}
 
-    fun onTestPassed(description: Description) {}
+    fun onTestPassed(report: TestReport, description: Description) {}
 
-    fun onStepFailed(step: StepReport) {}
+    fun onStepFailed(report: TestReport, step: StepReport) {}
 
-    fun onScenarioFailed(scenario: ScenarioReport) {}
+    fun onScenarioFailed(report: TestReport, scenario: ScenarioReport) {}
 
-    fun onTestFailed(error: Throwable, description: Description) {}
+    fun onTestFailed(report: TestReport, error: Throwable, description: Description) {}
 
+}
+
+internal fun List<CariocaInterceptor>.intercept(action: CariocaInterceptor.() -> Unit) {
+    forEach { interceptor ->
+        action(interceptor)
+    }
 }

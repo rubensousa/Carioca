@@ -37,7 +37,7 @@ open class CariocaReportRule(
     private val reporter: CariocaReporter,
     private val recordingOptions: RecordingOptions = RecordingOptions(),
     private val screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
-    private val logger: CariocaInterceptor? = null,
+    private val interceptors: List<CariocaInterceptor> = emptyList(),
 ) : TestWatcher() {
 
     private var test: TestReport? = null
@@ -49,7 +49,7 @@ open class CariocaReportRule(
             description = description,
             recordingOptions = recordingOptions,
             screenshotOptions = screenshotOptions,
-            logger = logger,
+            interceptors = interceptors,
             reporter = reporter
         )
         getCurrentTest().starting(description)

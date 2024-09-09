@@ -36,7 +36,7 @@ internal object TestReportBuilder {
         description: Description,
         recordingOptions: RecordingOptions,
         screenshotOptions: ScreenshotOptions,
-        logger: CariocaInterceptor?,
+        interceptors: List<CariocaInterceptor>,
         reporter: CariocaReporter,
     ): TestReport {
         val test = TestReport(
@@ -45,7 +45,7 @@ internal object TestReportBuilder {
             name = description.methodName,
             className = description.className,
             packageName = description.testClass.`package`?.name ?: "",
-            interceptor = logger,
+            interceptors = interceptors,
             screenshotOptions = screenshotOptions,
             reporter = reporter
         )
