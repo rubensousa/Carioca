@@ -5,7 +5,7 @@ import com.rubensousa.carioca.report.stage.ScenarioReport
 import com.rubensousa.carioca.report.stage.StepReport
 import org.junit.runner.Description
 
-class CariocaLogcatLogger : CariocaLogger {
+class CariocaLogcatInterceptor : CariocaInterceptor {
 
     private val tag = "CariocaLogger"
 

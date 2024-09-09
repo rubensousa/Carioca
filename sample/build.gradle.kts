@@ -47,6 +47,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.test.uiautomator)
     androidTestImplementation(project(":carioca-report"))
     androidTestImplementation(project(":carioca-report-allure"))
     androidTestUtil(libs.androidx.test.services)

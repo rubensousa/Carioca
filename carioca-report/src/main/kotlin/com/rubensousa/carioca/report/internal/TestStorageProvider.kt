@@ -3,14 +3,22 @@ package com.rubensousa.carioca.report.internal
 import android.net.Uri
 import androidx.test.platform.io.PlatformTestStorageRegistry
 import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.stage.TestReport
 import java.io.OutputStream
 
-internal object TestOutputLocation {
+internal object TestStorageProvider {
 
     private val testStorage by lazy { PlatformTestStorageRegistry.getInstance() }
 
     fun getRootOutputDir(): Uri {
         return testStorage.getOutputFileUri("")
+    }
+
+    fun getTestOutputDir(
+        report: TestReport,
+        reporter: CariocaReporter,
+    ): String {
+        return "${getRootOutputDir().path}/${reporter.getOutputDir(report)}"
     }
 
     fun getScreenshotUri(

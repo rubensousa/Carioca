@@ -14,10 +14,10 @@ import java.io.OutputStream
 class CariocaAllureReporter : CariocaReporter {
 
     private val stageValue = "finished"
-    private var dirName = "allure-results"
+    private val dirName = "allure-results"
 
-    override fun getOutputDir(report: TestReport, outputDir: Uri): String {
-        return "${outputDir.path}/$dirName"
+    override fun getOutputDir(report: TestReport): String {
+        return dirName
     }
 
     override fun getReportFilename(report: TestReport): String {
@@ -25,6 +25,14 @@ class CariocaAllureReporter : CariocaReporter {
     }
 
     override fun getScreenshotName(id: String): String {
+        return getAttachmentName(id)
+    }
+
+    override fun getRecordingName(id: String): String {
+        return getAttachmentName(id)
+    }
+
+    private fun getAttachmentName(id: String): String {
         return "$id-attachment"
     }
 

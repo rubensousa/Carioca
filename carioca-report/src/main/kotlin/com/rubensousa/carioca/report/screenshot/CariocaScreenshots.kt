@@ -3,7 +3,8 @@ package com.rubensousa.carioca.report.screenshot
 import android.graphics.Bitmap
 
 /**
- * Screenshot configurable parameters
+ * Screenshot configurable parameters.
+ * // TODO: Make it a data class
  */
 object CariocaScreenshots {
 

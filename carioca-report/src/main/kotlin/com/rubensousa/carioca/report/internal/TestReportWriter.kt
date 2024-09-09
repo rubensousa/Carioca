@@ -7,9 +7,9 @@ internal object TestReportWriter {
 
     fun write(report: TestReport) {
         val reporter = report.reporter
-        val dir = reporter.getOutputDir(report, TestOutputLocation.getRootOutputDir())
+        val dir = TestStorageProvider.getTestOutputDir(report, reporter)
         val file = "$dir/${reporter.getReportFilename(report)}"
-        val outputStream = TestOutputLocation.getOutputStream(file)
+        val outputStream = TestStorageProvider.getOutputStream(file)
         try {
             reporter.writeTestReport(report, outputStream)
         } catch (exception: Exception) {

@@ -1,8 +1,9 @@
 package com.rubensousa.carioca.report.internal
 
-import com.rubensousa.carioca.report.CariocaLogger
+import com.rubensousa.carioca.report.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.annotations.TestId
+import com.rubensousa.carioca.report.recording.RecordingOptions
 import com.rubensousa.carioca.report.stage.ReportStatus
 import com.rubensousa.carioca.report.stage.TestReport
 import com.rubensousa.carioca.report.stage.TestSuiteReport
@@ -13,12 +14,22 @@ internal object TestReportBuilder {
     private val tests = mutableListOf<TestReport>()
     private var startTime = System.currentTimeMillis()
 
+    // TODO: Get the previous test if this test was retried with a retry rule
     fun newTest(
         description: Description,
-        logger: CariocaLogger?,
+        recordingOptions: RecordingOptions,
+        logger: CariocaInterceptor?,
         reporter: CariocaReporter,
     ): TestReport {
-        val test = createTest(description, logger, reporter)
+        val test = TestReport(
+            id = getTestId(description),
+            recordingOptions = recordingOptions,
+            name = description.methodName,
+            className = description.className,
+            packageName = description.testClass.`package`?.name ?: "",
+            interceptor = logger,
+            reporter = reporter
+        )
         tests.add(test)
         return test
     }
@@ -28,6 +39,7 @@ internal object TestReportBuilder {
         tests.clear()
     }
 
+    // TODO: Write the suite report too, since we want to know the suite duration
     fun buildSuiteReport(): TestSuiteReport {
         val hasAnyFailure = tests.any { it.status == ReportStatus.FAILED }
         return TestSuiteReport(
@@ -40,21 +52,6 @@ internal object TestReportBuilder {
                 ReportStatus.PASSED
             },
             id = IdGenerator.get()
-        )
-    }
-
-    private fun createTest(
-        description: Description,
-        logger: CariocaLogger?,
-        reporter: CariocaReporter,
-    ): TestReport {
-        return TestReport(
-            id = getTestId(description),
-            name = description.methodName,
-            className = description.className,
-            packageName = description.testClass.`package`?.name ?: "",
-            logger = logger,
-            reporter = reporter
         )
     }
 

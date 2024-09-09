@@ -14,7 +14,7 @@ import org.junit.runner.Description
  * 5. [onScenarioPassed] or [onScenarioFailed] if a scenario was started
  * 6. [onTestPassed] or [onTestFailed]
  */
-interface CariocaLogger {
+interface CariocaInterceptor {
 
     fun onTestStarted(description: Description) {}
 

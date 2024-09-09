@@ -24,8 +24,8 @@ class CariocaSimpleJsonReporter : CariocaReporter {
     private val titleKey = "title"
     private val statusKey = "status"
 
-    override fun getOutputDir(report: TestReport, outputDir: Uri): String {
-        return "${outputDir.path}/${report.className}/${report.name}"
+    override fun getOutputDir(report: TestReport): String {
+        return "${report.className}/${report.name}"
     }
 
     override fun getReportFilename(report: TestReport): String {
@@ -33,6 +33,10 @@ class CariocaSimpleJsonReporter : CariocaReporter {
     }
 
     override fun getScreenshotName(id: String): String {
+        return id
+    }
+
+    override fun getRecordingName(id: String): String {
         return id
     }
 

@@ -1,13 +1,14 @@
 package com.rubensousa.carioca.report.stage
 
 import android.graphics.Bitmap
+import android.os.Environment
 import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
 import com.rubensousa.carioca.report.CariocaReporter
-import com.rubensousa.carioca.report.internal.TestOutputLocation
+import com.rubensousa.carioca.report.internal.TestStorageProvider
 import com.rubensousa.carioca.report.scope.ReportStepScope
 import com.rubensousa.carioca.report.screenshot.CariocaScreenshots
-import com.rubensousa.carioca.report.screenshot.TestScreenshot
+import com.rubensousa.carioca.report.screenshot.ReportScreenshot
 import java.io.BufferedOutputStream
 import java.io.IOException
 
@@ -19,7 +20,7 @@ class StepReport internal constructor(
 ) : StageReport(id), ReportStepScope {
 
     private val TAG = "CariocaTestStep"
-    private val screenshots = mutableListOf<TestScreenshot>()
+    private val screenshots = mutableListOf<ReportScreenshot>()
 
     override fun screenshot(description: String) {
         val screenshot = takeScreenshot(description)
@@ -33,19 +34,19 @@ class StepReport internal constructor(
         pass()
     }
 
-    fun getScreenshots(): List<TestScreenshot> {
+    fun getScreenshots(): List<ReportScreenshot> {
         return screenshots.toList()
     }
 
-    private fun takeScreenshot(description: String): TestScreenshot? {
+    private fun takeScreenshot(description: String): ReportScreenshot? {
         val screenshot: Bitmap? = InstrumentationRegistry.getInstrumentation().uiAutomation.takeScreenshot()
         if (screenshot == null) {
             Log.w(TAG, "Failed to take screenshot")
             return null
         }
         try {
-            val screenshotUri = TestOutputLocation.getScreenshotUri(reporter, outputPath, getImageExtension())
-            val outputStream = TestOutputLocation.getOutputStream(screenshotUri)
+            val screenshotUri = TestStorageProvider.getScreenshotUri(reporter, outputPath, getImageExtension())
+            val outputStream = TestStorageProvider.getOutputStream(screenshotUri)
             BufferedOutputStream(outputStream).use { stream ->
                 val scaledScreenshot = Bitmap.createScaledBitmap(
                     screenshot,
@@ -55,7 +56,7 @@ class StepReport internal constructor(
                 )
                 scaledScreenshot.compress(CariocaScreenshots.format, CariocaScreenshots.quality, stream)
                 stream.flush()
-                return TestScreenshot(
+                return ReportScreenshot(
                     path = screenshotUri.path!!,
                     description = description,
                     extension = getImageExtension()

@@ -1,10 +1,12 @@
 package com.rubensousa.carioca.report
 
 import com.rubensousa.carioca.report.internal.TestReportBuilder
+import com.rubensousa.carioca.report.recording.RecordingOptions
 import com.rubensousa.carioca.report.scope.ReportTestScope
 import com.rubensousa.carioca.report.stage.TestReport
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
+
 
 /**
  * A test rule that builds a detailed report for a test, including its steps.
@@ -16,7 +18,8 @@ import org.junit.runner.Description
  */
 open class CariocaReportRule(
     private val reporter: CariocaReporter,
-    private val logger: CariocaLogger? = null,
+    private val recordingOptions: RecordingOptions = RecordingOptions(),
+    private val logger: CariocaInterceptor? = null,
 ) : TestWatcher() {
 
     private var test: TestReport? = null
@@ -24,7 +27,12 @@ open class CariocaReportRule(
 
     final override fun starting(description: Description) {
         super.starting(description)
-        test = reportBuilder.newTest(description, logger, reporter)
+        test = reportBuilder.newTest(
+            description = description,
+            recordingOptions = recordingOptions,
+            logger = logger,
+            reporter = reporter,
+        )
         getCurrentTest().starting(description)
     }
 
