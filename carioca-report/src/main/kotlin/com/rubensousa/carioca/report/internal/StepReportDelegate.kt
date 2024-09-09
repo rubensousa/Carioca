@@ -2,7 +2,7 @@ package com.rubensousa.carioca.report.internal
 
 import com.rubensousa.carioca.report.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
-import com.rubensousa.carioca.report.scope.ReportStepScope
+import com.rubensousa.carioca.report.stage.StepReportScope
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.stage.StepReport
 
@@ -20,7 +20,7 @@ internal class StepReportDelegate(
         currentStep = null
     }
 
-    fun step(title: String, id: String?, action: ReportStepScope.() -> Unit): StepReport {
+    fun step(title: String, id: String?, action: StepReportScope.() -> Unit): StepReport {
         val stepReport = createStepReport(title, id)
         currentStep = stepReport
         interceptor?.onStepStarted(stepReport)

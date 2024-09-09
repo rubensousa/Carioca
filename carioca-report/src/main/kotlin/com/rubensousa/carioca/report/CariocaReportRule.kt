@@ -2,7 +2,7 @@ package com.rubensousa.carioca.report
 
 import com.rubensousa.carioca.report.internal.TestReportBuilder
 import com.rubensousa.carioca.report.recording.RecordingOptions
-import com.rubensousa.carioca.report.scope.ReportTestScope
+import com.rubensousa.carioca.report.stage.ReportTestScope
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.stage.TestReport
 import org.junit.rules.TestWatcher

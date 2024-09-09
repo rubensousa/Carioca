@@ -3,10 +3,25 @@ package com.rubensousa.carioca.report.stage
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.internal.IdGenerator
 import com.rubensousa.carioca.report.internal.TestStorageProvider
-import com.rubensousa.carioca.report.scope.ReportStepScope
 import com.rubensousa.carioca.report.screenshot.DeviceScreenshot
 import com.rubensousa.carioca.report.screenshot.ReportScreenshot
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
+
+/**
+ * Public API for a step block
+ */
+interface StepReportScope {
+
+    /**
+     * Takes a screenshot with the configuration set through [ScreenshotOptions].
+     *
+     * The generated file will be pulled from the device once the test runner finishes running all tests
+     *
+     * @param description the description of the screenshot for the report
+     */
+    fun screenshot(description: String)
+
+}
 
 class StepReport internal constructor(
     id: String,
@@ -14,7 +29,7 @@ class StepReport internal constructor(
     val outputPath: String,
     private val screenshotOptions: ScreenshotOptions,
     private val reporter: CariocaReporter,
-) : StageReport(id), ReportStepScope {
+) : StageReport(id), StepReportScope {
 
     private val screenshots = mutableListOf<ReportScreenshot>()
 
@@ -25,7 +40,7 @@ class StepReport internal constructor(
         }
     }
 
-    internal fun report(action: ReportStepScope.() -> Unit) {
+    internal fun report(action: StepReportScope.() -> Unit) {
         action.invoke(this)
         pass()
     }
