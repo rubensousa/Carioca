@@ -31,7 +31,7 @@ class SampleTest {
 
     @TestId(id = "This is a persistent test id")
     @Test
-    fun testSomethingHappens() = reportRule.report {
+    fun testSuccessfulTest() = reportRule.report {
         scenario(SampleScreenScenario())
 
         step("Open notification") {
@@ -40,10 +40,7 @@ class SampleTest {
         }
         step("Open quick settings") {
             device.openQuickSettings()
-            sampleScreen {
-                assertIsDisplayed()
-                screenshot("Quick settings displayed")
-            }
+            screenshot("Quick settings displayed")
         }
         step("Press home") {
             device.pressHome()
@@ -51,6 +48,21 @@ class SampleTest {
                 assertIsNotDisplayed()
                 screenshot("Launcher")
             }
+        }
+    }
+
+
+    @TestId(id = "This is a persistent test id 2")
+    @Test
+    fun testFailedTest() = reportRule.report {
+        scenario(SampleScreenScenario())
+
+        step("Open notification") {
+            device.openNotification()
+            screenshot("Notification bar visible")
+        }
+        step("Open quick settings") {
+            throw IllegalStateException("Failed")
         }
     }
 

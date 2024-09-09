@@ -19,7 +19,6 @@ package com.rubensousa.carioca.report.stage
 import android.util.Log
 import com.rubensousa.carioca.report.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
-import com.rubensousa.carioca.report.annotations.ScenarioId
 import com.rubensousa.carioca.report.internal.IdGenerator
 import com.rubensousa.carioca.report.internal.StepReportDelegate
 import com.rubensousa.carioca.report.internal.TestStorageProvider
@@ -151,8 +150,7 @@ class TestReport internal constructor(
     }
 
     private fun getScenarioId(scenario: TestScenario): String {
-        val scenarioId = scenario::class.java.getAnnotation(ScenarioId::class.java)
-        return scenarioId?.id ?: IdGenerator.get()
+        return scenario.getId() ?: IdGenerator.get()
     }
 
     private fun writeReport() {

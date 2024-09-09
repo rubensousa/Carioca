@@ -22,4 +22,6 @@ interface TestScenario {
 
     fun report(scope: ScenarioReportScope)
 
+    fun getId(): String? = null
+
 }
