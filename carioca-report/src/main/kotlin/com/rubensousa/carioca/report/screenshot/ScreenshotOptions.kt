@@ -18,6 +18,13 @@ package com.rubensousa.carioca.report.screenshot
 
 import android.graphics.Bitmap
 
+/**
+ * Configurable screenshot options that apply to all tests
+ *
+ * @param scale the scale of the screenshot in relation to the original display size. Default: 0.5
+ * @param quality the quality of the screenshot. From 0 to 100. Default: 80
+ * @param format the image format of the screenshot. Default: JPG
+ */
 data class ScreenshotOptions(
     val scale: Float = 0.5f,
     val quality: Int = 80,
@@ -29,6 +36,9 @@ data class ScreenshotOptions(
         require(scale > 0f && scale <= 1.0f)
     }
 
+    /**
+     * @return the file extension of the [format] of these screenshot options
+     */
     fun getFileExtension(): String {
         return when (format) {
             Bitmap.CompressFormat.PNG -> ".png"
