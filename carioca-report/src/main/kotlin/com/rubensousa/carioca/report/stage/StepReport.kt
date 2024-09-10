@@ -17,6 +17,7 @@
 package com.rubensousa.carioca.report.stage
 
 import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.ReportAttachment
 import com.rubensousa.carioca.report.internal.IdGenerator
 import com.rubensousa.carioca.report.internal.TestStorageProvider
 import com.rubensousa.carioca.report.screenshot.DeviceScreenshot
@@ -48,6 +49,7 @@ class StepReport internal constructor(
 ) : StageReport(id), StepReportScope {
 
     private val screenshots = mutableListOf<ReportScreenshot>()
+    private val attachments = mutableListOf<ReportAttachment>()
 
     override fun screenshot(description: String) {
         val screenshot = takeScreenshot(description)
@@ -61,8 +63,16 @@ class StepReport internal constructor(
         pass()
     }
 
+    fun attach(attachment: ReportAttachment) {
+        attachments.add(attachment)
+    }
+
     fun getScreenshots(): List<ReportScreenshot> {
         return screenshots.toList()
+    }
+
+    fun getAttachments(): List<ReportAttachment> {
+        return attachments.toList()
     }
 
     private fun takeScreenshot(description: String): ReportScreenshot? {

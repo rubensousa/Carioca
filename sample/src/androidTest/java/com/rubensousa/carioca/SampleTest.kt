@@ -19,6 +19,7 @@ package com.rubensousa.carioca
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.report.annotations.TestId
+import com.rubensousa.carioca.report.annotations.TestTitle
 import org.junit.Rule
 import org.junit.Test
 
@@ -29,7 +30,8 @@ class SampleTest {
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
-    @TestId(id = "This is a persistent test id")
+    @TestId("This is a persistent test id")
+    @TestTitle("Opening notification and quick settings works")
     @Test
     fun testSuccessfulTest() = reportRule.report {
         scenario(SampleScreenScenario())

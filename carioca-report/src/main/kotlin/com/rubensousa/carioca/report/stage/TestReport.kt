@@ -17,9 +17,11 @@
 package com.rubensousa.carioca.report.stage
 
 import android.util.Log
-import com.rubensousa.carioca.report.CariocaInterceptor
+import com.rubensousa.carioca.report.AttachmentRequest
+import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
-import com.rubensousa.carioca.report.intercept
+import com.rubensousa.carioca.report.ReportAttachment
+import com.rubensousa.carioca.report.interceptor.intercept
 import com.rubensousa.carioca.report.internal.IdGenerator
 import com.rubensousa.carioca.report.internal.StepReportDelegate
 import com.rubensousa.carioca.report.internal.TestStorageProvider
@@ -55,7 +57,7 @@ class TestReport internal constructor(
     id: String,
     val recordingOptions: RecordingOptions,
     val screenshotOptions: ScreenshotOptions,
-    val name: String,
+    val methodName: String,
     val className: String,
     val packageName: String,
     val reporter: CariocaReporter,
@@ -63,6 +65,7 @@ class TestReport internal constructor(
 ) : StageReport(id), ReportTestScope {
 
     private val stageReports = mutableListOf<StageReport>()
+    private val attachments = mutableListOf<ReportAttachment>()
     private val outputDir = TestStorageProvider.getTestOutputDir(this, reporter)
     private val stepDelegate = StepReportDelegate(
         report = this,
@@ -95,7 +98,33 @@ class TestReport internal constructor(
 
     fun getRecording(): ReportRecording? = screenRecording
 
+    fun attach(request: AttachmentRequest) {
+        attachments.add(
+            ReportAttachment(
+                description = request.description,
+                path = request.relativeFilePath,
+                mimeType = request.mimeType
+            )
+        )
+    }
+
+    fun getAttachments(): List<ReportAttachment> = attachments.toList()
+
     fun getFailureCause(): Throwable? = failureCause
+
+    fun createAttachment(
+        filename: String,
+        description: String,
+        mimeType: String,
+    ): AttachmentRequest {
+        val path = "$outputDir/$filename"
+        return AttachmentRequest(
+            description = description,
+            mimeType = mimeType,
+            relativeFilePath = path,
+            outputStream = TestStorageProvider.getOutputStream(path)
+        )
+    }
 
     internal fun starting(description: Description) {
         intercept { onTestStarted(this@TestReport, description) }
@@ -167,7 +196,7 @@ class TestReport internal constructor(
         try {
             reporter.writeTestReport(this, outputStream)
         } catch (exception: Exception) {
-            Log.e("CariocaReport", "Failed writing report for test ${this.name}", exception)
+            Log.e("CariocaReport", "Failed writing report for test ${this.methodName}", exception)
         } finally {
             outputStream.close()
         }
@@ -178,7 +207,7 @@ class TestReport internal constructor(
     }
 
     override fun toString(): String {
-        return "Test(id='$id', name='$name', className='$className')"
+        return "Test(id='$id', name='$methodName', className='$className')"
     }
 
 }

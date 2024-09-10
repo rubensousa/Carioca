@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report
+package com.rubensousa.carioca.report.interceptor
 
 import com.rubensousa.carioca.report.stage.ScenarioReport
 import com.rubensousa.carioca.report.stage.StepReport

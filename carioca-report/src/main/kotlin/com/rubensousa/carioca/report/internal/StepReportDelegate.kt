@@ -16,9 +16,9 @@
 
 package com.rubensousa.carioca.report.internal
 
-import com.rubensousa.carioca.report.CariocaInterceptor
+import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
-import com.rubensousa.carioca.report.intercept
+import com.rubensousa.carioca.report.interceptor.intercept
 import com.rubensousa.carioca.report.stage.StepReportScope
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.stage.StepReport

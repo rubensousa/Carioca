@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report
+package com.rubensousa.carioca.report.interceptor
 
 import android.util.Log
 import com.rubensousa.carioca.report.stage.ScenarioReport
@@ -22,7 +22,7 @@ import com.rubensousa.carioca.report.stage.StepReport
 import com.rubensousa.carioca.report.stage.TestReport
 import org.junit.runner.Description
 
-class CariocaLogcatInterceptor : CariocaInterceptor {
+class LoggerInterceptor : CariocaInterceptor {
 
     private val tag = "CariocaLogger"
 

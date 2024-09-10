@@ -16,7 +16,6 @@
 
 package com.rubensousa.carioca.report
 
-import android.net.Uri
 import com.rubensousa.carioca.report.stage.ScenarioReport
 import com.rubensousa.carioca.report.stage.ReportStatus
 import com.rubensousa.carioca.report.stage.StepReport
@@ -41,7 +40,7 @@ class CariocaSimpleJsonReporter : CariocaReporter {
     private val statusKey = "status"
 
     override fun getOutputDir(report: TestReport): String {
-        return "${report.className}/${report.name}"
+        return "${report.className}/${report.methodName}"
     }
 
     override fun getReportFilename(report: TestReport): String {
@@ -83,7 +82,7 @@ class CariocaSimpleJsonReporter : CariocaReporter {
         map[startTimeKey] = test.startTime
         map[endTimeKey] = test.endTime
         map["testClass"] = test.className
-        map["testName"] = test.name
+        map["testName"] = test.methodName
         map.putStatus(test.status)
         map["stages"] = stages
         test.getFailureCause()?.let { cause ->

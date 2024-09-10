@@ -18,6 +18,8 @@ package com.rubensousa.carioca
 
 import com.rubensousa.carioca.report.CariocaReportRule
 import com.rubensousa.carioca.report.allure.CariocaAllureReporter
+import com.rubensousa.carioca.report.interceptor.DumpHierarchyInterceptor
+import com.rubensousa.carioca.report.interceptor.LoggerInterceptor
 import com.rubensousa.carioca.report.recording.RecordingOptions
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 
@@ -35,5 +37,6 @@ class SampleReportRule : CariocaReportRule(
     ),
     screenshotOptions = ScreenshotOptions(
         scale = 1f
-    )
+    ),
+    interceptors = listOf(LoggerInterceptor(), DumpHierarchyInterceptor())
 )

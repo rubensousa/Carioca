@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.report
 
+import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.internal.TestReportBuilder
 import com.rubensousa.carioca.report.recording.RecordingOptions
 import com.rubensousa.carioca.report.stage.ReportTestScope

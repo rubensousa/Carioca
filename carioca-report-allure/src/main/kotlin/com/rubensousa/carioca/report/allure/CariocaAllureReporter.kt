@@ -17,6 +17,7 @@
 package com.rubensousa.carioca.report.allure
 
 import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.ReportAttachment
 import com.rubensousa.carioca.report.stage.ReportStatus
 import com.rubensousa.carioca.report.stage.ScenarioReport
 import com.rubensousa.carioca.report.stage.StepReport
@@ -64,10 +65,10 @@ class CariocaAllureReporter : CariocaReporter {
             uuid = report.executionId,
             historyId = report.id,
             testCaseId = report.id,
-            fullName = report.className + ".${report.name}",
+            fullName = report.className + ".${report.methodName}",
             links = emptyList(),
             labels = createLabels(report),
-            name = report.name,
+            name = report.methodName,
             status = getStatus(report.status),
             statusDetails = report.getFailureCause()?.let { error ->
                 AllureStatusDetail(
@@ -138,6 +139,7 @@ class CariocaAllureReporter : CariocaReporter {
                 )
             )
         }
+        attachments.addAll(mapAttachments(report.getAttachments()))
         return attachments
     }
 
@@ -152,7 +154,18 @@ class CariocaAllureReporter : CariocaReporter {
                 )
             )
         }
+        attachments.addAll(mapAttachments(report.getAttachments()))
         return attachments
+    }
+
+    private fun mapAttachments(list: List<ReportAttachment>): List<AllureAttachment> {
+        return list.map { attachment ->
+            AllureAttachment(
+                name = attachment.description,
+                source = getAttachmentPath(attachment.path),
+                type = attachment.mimeType
+            )
+        }
     }
 
     // Ensures that all the attachments paths are relative to the same directory
@@ -189,7 +202,7 @@ class CariocaAllureReporter : CariocaReporter {
             ),
             AllureLabel(
                 name = "testMethod",
-                value = report.name
+                value = report.methodName
             ),
             AllureLabel(
                 name = "suite",
