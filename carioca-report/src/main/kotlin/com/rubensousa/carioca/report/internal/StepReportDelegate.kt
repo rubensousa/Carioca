@@ -61,6 +61,7 @@ internal class StepReportDelegate(
             outputPath = outputPath,
             title = title,
             reporter = reporter,
+            delegate = this,
             screenshotOptions = screenshotOptions
         )
         return step

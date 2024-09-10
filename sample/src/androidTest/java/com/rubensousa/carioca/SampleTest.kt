@@ -36,13 +36,15 @@ class SampleTest {
     fun testSuccessfulTest() = reportRule.report {
         scenario(SampleScreenScenario())
 
-        step("Open notification") {
-            device.openNotification()
-            screenshot("Notification bar visible")
-        }
-        step("Open quick settings") {
-            device.openQuickSettings()
-            screenshot("Quick settings displayed")
+        step("Open notification and quick settings") {
+            step("Open notification") {
+                device.openNotification()
+                screenshot("Notification bar visible")
+            }
+            step("Open quick settings") {
+                device.openQuickSettings()
+                screenshot("Quick settings displayed")
+            }
         }
         step("Press home") {
             device.pressHome()

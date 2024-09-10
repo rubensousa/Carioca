@@ -124,7 +124,9 @@ class CariocaAllureReporter : CariocaReporter {
             attachments = getAttachments(report),
             start = report.startTime,
             stop = report.endTime,
-            steps = emptyList()
+            steps = report.getSteps().map { step ->
+                createStep(step)
+            }
         )
     }
 
@@ -139,7 +141,6 @@ class CariocaAllureReporter : CariocaReporter {
                 )
             )
         }
-        attachments.addAll(mapAttachments(report.getAttachments()))
         return attachments
     }
 

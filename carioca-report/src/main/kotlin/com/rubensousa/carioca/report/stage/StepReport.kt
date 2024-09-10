@@ -17,8 +17,8 @@
 package com.rubensousa.carioca.report.stage
 
 import com.rubensousa.carioca.report.CariocaReporter
-import com.rubensousa.carioca.report.ReportAttachment
 import com.rubensousa.carioca.report.internal.IdGenerator
+import com.rubensousa.carioca.report.internal.StepReportDelegate
 import com.rubensousa.carioca.report.internal.TestStorageProvider
 import com.rubensousa.carioca.report.screenshot.DeviceScreenshot
 import com.rubensousa.carioca.report.screenshot.ReportScreenshot
@@ -38,18 +38,29 @@ interface StepReportScope {
      */
     fun screenshot(description: String)
 
+    /**
+     * Creates a nested step inside the current step
+     *
+     * @param title the name of the step
+     * @param action the step block that will be executed
+     */
+    fun step(title: String, action: StepReportScope.() -> Unit)
+
 }
 
 class StepReport internal constructor(
     id: String,
     val title: String,
     val outputPath: String,
+    private val delegate: StepReportDelegate,
     private val screenshotOptions: ScreenshotOptions,
     private val reporter: CariocaReporter,
 ) : StageReport(id), StepReportScope {
 
     private val screenshots = mutableListOf<ReportScreenshot>()
-    private val attachments = mutableListOf<ReportAttachment>()
+    private val steps = mutableListOf<StepReport>()
+
+    fun getSteps() = steps.toList()
 
     override fun screenshot(description: String) {
         val screenshot = takeScreenshot(description)
@@ -58,21 +69,19 @@ class StepReport internal constructor(
         }
     }
 
+    override fun step(title: String, action: StepReportScope.() -> Unit) {
+        val step = delegate.createStep(title, null)
+        steps.add(step)
+        delegate.executeStep(action)
+    }
+
     internal fun report(action: StepReportScope.() -> Unit) {
         action.invoke(this)
         pass()
     }
 
-    fun attach(attachment: ReportAttachment) {
-        attachments.add(attachment)
-    }
-
     fun getScreenshots(): List<ReportScreenshot> {
         return screenshots.toList()
-    }
-
-    fun getAttachments(): List<ReportAttachment> {
-        return attachments.toList()
     }
 
     private fun takeScreenshot(description: String): ReportScreenshot? {

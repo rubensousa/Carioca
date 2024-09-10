@@ -114,6 +114,10 @@ class CariocaSimpleJsonReporter : CariocaReporter {
 
     private fun getStepResult(step: StepReport): Map<String, Any> {
         val map = mutableMapOf<String, Any?>()
+        val steps = mutableListOf<Map<String, Any?>>()
+        step.getSteps().forEach { nestedStep ->
+            steps.add(getStepResult(nestedStep))
+        }
         val screenshots = mutableListOf<Map<String, Any>>()
         step.getScreenshots().forEach { screenshot ->
             screenshots.add(
@@ -132,6 +136,9 @@ class CariocaSimpleJsonReporter : CariocaReporter {
             map["screenshots"] = screenshots
         } else {
             map["screenshots"] = null
+        }
+        if (steps.isNotEmpty()) {
+            map["steps"] = steps
         }
         return mapOf(
             "type" to "step",
