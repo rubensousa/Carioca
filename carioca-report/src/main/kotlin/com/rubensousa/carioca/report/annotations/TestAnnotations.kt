@@ -16,10 +16,17 @@
 
 package com.rubensousa.carioca.report.annotations
 
+/**
+ * A persistent identifier for a test. Used to track progress of different executions
+ */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION)
 annotation class TestId(val id: String)
 
+
+/**
+ * A human-readable format of the test
+ */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION)
 annotation class TestTitle(val title: String)
