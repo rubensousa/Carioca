@@ -83,6 +83,7 @@ class CariocaSimpleJsonReporter : CariocaReporter {
         map[endTimeKey] = test.endTime
         map["testClass"] = test.className
         map["testName"] = test.methodName
+        map["testDescription"] = test.title
         map.putStatus(test.status)
         map["stages"] = stages
         test.getFailureCause()?.let { cause ->

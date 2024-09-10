@@ -55,6 +55,7 @@ class SampleTest {
 
 
     @TestId(id = "This is a persistent test id 2")
+    @TestTitle("Opening notification and quick settings")
     @Test
     fun testFailedTest() = reportRule.report {
         scenario(SampleScreenScenario())

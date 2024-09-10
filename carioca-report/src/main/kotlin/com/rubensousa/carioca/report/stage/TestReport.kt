@@ -57,6 +57,7 @@ class TestReport internal constructor(
     id: String,
     val recordingOptions: RecordingOptions,
     val screenshotOptions: ScreenshotOptions,
+    val title: String,
     val methodName: String,
     val className: String,
     val packageName: String,

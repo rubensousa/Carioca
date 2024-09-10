@@ -68,7 +68,7 @@ class CariocaAllureReporter : CariocaReporter {
             fullName = report.className + ".${report.methodName}",
             links = emptyList(),
             labels = createLabels(report),
-            name = report.methodName,
+            name = report.title,
             status = getStatus(report.status),
             statusDetails = report.getFailureCause()?.let { error ->
                 AllureStatusDetail(

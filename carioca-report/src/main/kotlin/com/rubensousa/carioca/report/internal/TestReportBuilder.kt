@@ -19,6 +19,7 @@ package com.rubensousa.carioca.report.internal
 import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.annotations.TestId
+import com.rubensousa.carioca.report.annotations.TestTitle
 import com.rubensousa.carioca.report.recording.RecordingOptions
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.stage.ReportStatus
@@ -41,6 +42,7 @@ internal object TestReportBuilder {
     ): TestReport {
         val test = TestReport(
             id = getTestId(description),
+            title = getTestTitle(description),
             recordingOptions = recordingOptions,
             methodName = description.methodName,
             className = description.className,
@@ -79,9 +81,9 @@ internal object TestReportBuilder {
         return testId?.id ?: getDefaultTestId(description)
     }
 
-    private fun getTestName(description: Description): String {
-        val testId = description.getAnnotation(TestId::class.java)
-        return testId?.id ?: getDefaultTestId(description)
+    private fun getTestTitle(description: Description): String {
+        val annotation = description.getAnnotation(TestTitle::class.java)
+        return annotation?.title ?: description.methodName
     }
 
     private fun getDefaultTestId(description: Description): String {
