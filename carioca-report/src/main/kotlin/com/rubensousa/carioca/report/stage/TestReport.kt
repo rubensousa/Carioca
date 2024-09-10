@@ -73,6 +73,7 @@ class TestReport internal constructor(
     )
     private var currentScenario: ScenarioReport? = null
     private var screenRecording: ReportRecording? = null
+    private var failureCause: Throwable? = null
 
     override fun step(title: String, id: String?, action: StepReportScope.() -> Unit) {
         val step = stepDelegate.createStep(title, id)
@@ -94,6 +95,8 @@ class TestReport internal constructor(
 
     fun getRecording(): ReportRecording? = screenRecording
 
+    fun getFailureCause(): Throwable? = failureCause
+
     internal fun starting(description: Description) {
         intercept { onTestStarted(this@TestReport, description) }
         if (recordingOptions.enabled) {
@@ -107,6 +110,7 @@ class TestReport internal constructor(
     }
 
     internal fun failed(error: Throwable, description: Description) {
+        failureCause = error
         stepDelegate.currentStep?.let { step ->
             step.fail()
             // Take a screenshot to record the state on failures

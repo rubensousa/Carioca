@@ -69,7 +69,15 @@ class CariocaAllureReporter : CariocaReporter {
             labels = createLabels(report),
             name = report.name,
             status = getStatus(report.status),
-            statusDetails = null,
+            statusDetails = report.getFailureCause()?.let { error ->
+                AllureStatusDetail(
+                    known = false,
+                    muted = false,
+                    flaky = false,
+                    message = error.message.orEmpty(),
+                    trace = error.stackTraceToString()
+                )
+            },
             stage = stageValue,
             steps = createSteps(report),
             attachments = getAttachments(report),

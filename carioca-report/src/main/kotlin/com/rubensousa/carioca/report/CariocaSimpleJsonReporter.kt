@@ -86,6 +86,12 @@ class CariocaSimpleJsonReporter : CariocaReporter {
         map["testName"] = test.name
         map.putStatus(test.status)
         map["stages"] = stages
+        test.getFailureCause()?.let { cause ->
+            map["failure"] = mapOf(
+                "message" to cause.message,
+                "stacktrace" to cause.stackTraceToString()
+            )
+        }
         return map
     }
 
