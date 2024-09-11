@@ -20,6 +20,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.report.TestId
 import com.rubensousa.carioca.report.TestTitle
+import com.rubensousa.carioca.report.stage.ScenarioReportScope
+import com.rubensousa.carioca.report.stage.TestScenario
 import com.rubensousa.carioca.report.stage.given
 import com.rubensousa.carioca.report.stage.then
 import com.rubensousa.carioca.report.stage.`when`
@@ -40,10 +42,9 @@ class SampleTest {
         scenario(SampleScreenScenario())
 
         step("Open notification and quick settings") {
-            step("Open notification") {
-                device.openNotification()
-                screenshot("Notification bar visible")
-            }
+
+            scenario(OpenNotificationScenario())
+
             step("Open quick settings") {
                 device.openQuickSettings()
                 screenshot("Quick settings displayed")
@@ -91,6 +92,40 @@ class SampleTest {
 
         then("Launcher is displayed") {
             screenshot("Launcher")
+        }
+    }
+
+    @Test
+    fun testGivenWhenThenScenario() = reportRule.report {
+
+        given(OpenNotificationScenario())
+
+        `when`("User presses home") {
+            device.pressHome()
+            step("Wait for dismissal") {
+                Thread.sleep(1000L)
+            }
+        }
+
+        then("Launcher is displayed") {
+            screenshot("Launcher")
+        }
+    }
+
+    private class OpenNotificationScenario(
+        override val name: String = "Open notification",
+    ) : TestScenario {
+
+        private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+
+        override fun report(scope: ScenarioReportScope) = with(scope) {
+            step("Request notification open") {
+                device.openNotification()
+            }
+            step("Wait for animation") {
+                Thread.sleep(1000L)
+                screenshot("Notification")
+            }
         }
     }
 

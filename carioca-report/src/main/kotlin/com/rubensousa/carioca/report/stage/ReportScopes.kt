@@ -41,6 +41,16 @@ interface TestReportScope {
 
 }
 
+fun TestReportScope.given(scenario: TestScenario) {
+    scenario(object : TestScenario {
+        override val name: String = "Given: ${scenario.name}"
+        override fun getId(): String? = scenario.getId()
+        override fun report(scope: ScenarioReportScope) {
+            scenario.report(scope)
+        }
+    })
+}
+
 fun TestReportScope.given(
     title: String,
     action: StepReportScope.() -> Unit,
