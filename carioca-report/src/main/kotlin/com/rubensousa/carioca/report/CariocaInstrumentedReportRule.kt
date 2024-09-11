@@ -83,7 +83,7 @@ open class CariocaInstrumentedReportRule(
     private val suiteStage: SuiteStage = SuiteReportRegistry.getSuiteStage()
 
     operator fun invoke(block: InstrumentedTestScope.() -> Unit) {
-        block(getCurrentReport())
+        block(getCurrentStage())
     }
 
     final override fun starting(description: Description) {
@@ -97,18 +97,18 @@ open class CariocaInstrumentedReportRule(
         )
         testStage = newStage
         suiteStage.addTest(reporter, newStage)
-        getCurrentReport().starting(description)
+        getCurrentStage().starting(description)
     }
 
     final override fun succeeded(description: Description) {
         super.succeeded(description)
-        getCurrentReport().succeeded()
+        getCurrentStage().succeeded()
         testStage = null
     }
 
     final override fun failed(e: Throwable, description: Description) {
         super.failed(e, description)
-        getCurrentReport().failed(e)
+        getCurrentStage().failed(e)
         testStage = null
     }
 
@@ -147,7 +147,7 @@ open class CariocaInstrumentedReportRule(
         return "${description.className}.${description.methodName}"
     }
 
-    private fun getCurrentReport(): InstrumentedTestStageImpl {
+    private fun getCurrentStage(): InstrumentedTestStageImpl {
         return requireNotNull(testStage) { "Test not started yet" }
     }
 

@@ -26,7 +26,7 @@ abstract class AbstractStage : InstrumentedStage {
     private val executionId = IdGenerator.get()
     private val startTime = System.currentTimeMillis()
     private var endTime = startTime
-    private var status = ExecutionStatus.SKIPPED
+    private var status = ExecutionStatus.RUNNING
     private var failureCause: Throwable? = null
 
     override fun getExecutionMetadata(): ExecutionMetadata {
@@ -48,6 +48,10 @@ abstract class AbstractStage : InstrumentedStage {
         failureCause = cause
         status = ExecutionStatus.FAILED
         saveEndTime()
+    }
+
+    internal fun skip() {
+        status = ExecutionStatus.SKIPPED
     }
 
     private fun saveEndTime() {

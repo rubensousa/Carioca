@@ -89,9 +89,9 @@ internal class InstrumentedTestStageImpl(
         currentScenario = null
         val scenarioReport = createScenarioReport(scenario)
         stages.add(scenarioReport)
-        intercept { onStageStarted(this@InstrumentedTestStageImpl) }
+        intercept { onStageStarted(scenarioReport) }
         scenarioReport.report(scenario)
-        intercept { onStagePassed(this@InstrumentedTestStageImpl) }
+        intercept { onStagePassed(scenarioReport) }
     }
 
     override fun getStages(): List<InstrumentedStage> = stages.toList()

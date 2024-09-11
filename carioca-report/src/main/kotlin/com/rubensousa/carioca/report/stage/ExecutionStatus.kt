@@ -20,6 +20,7 @@ package com.rubensousa.carioca.report.stage
  * The different status of every stage
  */
 enum class ExecutionStatus {
+    RUNNING,
     PASSED,
     FAILED,
     SKIPPED
