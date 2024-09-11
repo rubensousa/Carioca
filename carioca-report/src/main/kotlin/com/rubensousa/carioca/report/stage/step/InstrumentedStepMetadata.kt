@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.stage
+package com.rubensousa.carioca.report.stage.step
 
-data class TestSuiteReport(
+import com.rubensousa.carioca.report.stage.ExecutionMetadata
+
+data class InstrumentedStepMetadata(
     val id: String,
-    val startTime: Long,
-    val endTime: Long,
-    val status: ExecutionStatus,
-    val tests: List<TestReport>,
+    val title: String,
+    val execution: ExecutionMetadata,
 )

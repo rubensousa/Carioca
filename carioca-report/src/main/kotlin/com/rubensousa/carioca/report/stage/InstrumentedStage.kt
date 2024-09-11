@@ -17,10 +17,15 @@
 package com.rubensousa.carioca.report.stage
 
 /**
- * The different status of every stage
+ * The basic contract for all stages: execution metadata
+ *
+ * Check [ExecutionMetadata] for more details
  */
-enum class ExecutionStatus {
-    PASSED,
-    FAILED,
-    SKIPPED
+interface InstrumentedStage {
+
+    /**
+     * @return the execution metadata associated to this stage
+     */
+    fun getExecutionMetadata(): ExecutionMetadata
+
 }

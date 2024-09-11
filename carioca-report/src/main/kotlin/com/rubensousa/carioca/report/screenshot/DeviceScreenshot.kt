@@ -20,8 +20,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
-import com.rubensousa.carioca.report.internal.IdGenerator
-import com.rubensousa.carioca.report.internal.TestStorageProvider
+import com.rubensousa.carioca.report.storage.IdGenerator
+import com.rubensousa.carioca.report.storage.TestStorageProvider
 import java.io.BufferedOutputStream
 import java.io.IOException
 

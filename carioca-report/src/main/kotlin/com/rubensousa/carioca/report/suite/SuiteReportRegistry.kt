@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.stage
+package com.rubensousa.carioca.report.suite
 
-/**
- * The different status of every stage
- */
-enum class ExecutionStatus {
-    PASSED,
-    FAILED,
-    SKIPPED
+object SuiteReportRegistry {
+
+    private var suiteStage: SuiteStage = SuiteStageImpl()
+
+    internal fun getSuiteStage(): SuiteStage {
+        return suiteStage
+    }
+
+    internal fun setSuiteStage(stage: SuiteStage) {
+        suiteStage = stage
+    }
+
 }

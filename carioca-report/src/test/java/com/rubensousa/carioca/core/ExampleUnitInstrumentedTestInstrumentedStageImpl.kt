@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.stage
+package com.rubensousa.carioca.core
+
+import org.junit.Assert.assertEquals
+import org.junit.Test
 
 /**
- * The different status of every stage
+ * Example local unit test, which will execute on the development machine (host).
+ *
+ * See [testing documentation](http://d.android.com/tools/testing).
  */
-enum class ExecutionStatus {
-    PASSED,
-    FAILED,
-    SKIPPED
+class ExampleUnitInstrumentedTestInstrumentedStageImpl {
+    @Test
+    fun addition_isCorrect() {
+        assertEquals(4, 2 + 2)
+    }
 }

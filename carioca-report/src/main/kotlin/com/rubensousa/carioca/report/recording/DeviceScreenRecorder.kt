@@ -17,8 +17,8 @@
 package com.rubensousa.carioca.report.recording
 
 import android.util.Log
-import com.rubensousa.carioca.report.internal.TestStorageDirectory
-import com.rubensousa.carioca.report.internal.TestStorageProvider
+import com.rubensousa.carioca.report.storage.TestStorageDirectory
+import com.rubensousa.carioca.report.storage.TestStorageProvider
 import java.io.BufferedInputStream
 import java.io.FileInputStream
 import java.util.concurrent.Executors

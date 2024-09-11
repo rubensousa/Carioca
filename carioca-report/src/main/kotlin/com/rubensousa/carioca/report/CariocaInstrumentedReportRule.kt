@@ -16,12 +16,13 @@
 
 package com.rubensousa.carioca.report
 
-import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
-import com.rubensousa.carioca.report.internal.TestReportBuilder
+import com.rubensousa.carioca.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.report.recording.RecordingOptions
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.report.stage.TestReportImpl
-import com.rubensousa.carioca.report.stage.TestReportScope
+import com.rubensousa.carioca.report.stage.test.InstrumentedTestScope
+import com.rubensousa.carioca.report.stage.test.InstrumentedTestStageImpl
+import com.rubensousa.carioca.report.suite.SuiteReportRegistry
+import com.rubensousa.carioca.report.suite.SuiteStage
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
@@ -29,7 +30,7 @@ import org.junit.runner.Description
 /**
  * A test rule that builds a detailed report for a test, including its steps.
  *
- * Start by calling [report] to start the report. Then use either [TestReportScope.step] or [TestReportScope.scenario]
+ * Start by calling [report] to start the report. Then use either [InstrumentedTestScope.step] or [InstrumentedTestScope.scenario]
  * to start describing the report in detail.
  *
  * You can also extend this class to provide a default report configuration across all tests:
@@ -51,10 +52,10 @@ import org.junit.runner.Description
  * ```kotlin
  *
  * @get:Rule
- * val reportRule = SampleReportRule()
+ * val report = SampleReportRule()
  *
  * @Test
- * fun sampleTest() = reportRule.report {
+ * fun sampleTest() = report {
  *     step("Open notification and quick settings") {
  *         step("Open notification") {
  *             device.openNotification()
@@ -75,42 +76,79 @@ open class CariocaInstrumentedReportRule(
     private val reporter: CariocaInstrumentedReporter,
     private val recordingOptions: RecordingOptions = RecordingOptions(),
     private val screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
-    private val interceptors: List<CariocaInterceptor> = emptyList(),
+    private val interceptors: List<CariocaInstrumentedInterceptor> = emptyList(),
 ) : TestWatcher() {
 
-    private var test: TestReportImpl? = null
-    private val reportBuilder = TestReportBuilder
+    private var testStage: InstrumentedTestStageImpl? = null
+    private val suiteStage: SuiteStage = SuiteReportRegistry.getSuiteStage()
+
+    operator fun invoke(block: InstrumentedTestScope.() -> Unit) {
+        block(getCurrentReport())
+    }
 
     final override fun starting(description: Description) {
         super.starting(description)
-        test = reportBuilder.newTest(
+        val newStage = createTestStage(
             description = description,
             recordingOptions = recordingOptions,
             screenshotOptions = screenshotOptions,
             interceptors = interceptors,
             reporter = reporter
         )
-        getCurrentTest().starting(description)
-    }
-
-    final override fun failed(e: Throwable, description: Description) {
-        super.failed(e, description)
-        getCurrentTest().failed(e, description)
-        test = null
+        testStage = newStage
+        suiteStage.addTest(reporter, newStage)
+        getCurrentReport().starting(description)
     }
 
     final override fun succeeded(description: Description) {
         super.succeeded(description)
-        getCurrentTest().succeeded(description)
-        test = null
+        getCurrentReport().succeeded()
+        testStage = null
     }
 
-    fun report(block: TestReportScope.() -> Unit) {
-        block(getCurrentTest())
+    final override fun failed(e: Throwable, description: Description) {
+        super.failed(e, description)
+        getCurrentReport().failed(e)
+        testStage = null
     }
 
-    private fun getCurrentTest(): TestReportImpl {
-        return requireNotNull(test) { "Test not started yet" }
+    // TODO: Get the previous instance if this test was retried with a retry rule
+    private fun createTestStage(
+        description: Description,
+        recordingOptions: RecordingOptions,
+        screenshotOptions: ScreenshotOptions,
+        interceptors: List<CariocaInstrumentedInterceptor>,
+        reporter: CariocaInstrumentedReporter,
+    ): InstrumentedTestStageImpl {
+        return InstrumentedTestStageImpl(
+            id = getTestId(description),
+            title = getTestTitle(description),
+            recordingOptions = recordingOptions,
+            methodName = description.methodName,
+            className = description.className,
+            packageName = description.testClass.`package`?.name ?: "",
+            interceptors = interceptors,
+            screenshotOptions = screenshotOptions,
+            reporter = reporter
+        )
+    }
+
+    private fun getTestId(description: Description): String {
+        val testId = description.getAnnotation(TestId::class.java)
+        return testId?.id ?: getDefaultTestId(description)
+    }
+
+    private fun getTestTitle(description: Description): String {
+        val annotation = description.getAnnotation(TestTitle::class.java)
+        return annotation?.title ?: description.methodName
+    }
+
+    private fun getDefaultTestId(description: Description): String {
+        return "${description.className}.${description.methodName}"
+    }
+
+    private fun getCurrentReport(): InstrumentedTestStageImpl {
+        return requireNotNull(testStage) { "Test not started yet" }
     }
 
 }

@@ -16,7 +16,8 @@
 
 package com.rubensousa.carioca.report
 
-import com.rubensousa.carioca.report.stage.TestReport
+import com.rubensousa.carioca.report.stage.test.InstrumentedTestStage
+import com.rubensousa.carioca.report.suite.TestSuiteReport
 import java.io.OutputStream
 
 /**
@@ -26,24 +27,37 @@ import java.io.OutputStream
 interface CariocaInstrumentedReporter {
 
     /**
-     * @param report the test report to be saved
+     * @param stage the test report to be saved
      *
      * @return The relative output directory for this report
      */
-    fun getOutputDir(report: TestReport): String
+    fun getOutputDir(stage: InstrumentedTestStage): String
+
+    /**
+     * @param stage the test report to be saved
+     *
+     * @return the filename of the report, including the extension
+     */
+    fun getReportFilename(stage: InstrumentedTestStage): String
 
     /**
      * @param report the test report to be saved
      *
-     * @return the filename of the report, including the extension
+     * @return the relative path of the report, including the extension
      */
-    fun getReportFilename(report: TestReport): String
+    fun getSuiteReportFilePath(report: TestSuiteReport): String
 
     /**
-     * @param report test report to be written
+     * @param stage test report to be written
      * @param outputStream the destination of the report contents
      */
-    fun writeTestReport(report: TestReport, outputStream: OutputStream)
+    fun writeTestReport(stage: InstrumentedTestStage, outputStream: OutputStream)
+
+    /**
+     * @param report suite report to be written
+     * @param outputStream the destination of the report contents
+     */
+    fun writeSuiteReport(report: TestSuiteReport, outputStream: OutputStream)
 
     /**
      * @return the filename of the screenshot, excluding the extension

@@ -14,14 +14,18 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.stage
+package com.rubensousa.carioca.report.stage.scenario
 
-interface TestScenario {
+/**
+ * A re-usable set of stages that can be used across multiple tests.
+ * Use this carefully and only when you have a stable
+ * set of steps that need to execute in an consistent order
+ */
+abstract class InstrumentedTestScenario(
+    val name: String,
+    val id: String? = null,
+) {
 
-    val name: String
-
-    fun report(scope: ScenarioReportScope)
-
-    fun getId(): String? = null
+    abstract fun run(scope: InstrumentedScenarioScope)
 
 }

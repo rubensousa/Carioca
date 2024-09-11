@@ -16,20 +16,19 @@
 
 package com.rubensousa.carioca
 
-import com.rubensousa.carioca.report.stage.TestScenario
-import com.rubensousa.carioca.report.stage.ScenarioReportScope
+import com.rubensousa.carioca.report.stage.scenario.InstrumentedScenarioScope
+import com.rubensousa.carioca.report.stage.scenario.InstrumentedTestScenario
 
 fun sampleScreen(action: SampleScreen.() -> Unit) {
     action(SampleScreen())
 }
 
-class SampleScreenScenario : TestScenario {
+class SampleScreenScenario : InstrumentedTestScenario(
+    name = "Sample Scenario",
+    id = "Persistent scenario id"
+) {
 
-    override val name: String = "Sample Scenario"
-
-    override fun getId(): String = "Sample screen scenario"
-
-    override fun report(scope: ScenarioReportScope) = with(scope) {
+    override fun run(scope: InstrumentedScenarioScope) = with(scope) {
         step("Step 1 of Scenario") {
 
         }

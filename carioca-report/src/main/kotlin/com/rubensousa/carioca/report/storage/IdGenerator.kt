@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.core
+package com.rubensousa.carioca.report.storage
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import java.util.UUID
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTestReportImpl {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+internal object IdGenerator {
+
+    fun get(): String {
+        return UUID.randomUUID().toString()
     }
+
 }

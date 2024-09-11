@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.internal
+package com.rubensousa.carioca.report.suite
 
-import java.util.UUID
+import com.rubensousa.carioca.report.stage.ExecutionMetadata
+import com.rubensousa.carioca.report.stage.ExecutionStatus
 
-internal object IdGenerator {
-
-    fun get(): String {
-        return UUID.randomUUID().toString()
-    }
-
-}
+data class TestSuiteReport(
+    val packageName: String,
+    val executionMetadata: ExecutionMetadata,
+    val testStatus: Map<ExecutionStatus, Int>,
+)

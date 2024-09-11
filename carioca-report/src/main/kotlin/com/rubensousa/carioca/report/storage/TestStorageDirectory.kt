@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.internal
+package com.rubensousa.carioca.report.storage
 
 import android.annotation.SuppressLint
 import android.os.Build

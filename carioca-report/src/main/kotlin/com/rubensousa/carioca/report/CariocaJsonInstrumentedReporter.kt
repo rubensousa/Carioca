@@ -17,10 +17,11 @@
 package com.rubensousa.carioca.report
 
 import com.rubensousa.carioca.report.stage.ExecutionMetadata
-import com.rubensousa.carioca.report.stage.ScenarioReport
-import com.rubensousa.carioca.report.stage.StageReport
-import com.rubensousa.carioca.report.stage.StepReport
-import com.rubensousa.carioca.report.stage.TestReport
+import com.rubensousa.carioca.report.stage.InstrumentedStage
+import com.rubensousa.carioca.report.stage.scenario.InstrumentedScenarioStage
+import com.rubensousa.carioca.report.stage.step.InstrumentedStepStage
+import com.rubensousa.carioca.report.stage.test.InstrumentedTestStage
+import com.rubensousa.carioca.report.suite.TestSuiteReport
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -40,45 +41,71 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
         explicitNulls = false
     }
 
-    override fun getOutputDir(report: TestReport): String {
-        val metadata = report.getMetadata()
+    override fun getOutputDir(stage: InstrumentedTestStage): String {
+        val metadata = stage.getMetadata()
         return "${metadata.className}/${metadata.methodName}"
     }
 
-    override fun getReportFilename(report: TestReport): String {
-        val metadata = report.getMetadata().execution
+    override fun getReportFilename(stage: InstrumentedTestStage): String {
+        val metadata = stage.getExecutionMetadata()
         return "${metadata.uniqueId}_report.json"
     }
 
+    override fun getSuiteReportFilePath(report: TestSuiteReport): String {
+        return "suite_report.json"
+    }
+
     @ExperimentalSerializationApi
-    override fun writeTestReport(report: TestReport, outputStream: OutputStream) {
-        val jsonReport = buildJsonReport(report)
+    override fun writeTestReport(stage: InstrumentedTestStage, outputStream: OutputStream) {
+        val jsonReport = buildTestReport(stage)
         BufferedOutputStream(outputStream).use { stream ->
             json.encodeToStream(jsonReport, stream)
             stream.flush()
         }
     }
 
-    private fun buildJsonReport(report: TestReport): CariocaJsonReport {
+    @ExperimentalSerializationApi
+    override fun writeSuiteReport(report: TestSuiteReport, outputStream: OutputStream) {
+        val jsonReport = buildSuiteReport(report)
+        BufferedOutputStream(outputStream).use { stream ->
+            json.encodeToStream(jsonReport, stream)
+            stream.flush()
+        }
+    }
+
+    private fun buildTestReport(report: InstrumentedTestStage): CariocaJsonTestReport {
         val metadata = report.getMetadata()
-        return CariocaJsonReport(
+        return CariocaJsonTestReport(
             testId = metadata.testId,
             testDescription = metadata.testTitle,
             testClass = metadata.className,
             testName = metadata.methodName,
             testFullName = metadata.getTestFullName(),
-            execution = mapExecutionReport(metadata.execution),
+            execution = mapExecutionReport(report.getExecutionMetadata()),
             attachments = mapAttachments(report.getAttachments()),
-            stages = report.getStageReports().mapNotNull { stage ->
+            stages = report.getStages().mapNotNull { stage ->
                 buildStageReport(stage)
             }
         )
     }
 
-    private fun buildStageReport(report: StageReport): StageJsonReport? {
+    private fun buildSuiteReport(report: TestSuiteReport): CariocaJsonSuiteReport {
+        return CariocaJsonSuiteReport(
+            packageName = report.packageName,
+            execution = mapExecutionReport(report.executionMetadata),
+            testStatus = report.testStatus.map {
+                SuiteTestStatus(
+                    status = it.key.name,
+                    total = it.value
+                )
+            }
+        )
+    }
+
+    private fun buildStageReport(report: InstrumentedStage): StageJsonReport? {
         return when (report) {
-            is StepReport -> buildStepReport(report)
-            is ScenarioReport -> buildScenarioReport(report)
+            is InstrumentedStepStage -> buildStepReport(report)
+            is InstrumentedScenarioStage -> buildScenarioReport(report)
             else -> null
         }
     }
@@ -104,23 +131,22 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun buildStepReport(step: StepReport): StageJsonReport {
+    private fun buildStepReport(step: InstrumentedStepStage): StageJsonReport {
         val metadata = step.getMetadata()
-        val nestedSteps = mutableListOf<StageJsonReport>()
-        step.getSteps().forEach { nestedStep ->
-            nestedSteps.add(buildStepReport(nestedStep))
+        val nestedStages = mutableListOf<StageJsonReport>()
+        step.getStages().forEach { nestedStage ->
+            buildStageReport(nestedStage)?.let { nestedStages.add(it) }
         }
         return StageJsonReport(
             name = metadata.title,
             type = "step",
             execution = mapExecutionReport(metadata.execution),
             attachments = mapAttachments(step.getAttachments()),
-            steps = nestedSteps,
+            stages = nestedStages,
         )
     }
 
-    private fun buildScenarioReport(scenario: ScenarioReport): StageJsonReport {
-        val metadata = scenario.getMetadata()
+    private fun buildScenarioReport(scenario: InstrumentedScenarioStage): StageJsonReport {
         val nestedSteps = mutableListOf<StageJsonReport>()
         scenario.getSteps().forEach { nestedStep ->
             nestedSteps.add(buildStepReport(nestedStep))
@@ -128,16 +154,16 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
         return StageJsonReport(
             name = scenario.getMetadata().name,
             type = "scenario",
-            execution = mapExecutionReport(metadata.execution),
+            execution = mapExecutionReport(scenario.getExecutionMetadata()),
             attachments = emptyList(),
-            steps = nestedSteps,
+            stages = nestedSteps,
         )
     }
 
 }
 
 @Serializable
-internal data class CariocaJsonReport(
+internal data class CariocaJsonTestReport(
     val testId: String,
     val testDescription: String,
     val testClass: String,
@@ -149,10 +175,23 @@ internal data class CariocaJsonReport(
 )
 
 @Serializable
+internal data class CariocaJsonSuiteReport(
+    val packageName: String,
+    val execution: ExecutionJsonReport,
+    val testStatus: List<SuiteTestStatus>,
+)
+
+@Serializable
+internal data class SuiteTestStatus(
+    val status: String,
+    val total: Int,
+)
+
+@Serializable
 internal data class StageJsonReport(
     val name: String,
     val type: String,
-    val steps: List<StageJsonReport>,
+    val stages: List<StageJsonReport>,
     val execution: ExecutionJsonReport,
     val attachments: List<AttachmentJsonReport>,
 )

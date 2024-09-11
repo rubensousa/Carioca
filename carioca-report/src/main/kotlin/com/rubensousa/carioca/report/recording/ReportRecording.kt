@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.report.recording
 
-import com.rubensousa.carioca.report.internal.TestStorageDirectory
+import com.rubensousa.carioca.report.storage.TestStorageDirectory
 import java.io.File
 
 /**

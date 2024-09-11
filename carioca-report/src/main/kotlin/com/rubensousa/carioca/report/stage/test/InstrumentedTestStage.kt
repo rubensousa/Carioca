@@ -14,29 +14,34 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.stage
+package com.rubensousa.carioca.report.stage.test
 
 import android.util.Log
 import com.rubensousa.carioca.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.report.ReportAttachment
-import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
+import com.rubensousa.carioca.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.report.interceptor.intercept
-import com.rubensousa.carioca.report.internal.IdGenerator
-import com.rubensousa.carioca.report.internal.StepReportDelegate
-import com.rubensousa.carioca.report.internal.TestStorageProvider
 import com.rubensousa.carioca.report.recording.DeviceScreenRecorder
 import com.rubensousa.carioca.report.recording.RecordingOptions
 import com.rubensousa.carioca.report.recording.ReportRecording
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
+import com.rubensousa.carioca.report.stage.AbstractStage
+import com.rubensousa.carioca.report.stage.InstrumentedStage
+import com.rubensousa.carioca.report.stage.scenario.InstrumentedScenarioStageImpl
+import com.rubensousa.carioca.report.stage.scenario.InstrumentedTestScenario
+import com.rubensousa.carioca.report.stage.step.InstrumentedStepDelegate
+import com.rubensousa.carioca.report.stage.step.InstrumentedStepScope
+import com.rubensousa.carioca.report.storage.IdGenerator
+import com.rubensousa.carioca.report.storage.TestStorageProvider
 import org.junit.runner.Description
 import java.io.OutputStream
 
 
-interface TestReport {
+interface InstrumentedTestStage : InstrumentedStage {
 
-    fun getMetadata(): TestReportMetadata
+    fun getMetadata(): TestMetadata
 
-    fun getStageReports(): List<StageReport>
+    fun getStages(): List<InstrumentedStage>
 
     fun getAttachments(): List<ReportAttachment>
 
@@ -48,65 +53,48 @@ interface TestReport {
 
 }
 
-data class TestReportMetadata(
-    val execution: ExecutionMetadata,
-    val testId: String,
-    val testTitle: String,
-    val packageName: String,
-    val className: String,
-    val methodName: String,
-    val extra: Map<String, Any>,
-) {
-
-    fun getTestFullName(): String {
-        return "$className.$methodName"
-    }
-
-}
-
-internal class TestReportImpl(
+internal class InstrumentedTestStageImpl(
     val id: String,
-    val recordingOptions: RecordingOptions,
-    val screenshotOptions: ScreenshotOptions,
     val title: String,
     val methodName: String,
     val className: String,
     val packageName: String,
-    val reporter: CariocaInstrumentedReporter,
-    private val interceptors: List<CariocaInterceptor>,
-) : StageReport(), TestReport, TestReportScope {
+    private val recordingOptions: RecordingOptions,
+    private val screenshotOptions: ScreenshotOptions,
+    private val reporter: CariocaInstrumentedReporter,
+    private val interceptors: List<CariocaInstrumentedInterceptor>,
+) : AbstractStage(), InstrumentedTestStage, InstrumentedTestScope {
 
     private val extraMetadata = mutableMapOf<String, Any>()
-    private val stageReports = mutableListOf<StageReport>()
+    private val stages = mutableListOf<InstrumentedStage>()
     private val attachments = mutableListOf<ReportAttachment>()
     private val outputDir = TestStorageProvider.getTestOutputDir(this, reporter)
-    private val stepDelegate = StepReportDelegate(
-        report = this,
+    private val stepDelegate = InstrumentedStepDelegate(
         outputPath = outputDir,
         interceptors = interceptors,
         reporter = reporter,
         screenshotOptions = screenshotOptions
     )
-    private var currentScenario: ScenarioReportImpl? = null
+    private var currentScenario: InstrumentedScenarioStageImpl? = null
     private var screenRecording: ReportRecording? = null
 
-    override fun step(title: String, id: String?, action: StepReportScope.() -> Unit) {
+    override fun step(title: String, id: String?, action: InstrumentedStepScope.() -> Unit) {
         val step = stepDelegate.createStep(title, id)
-        stageReports.add(step)
+        stages.add(step)
         stepDelegate.executeStep(action)
     }
 
-    override fun scenario(scenario: TestScenario) {
+    override fun scenario(scenario: InstrumentedTestScenario) {
         stepDelegate.clearStep()
         currentScenario = null
         val scenarioReport = createScenarioReport(scenario)
-        stageReports.add(scenarioReport)
-        intercept { onScenarioStarted(this@TestReportImpl, scenarioReport) }
+        stages.add(scenarioReport)
+        intercept { onStageStarted(this@InstrumentedTestStageImpl) }
         scenarioReport.report(scenario)
-        intercept { onScenarioPassed(this@TestReportImpl, scenarioReport) }
+        intercept { onStagePassed(this@InstrumentedTestStageImpl) }
     }
 
-    override fun getStageReports(): List<StageReport> = stageReports.toList()
+    override fun getStages(): List<InstrumentedStage> = stages.toList()
 
     override fun getAttachments(): List<ReportAttachment> = attachments.toList()
 
@@ -118,9 +106,8 @@ internal class TestReportImpl(
         attachments.add(attachment)
     }
 
-    override fun getMetadata(): TestReportMetadata {
-        return TestReportMetadata(
-            execution = getExecutionMetadata(),
+    override fun getMetadata(): TestMetadata {
+        return TestMetadata(
             testId = id,
             testTitle = title,
             packageName = packageName,
@@ -136,7 +123,7 @@ internal class TestReportImpl(
     }
 
     internal fun starting(description: Description) {
-        intercept { onTestStarted(this@TestReportImpl, description) }
+        intercept { onTestStarted(this@InstrumentedTestStageImpl, description) }
         if (recordingOptions.enabled) {
             val filename = reporter.getRecordingName(IdGenerator.get())
             screenRecording = DeviceScreenRecorder.startRecording(
@@ -147,7 +134,7 @@ internal class TestReportImpl(
         }
     }
 
-    internal fun failed(error: Throwable, description: Description) {
+    internal fun failed(error: Throwable) {
         screenRecording?.let {
             attachments.add(createRecordingAttachment(it))
             DeviceScreenRecorder.stopRecording(it, delete = false)
@@ -156,24 +143,24 @@ internal class TestReportImpl(
             step.fail(error)
             // Take a screenshot to record the state on failures
             step.screenshot("Failed")
-            intercept { onStepFailed(this@TestReportImpl, step) }
+            intercept { onStageFailed(step) }
         }
         currentScenario?.let { scenario ->
             scenario.fail(error)
-            intercept { onScenarioFailed(this@TestReportImpl, scenario) }
+            intercept { onStageFailed(scenario) }
         }
         stepDelegate.clearStep()
         currentScenario = null
         fail(error)
-        intercept { onTestFailed(this@TestReportImpl, error, description) }
+        intercept { onTestFailed(this@InstrumentedTestStageImpl) }
         writeReport()
     }
 
-    internal fun succeeded(description: Description) {
+    internal fun succeeded() {
         stepDelegate.clearStep()
         currentScenario = null
         pass()
-        intercept { onTestPassed(this@TestReportImpl, description) }
+        intercept { onTestPassed(this@InstrumentedTestStageImpl) }
         screenRecording?.let {
             val delete = !recordingOptions.keepOnSuccess
             DeviceScreenRecorder.stopRecording(
@@ -189,16 +176,16 @@ internal class TestReportImpl(
         writeReport()
     }
 
-    private fun createScenarioReport(scenario: TestScenario): ScenarioReportImpl {
-        return ScenarioReportImpl(
+    private fun createScenarioReport(scenario: InstrumentedTestScenario): InstrumentedScenarioStageImpl {
+        return InstrumentedScenarioStageImpl(
             id = getScenarioId(scenario),
             delegate = stepDelegate,
             name = scenario.name
         )
     }
 
-    private fun getScenarioId(scenario: TestScenario): String {
-        return scenario.getId() ?: IdGenerator.get()
+    private fun getScenarioId(scenario: InstrumentedTestScenario): String {
+        return scenario.id ?: IdGenerator.get()
     }
 
     private fun writeReport() {
@@ -213,7 +200,7 @@ internal class TestReportImpl(
         }
     }
 
-    private fun intercept(action: CariocaInterceptor.() -> Unit) {
+    private fun intercept(action: CariocaInstrumentedInterceptor.() -> Unit) {
         interceptors.intercept(action)
     }
 

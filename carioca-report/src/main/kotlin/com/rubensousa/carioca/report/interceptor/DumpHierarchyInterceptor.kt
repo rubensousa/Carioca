@@ -19,16 +19,14 @@ package com.rubensousa.carioca.report.interceptor
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.report.ReportAttachment
-import com.rubensousa.carioca.report.stage.TestReport
-import org.junit.runner.Description
+import com.rubensousa.carioca.report.stage.test.InstrumentedTestStage
 
-class DumpHierarchyInterceptor : CariocaInterceptor {
+class DumpHierarchyInterceptor : CariocaInstrumentedInterceptor {
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val file = "view_hierarchy.txt"
 
-    override fun onTestFailed(report: TestReport, error: Throwable, description: Description) {
-        super.onTestFailed(report, error, description)
+    override fun onTestFailed(report: InstrumentedTestStage) {
         try {
             val outputStream = report.getAttachmentOutputStream(file)
             device.dumpWindowHierarchy(outputStream)

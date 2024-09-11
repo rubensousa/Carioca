@@ -14,13 +14,9 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.stage
+package com.rubensousa.carioca.report.stage.scenario
 
-/**
- * The different status of every stage
- */
-enum class ExecutionStatus {
-    PASSED,
-    FAILED,
-    SKIPPED
-}
+data class InstrumentedScenarioMetadata(
+    val id: String,
+    val name: String,
+)

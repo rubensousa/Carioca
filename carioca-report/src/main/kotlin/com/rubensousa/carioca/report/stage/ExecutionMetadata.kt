@@ -17,10 +17,18 @@
 package com.rubensousa.carioca.report.stage
 
 /**
- * The different status of every stage
+ * Metadata for the execution for a test, step or scenario
+ *
+ * @param uniqueId the unique identifier for the stage. It changes across different executions
+ * @param failureCause if the stage failed, this contains the error thrown
+ * @param status the execution status of this stage
+ * @param startTime indicates when this stage started its execution
+ * @param endTime indicates when this stage stopped its execution
  */
-enum class ExecutionStatus {
-    PASSED,
-    FAILED,
-    SKIPPED
-}
+data class ExecutionMetadata(
+    val uniqueId: String,
+    val failureCause: Throwable?,
+    val status: ExecutionStatus,
+    val startTime: Long,
+    val endTime: Long,
+)

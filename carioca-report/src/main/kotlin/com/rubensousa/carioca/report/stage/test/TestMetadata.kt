@@ -14,13 +14,19 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report
+package com.rubensousa.carioca.report.stage.test
 
-import java.io.OutputStream
+data class TestMetadata(
+    val testId: String,
+    val testTitle: String,
+    val packageName: String,
+    val className: String,
+    val methodName: String,
+    val extra: Map<String, Any>,
+) {
 
-data class AttachmentRequest(
-    val description: String,
-    val mimeType: String,
-    val relativeFilePath: String,
-    val outputStream: OutputStream,
-)
+    fun getTestFullName(): String {
+        return "$className.$methodName"
+    }
+
+}

@@ -14,49 +14,46 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.internal
+package com.rubensousa.carioca.report.stage.step
 
 import com.rubensousa.carioca.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
+import com.rubensousa.carioca.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.report.interceptor.intercept
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.report.stage.StepReportImpl
-import com.rubensousa.carioca.report.stage.StepReportScope
-import com.rubensousa.carioca.report.stage.TestReportImpl
+import com.rubensousa.carioca.report.storage.IdGenerator
 
-internal class StepReportDelegate(
-    private val report: TestReportImpl,
+internal class InstrumentedStepDelegate(
     private val outputPath: String,
     private val screenshotOptions: ScreenshotOptions,
-    private val interceptors: List<CariocaInterceptor>,
+    private val interceptors: List<CariocaInstrumentedInterceptor>,
     private val reporter: CariocaInstrumentedReporter,
 ) {
 
-    var currentStep: StepReportImpl? = null
+    var currentStep: InstrumentedStepStageImpl? = null
         private set
 
     fun clearStep() {
         currentStep = null
     }
 
-    fun createStep(title: String, id: String?): StepReportImpl {
-        val stepReport = createStepReport(title, id)
+    fun createStep(title: String, id: String?): InstrumentedStepStageImpl {
+        val stepReport = buildStep(title, id)
         currentStep = stepReport
-        interceptors.intercept { onStepStarted(report, stepReport) }
+        interceptors.intercept { onStageStarted(stepReport) }
         return stepReport
     }
 
-    fun executeStep(action: StepReportScope.() -> Unit) {
+    fun executeStep(action: InstrumentedStepScope.() -> Unit) {
         val step = requireNotNull(currentStep)
         step.report(action)
-        interceptors.intercept { onStepPassed(report, step) }
+        interceptors.intercept { onStagePassed(step) }
         currentStep = null
     }
 
-    private fun createStepReport(title: String, id: String?): StepReportImpl {
+    private fun buildStep(title: String, id: String?): InstrumentedStepStageImpl {
         val uniqueId = IdGenerator.get()
         val stepId = id ?: uniqueId
-        val step = StepReportImpl(
+        val step = InstrumentedStepStageImpl(
             id = stepId,
             outputPath = outputPath,
             title = title,

@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.internal
+package com.rubensousa.carioca.report.storage
 
 import android.net.Uri
 import androidx.test.platform.io.PlatformTestStorageRegistry
 import com.rubensousa.carioca.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.report.stage.TestReportImpl
+import com.rubensousa.carioca.report.stage.test.InstrumentedTestStageImpl
 import java.io.OutputStream
 
 internal object TestStorageProvider {
@@ -35,7 +35,7 @@ internal object TestStorageProvider {
     }
 
     fun getTestOutputDir(
-        report: TestReportImpl,
+        report: InstrumentedTestStageImpl,
         reporter: CariocaInstrumentedReporter,
     ): String {
         return "${getRootOutputDir().path}/${reporter.getOutputDir(report)}"

@@ -18,26 +18,29 @@ package com.rubensousa.carioca.report
 
 import android.annotation.SuppressLint
 import androidx.test.internal.runner.listener.InstrumentationRunListener
-import com.rubensousa.carioca.report.internal.TestReportBuilder
+import com.rubensousa.carioca.report.suite.SuiteReportRegistry
 import org.junit.runner.Description
 import org.junit.runner.Result
 
+/**
+ * Use this if you're interested in test suite reports.
+ *
+ * Please note that this does not work if you run tests using test orchestrator.
+ */
 @Suppress("unused")
 @SuppressLint("RestrictedApi")
 class CariocaInstrumentedListener : InstrumentationRunListener() {
 
-    private val reportBuilder = TestReportBuilder
+    private val stage = SuiteReportRegistry.getSuiteStage()
 
     override fun testRunStarted(description: Description) {
         super.testRunStarted(description)
-        reportBuilder.reset()
+        stage.clear()
     }
 
     override fun testRunFinished(result: Result) {
         super.testRunFinished(result)
-        // TODO: compile final suite report
-        // val report = reportBuilder.buildSuiteReport()
-        // TestReportWriter.write(report)
+        stage.writeReport(result)
     }
 
 }

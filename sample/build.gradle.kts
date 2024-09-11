@@ -50,9 +50,9 @@ android {
         jvmTarget = "1.8"
     }
 
-    testOptions {
+ /*   testOptions {
         execution = "ANDROIDX_TEST_ORCHESTRATOR"
-    }
+    }*/
 
 }
 

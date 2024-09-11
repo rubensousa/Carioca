@@ -14,45 +14,40 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.stage
+package com.rubensousa.carioca.report.stage.step
 
 import com.rubensousa.carioca.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.report.ReportAttachment
-import com.rubensousa.carioca.report.internal.IdGenerator
-import com.rubensousa.carioca.report.internal.StepReportDelegate
-import com.rubensousa.carioca.report.internal.TestStorageProvider
 import com.rubensousa.carioca.report.screenshot.DeviceScreenshot
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
+import com.rubensousa.carioca.report.stage.AbstractStage
+import com.rubensousa.carioca.report.stage.InstrumentedStage
+import com.rubensousa.carioca.report.storage.IdGenerator
+import com.rubensousa.carioca.report.storage.TestStorageProvider
 
-interface StepReport {
+interface InstrumentedStepStage : InstrumentedStage {
 
-    fun getSteps(): List<StepReport>
+    fun getStages(): List<InstrumentedStage>
 
     fun getAttachments(): List<ReportAttachment>
 
-    fun getMetadata(): StepReportMetadata
+    fun getMetadata(): InstrumentedStepMetadata
 
 }
 
-data class StepReportMetadata(
-    val id: String,
-    val title: String,
-    val execution: ExecutionMetadata,
-)
-
-internal class StepReportImpl(
+internal class InstrumentedStepStageImpl(
     val id: String,
     val outputPath: String,
     val title: String,
-    private val delegate: StepReportDelegate,
+    private val delegate: InstrumentedStepDelegate,
     private val screenshotOptions: ScreenshotOptions,
     private val reporter: CariocaInstrumentedReporter,
-) : StageReport(), StepReport, StepReportScope {
+) : AbstractStage(), InstrumentedStepStage, InstrumentedStepScope {
 
     private val attachments = mutableListOf<ReportAttachment>()
-    private val steps = mutableListOf<StepReportImpl>()
+    private val steps = mutableListOf<InstrumentedStage>()
 
-    override fun step(title: String, action: StepReportScope.() -> Unit) {
+    override fun step(title: String, action: InstrumentedStepScope.() -> Unit) {
         val step = delegate.createStep(title, null)
         steps.add(step)
         delegate.executeStep(action)
@@ -62,19 +57,19 @@ internal class StepReportImpl(
         takeScreenshot(description)?.let { attachments.add(it) }
     }
 
-    override fun getSteps() = steps.toList()
+    override fun getStages() = steps.toList()
 
     override fun getAttachments(): List<ReportAttachment> = attachments.toList()
 
-    override fun getMetadata(): StepReportMetadata {
-        return StepReportMetadata(
+    override fun getMetadata(): InstrumentedStepMetadata {
+        return InstrumentedStepMetadata(
             id = id,
             title = title,
             execution = getExecutionMetadata()
         )
     }
 
-    fun report(action: StepReportScope.() -> Unit) {
+    fun report(action: InstrumentedStepScope.() -> Unit) {
         action.invoke(this)
         pass()
     }

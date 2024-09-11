@@ -20,25 +20,25 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.report.TestId
 import com.rubensousa.carioca.report.TestTitle
-import com.rubensousa.carioca.report.stage.ScenarioReportScope
-import com.rubensousa.carioca.report.stage.TestScenario
-import com.rubensousa.carioca.report.stage.given
-import com.rubensousa.carioca.report.stage.then
-import com.rubensousa.carioca.report.stage.`when`
+import com.rubensousa.carioca.report.stage.scenario.InstrumentedScenarioScope
+import com.rubensousa.carioca.report.stage.scenario.InstrumentedTestScenario
+import com.rubensousa.carioca.report.stage.test.Given
+import com.rubensousa.carioca.report.stage.test.Then
+import com.rubensousa.carioca.report.stage.test.When
 import org.junit.Rule
 import org.junit.Test
 
 class SampleTest {
 
     @get:Rule
-    val reportRule = SampleInstrumentedReportRule()
+    val report = SampleInstrumentedReportRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     @TestId("This is a persistent test id")
     @TestTitle("Opening notification and quick settings works")
     @Test
-    fun testSuccessfulTest() = reportRule.report {
+    fun testSuccessfulTest() = report {
         scenario(SampleScreenScenario())
 
         step("Open notification and quick settings") {
@@ -63,7 +63,7 @@ class SampleTest {
     @TestId(id = "This is a persistent test id 2")
     @TestTitle("Opening notification and quick settings")
     @Test
-    fun testFailedTest() = reportRule.report {
+    fun testFailedTest() = report {
         scenario(SampleScreenScenario())
 
         step("Open notification") {
@@ -76,55 +76,58 @@ class SampleTest {
     }
 
     @Test
-    fun testGivenWhenThen() = reportRule.report {
+    fun testGivenWhenThen() = report {
 
-        given("User opens notifications") {
+        Given("User opens notifications") {
             device.openNotification()
             screenshot("Notification")
         }
 
-        `when`("User presses home") {
+        When("User presses home") {
             device.pressHome()
-            step("Wait for dismissal") {
-                Thread.sleep(1000L)
-            }
+            scenario(WaitDismissScenario())
         }
 
-        then("Launcher is displayed") {
+        Then("Launcher is displayed") {
             screenshot("Launcher")
         }
     }
 
     @Test
-    fun testGivenWhenThenScenario() = reportRule.report {
+    fun testGivenWhenThenScenario() = report {
 
-        given(OpenNotificationScenario())
+        Given(OpenNotificationScenario())
 
-        `when`("User presses home") {
+        When("User presses home") {
             device.pressHome()
-            step("Wait for dismissal") {
-                Thread.sleep(1000L)
-            }
+            scenario(WaitDismissScenario())
         }
 
-        then("Launcher is displayed") {
+        Then("Launcher is displayed") {
             screenshot("Launcher")
         }
     }
 
-    private class OpenNotificationScenario(
-        override val name: String = "Open notification",
-    ) : TestScenario {
+    private class OpenNotificationScenario : InstrumentedTestScenario("Open Notification") {
 
         private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
-        override fun report(scope: ScenarioReportScope) = with(scope) {
+        override fun run(scope: InstrumentedScenarioScope) = with(scope) {
             step("Request notification open") {
                 device.openNotification()
             }
             step("Wait for animation") {
                 Thread.sleep(1000L)
                 screenshot("Notification")
+            }
+        }
+    }
+
+    private class WaitDismissScenario : InstrumentedTestScenario("Wait for dismissal") {
+
+        override fun run(scope: InstrumentedScenarioScope) = with(scope) {
+            step("Wait for dismissal") {
+                Thread.sleep(1000L)
             }
         }
     }
