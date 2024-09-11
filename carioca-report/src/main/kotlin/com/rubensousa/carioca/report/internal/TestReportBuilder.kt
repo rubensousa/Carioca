@@ -16,20 +16,20 @@
 
 package com.rubensousa.carioca.report.internal
 
-import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
-import com.rubensousa.carioca.report.annotations.TestId
-import com.rubensousa.carioca.report.annotations.TestTitle
+import com.rubensousa.carioca.report.TestId
+import com.rubensousa.carioca.report.TestTitle
+import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.recording.RecordingOptions
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.report.stage.ReportStatus
-import com.rubensousa.carioca.report.stage.TestReport
+import com.rubensousa.carioca.report.stage.ExecutionStatus
+import com.rubensousa.carioca.report.stage.TestReportImpl
 import com.rubensousa.carioca.report.stage.TestSuiteReport
 import org.junit.runner.Description
 
 internal object TestReportBuilder {
 
-    private val tests = mutableListOf<TestReport>()
+    private val tests = mutableListOf<TestReportImpl>()
     private var startTime = System.currentTimeMillis()
 
     // TODO: Get the previous test if this test was retried with a retry rule
@@ -39,8 +39,8 @@ internal object TestReportBuilder {
         screenshotOptions: ScreenshotOptions,
         interceptors: List<CariocaInterceptor>,
         reporter: CariocaReporter,
-    ): TestReport {
-        val test = TestReport(
+    ): TestReportImpl {
+        val test = TestReportImpl(
             id = getTestId(description),
             title = getTestTitle(description),
             recordingOptions = recordingOptions,
@@ -62,15 +62,15 @@ internal object TestReportBuilder {
 
     // TODO: Write the suite report too, since we want to know the suite duration
     fun buildSuiteReport(): TestSuiteReport {
-        val hasAnyFailure = tests.any { it.status == ReportStatus.FAILED }
+        val hasAnyFailure = tests.any { it.getMetadata().execution.status == ExecutionStatus.FAILED }
         return TestSuiteReport(
             startTime = startTime,
             endTime = System.currentTimeMillis(),
             tests = tests.toList(),
             status = if (hasAnyFailure) {
-                ReportStatus.FAILED
+                ExecutionStatus.FAILED
             } else {
-                ReportStatus.PASSED
+                ExecutionStatus.PASSED
             },
             id = IdGenerator.get()
         )

@@ -17,57 +17,40 @@
 package com.rubensousa.carioca.report.stage
 
 import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.ReportAttachment
 import com.rubensousa.carioca.report.internal.IdGenerator
 import com.rubensousa.carioca.report.internal.StepReportDelegate
 import com.rubensousa.carioca.report.internal.TestStorageProvider
 import com.rubensousa.carioca.report.screenshot.DeviceScreenshot
-import com.rubensousa.carioca.report.screenshot.ReportScreenshot
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
 
-/**
- * Public API for a step block
- */
-interface StepReportScope {
+interface StepReport {
 
-    /**
-     * Takes a screenshot with the configuration set through [ScreenshotOptions].
-     *
-     * The generated file will be pulled from the device once the test runner finishes running all tests
-     *
-     * @param description the description of the screenshot for the report
-     */
-    fun screenshot(description: String)
+    fun getSteps(): List<StepReport>
 
-    /**
-     * Creates a nested step inside the current step
-     *
-     * @param title the name of the step
-     * @param action the step block that will be executed
-     */
-    fun step(title: String, action: StepReportScope.() -> Unit)
+    fun getAttachments(): List<ReportAttachment>
+
+    fun getMetadata(): StepReportMetadata
 
 }
 
-class StepReport internal constructor(
-    id: String,
+data class StepReportMetadata(
+    val id: String,
     val title: String,
+    val execution: ExecutionMetadata,
+)
+
+internal class StepReportImpl(
+    val id: String,
     val outputPath: String,
+    val title: String,
     private val delegate: StepReportDelegate,
     private val screenshotOptions: ScreenshotOptions,
     private val reporter: CariocaReporter,
-) : StageReport(id), StepReportScope {
+) : StageReport(), StepReport, StepReportScope {
 
-    private val screenshots = mutableListOf<ReportScreenshot>()
-    private val steps = mutableListOf<StepReport>()
-
-    fun getSteps() = steps.toList()
-
-    override fun screenshot(description: String) {
-        val screenshot = takeScreenshot(description)
-        if (screenshot != null) {
-            screenshots.add(screenshot)
-        }
-    }
+    private val attachments = mutableListOf<ReportAttachment>()
+    private val steps = mutableListOf<StepReportImpl>()
 
     override fun step(title: String, action: StepReportScope.() -> Unit) {
         val step = delegate.createStep(title, null)
@@ -75,26 +58,50 @@ class StepReport internal constructor(
         delegate.executeStep(action)
     }
 
-    internal fun report(action: StepReportScope.() -> Unit) {
+    override fun screenshot(description: String) {
+        takeScreenshot(description)?.let { attachments.add(it) }
+    }
+
+    override fun getSteps() = steps.toList()
+
+    override fun getAttachments(): List<ReportAttachment> = attachments.toList()
+
+    override fun getMetadata(): StepReportMetadata {
+        return StepReportMetadata(
+            id = id,
+            title = title,
+            execution = getExecutionMetadata()
+        )
+    }
+
+    fun report(action: StepReportScope.() -> Unit) {
         action.invoke(this)
         pass()
     }
 
-    fun getScreenshots(): List<ReportScreenshot> {
-        return screenshots.toList()
-    }
-
-    private fun takeScreenshot(description: String): ReportScreenshot? {
+    private fun takeScreenshot(description: String): ReportAttachment? {
         val screenshotUri = DeviceScreenshot.take(
             storageDir = TestStorageProvider.getOutputUri(outputPath),
             options = screenshotOptions,
             filename = reporter.getScreenshotName(IdGenerator.get())
         ) ?: return null
-        return ReportScreenshot(
+        return ReportAttachment(
             path = screenshotUri.path!!,
             description = description,
-            extension = screenshotOptions.getFileExtension()
+            mimeType = getScreenshotMimeType(),
         )
     }
 
+    private fun getScreenshotMimeType(): String {
+        return when (screenshotOptions.getFileExtension()) {
+            ".png" -> "image/png"
+            ".webp" -> "image/webp"
+            else -> "image/jpg"
+        }
+    }
+
+    override fun toString(): String {
+        return "Step: $title - $id"
+    }
 }
+

@@ -19,9 +19,9 @@ package com.rubensousa.carioca.report
 import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.internal.TestReportBuilder
 import com.rubensousa.carioca.report.recording.RecordingOptions
-import com.rubensousa.carioca.report.stage.ReportTestScope
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.report.stage.TestReport
+import com.rubensousa.carioca.report.stage.TestReportImpl
+import com.rubensousa.carioca.report.stage.TestReportScope
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
@@ -29,10 +29,47 @@ import org.junit.runner.Description
 /**
  * A test rule that builds a detailed report for a test, including its steps.
  *
- * Start by calling [report] to start the report. Then use either [ReportTestScope.step] or [ReportTestScope.scenario]
- * to start describing the report in detail
+ * Start by calling [report] to start the report. Then use either [TestReportScope.step] or [TestReportScope.scenario]
+ * to start describing the report in detail.
  *
- * Extend this class to provide a default report configuration across all tests
+ * You can also extend this class to provide a default report configuration across all tests:
+ *
+ * ```kotlin
+ * class SampleReportRule : CariocaReportRule(
+ *     reporter = CariocaAllureReporter(),
+ *     recordingOptions = RecordingOptions(
+ *         bitrate = 20_000_000,
+ *         resolutionScale = 1.0f,
+ *     ),
+ *     screenshotOptions = ScreenshotOptions(
+ *         scale = 1f
+ *     ),
+ *     interceptors = listOf(LoggerInterceptor(), DumpHierarchyInterceptor())
+ * )
+ * ```
+ *
+ * ```kotlin
+ *
+ * @get:Rule
+ * val reportRule = SampleReportRule()
+ *
+ * @Test
+ * fun sampleTest() = reportRule.report {
+ *     step("Open notification and quick settings") {
+ *         step("Open notification") {
+ *             device.openNotification()
+ *             screenshot("Notification bar visible")
+ *         }
+ *         step("Open quick settings") {
+ *             device.openQuickSettings()
+ *             screenshot("Quick settings displayed")
+ *         }
+ *     }
+ *     step("Press home") {
+ *         device.pressHome()
+ *     }
+ * }
+ * ```
  */
 open class CariocaReportRule(
     private val reporter: CariocaReporter,
@@ -41,7 +78,7 @@ open class CariocaReportRule(
     private val interceptors: List<CariocaInterceptor> = emptyList(),
 ) : TestWatcher() {
 
-    private var test: TestReport? = null
+    private var test: TestReportImpl? = null
     private val reportBuilder = TestReportBuilder
 
     final override fun starting(description: Description) {
@@ -68,11 +105,11 @@ open class CariocaReportRule(
         test = null
     }
 
-    fun report(block: ReportTestScope.() -> Unit) {
+    fun report(block: TestReportScope.() -> Unit) {
         block(getCurrentTest())
     }
 
-    private fun getCurrentTest(): TestReport {
+    private fun getCurrentTest(): TestReportImpl {
         return requireNotNull(test) { "Test not started yet" }
     }
 

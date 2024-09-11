@@ -18,6 +18,7 @@ package com.rubensousa.carioca.report.interceptor
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import com.rubensousa.carioca.report.ReportAttachment
 import com.rubensousa.carioca.report.stage.TestReport
 import org.junit.runner.Description
 
@@ -29,13 +30,15 @@ class DumpHierarchyInterceptor : CariocaInterceptor {
     override fun onTestFailed(report: TestReport, error: Throwable, description: Description) {
         super.onTestFailed(report, error, description)
         try {
-            val request = report.createAttachment(
-                filename = file,
-                description = "View hierarchy dump",
-                mimeType = "text/plain"
+            val outputStream = report.getAttachmentOutputStream(file)
+            device.dumpWindowHierarchy(outputStream)
+            report.attach(
+                ReportAttachment(
+                    description = "View hierarchy dump",
+                    path = file,
+                    mimeType = "text/plain"
+                )
             )
-            device.dumpWindowHierarchy(request.outputStream)
-            report.attach(request)
         } catch (exception: Exception) {
             // Do nothing
         }

@@ -16,30 +16,30 @@
 
 package com.rubensousa.carioca.report.internal
 
-import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.interceptor.intercept
-import com.rubensousa.carioca.report.stage.StepReportScope
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.report.stage.StepReport
-import com.rubensousa.carioca.report.stage.TestReport
+import com.rubensousa.carioca.report.stage.StepReportImpl
+import com.rubensousa.carioca.report.stage.StepReportScope
+import com.rubensousa.carioca.report.stage.TestReportImpl
 
 internal class StepReportDelegate(
-    private val report: TestReport,
+    private val report: TestReportImpl,
     private val outputPath: String,
     private val screenshotOptions: ScreenshotOptions,
     private val interceptors: List<CariocaInterceptor>,
     private val reporter: CariocaReporter,
 ) {
 
-    var currentStep: StepReport? = null
+    var currentStep: StepReportImpl? = null
         private set
 
     fun clearStep() {
         currentStep = null
     }
 
-    fun createStep(title: String, id: String?): StepReport {
+    fun createStep(title: String, id: String?): StepReportImpl {
         val stepReport = createStepReport(title, id)
         currentStep = stepReport
         interceptors.intercept { onStepStarted(report, stepReport) }
@@ -53,10 +53,10 @@ internal class StepReportDelegate(
         currentStep = null
     }
 
-    private fun createStepReport(title: String, id: String?): StepReport {
+    private fun createStepReport(title: String, id: String?): StepReportImpl {
         val uniqueId = IdGenerator.get()
         val stepId = id ?: uniqueId
-        val step = StepReport(
+        val step = StepReportImpl(
             id = stepId,
             outputPath = outputPath,
             title = title,

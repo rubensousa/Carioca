@@ -39,27 +39,27 @@ class LoggerInterceptor : CariocaInterceptor {
     }
 
     override fun onScenarioStarted(report: TestReport, scenario: ScenarioReport) {
-        log("Scenario started: ${scenario.id}")
+        log("Scenario started: $scenario")
     }
 
     override fun onScenarioPassed(report: TestReport, scenario: ScenarioReport) {
-        log("Scenario passed: ${scenario.id}")
+        log("Scenario passed: $scenario")
     }
 
     override fun onScenarioFailed(report: TestReport, scenario: ScenarioReport) {
-        log("Scenario failed: ${scenario.id}")
+        log("Scenario failed: $scenario")
     }
 
     override fun onStepStarted(report: TestReport, step: StepReport) {
-        log("Step started: ${step.title}")
+        log("Step started: $step")
     }
 
     override fun onStepPassed(report: TestReport, step: StepReport) {
-        log("Step passed: ${step.title}")
+        log("Step passed: $step")
     }
 
     override fun onStepFailed(report: TestReport, step: StepReport) {
-        log("Step failed: ${step.title}")
+        log("Step failed: $step")
     }
 
     private fun log(message: String) {

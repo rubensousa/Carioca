@@ -18,27 +18,33 @@ package com.rubensousa.carioca.report.stage
 
 import com.rubensousa.carioca.report.internal.IdGenerator
 
-abstract class StageReport(val id: String) {
+abstract class StageReport {
 
-    var status = ReportStatus.SKIPPED
-        private set
-
-    var startTime = System.currentTimeMillis()
-        private set
-
-    var endTime = startTime
-        private set
-
-    val executionId = IdGenerator.get()
+    private val executionId = IdGenerator.get()
+    private val startTime = System.currentTimeMillis()
+    private var endTime = startTime
+    private var status = ExecutionStatus.SKIPPED
+    private var failureCause: Throwable? = null
 
     internal fun pass() {
-        status = ReportStatus.PASSED
+        status = ExecutionStatus.PASSED
         saveEndTime()
     }
 
-    internal fun fail() {
-        status = ReportStatus.FAILED
+    internal fun fail(cause: Throwable) {
+        failureCause = cause
+        status = ExecutionStatus.FAILED
         saveEndTime()
+    }
+
+    internal fun getExecutionMetadata(): ExecutionMetadata {
+        return ExecutionMetadata(
+            uniqueId = executionId,
+            failureCause = failureCause,
+            status = status,
+            startTime = startTime,
+            endTime = endTime
+        )
     }
 
     private fun saveEndTime() {
@@ -46,3 +52,14 @@ abstract class StageReport(val id: String) {
     }
 
 }
+
+/**
+ * Metadata for the execution for a test, step or scenario
+ */
+data class ExecutionMetadata(
+    val uniqueId: String,
+    val failureCause: Throwable?,
+    val status: ExecutionStatus,
+    val startTime: Long,
+    val endTime: Long,
+)

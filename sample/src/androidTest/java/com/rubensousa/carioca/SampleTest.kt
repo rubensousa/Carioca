@@ -18,8 +18,8 @@ package com.rubensousa.carioca
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.report.annotations.TestId
-import com.rubensousa.carioca.report.annotations.TestTitle
+import com.rubensousa.carioca.report.TestId
+import com.rubensousa.carioca.report.TestTitle
 import org.junit.Rule
 import org.junit.Test
 
@@ -34,6 +34,7 @@ class SampleTest {
     @TestTitle("Opening notification and quick settings works")
     @Test
     fun testSuccessfulTest() = reportRule.report {
+
         scenario(SampleScreenScenario())
 
         step("Open notification and quick settings") {
@@ -46,6 +47,7 @@ class SampleTest {
                 screenshot("Quick settings displayed")
             }
         }
+
         step("Press home") {
             device.pressHome()
             sampleScreen {
@@ -54,7 +56,6 @@ class SampleTest {
             }
         }
     }
-
 
     @TestId(id = "This is a persistent test id 2")
     @TestTitle("Opening notification and quick settings")

@@ -18,12 +18,14 @@ package com.rubensousa.carioca.report.allure
 
 import com.rubensousa.carioca.report.CariocaReporter
 import com.rubensousa.carioca.report.ReportAttachment
-import com.rubensousa.carioca.report.stage.ReportStatus
+import com.rubensousa.carioca.report.stage.ExecutionStatus
 import com.rubensousa.carioca.report.stage.ScenarioReport
 import com.rubensousa.carioca.report.stage.StepReport
 import com.rubensousa.carioca.report.stage.TestReport
+import com.rubensousa.carioca.report.stage.TestReportMetadata
+import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.encodeToStream
 import java.io.BufferedOutputStream
 import java.io.OutputStream
 
@@ -32,12 +34,18 @@ class CariocaAllureReporter : CariocaReporter {
     private val stageValue = "finished"
     private val dirName = "allure-results"
 
+    @ExperimentalSerializationApi
+    private val json = Json {
+        prettyPrint = true
+        prettyPrintIndent = " "
+    }
+
     override fun getOutputDir(report: TestReport): String {
         return dirName
     }
 
     override fun getReportFilename(report: TestReport): String {
-        return report.executionId + "-result.json"
+        return report.getMetadata().execution.uniqueId + "-result.json"
     }
 
     override fun getScreenshotName(id: String): String {
@@ -52,25 +60,28 @@ class CariocaAllureReporter : CariocaReporter {
         return "$id-attachment"
     }
 
+    @ExperimentalSerializationApi
     override fun writeTestReport(report: TestReport, outputStream: OutputStream) {
         val allureReport = createReport(report)
         BufferedOutputStream(outputStream).use { stream ->
-            stream.write(Json.encodeToJsonElement(allureReport).toString().toByteArray())
+            json.encodeToStream(allureReport, stream)
             stream.flush()
         }
     }
 
     private fun createReport(report: TestReport): CariocaAllureReport {
+        val metadata = report.getMetadata()
+        val execution = metadata.execution
         return CariocaAllureReport(
-            uuid = report.executionId,
-            historyId = report.id,
-            testCaseId = report.id,
-            fullName = report.className + ".${report.methodName}",
+            uuid = execution.uniqueId,
+            historyId = metadata.testId,
+            testCaseId = metadata.testId,
+            fullName = metadata.getTestFullName(),
             links = emptyList(),
-            labels = createLabels(report),
-            name = report.title,
-            status = getStatus(report.status),
-            statusDetails = report.getFailureCause()?.let { error ->
+            labels = createLabels(metadata),
+            name = metadata.testTitle,
+            status = getStatus(execution.status),
+            statusDetails = execution.failureCause?.let { error ->
                 AllureStatusDetail(
                     known = false,
                     muted = false,
@@ -82,8 +93,8 @@ class CariocaAllureReporter : CariocaReporter {
             stage = stageValue,
             steps = createSteps(report),
             attachments = getAttachments(report),
-            start = report.startTime,
-            stop = report.endTime
+            start = execution.startTime,
+            stop = execution.endTime
         )
     }
 
@@ -101,14 +112,16 @@ class CariocaAllureReporter : CariocaReporter {
     }
 
     private fun createScenarioStep(report: ScenarioReport): AllureStep {
+        val metadata = report.getMetadata()
+        val execution = metadata.execution
         return AllureStep(
-            name = report.name,
-            status = getStatus(report.status),
+            name = metadata.name,
+            status = getStatus(execution.status),
             statusDetails = null,
             stage = stageValue,
             attachments = emptyList(),
-            start = report.startTime,
-            stop = report.endTime,
+            start = execution.startTime,
+            stop = execution.endTime,
             steps = report.getSteps().map { step ->
                 createStep(step)
             }
@@ -116,14 +129,16 @@ class CariocaAllureReporter : CariocaReporter {
     }
 
     private fun createStep(report: StepReport): AllureStep {
+        val metadata = report.getMetadata()
+        val execution = metadata.execution
         return AllureStep(
-            name = report.title,
-            status = getStatus(report.status),
+            name = metadata.title,
+            status = getStatus(execution.status),
             statusDetails = null,
             stage = stageValue,
             attachments = getAttachments(report),
-            start = report.startTime,
-            stop = report.endTime,
+            start = execution.startTime,
+            stop = execution.endTime,
             steps = report.getSteps().map { step ->
                 createStep(step)
             }
@@ -131,32 +146,11 @@ class CariocaAllureReporter : CariocaReporter {
     }
 
     private fun getAttachments(report: StepReport): List<AllureAttachment> {
-        val attachments = mutableListOf<AllureAttachment>()
-        report.getScreenshots().forEach { screenshot ->
-            attachments.add(
-                AllureAttachment(
-                    name = screenshot.description,
-                    source = getAttachmentPath(screenshot.path),
-                    type = getAttachmentType(screenshot.extension)
-                )
-            )
-        }
-        return attachments
+        return mapAttachments(report.getAttachments())
     }
 
     private fun getAttachments(report: TestReport): List<AllureAttachment> {
-        val attachments = mutableListOf<AllureAttachment>()
-        report.getRecording()?.let { recording ->
-            attachments.add(
-                AllureAttachment(
-                    name = "Screen recording",
-                    source = getAttachmentPath(recording.relativeFilePath),
-                    type = "video/mp4"
-                )
-            )
-        }
-        attachments.addAll(mapAttachments(report.getAttachments()))
-        return attachments
+        return mapAttachments(report.getAttachments())
     }
 
     private fun mapAttachments(list: List<ReportAttachment>): List<AllureAttachment> {
@@ -174,40 +168,31 @@ class CariocaAllureReporter : CariocaReporter {
         return path.replace("/$dirName/", "")
     }
 
-    private fun getAttachmentType(extension: String): String {
-        return when (extension) {
-            ".png" -> "image/png"
-            ".jpg" -> "image/jpg"
-            ".webp" -> "image/webp"
-            else -> "text"
-        }
-    }
-
-    private fun getStatus(reportStatus: ReportStatus): String {
-        return if (reportStatus == ReportStatus.PASSED) {
+    private fun getStatus(reportStatus: ExecutionStatus): String {
+        return if (reportStatus == ExecutionStatus.PASSED) {
             "passed"
         } else {
             "broken"
         }
     }
 
-    private fun createLabels(report: TestReport): List<AllureLabel> {
+    private fun createLabels(metadata: TestReportMetadata): List<AllureLabel> {
         return listOf(
             AllureLabel(
                 name = "package",
-                value = report.packageName
+                value = metadata.packageName
             ),
             AllureLabel(
                 name = "testClass",
-                value = report.className
+                value = metadata.className
             ),
             AllureLabel(
                 name = "testMethod",
-                value = report.methodName
+                value = metadata.methodName
             ),
             AllureLabel(
                 name = "suite",
-                value = report.className
+                value = metadata.className
             ),
             AllureLabel(
                 name = "framework",

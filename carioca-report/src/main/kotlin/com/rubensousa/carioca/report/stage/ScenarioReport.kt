@@ -18,22 +18,24 @@ package com.rubensousa.carioca.report.stage
 
 import com.rubensousa.carioca.report.internal.StepReportDelegate
 
-interface ScenarioReportScope {
-    /**
-     * Creates an individual section of a scenario
-     *
-     * @param title the name of the step
-     * @param id an optional persistent step id
-     * @param action the step block that will be executed
-     */
-    fun step(title: String, id: String? = null, action: StepReportScope.() -> Unit)
+interface ScenarioReport {
+
+    fun getSteps(): List<StepReport>
+
+    fun getMetadata(): ScenarioMetadata
 }
 
-class ScenarioReport internal constructor(
-    id: String,
+data class ScenarioMetadata(
+    val id: String,
+    val name: String,
+    val execution: ExecutionMetadata,
+)
+
+internal class ScenarioReportImpl(
+    val id: String,
     val name: String,
     private val delegate: StepReportDelegate,
-) : StageReport(id), ScenarioReportScope {
+) : StageReport(), ScenarioReport, ScenarioReportScope {
 
     private val steps = mutableListOf<StepReport>()
 
@@ -43,11 +45,22 @@ class ScenarioReport internal constructor(
         delegate.executeStep(action)
     }
 
-    fun getSteps() = steps.toList()
+    override fun getSteps() = steps.toList()
+
+    override fun getMetadata(): ScenarioMetadata {
+        return ScenarioMetadata(
+            id = id,
+            name = name,
+            execution = getExecutionMetadata()
+        )
+    }
 
     internal fun report(scenario: TestScenario) {
         scenario.report(this)
         pass()
     }
 
+    override fun toString(): String {
+        return "Scenario: $name - $id"
+    }
 }

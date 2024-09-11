@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.report.stage
 
-enum class ReportStatus {
+enum class ExecutionStatus {
     PASSED,
     FAILED,
     SKIPPED

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.annotations
+package com.rubensousa.carioca.report
 
 /**
  * A persistent identifier for a test. Used to track progress of different executions

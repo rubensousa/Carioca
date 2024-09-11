@@ -19,7 +19,7 @@ package com.rubensousa.carioca.report.internal
 import android.net.Uri
 import androidx.test.platform.io.PlatformTestStorageRegistry
 import com.rubensousa.carioca.report.CariocaReporter
-import com.rubensousa.carioca.report.stage.TestReport
+import com.rubensousa.carioca.report.stage.TestReportImpl
 import java.io.OutputStream
 
 internal object TestStorageProvider {
@@ -35,7 +35,7 @@ internal object TestStorageProvider {
     }
 
     fun getTestOutputDir(
-        report: TestReport,
+        report: TestReportImpl,
         reporter: CariocaReporter,
     ): String {
         return "${getRootOutputDir().path}/${reporter.getOutputDir(report)}"

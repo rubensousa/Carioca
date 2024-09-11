@@ -20,6 +20,6 @@ data class TestSuiteReport(
     val id: String,
     val startTime: Long,
     val endTime: Long,
-    val status: ReportStatus,
+    val status: ExecutionStatus,
     val tests: List<TestReport>,
 )
