@@ -17,7 +17,7 @@
 package com.rubensousa.carioca.report.stage
 
 import android.util.Log
-import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.report.ReportAttachment
 import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.interceptor.intercept
@@ -72,7 +72,7 @@ internal class TestReportImpl(
     val methodName: String,
     val className: String,
     val packageName: String,
-    val reporter: CariocaReporter,
+    val reporter: CariocaInstrumentedReporter,
     private val interceptors: List<CariocaInterceptor>,
 ) : StageReport(), TestReport, TestReportScope {
 

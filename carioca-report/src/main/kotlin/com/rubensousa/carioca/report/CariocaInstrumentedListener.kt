@@ -24,7 +24,7 @@ import org.junit.runner.Result
 
 @Suppress("unused")
 @SuppressLint("RestrictedApi")
-class CariocaReportListener : InstrumentationRunListener() {
+class CariocaInstrumentedListener : InstrumentationRunListener() {
 
     private val reportBuilder = TestReportBuilder
 

@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.report.stage
 
-import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.report.ReportAttachment
 import com.rubensousa.carioca.report.internal.IdGenerator
 import com.rubensousa.carioca.report.internal.StepReportDelegate
@@ -46,7 +46,7 @@ internal class StepReportImpl(
     val title: String,
     private val delegate: StepReportDelegate,
     private val screenshotOptions: ScreenshotOptions,
-    private val reporter: CariocaReporter,
+    private val reporter: CariocaInstrumentedReporter,
 ) : StageReport(), StepReport, StepReportScope {
 
     private val attachments = mutableListOf<ReportAttachment>()
@@ -103,5 +103,5 @@ internal class StepReportImpl(
     override fun toString(): String {
         return "Step: $title - $id"
     }
-}
 
+}

@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.report.internal
 
-import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.report.interceptor.CariocaInterceptor
 import com.rubensousa.carioca.report.interceptor.intercept
 import com.rubensousa.carioca.report.screenshot.ScreenshotOptions
@@ -29,7 +29,7 @@ internal class StepReportDelegate(
     private val outputPath: String,
     private val screenshotOptions: ScreenshotOptions,
     private val interceptors: List<CariocaInterceptor>,
-    private val reporter: CariocaReporter,
+    private val reporter: CariocaInstrumentedReporter,
 ) {
 
     var currentStep: StepReportImpl? = null

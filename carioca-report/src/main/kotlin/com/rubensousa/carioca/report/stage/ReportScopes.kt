@@ -32,12 +32,34 @@ interface TestReportScope {
      */
     fun step(title: String, id: String? = null, action: StepReportScope.() -> Unit)
 
+
     /**
      * Creates a report for a set of steps.
      * This is almost equivalent to calling [step] multiple times, but in a more re-usable way
      */
     fun scenario(scenario: TestScenario)
 
+}
+
+fun TestReportScope.given(
+    title: String,
+    action: StepReportScope.() -> Unit,
+) {
+    step("Given: $title", null, action)
+}
+
+fun TestReportScope.`when`(
+    title: String,
+    action: StepReportScope.() -> Unit,
+) {
+    step("When: $title", null, action)
+}
+
+fun TestReportScope.then(
+    title: String,
+    action: StepReportScope.() -> Unit,
+) {
+    step("Then: $title", null, action)
 }
 
 /**

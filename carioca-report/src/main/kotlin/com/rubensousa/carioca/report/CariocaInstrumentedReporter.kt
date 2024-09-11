@@ -21,9 +21,9 @@ import java.io.OutputStream
 
 /**
  * Implement this to generate your own test reports, in any format you want,
- * or use [CariocaJsonReporter] for a template json file
+ * or use [CariocaJsonInstrumentedReporter] for a template json file
  */
-interface CariocaReporter {
+interface CariocaInstrumentedReporter {
 
     /**
      * @param report the test report to be saved

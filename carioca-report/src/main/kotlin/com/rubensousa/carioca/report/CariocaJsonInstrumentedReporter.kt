@@ -31,7 +31,7 @@ import java.io.OutputStream
 /**
  * Represents the test report in a json format that can be used for analysing the test output
  */
-class CariocaJsonReporter : CariocaReporter {
+class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
 
     @ExperimentalSerializationApi
     private val json = Json {

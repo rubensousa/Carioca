@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.report.allure
 
-import com.rubensousa.carioca.report.CariocaReporter
+import com.rubensousa.carioca.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.report.ReportAttachment
 import com.rubensousa.carioca.report.stage.ExecutionStatus
 import com.rubensousa.carioca.report.stage.ScenarioReport
@@ -29,7 +29,7 @@ import kotlinx.serialization.json.encodeToStream
 import java.io.BufferedOutputStream
 import java.io.OutputStream
 
-class CariocaAllureReporter : CariocaReporter {
+class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
 
     private val stageValue = "finished"
     private val dirName = "allure-results"

@@ -20,13 +20,16 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.report.TestId
 import com.rubensousa.carioca.report.TestTitle
+import com.rubensousa.carioca.report.stage.given
+import com.rubensousa.carioca.report.stage.then
+import com.rubensousa.carioca.report.stage.`when`
 import org.junit.Rule
 import org.junit.Test
 
 class SampleTest {
 
     @get:Rule
-    val reportRule = SampleReportRule()
+    val reportRule = SampleInstrumentedReportRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
@@ -34,7 +37,6 @@ class SampleTest {
     @TestTitle("Opening notification and quick settings works")
     @Test
     fun testSuccessfulTest() = reportRule.report {
-
         scenario(SampleScreenScenario())
 
         step("Open notification and quick settings") {
@@ -69,6 +71,26 @@ class SampleTest {
         }
         step("Open quick settings") {
             throw IllegalStateException("Failed")
+        }
+    }
+
+    @Test
+    fun testGivenWhenThen() = reportRule.report {
+
+        given("User opens notifications") {
+            device.openNotification()
+            screenshot("Notification")
+        }
+
+        `when`("User presses home") {
+            device.pressHome()
+            step("Wait for dismissal") {
+                Thread.sleep(1000L)
+            }
+        }
+
+        then("Launcher is displayed") {
+            screenshot("Launcher")
         }
     }
 

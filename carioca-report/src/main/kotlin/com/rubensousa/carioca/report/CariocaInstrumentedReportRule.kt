@@ -71,8 +71,8 @@ import org.junit.runner.Description
  * }
  * ```
  */
-open class CariocaReportRule(
-    private val reporter: CariocaReporter,
+open class CariocaInstrumentedReportRule(
+    private val reporter: CariocaInstrumentedReporter,
     private val recordingOptions: RecordingOptions = RecordingOptions(),
     private val screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
     private val interceptors: List<CariocaInterceptor> = emptyList(),
