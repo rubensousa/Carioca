@@ -23,7 +23,7 @@ import com.rubensousa.carioca.report.stage.step.InstrumentedStepScope
 fun InstrumentedTestScope.Given(scenario: InstrumentedTestScenario) {
     scenario(
         object : InstrumentedTestScenario(
-            name = "Given: $scenario.name",
+            name = "Given: ${scenario.name}",
             id = scenario.id
         ) {
             override fun run(scope: InstrumentedScenarioScope) {
