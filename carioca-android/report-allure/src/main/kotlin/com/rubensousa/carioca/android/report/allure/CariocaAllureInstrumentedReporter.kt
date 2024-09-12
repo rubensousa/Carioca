@@ -17,8 +17,8 @@
 package com.rubensousa.carioca.android.report.allure
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.android.report.ReportAttachment
 import com.rubensousa.carioca.android.report.stage.InstrumentedStage
+import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
@@ -205,7 +205,7 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         return mapAttachments(stage.getAttachments())
     }
 
-    private fun mapAttachments(list: List<ReportAttachment>): List<AllureAttachment> {
+    private fun mapAttachments(list: List<StageAttachment>): List<AllureAttachment> {
         return list.map { attachment ->
             AllureAttachment(
                 name = attachment.description,

@@ -18,7 +18,6 @@ package com.rubensousa.carioca.android.report.stage.test
 
 import android.util.Log
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.android.report.ReportAttachment
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.recording.DeviceScreenRecorder
@@ -27,6 +26,7 @@ import com.rubensousa.carioca.android.report.recording.ReportRecording
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedStage
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageDelegate
+import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
@@ -50,7 +50,7 @@ class InstrumentedTest internal constructor(
 ) : InstrumentedStage<InstrumentedTestMetadata>(), InstrumentedTestScope {
 
     private val stageStack = StageStack()
-    private val attachments = mutableListOf<ReportAttachment>()
+    private val attachments = mutableListOf<StageAttachment>()
     private val outputDir = TestStorageProvider.getTestOutputDir(this, reporter)
     private val stageDelegate = InstrumentedStageDelegate(
         stack = stageStack,
@@ -163,8 +163,8 @@ class InstrumentedTest internal constructor(
         interceptors.intercept(action)
     }
 
-    private fun createRecordingAttachment(recording: ReportRecording): ReportAttachment {
-        return ReportAttachment(
+    private fun createRecordingAttachment(recording: ReportRecording): StageAttachment {
+        return StageAttachment(
             description = "Screen recording",
             path = recording.relativeFilePath,
             mimeType = "video/mp4"

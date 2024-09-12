@@ -18,7 +18,7 @@ package com.rubensousa.carioca.android.report.interceptor
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.ReportAttachment
+import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 
 class DumpViewHierarchyInterceptor : CariocaInstrumentedInterceptor {
@@ -31,7 +31,7 @@ class DumpViewHierarchyInterceptor : CariocaInstrumentedInterceptor {
             val outputStream = test.getAttachmentOutputStream(file)
             device.dumpWindowHierarchy(outputStream)
             test.attach(
-                ReportAttachment(
+                StageAttachment(
                     description = "View hierarchy dump",
                     path = file,
                     mimeType = "text/plain"

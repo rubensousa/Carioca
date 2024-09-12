@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.android.report
 
+import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
@@ -110,7 +111,7 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
         }
     }
 
-    private fun mapAttachments(attachments: List<ReportAttachment>): List<AttachmentJsonReport> {
+    private fun mapAttachments(attachments: List<StageAttachment>): List<AttachmentJsonReport> {
         return attachments.map { attachment ->
             AttachmentJsonReport(
                 description = attachment.description,

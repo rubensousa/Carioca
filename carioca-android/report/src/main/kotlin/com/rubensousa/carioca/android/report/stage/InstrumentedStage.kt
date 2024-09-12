@@ -16,21 +16,20 @@
 
 package com.rubensousa.carioca.android.report.stage
 
-import com.rubensousa.carioca.android.report.ReportAttachment
 import com.rubensousa.carioca.stage.AbstractCariocaStage
 import com.rubensousa.carioca.stage.CariocaStage
 
 abstract class InstrumentedStage<T> : AbstractCariocaStage() {
 
-    private val attachments = arrayListOf<ReportAttachment>()
+    private val attachments = arrayListOf<StageAttachment>()
     private val properties = mutableMapOf<String, Any>()
     private val stages = mutableListOf<CariocaStage>()
 
     abstract fun getMetadata(): T
 
-    fun getAttachments(): List<ReportAttachment> = attachments.toList()
+    fun getAttachments(): List<StageAttachment> = attachments.toList()
 
-    fun attach(attachment: ReportAttachment) {
+    fun attach(attachment: StageAttachment) {
         attachments.add(attachment)
     }
 

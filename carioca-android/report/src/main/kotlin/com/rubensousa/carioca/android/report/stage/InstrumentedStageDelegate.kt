@@ -17,7 +17,6 @@
 package com.rubensousa.carioca.android.report.stage
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.android.report.ReportAttachment
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.screenshot.DeviceScreenshot
@@ -81,13 +80,13 @@ internal class InstrumentedStageDelegate(
         interceptors.intercept { onStagePassed(scenario) }
     }
 
-    fun takeScreenshot(description: String): ReportAttachment? {
+    fun takeScreenshot(description: String): StageAttachment? {
         val screenshotUri = DeviceScreenshot.take(
             storageDir = TestStorageProvider.getOutputUri(outputPath),
             options = screenshotOptions,
             filename = reporter.getScreenshotName(FileIdGenerator.get())
         ) ?: return null
-        return ReportAttachment(
+        return StageAttachment(
             path = screenshotUri.path!!,
             description = description,
             mimeType = getScreenshotMimeType(),

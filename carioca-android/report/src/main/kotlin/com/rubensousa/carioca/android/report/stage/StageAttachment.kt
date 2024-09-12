@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report
+package com.rubensousa.carioca.android.report.stage
 
-data class ReportAttachment(
+data class StageAttachment(
     val description: String,
     val path: String,
     val mimeType: String,
