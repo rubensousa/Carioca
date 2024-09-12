@@ -18,9 +18,9 @@ package com.rubensousa.carioca.android.report.suite
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestStage
-import com.rubensousa.carioca.android.report.storage.IdGenerator
+import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
+import com.rubensousa.carioca.stage.ExecutionIdGenerator
 import com.rubensousa.carioca.stage.ExecutionMetadata
 import com.rubensousa.carioca.stage.ExecutionStatus
 import org.junit.runner.Result
@@ -29,7 +29,7 @@ internal interface SuiteStage {
 
     fun addTest(
         reporter: CariocaInstrumentedReporter,
-        stage: InstrumentedTestStage,
+        test: InstrumentedTest,
     )
 
     fun clear()
@@ -40,19 +40,19 @@ internal interface SuiteStage {
 
 internal class InstrumentedSuiteStage : SuiteStage {
 
-    private val tests = mutableListOf<InstrumentedTestStage>()
+    private val tests = mutableListOf<InstrumentedTest>()
     private val reporters = mutableMapOf<Class<*>, CariocaInstrumentedReporter>()
     private var startTime = 0L
 
     override fun addTest(
         reporter: CariocaInstrumentedReporter,
-        stage: InstrumentedTestStage,
+        test: InstrumentedTest,
     ) {
         reporters[reporter::class.java] = reporter
         if (startTime == 0L) {
             startTime = System.currentTimeMillis()
         }
-        tests.add(stage)
+        tests.add(test)
     }
 
     override fun writeReport(result: Result) {
@@ -71,7 +71,7 @@ internal class InstrumentedSuiteStage : SuiteStage {
         val report = TestSuiteReport(
             packageName = InstrumentationRegistry.getInstrumentation().targetContext.packageName,
             executionMetadata = ExecutionMetadata(
-                uniqueId = IdGenerator.get(),
+                uniqueId = ExecutionIdGenerator.get(),
                 failureCause = null,
                 status = if (result.wasSuccessful()) {
                     ExecutionStatus.PASSED

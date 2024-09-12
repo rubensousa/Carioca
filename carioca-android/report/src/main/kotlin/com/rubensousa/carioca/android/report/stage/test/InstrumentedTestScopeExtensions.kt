@@ -26,7 +26,7 @@ fun InstrumentedTestScope.Given(
 ) {
     scenario(
         object : InstrumentedTestScenario(
-            name = "Given: ${scenario.name}",
+            title = "Given: ${scenario.title}",
             id = scenario.id
         ) {
             override fun run(scope: InstrumentedScenarioScope) {

@@ -20,9 +20,12 @@ package com.rubensousa.carioca.android.report.stage.scenario
  * A re-usable set of stages that can be used across multiple tests.
  * Use this carefully and only when you have a stable
  * set of steps that need to execute in an consistent order
+ *
+ * @param title the description of this scenario
+ * @param id an optional persistent id for tracking multiple executions of this scenario
  */
 abstract class InstrumentedTestScenario(
-    val name: String,
+    val title: String,
     val id: String? = null,
 ) {
 

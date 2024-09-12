@@ -19,7 +19,7 @@ package com.rubensousa.carioca.android.report.storage
 import android.net.Uri
 import androidx.test.platform.io.PlatformTestStorageRegistry
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestStage
+import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import java.io.OutputStream
 
 object TestStorageProvider {
@@ -35,7 +35,7 @@ object TestStorageProvider {
     }
 
     fun getTestOutputDir(
-        test: InstrumentedTestStage,
+        test: InstrumentedTest,
         reporter: CariocaInstrumentedReporter,
     ): String {
         return "${getRootOutputDir().path}/${reporter.getOutputDir(test)}"

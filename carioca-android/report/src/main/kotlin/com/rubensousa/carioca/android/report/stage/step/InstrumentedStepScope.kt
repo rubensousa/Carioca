@@ -16,6 +16,8 @@
 
 package com.rubensousa.carioca.android.report.stage.step
 
+import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
+
 /**
  * Public API for a step block
  */
@@ -37,5 +39,11 @@ interface InstrumentedStepScope {
      * @param action the step block that will be executed
      */
     fun step(title: String, action: InstrumentedStepScope.() -> Unit)
+
+    /**
+     * Creates a report for a set of steps.
+     * This is almost equivalent to calling [step] multiple times, but in a more re-usable way
+     */
+    fun scenario(scenario: InstrumentedTestScenario)
 
 }

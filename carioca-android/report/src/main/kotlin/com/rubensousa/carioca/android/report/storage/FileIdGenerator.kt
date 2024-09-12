@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.test
+package com.rubensousa.carioca.android.report.storage
 
-data class TestMetadata(
-    val testId: String,
-    val testTitle: String,
-    val packageName: String,
-    val className: String,
-    val methodName: String,
-    val extra: Map<String, Any>,
-) {
+import java.util.UUID
 
-    fun getTestFullName(): String {
-        return "$packageName.$className.$methodName"
+internal object FileIdGenerator {
+
+    fun get(): String {
+        return UUID.randomUUID().toString()
     }
 
 }

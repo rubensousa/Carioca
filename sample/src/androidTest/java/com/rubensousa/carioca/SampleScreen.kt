@@ -24,7 +24,7 @@ fun sampleScreen(action: SampleScreen.() -> Unit) {
 }
 
 class SampleScreenScenario : InstrumentedTestScenario(
-    name = "Sample Scenario",
+    title = "Sample Scenario",
     id = "Persistent scenario id"
 ) {
 

@@ -20,7 +20,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
 import androidx.test.platform.app.InstrumentationRegistry
-import com.rubensousa.carioca.android.report.storage.IdGenerator
+import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import java.io.BufferedOutputStream
 import java.io.IOException
@@ -46,7 +46,7 @@ object DeviceScreenshot {
             return null
         }
         try {
-            val screenshotName = filename ?: IdGenerator.get()
+            val screenshotName = filename ?: FileIdGenerator.get()
             val path = storageDir.path!! + "/$screenshotName${options.getFileExtension()}"
             val outputUri = TestStorageProvider.getOutputUri(path)
             val outputStream = TestStorageProvider.getOutputStream(outputUri)

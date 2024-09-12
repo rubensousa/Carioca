@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.storage
+package com.rubensousa.carioca.android.report.stage.test
 
-import java.util.UUID
+import org.junit.runner.Description
 
-internal object IdGenerator {
+data class InstrumentedTestMetadata(
+    val description: Description,
+    val testId: String,
+    val testTitle: String,
+    val packageName: String,
+    val className: String,
+    val methodName: String,
+) {
 
-    fun get(): String {
-        return UUID.randomUUID().toString()
+    fun getTestFullName(): String {
+        return "$packageName.$className.$methodName"
     }
 
 }

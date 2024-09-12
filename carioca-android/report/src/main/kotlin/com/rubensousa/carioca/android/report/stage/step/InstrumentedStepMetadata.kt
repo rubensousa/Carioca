@@ -16,6 +16,10 @@
 
 package com.rubensousa.carioca.android.report.stage.step
 
+/**
+ * @param id unique id that identifies a step. By default, unique per execution
+ * @param title the description of a step
+ */
 data class InstrumentedStepMetadata(
     val id: String,
     val title: String,

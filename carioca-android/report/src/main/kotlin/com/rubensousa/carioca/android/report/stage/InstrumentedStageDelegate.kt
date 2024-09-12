@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.step
+package com.rubensousa.carioca.android.report.stage
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.ReportAttachment
@@ -22,11 +22,18 @@ import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInte
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.screenshot.DeviceScreenshot
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.storage.IdGenerator
+import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenario
+import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenarioMetadata
+import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
+import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
+import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepMetadata
+import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
+import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
+import com.rubensousa.carioca.stage.ExecutionIdGenerator
 import com.rubensousa.carioca.stage.StageStack
 
-internal class InstrumentedStepDelegate(
+internal class InstrumentedStageDelegate(
     private val stack: StageStack,
     private val reporter: CariocaInstrumentedReporter,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
@@ -34,27 +41,51 @@ internal class InstrumentedStepDelegate(
     private val screenshotOptions: ScreenshotOptions,
 ) {
 
-    fun create(title: String, id: String?): InstrumentedStepStageImpl {
-        val step = buildStep(title, id)
-        stack.push(step)
-        return step
+    fun createStep(title: String, id: String?): InstrumentedStep {
+        return InstrumentedStep(
+            metadata = InstrumentedStepMetadata(
+                id = getStepId(id),
+                title = title,
+            ),
+            stageDelegate = this
+        )
     }
 
-    fun execute(
-        step: InstrumentedStepStageImpl,
+    fun executeStep(
+        step: InstrumentedStep,
         action: InstrumentedStepScope.() -> Unit,
     ) {
+        stack.push(step)
         interceptors.intercept { onStageStarted(step) }
         step.execute(action)
         stack.pop()
         interceptors.intercept { onStagePassed(step) }
     }
 
+    fun createScenario(scenario: InstrumentedTestScenario): InstrumentedScenario {
+        return InstrumentedScenario(
+            metadata = InstrumentedScenarioMetadata(
+                id = getScenarioId(scenario),
+                title = scenario.title
+            ),
+            scenario = scenario,
+            stageDelegate = this
+        )
+    }
+
+    fun executeScenario(scenario: InstrumentedScenario) {
+        stack.push(scenario)
+        interceptors.intercept { onStageStarted(scenario) }
+        scenario.execute()
+        stack.pop()
+        interceptors.intercept { onStagePassed(scenario) }
+    }
+
     fun takeScreenshot(description: String): ReportAttachment? {
         val screenshotUri = DeviceScreenshot.take(
             storageDir = TestStorageProvider.getOutputUri(outputPath),
             options = screenshotOptions,
-            filename = reporter.getScreenshotName(IdGenerator.get())
+            filename = reporter.getScreenshotName(FileIdGenerator.get())
         ) ?: return null
         return ReportAttachment(
             path = screenshotUri.path!!,
@@ -63,23 +94,20 @@ internal class InstrumentedStepDelegate(
         )
     }
 
+    private fun getScenarioId(scenario: InstrumentedTestScenario): String {
+        return scenario.id ?: ExecutionIdGenerator.get()
+    }
+
+    private fun getStepId(id: String?): String {
+        return id ?: ExecutionIdGenerator.get()
+    }
+
     private fun getScreenshotMimeType(): String {
         return when (screenshotOptions.getFileExtension()) {
             ".png" -> "image/png"
             ".webp" -> "image/webp"
             else -> "image/jpg"
         }
-    }
-
-    private fun buildStep(title: String, id: String?): InstrumentedStepStageImpl {
-        val uniqueId = IdGenerator.get()
-        val stepId = id ?: uniqueId
-        val step = InstrumentedStepStageImpl(
-            id = stepId,
-            title = title,
-            delegate = this,
-        )
-        return step
     }
 
 }

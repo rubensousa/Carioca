@@ -18,12 +18,14 @@ package com.rubensousa.carioca.android.report.allure
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.ReportAttachment
-import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenarioStage
-import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepStage
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestStage
-import com.rubensousa.carioca.android.report.stage.test.TestMetadata
+import com.rubensousa.carioca.android.report.stage.InstrumentedStage
+import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenario
+import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
+import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestMetadata
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.stage.CariocaStage
+import com.rubensousa.carioca.stage.ExecutionMetadata
 import com.rubensousa.carioca.stage.ExecutionStatus
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -42,12 +44,12 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         prettyPrintIndent = " "
     }
 
-    override fun getOutputDir(stage: InstrumentedTestStage): String {
+    override fun getOutputDir(test: InstrumentedTest): String {
         return dirName
     }
 
-    override fun getReportFilename(stage: InstrumentedTestStage): String {
-        return stage.getExecutionMetadata().uniqueId + "-result.json"
+    override fun getReportFilename(test: InstrumentedTest): String {
+        return test.getExecutionMetadata().uniqueId + "-result.json"
     }
 
     override fun getSuiteReportFilePath(report: TestSuiteReport): String {
@@ -67,8 +69,8 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
     }
 
     @ExperimentalSerializationApi
-    override fun writeTestReport(stage: InstrumentedTestStage, outputStream: OutputStream) {
-        val allureReport = createTestReport(stage)
+    override fun writeTestReport(test: InstrumentedTest, outputStream: OutputStream) {
+        val allureReport = createTestReport(test)
         BufferedOutputStream(outputStream).use { stream ->
             json.encodeToStream(allureReport, stream)
             stream.flush()
@@ -84,9 +86,9 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         }
     }
 
-    private fun createTestReport(report: InstrumentedTestStage): CariocaAllureReport {
-        val metadata = report.getMetadata()
-        val execution = report.getExecutionMetadata()
+    private fun createTestReport(test: InstrumentedTest): CariocaAllureReport {
+        val metadata = test.getMetadata()
+        val execution = test.getExecutionMetadata()
         return CariocaAllureReport(
             uuid = execution.uniqueId,
             historyId = metadata.testId,
@@ -96,18 +98,10 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
             labels = createLabels(metadata),
             name = metadata.testTitle,
             status = getStatus(execution.status),
-            statusDetails = execution.failureCause?.let { error ->
-                AllureStatusDetail(
-                    known = false,
-                    muted = false,
-                    flaky = false,
-                    message = error.message.orEmpty(),
-                    trace = error.stackTraceToString()
-                )
-            },
+            statusDetails = getStatusDetail(execution),
             stage = stageValue,
-            steps = createSteps(report),
-            attachments = getAttachments(report),
+            steps = test.getStages().mapNotNull { mapStage(it) },
+            attachments = getAttachments(test),
             start = execution.startTime,
             stop = execution.endTime
         )
@@ -150,27 +144,18 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun createSteps(report: InstrumentedTestStage): List<AllureStep> {
-        val steps = mutableListOf<AllureStep>()
-        val stages = report.getStages()
-        stages.forEach { stage ->
-            mapStage(stage)?.let { steps.add(it) }
-        }
-        return steps
-    }
-
-    private fun mapScenario(report: InstrumentedScenarioStage): AllureStep {
-        val metadata = report.getMetadata()
-        val execution = report.getExecutionMetadata()
+    private fun mapScenario(scenario: InstrumentedScenario): AllureStep {
+        val metadata = scenario.getMetadata()
+        val execution = scenario.getExecutionMetadata()
         return AllureStep(
-            name = metadata.name,
+            name = metadata.title,
             status = getStatus(execution.status),
-            statusDetails = null,
+            statusDetails = getStatusDetail(execution),
             stage = stageValue,
             attachments = emptyList(),
             start = execution.startTime,
             stop = execution.endTime,
-            steps = report.getStages().mapNotNull { step ->
+            steps = scenario.getStages().mapNotNull { step ->
                 mapStage(step)
             }
         )
@@ -178,19 +163,20 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
 
     private fun mapStage(stage: CariocaStage): AllureStep? {
         return when (stage) {
-            is InstrumentedStepStage -> mapStep(stage)
-            is InstrumentedScenarioStage -> mapScenario(stage)
+            is InstrumentedStep -> mapStep(stage)
+            is InstrumentedScenario -> mapScenario(stage)
+            is InstrumentedStage<*> -> mapUnknownStage(stage)
             else -> null
         }
     }
 
-    private fun mapStep(step: InstrumentedStepStage): AllureStep {
+    private fun mapStep(step: InstrumentedStep): AllureStep {
         val metadata = step.getMetadata()
         val execution = step.getExecutionMetadata()
         return AllureStep(
             name = metadata.title,
             status = getStatus(execution.status),
-            statusDetails = null,
+            statusDetails = getStatusDetail(execution),
             stage = stageValue,
             attachments = getAttachments(step),
             start = execution.startTime,
@@ -201,12 +187,22 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun getAttachments(report: InstrumentedStepStage): List<AllureAttachment> {
-        return mapAttachments(report.getAttachments())
+    private fun mapUnknownStage(stage: InstrumentedStage<*>): AllureStep {
+        val execution = stage.getExecutionMetadata()
+        return AllureStep(
+            name = stage.toString(),
+            status = getStatus(execution.status),
+            statusDetails = getStatusDetail(execution),
+            stage = stageValue,
+            attachments = getAttachments(stage),
+            start = execution.startTime,
+            stop = execution.endTime,
+            steps = stage.getStages().mapNotNull { childStage -> mapStage(childStage) }
+        )
     }
 
-    private fun getAttachments(report: InstrumentedTestStage): List<AllureAttachment> {
-        return mapAttachments(report.getAttachments())
+    private fun getAttachments(stage: InstrumentedStage<*>): List<AllureAttachment> {
+        return mapAttachments(stage.getAttachments())
     }
 
     private fun mapAttachments(list: List<ReportAttachment>): List<AllureAttachment> {
@@ -232,7 +228,7 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         }
     }
 
-    private fun createLabels(metadata: TestMetadata): List<AllureLabel> {
+    private fun createLabels(metadata: InstrumentedTestMetadata): List<AllureLabel> {
         return listOf(
             AllureLabel(
                 name = "package",
@@ -259,6 +255,21 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
                 value = "kotlin"
             ),
         )
+    }
+
+    private fun getStatusDetail(metadata: ExecutionMetadata): AllureStatusDetail? {
+        val failureCause = metadata.failureCause
+        return if (failureCause == null) {
+            null
+        } else {
+            AllureStatusDetail(
+                known = false,
+                muted = false,
+                flaky = false,
+                message = failureCause.message.orEmpty(),
+                trace = failureCause.stackTraceToString()
+            )
+        }
     }
 
 }

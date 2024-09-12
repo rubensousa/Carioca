@@ -80,7 +80,8 @@ class SampleTest {
     fun testGivenWhenThen() = report {
         Given("User opens notifications") {
             device.openNotification()
-            screenshot("Notification")
+            Thread.sleep(1000L)
+            screenshot("Notifications opened")
         }
 
         When("User presses home") {
@@ -130,10 +131,8 @@ class SampleTest {
 
     private class WaitDismissScenario : InstrumentedTestScenario("Wait for dismissal") {
 
-        override fun run(scope: InstrumentedScenarioScope) = with(scope) {
-            step("Wait for dismissal") {
-                Thread.sleep(1000L)
-            }
+        override fun run(scope: InstrumentedScenarioScope) {
+            Thread.sleep(1000L)
         }
     }
 

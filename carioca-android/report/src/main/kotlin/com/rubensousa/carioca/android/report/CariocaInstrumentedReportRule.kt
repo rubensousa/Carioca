@@ -17,10 +17,12 @@
 package com.rubensousa.carioca.android.report
 
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
+import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
+import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestMetadata
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestScope
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestStageImpl
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
 import com.rubensousa.carioca.android.report.suite.SuiteStage
 import com.rubensousa.carioca.stage.TestId
@@ -78,14 +80,14 @@ open class CariocaInstrumentedReportRule(
     private val reporter: CariocaInstrumentedReporter,
     private val recordingOptions: RecordingOptions = RecordingOptions(),
     private val screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
-    private val interceptors: List<CariocaInstrumentedInterceptor> = emptyList(),
+    private val interceptors: List<CariocaInstrumentedInterceptor> = listOf(DumpViewHierarchyInterceptor()),
 ) : TestWatcher() {
 
-    private var testStage: InstrumentedTestStageImpl? = null
+    private var testStage: InstrumentedTest? = null
     private val suiteStage: SuiteStage = SuiteReportRegistry.getSuiteStage()
 
     operator fun invoke(block: InstrumentedTestScope.() -> Unit) {
-        block(getCurrentStage())
+        block(getCurrentTest())
     }
 
     final override fun starting(description: Description) {
@@ -99,18 +101,18 @@ open class CariocaInstrumentedReportRule(
         )
         testStage = test
         suiteStage.addTest(reporter, test)
-        test.starting(description)
+        test.starting()
     }
 
     final override fun succeeded(description: Description) {
         super.succeeded(description)
-        getCurrentStage().succeeded()
+        getCurrentTest().succeeded()
         testStage = null
     }
 
     final override fun failed(e: Throwable, description: Description) {
         super.failed(e, description)
-        getCurrentStage().failed(e)
+        getCurrentTest().failed(e)
         testStage = null
     }
 
@@ -121,14 +123,18 @@ open class CariocaInstrumentedReportRule(
         screenshotOptions: ScreenshotOptions,
         interceptors: List<CariocaInstrumentedInterceptor>,
         reporter: CariocaInstrumentedReporter,
-    ): InstrumentedTestStageImpl {
-        return InstrumentedTestStageImpl(
-            id = getTestId(description),
-            title = getTestTitle(description),
-            recordingOptions = recordingOptions,
-            methodName = description.methodName,
-            className = description.testClass.name,
+    ): InstrumentedTest {
+        val metadata = InstrumentedTestMetadata(
+            description = description,
+            testId = getTestId(description),
+            testTitle = getTestTitle(description),
             packageName = description.testClass.`package`?.name ?: "",
+            className = description.testClass.name,
+            methodName = description.methodName
+        )
+        return InstrumentedTest(
+            metadata = metadata,
+            recordingOptions = recordingOptions,
             interceptors = interceptors,
             screenshotOptions = screenshotOptions,
             reporter = reporter
@@ -149,7 +155,7 @@ open class CariocaInstrumentedReportRule(
         return "${description.className}.${description.methodName}"
     }
 
-    private fun getCurrentStage(): InstrumentedTestStageImpl {
+    private fun getCurrentTest(): InstrumentedTest {
         return requireNotNull(testStage) { "Test not started yet" }
     }
 

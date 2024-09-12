@@ -17,36 +17,35 @@
 package com.rubensousa.carioca.android.report.interceptor
 
 import android.util.Log
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestStage
+import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.stage.CariocaStage
-import org.junit.runner.Description
 
 class LoggerInterceptor : CariocaInstrumentedInterceptor {
 
     private val tag = "CariocaLogger"
 
-    override fun onTestStarted(report: InstrumentedTestStage, description: Description) {
-        log("Test started: $description")
+    override fun onTestStarted(test: InstrumentedTest) {
+        log("Test started: $test")
     }
 
-    override fun onStageStarted(report: CariocaStage) {
-        log("Stage started: $report")
+    override fun onStageStarted(stage: CariocaStage) {
+        log("Stage started: $stage")
     }
 
-    override fun onStagePassed(report: CariocaStage) {
-        log("Stage passed: $report")
+    override fun onStagePassed(stage: CariocaStage) {
+        log("Stage passed: $stage")
     }
 
-    override fun onStageFailed(report: CariocaStage) {
-        log("Stage failed: $report")
+    override fun onStageFailed(stage: CariocaStage) {
+        log("Stage failed: $stage")
     }
 
-    override fun onTestFailed(report: InstrumentedTestStage) {
-        log("Test failed: $report", report.getExecutionMetadata().failureCause)
+    override fun onTestFailed(test: InstrumentedTest) {
+        log("Test failed: $test", test.getExecutionMetadata().failureCause)
     }
 
-    override fun onTestPassed(report: InstrumentedTestStage) {
-        log("Test passed: $report")
+    override fun onTestPassed(test: InstrumentedTest) {
+        log("Test passed: $test")
     }
 
     private fun log(message: String) {

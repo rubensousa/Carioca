@@ -18,7 +18,7 @@ package com.rubensousa.carioca
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReportRule
 import com.rubensousa.carioca.android.report.allure.CariocaAllureInstrumentedReporter
-import com.rubensousa.carioca.android.report.interceptor.DumpHierarchyInterceptor
+import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
 import com.rubensousa.carioca.android.report.interceptor.LoggerInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
@@ -39,5 +39,5 @@ class SampleInstrumentedReportRule : CariocaInstrumentedReportRule(
         scale = 0.5f,
         quality = 100
     ),
-    interceptors = listOf(LoggerInterceptor(), DumpHierarchyInterceptor())
+    interceptors = listOf(LoggerInterceptor(), DumpViewHierarchyInterceptor())
 )

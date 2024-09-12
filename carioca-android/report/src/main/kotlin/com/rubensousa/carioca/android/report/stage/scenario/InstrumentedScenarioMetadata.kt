@@ -18,5 +18,5 @@ package com.rubensousa.carioca.android.report.stage.scenario
 
 data class InstrumentedScenarioMetadata(
     val id: String,
-    val name: String,
+    val title: String,
 )
