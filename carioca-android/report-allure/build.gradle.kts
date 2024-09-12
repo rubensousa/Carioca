@@ -40,7 +40,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":carioca-report"))
+    implementation(project(":carioca-android:report"))
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

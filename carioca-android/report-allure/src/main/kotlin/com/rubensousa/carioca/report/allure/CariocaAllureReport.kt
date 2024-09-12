@@ -19,7 +19,7 @@ package com.rubensousa.carioca.report.allure
 import kotlinx.serialization.Serializable
 
 @Serializable
-internal data class CariocaAllureReport(
+data class CariocaAllureReport(
     val uuid: String,
     val historyId: String,
     val testCaseId: String,
@@ -38,7 +38,7 @@ internal data class CariocaAllureReport(
 )
 
 @Serializable
-internal data class AllureStep(
+data class AllureStep(
     val name: String,
     val status: String,
     val stage: String,
@@ -51,7 +51,7 @@ internal data class AllureStep(
 )
 
 @Serializable
-internal data class AllureStatusDetail(
+data class AllureStatusDetail(
     val known: Boolean,
     val muted: Boolean,
     val flaky: Boolean,
@@ -60,21 +60,21 @@ internal data class AllureStatusDetail(
 )
 
 @Serializable
-internal data class AllureAttachment(
+data class AllureAttachment(
     val name: String,
     val source: String,
     val type: String,
 )
 
 @Serializable
-internal data class AllureLink(
+data class AllureLink(
     val name: String,
     val url: String,
     val type: String,
 )
 
 @Serializable
-internal data class AllureLabel(
+data class AllureLabel(
     val name: String,
     val value: String
 )

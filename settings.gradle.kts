@@ -37,5 +37,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "carioca"
 include(":sample")
-include(":carioca-report")
-include(":carioca-report-allure")
+include(":carioca-android:report")
+include(":carioca-android:report-allure")

@@ -21,7 +21,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rubensousa.carioca.report"
+    namespace = "com.rubensousa.carioca.android.report"
     compileSdk = 34
 
     defaultConfig {
@@ -46,7 +46,9 @@ dependencies {
     implementation(libs.androidx.test.runner)
     implementation(libs.androidx.test.uiautomator)
     implementation(libs.kotlinx.serialization.json)
-    androidTestUtil(libs.androidx.test.services)
 
+    testImplementation(libs.truth)
     testImplementation(libs.junit)
+
+    androidTestUtil(libs.androidx.test.services)
 }

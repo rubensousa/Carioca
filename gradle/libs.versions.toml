@@ -10,6 +10,7 @@ testRules = "1.6.1"
 testRunner = "1.6.2"
 appcompat = "1.7.0"
 material = "1.12.0"
+truth = "1.4.4"
 uiautomator = '2.3.0'
 test-services = '1.5.0'
 orchestrator = '1.5.0'
@@ -27,6 +28,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -20,13 +20,13 @@ plugins {
 }
 
 android {
-    namespace = "com.rubensousa.carioca"
-    compileSdk = 34
+    namespace = "com.rubensousa.carioca.android.sample"
+    compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.rubensousa.carioca"
+        applicationId = "com.rubensousa.carioca.android.sample"
         minSdk = 21
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -64,8 +64,8 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.test.uiautomator)
-    androidTestImplementation(project(":carioca-report"))
-    androidTestImplementation(project(":carioca-report-allure"))
+    androidTestImplementation(project(":carioca-android:report"))
+    androidTestImplementation(project(":carioca-android:report-allure"))
     androidTestUtil(libs.androidx.test.services)
     androidTestUtil(libs.androidx.test.orchestrator)
 }
