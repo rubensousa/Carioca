@@ -16,8 +16,8 @@
 
 package com.rubensousa.carioca
 
-import com.rubensousa.carioca.report.stage.scenario.InstrumentedScenarioScope
-import com.rubensousa.carioca.report.stage.scenario.InstrumentedTestScenario
+import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenarioScope
+import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
 
 fun sampleScreen(action: SampleScreen.() -> Unit) {
     action(SampleScreen())

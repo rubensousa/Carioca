@@ -14,10 +14,20 @@
  * limitations under the License.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin.android) apply false
-    alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+package com.rubensousa.carioca.android.report.stage.scenario
+
+import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
+
+/**
+ * Public API for a scenario block
+ */
+interface InstrumentedScenarioScope {
+    /**
+     * Creates an individual section of a scenario
+     *
+     * @param title the name of the step
+     * @param id an optional persistent step id
+     * @param action the step block that will be executed
+     */
+    fun step(title: String, id: String? = null, action: InstrumentedStepScope.() -> Unit)
 }

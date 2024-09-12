@@ -32,7 +32,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
         testInstrumentationRunnerArguments["useTestStorageService"] = "true"
-        testInstrumentationRunnerArguments["listener"] = "com.rubensousa.carioca.report.CariocaInstrumentedListener"
+        testInstrumentationRunnerArguments["listener"] = "com.rubensousa.carioca.android.report.CariocaInstrumentedListener"
     }
 
     buildTypes {

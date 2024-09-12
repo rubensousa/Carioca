@@ -14,10 +14,19 @@
  * limitations under the License.
  */
 
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
-plugins {
-    alias(libs.plugins.android.application) apply false
-    alias(libs.plugins.kotlin.android) apply false
-    alias(libs.plugins.android.library) apply false
-    alias(libs.plugins.jetbrains.kotlin.jvm) apply false
+package com.rubensousa.carioca.android.report.stage.test
+
+data class TestMetadata(
+    val testId: String,
+    val testTitle: String,
+    val packageName: String,
+    val className: String,
+    val methodName: String,
+    val extra: Map<String, Any>,
+) {
+
+    fun getTestFullName(): String {
+        return "$className.$methodName"
+    }
+
 }

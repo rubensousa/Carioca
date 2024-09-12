@@ -39,3 +39,4 @@ rootProject.name = "carioca"
 include(":sample")
 include(":carioca-android:report")
 include(":carioca-android:report-allure")
+include(":carioca-stage")

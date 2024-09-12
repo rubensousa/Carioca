@@ -40,6 +40,7 @@ android {
 }
 
 dependencies {
+    api(project(":carioca-stage"))
     implementation(libs.androidx.junit)
     implementation(libs.androidx.test.rules)
     implementation(libs.androidx.espresso.core)
@@ -47,8 +48,7 @@ dependencies {
     implementation(libs.androidx.test.uiautomator)
     implementation(libs.kotlinx.serialization.json)
 
-    testImplementation(libs.truth)
-    testImplementation(libs.junit)
+    testImplementation(libs.bundles.test.unit)
 
     androidTestUtil(libs.androidx.test.services)
 }

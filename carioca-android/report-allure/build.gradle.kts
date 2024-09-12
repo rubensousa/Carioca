@@ -21,7 +21,7 @@ plugins {
 }
 
 android {
-    namespace = "com.rubensousa.carioca.report.allure"
+    namespace = "com.rubensousa.carioca.android.report.allure"
     compileSdk = 34
 
     defaultConfig {
