@@ -37,20 +37,20 @@ abstract class AbstractCariocaStage : CariocaStage {
         )
     }
 
-    fun pass() {
+    override fun pass() {
         ensureStageRunning()
         status = ExecutionStatus.PASSED
         saveEndTime()
     }
 
-    fun fail(cause: Throwable) {
+    override fun fail(cause: Throwable) {
         ensureStageRunning()
         failureCause = cause
         status = ExecutionStatus.FAILED
         saveEndTime()
     }
 
-    fun skip() {
+    override fun skip() {
         ensureStageRunning()
         status = ExecutionStatus.SKIPPED
     }

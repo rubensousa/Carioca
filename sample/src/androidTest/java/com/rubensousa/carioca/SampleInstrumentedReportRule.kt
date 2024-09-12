@@ -36,7 +36,8 @@ class SampleInstrumentedReportRule : CariocaInstrumentedReportRule(
         keepOnSuccess = true
     ),
     screenshotOptions = ScreenshotOptions(
-        scale = 1f
+        scale = 0.5f,
+        quality = 100
     ),
     interceptors = listOf(LoggerInterceptor(), DumpHierarchyInterceptor())
 )

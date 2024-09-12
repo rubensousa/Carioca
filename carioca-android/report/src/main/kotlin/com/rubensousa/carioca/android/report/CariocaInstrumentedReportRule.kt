@@ -73,7 +73,7 @@ import org.junit.runner.Description
  * ```
  */
 open class CariocaInstrumentedReportRule(
-    private val reporter: com.rubensousa.carioca.android.report.CariocaInstrumentedReporter,
+    private val reporter: CariocaInstrumentedReporter,
     private val recordingOptions: RecordingOptions = RecordingOptions(),
     private val screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
     private val interceptors: List<CariocaInstrumentedInterceptor> = emptyList(),
@@ -118,7 +118,7 @@ open class CariocaInstrumentedReportRule(
         recordingOptions: RecordingOptions,
         screenshotOptions: ScreenshotOptions,
         interceptors: List<CariocaInstrumentedInterceptor>,
-        reporter: com.rubensousa.carioca.android.report.CariocaInstrumentedReporter,
+        reporter: CariocaInstrumentedReporter,
     ): InstrumentedTestStageImpl {
         return InstrumentedTestStageImpl(
             id = getTestId(description),
@@ -134,12 +134,12 @@ open class CariocaInstrumentedReportRule(
     }
 
     private fun getTestId(description: Description): String {
-        val testId = description.getAnnotation(com.rubensousa.carioca.android.report.TestId::class.java)
+        val testId = description.getAnnotation(TestId::class.java)
         return testId?.id ?: getDefaultTestId(description)
     }
 
     private fun getTestTitle(description: Description): String {
-        val annotation = description.getAnnotation(com.rubensousa.carioca.android.report.TestTitle::class.java)
+        val annotation = description.getAnnotation(TestTitle::class.java)
         return annotation?.title ?: description.methodName
     }
 

@@ -14,18 +14,27 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.stage
 
-object SuiteReportRegistry {
+/**
+ * Holds the current state of the stage execution.
+ *
+ * The top of the stack points to the current active stage
+ */
+class StageStack {
 
-    private var suiteStage: SuiteStage = InstrumentedSuiteStage()
+    private val stack = ArrayDeque<CariocaStage>()
 
-    internal fun getSuiteStage(): SuiteStage {
-        return suiteStage
+    fun push(stage: CariocaStage) {
+        stack.addLast(stage)
     }
 
-    internal fun setSuiteStage(stage: SuiteStage) {
-        suiteStage = stage
+    fun pop(): CariocaStage? {
+        return stack.removeLastOrNull()
+    }
+
+    fun clear() {
+        stack.clear()
     }
 
 }

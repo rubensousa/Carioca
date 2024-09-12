@@ -16,18 +16,11 @@
 
 package com.rubensousa.carioca.android.report.stage.step
 
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.ReportAttachment
-import com.rubensousa.carioca.android.report.screenshot.DeviceScreenshot
-import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.storage.IdGenerator
-import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.stage.AbstractCariocaStage
 import com.rubensousa.carioca.stage.CariocaStage
 
 interface InstrumentedStepStage : CariocaStage {
-
-    fun getStages(): List<CariocaStage>
 
     fun getAttachments(): List<ReportAttachment>
 
@@ -37,27 +30,29 @@ interface InstrumentedStepStage : CariocaStage {
 
 internal class InstrumentedStepStageImpl(
     val id: String,
-    val outputPath: String,
     val title: String,
     private val delegate: InstrumentedStepDelegate,
-    private val screenshotOptions: ScreenshotOptions,
-    private val reporter: CariocaInstrumentedReporter,
 ) : AbstractCariocaStage(), InstrumentedStepStage, InstrumentedStepScope {
 
     private val attachments = mutableListOf<ReportAttachment>()
-    private val steps = mutableListOf<CariocaStage>()
+    private val stages = mutableListOf<CariocaStage>()
+
+    fun execute(action: InstrumentedStepScope.() -> Unit) {
+        action.invoke(this)
+        pass()
+    }
 
     override fun step(title: String, action: InstrumentedStepScope.() -> Unit) {
-        val step = delegate.createStep(title, null)
-        steps.add(step)
-        delegate.executeStep(action)
+        val step = delegate.create(title, null)
+        stages.add(step)
+        delegate.execute(step, action)
     }
 
     override fun screenshot(description: String) {
-        takeScreenshot(description)?.let { attachments.add(it) }
+        delegate.takeScreenshot(description)?.let { attachments.add(it) }
     }
 
-    override fun getStages() = steps.toList()
+    override fun getStages() = stages.toList()
 
     override fun getAttachments(): List<ReportAttachment> = attachments.toList()
 
@@ -66,32 +61,6 @@ internal class InstrumentedStepStageImpl(
             id = id,
             title = title,
         )
-    }
-
-    fun report(action: InstrumentedStepScope.() -> Unit) {
-        action.invoke(this)
-        pass()
-    }
-
-    private fun takeScreenshot(description: String): ReportAttachment? {
-        val screenshotUri = DeviceScreenshot.take(
-            storageDir = TestStorageProvider.getOutputUri(outputPath),
-            options = screenshotOptions,
-            filename = reporter.getScreenshotName(IdGenerator.get())
-        ) ?: return null
-        return ReportAttachment(
-            path = screenshotUri.path!!,
-            description = description,
-            mimeType = getScreenshotMimeType(),
-        )
-    }
-
-    private fun getScreenshotMimeType(): String {
-        return when (screenshotOptions.getFileExtension()) {
-            ".png" -> "image/png"
-            ".webp" -> "image/webp"
-            else -> "image/jpg"
-        }
     }
 
     override fun toString(): String {

@@ -15,6 +15,7 @@
  */
 
 package com.rubensousa.carioca.stage
+
 /**
  * The different status of every stage
  */

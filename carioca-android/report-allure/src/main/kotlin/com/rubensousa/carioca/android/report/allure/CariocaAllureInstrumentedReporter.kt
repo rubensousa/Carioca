@@ -170,8 +170,8 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
             attachments = emptyList(),
             start = execution.startTime,
             stop = execution.endTime,
-            steps = report.getSteps().map { step ->
-                mapStep(step)
+            steps = report.getStages().mapNotNull { step ->
+                mapStage(step)
             }
         )
     }

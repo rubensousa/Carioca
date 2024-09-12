@@ -16,48 +16,56 @@
 
 package com.rubensousa.carioca.android.report.stage.scenario
 
+import com.rubensousa.carioca.android.report.ReportAttachment
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepDelegate
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
-import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepStage
 import com.rubensousa.carioca.stage.AbstractCariocaStage
 import com.rubensousa.carioca.stage.CariocaStage
 
 interface InstrumentedScenarioStage : CariocaStage {
 
-    fun getSteps(): List<InstrumentedStepStage>
+    fun getAttachments(): List<ReportAttachment>
 
     fun getMetadata(): InstrumentedScenarioMetadata
+
 }
 
 internal class InstrumentedScenarioStageImpl(
-    val id: String,
-    val name: String,
+    private val id: String,
+    private val scenario: InstrumentedTestScenario,
     private val delegate: InstrumentedStepDelegate,
 ) : AbstractCariocaStage(), InstrumentedScenarioStage, InstrumentedScenarioScope {
 
-    private val steps = mutableListOf<InstrumentedStepStage>()
+    private val stages = mutableListOf<CariocaStage>()
+    private val attachments = mutableListOf<ReportAttachment>()
 
     override fun step(title: String, id: String?, action: InstrumentedStepScope.() -> Unit) {
-        val step = delegate.createStep(title, id)
-        steps.add(step)
-        delegate.executeStep(action)
+        val step = delegate.create(title, id)
+        stages.add(step)
+        delegate.execute(step, action)
     }
 
-    override fun getSteps() = steps.toList()
+    override fun screenshot(description: String) {
+        delegate.takeScreenshot(description)?.let { attachments.add(it) }
+    }
+
+    override fun getStages() = stages.toList()
 
     override fun getMetadata(): InstrumentedScenarioMetadata {
         return InstrumentedScenarioMetadata(
             id = id,
-            name = name,
+            name = scenario.name,
         )
     }
 
-    fun report(scenario: InstrumentedTestScenario) {
+    override fun getAttachments(): List<ReportAttachment> = attachments.toList()
+
+    fun execute() {
         scenario.run(this)
         pass()
     }
 
     override fun toString(): String {
-        return "Scenario: $name - $id"
+        return "Scenario: ${scenario.name} - $id"
     }
 }

@@ -20,7 +20,10 @@ import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
 
-fun InstrumentedTestScope.Given(scenario: InstrumentedTestScenario) {
+fun InstrumentedTestScope.Given(
+    scenario: InstrumentedTestScenario,
+    action: InstrumentedScenarioScope.() -> Unit = {},
+) {
     scenario(
         object : InstrumentedTestScenario(
             name = "Given: ${scenario.name}",
@@ -28,6 +31,7 @@ fun InstrumentedTestScope.Given(scenario: InstrumentedTestScenario) {
         ) {
             override fun run(scope: InstrumentedScenarioScope) {
                 scenario.run(scope)
+                action(scope)
             }
         }
     )

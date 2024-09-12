@@ -148,16 +148,16 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
     }
 
     private fun buildScenarioReport(scenario: InstrumentedScenarioStage): StageJsonReport {
-        val nestedSteps = mutableListOf<StageJsonReport>()
-        scenario.getSteps().forEach { nestedStep ->
-            nestedSteps.add(buildStepReport(nestedStep))
+        val nestedStages = mutableListOf<StageJsonReport>()
+        scenario.getStages().forEach { nestedStage ->
+            buildStageReport(nestedStage)?.let { nestedStages.add(it) }
         }
         return StageJsonReport(
             name = scenario.getMetadata().name,
             type = "scenario",
             execution = mapExecutionReport(scenario.getExecutionMetadata()),
             attachments = emptyList(),
-            stages = nestedSteps,
+            stages = nestedStages,
         )
     }
 

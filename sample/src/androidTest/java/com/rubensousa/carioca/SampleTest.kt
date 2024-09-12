@@ -71,13 +71,13 @@ class SampleTest {
             screenshot("Notification bar visible")
         }
         step("Open quick settings") {
+            device.openQuickSettings()
             throw IllegalStateException("Failed")
         }
     }
 
     @Test
     fun testGivenWhenThen() = report {
-
         Given("User opens notifications") {
             device.openNotification()
             screenshot("Notification")
@@ -95,7 +95,6 @@ class SampleTest {
 
     @Test
     fun testGivenWhenThenScenario() = report {
-
         Given(OpenNotificationScenario())
 
         When("User presses home") {
@@ -106,6 +105,7 @@ class SampleTest {
         Then("Launcher is displayed") {
             screenshot("Launcher")
         }
+
     }
 
     private class OpenNotificationScenario : InstrumentedTestScenario("Open Notification") {
@@ -113,13 +113,18 @@ class SampleTest {
         private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
         override fun run(scope: InstrumentedScenarioScope) = with(scope) {
+            screenshot("Before opening notifications")
+
             step("Request notification open") {
                 device.openNotification()
             }
+
             step("Wait for animation") {
                 Thread.sleep(1000L)
                 screenshot("Notification")
             }
+
+            screenshot("After opening notifications")
         }
     }
 

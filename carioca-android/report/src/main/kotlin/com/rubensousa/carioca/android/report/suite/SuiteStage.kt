@@ -27,7 +27,10 @@ import org.junit.runner.Result
 
 internal interface SuiteStage {
 
-    fun addTest(reporter: CariocaInstrumentedReporter, stage: InstrumentedTestStage)
+    fun addTest(
+        reporter: CariocaInstrumentedReporter,
+        stage: InstrumentedTestStage,
+    )
 
     fun clear()
 
@@ -35,13 +38,16 @@ internal interface SuiteStage {
 
 }
 
-internal class SuiteStageImpl : SuiteStage {
+internal class InstrumentedSuiteStage : SuiteStage {
 
     private val tests = mutableListOf<InstrumentedTestStage>()
     private val reporters = mutableMapOf<Class<*>, CariocaInstrumentedReporter>()
     private var startTime = 0L
 
-    override fun addTest(reporter: CariocaInstrumentedReporter, stage: InstrumentedTestStage) {
+    override fun addTest(
+        reporter: CariocaInstrumentedReporter,
+        stage: InstrumentedTestStage,
+    ) {
         reporters[reporter::class.java] = reporter
         if (startTime == 0L) {
             startTime = System.currentTimeMillis()

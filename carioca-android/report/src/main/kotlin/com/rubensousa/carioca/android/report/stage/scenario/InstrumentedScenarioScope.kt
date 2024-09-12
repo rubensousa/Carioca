@@ -22,6 +22,15 @@ import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
  * Public API for a scenario block
  */
 interface InstrumentedScenarioScope {
+
+    /**
+     * The generated file will be pulled from the device once the test runner finishes
+     * running all tests
+     *
+     * @param description the description of the screenshot for the report
+     */
+    fun screenshot(description: String)
+
     /**
      * Creates an individual section of a scenario
      *
@@ -30,4 +39,5 @@ interface InstrumentedScenarioScope {
      * @param action the step block that will be executed
      */
     fun step(title: String, id: String? = null, action: InstrumentedStepScope.() -> Unit)
+
 }
