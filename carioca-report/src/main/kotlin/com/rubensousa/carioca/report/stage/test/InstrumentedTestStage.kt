@@ -87,11 +87,11 @@ internal class InstrumentedTestStageImpl(
     override fun scenario(scenario: InstrumentedTestScenario) {
         stepDelegate.clearStep()
         currentScenario = null
-        val scenarioReport = createScenarioReport(scenario)
-        stages.add(scenarioReport)
-        intercept { onStageStarted(scenarioReport) }
-        scenarioReport.report(scenario)
-        intercept { onStagePassed(scenarioReport) }
+        val newScenario = createScenario(scenario)
+        stages.add(newScenario)
+        intercept { onStageStarted(newScenario) }
+        newScenario.report(scenario)
+        intercept { onStagePassed(newScenario) }
     }
 
     override fun getStages(): List<InstrumentedStage> = stages.toList()
@@ -135,15 +135,15 @@ internal class InstrumentedTestStageImpl(
     }
 
     internal fun failed(error: Throwable) {
-        screenRecording?.let {
-            attachments.add(createRecordingAttachment(it))
-            DeviceScreenRecorder.stopRecording(it, delete = false)
-        }
         stepDelegate.currentStep?.let { step ->
             step.fail(error)
             // Take a screenshot to record the state on failures
             step.screenshot("Failed")
             intercept { onStageFailed(step) }
+        }
+        screenRecording?.let {
+            attachments.add(createRecordingAttachment(it))
+            DeviceScreenRecorder.stopRecording(it, delete = false)
         }
         currentScenario?.let { scenario ->
             scenario.fail(error)
@@ -176,7 +176,7 @@ internal class InstrumentedTestStageImpl(
         writeReport()
     }
 
-    private fun createScenarioReport(scenario: InstrumentedTestScenario): InstrumentedScenarioStageImpl {
+    private fun createScenario(scenario: InstrumentedTestScenario): InstrumentedScenarioStageImpl {
         return InstrumentedScenarioStageImpl(
             id = getScenarioId(scenario),
             delegate = stepDelegate,
