@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report
+package com.rubensousa.carioca.stage
 
 /**
  * A persistent identifier for a test. Used to track progress of different executions

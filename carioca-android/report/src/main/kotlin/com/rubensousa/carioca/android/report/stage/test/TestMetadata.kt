@@ -26,7 +26,7 @@ data class TestMetadata(
 ) {
 
     fun getTestFullName(): String {
-        return "$className.$methodName"
+        return "$packageName.$className.$methodName"
     }
 
 }

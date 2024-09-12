@@ -18,13 +18,13 @@ package com.rubensousa.carioca
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.TestId
-import com.rubensousa.carioca.android.report.TestTitle
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenarioScope
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
 import com.rubensousa.carioca.android.report.stage.test.Given
 import com.rubensousa.carioca.android.report.stage.test.Then
 import com.rubensousa.carioca.android.report.stage.test.When
+import com.rubensousa.carioca.stage.TestId
+import com.rubensousa.carioca.stage.TestTitle
 import org.junit.Rule
 import org.junit.Test
 

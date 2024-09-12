@@ -23,6 +23,8 @@ import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestScope
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestStageImpl
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
 import com.rubensousa.carioca.android.report.suite.SuiteStage
+import com.rubensousa.carioca.stage.TestId
+import com.rubensousa.carioca.stage.TestTitle
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
@@ -88,16 +90,16 @@ open class CariocaInstrumentedReportRule(
 
     final override fun starting(description: Description) {
         super.starting(description)
-        val newStage = createTestStage(
+        val test = createTestStage(
             description = description,
             recordingOptions = recordingOptions,
             screenshotOptions = screenshotOptions,
             interceptors = interceptors,
             reporter = reporter
         )
-        testStage = newStage
-        suiteStage.addTest(reporter, newStage)
-        getCurrentStage().starting(description)
+        testStage = test
+        suiteStage.addTest(reporter, test)
+        test.starting(description)
     }
 
     final override fun succeeded(description: Description) {
@@ -125,7 +127,7 @@ open class CariocaInstrumentedReportRule(
             title = getTestTitle(description),
             recordingOptions = recordingOptions,
             methodName = description.methodName,
-            className = description.className,
+            className = description.testClass.name,
             packageName = description.testClass.`package`?.name ?: "",
             interceptors = interceptors,
             screenshotOptions = screenshotOptions,
