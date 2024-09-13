@@ -40,7 +40,7 @@ class StageReportTest {
 
         // then
         assertThat(report.getExecutionMetadata().status)
-            .isEqualTo(ExecutionStatus.RUNNING)
+            .isEqualTo(ReportStatus.RUNNING)
     }
 
     @Test
@@ -53,7 +53,7 @@ class StageReportTest {
 
         // then
         assertThat(report.getExecutionMetadata().status)
-            .isEqualTo(ExecutionStatus.PASSED)
+            .isEqualTo(ReportStatus.PASSED)
     }
 
     @Test
@@ -68,7 +68,7 @@ class StageReportTest {
         // then
         val metadata = report.getExecutionMetadata()
 
-        assertThat(metadata.status).isEqualTo(ExecutionStatus.FAILED)
+        assertThat(metadata.status).isEqualTo(ReportStatus.FAILED)
         assertThat(metadata.failureCause).isSameInstanceAs(cause)
     }
 
@@ -82,7 +82,7 @@ class StageReportTest {
 
         // then
         val metadata = report.getExecutionMetadata()
-        assertThat(metadata.status).isEqualTo(ExecutionStatus.SKIPPED)
+        assertThat(metadata.status).isEqualTo(ReportStatus.SKIPPED)
     }
 
     @Test
@@ -98,7 +98,7 @@ class StageReportTest {
 
         // then
         assertThat(throwable.message!!)
-            .isEqualTo("Cannot change stage in current state: ${ExecutionStatus.PASSED}")
+            .isEqualTo("Cannot change stage in current state: ${ReportStatus.PASSED}")
     }
 
     @Test
@@ -115,7 +115,7 @@ class StageReportTest {
 
         // then
         assertThat(throwable.message!!)
-            .isEqualTo("Cannot change stage in current state: ${ExecutionStatus.FAILED}")
+            .isEqualTo("Cannot change stage in current state: ${ReportStatus.FAILED}")
     }
 
     @Test
@@ -123,7 +123,7 @@ class StageReportTest {
         // given
         val report = createReport()
         val startTime = report.getExecutionMetadata().startTime
-        val delay = 500L
+        val delay = 200L
         Thread.sleep(delay)
 
         // when
@@ -137,7 +137,7 @@ class StageReportTest {
     fun `end time is saved when report fails`() {
         // given
         val report = createReport()
-        val delay = 500L
+        val delay = 200L
         val startTime = report.getExecutionMetadata().startTime
         val cause = IllegalStateException()
         Thread.sleep(delay)
@@ -205,7 +205,7 @@ class StageReportTest {
     fun `reset clears every metadata`() {
         // given
         val report = createReport()
-        Thread.sleep(1000L)
+        Thread.sleep(100L)
         val cause = IllegalStateException()
         report.fail(cause)
         report.addProperty(ReportProperty.Title, "title")
@@ -217,14 +217,36 @@ class StageReportTest {
         // then
         val metadata = report.getExecutionMetadata()
         assertThat(metadata.startTime).isEqualTo(metadata.endTime)
-        assertThat(metadata.status).isEqualTo(ExecutionStatus.RUNNING)
+        assertThat(metadata.status).isEqualTo(ReportStatus.RUNNING)
         assertThat(metadata.failureCause).isNull()
         assertThat(report.getProperties()).isEmpty()
         assertThat(report.getStages()).isEmpty()
     }
 
-    private fun createReport(): TestStageReport = TestStageReport()
+    @Test
+    fun `equals and hashcode`() {
+        // given
+        val childStage = TestStageReport(2)
+        val cause = IllegalStateException()
+        val firstReport = TestStageReport(1)
+        firstReport.fail(cause)
+        val secondReport = TestStageReport(1)
+        secondReport.fail(cause)
+        secondReport.setStartTime(firstReport.getExecutionMetadata().startTime)
+        secondReport.setEndTime(firstReport.getExecutionMetadata().endTime)
 
-    private class TestStageReport : StageReport()
+        // when
+        val reports = listOf(firstReport, secondReport)
+        reports.forEach { report ->
+            report.addStage(childStage)
+            report.addProperty(ReportProperty.Title, "title")
+        }
+
+        // then
+        assertThat(firstReport).isEqualTo(secondReport)
+        assertThat(firstReport.hashCode()).isEqualTo(secondReport.hashCode())
+    }
+
+    private fun createReport(): TestStageReport = TestStageReport()
 
 }

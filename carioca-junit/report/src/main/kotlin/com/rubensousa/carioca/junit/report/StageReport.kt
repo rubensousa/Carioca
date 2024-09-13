@@ -28,7 +28,7 @@ abstract class StageReport(
     private val properties = mutableMapOf<ReportProperty, Any>()
     private var startTime = System.currentTimeMillis()
     private var endTime = startTime
-    private var status = ExecutionStatus.RUNNING
+    private var status = ReportStatus.RUNNING
     private var failureCause: Throwable? = null
 
     /**
@@ -49,7 +49,7 @@ abstract class StageReport(
      */
     fun pass() {
         ensureStageRunning()
-        status = ExecutionStatus.PASSED
+        status = ReportStatus.PASSED
         saveEndTime()
     }
 
@@ -59,7 +59,7 @@ abstract class StageReport(
     fun fail(cause: Throwable) {
         ensureStageRunning()
         failureCause = cause
-        status = ExecutionStatus.FAILED
+        status = ReportStatus.FAILED
         saveEndTime()
     }
 
@@ -68,7 +68,7 @@ abstract class StageReport(
      */
     fun skip() {
         ensureStageRunning()
-        status = ExecutionStatus.SKIPPED
+        status = ReportStatus.SKIPPED
     }
 
     /**
@@ -107,7 +107,7 @@ abstract class StageReport(
     }
 
     open fun reset() {
-        status = ExecutionStatus.RUNNING
+        status = ReportStatus.RUNNING
         startTime = System.currentTimeMillis()
         endTime = startTime
         failureCause = null
@@ -116,13 +116,41 @@ abstract class StageReport(
     }
 
     private fun ensureStageRunning() {
-        require(status == ExecutionStatus.RUNNING) {
+        require(status == ReportStatus.RUNNING) {
             "Cannot change stage in current state: $status"
         }
     }
 
     private fun saveEndTime() {
         endTime = System.currentTimeMillis()
+    }
+
+    override fun equals(other: Any?): Boolean {
+        val equal = other?.javaClass == javaClass
+                && other is StageReport
+                && other.getExecutionMetadata() == getExecutionMetadata()
+                && other.getStages() == childStages
+                && other.getProperties() == properties
+
+        if(!equal){
+            println("Whoops")
+        }
+        return equal
+    }
+
+    override fun hashCode(): Int {
+        var result = getExecutionMetadata().hashCode()
+        result = 31 * result + childStages.hashCode()
+        result = 31 * result + properties.hashCode()
+        return result
+    }
+
+    internal fun setStartTime(time: Long) {
+        startTime = time
+    }
+
+    internal fun setEndTime(time: Long) {
+        endTime = time
     }
 
 }

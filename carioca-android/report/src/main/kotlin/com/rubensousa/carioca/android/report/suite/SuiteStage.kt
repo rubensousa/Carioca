@@ -22,7 +22,7 @@ import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.junit.report.ExecutionIdGenerator
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
-import com.rubensousa.carioca.junit.report.ExecutionStatus
+import com.rubensousa.carioca.junit.report.ReportStatus
 import org.junit.runner.Result
 
 internal interface SuiteStage {
@@ -64,19 +64,19 @@ internal class InstrumentedSuiteStage : SuiteStage {
         if (tests.size <= 1) {
             return
         }
-        val statusCount = mutableMapOf<ExecutionStatus, Int>()
-        statusCount[ExecutionStatus.PASSED] = result.runCount
-        statusCount[ExecutionStatus.FAILED] = result.failureCount
-        statusCount[ExecutionStatus.SKIPPED] = result.ignoreCount
+        val statusCount = mutableMapOf<ReportStatus, Int>()
+        statusCount[ReportStatus.PASSED] = result.runCount
+        statusCount[ReportStatus.FAILED] = result.failureCount
+        statusCount[ReportStatus.SKIPPED] = result.ignoreCount
         val report = TestSuiteReport(
             packageName = InstrumentationRegistry.getInstrumentation().targetContext.packageName,
             executionMetadata = ExecutionMetadata(
                 uniqueId = ExecutionIdGenerator.get(),
                 failureCause = null,
                 status = if (result.wasSuccessful()) {
-                    ExecutionStatus.PASSED
+                    ReportStatus.PASSED
                 } else {
-                    ExecutionStatus.FAILED
+                    ReportStatus.FAILED
                 },
                 startTime = startTime,
                 endTime = System.currentTimeMillis()

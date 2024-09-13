@@ -37,8 +37,11 @@ class StageStack<T : StageReport> {
 
     fun clear() {
         stack.clear()
+        stages.clear()
     }
 
     fun getAll() = stages.toList()
+
+    internal fun getActive() = stack.toList()
 
 }

@@ -15,19 +15,13 @@
  */
 
 package com.rubensousa.carioca.junit.report
+
 /**
- * Metadata for the execution for a test, step or scenario
- *
- * @param uniqueId the unique identifier for the stage. It changes across different executions
- * @param failureCause if the stage failed, this contains the error thrown
- * @param status the execution status of this stage
- * @param startTime indicates when this stage started its execution
- * @param endTime indicates when this stage stopped its execution
+ * The different status of every report
  */
-data class ExecutionMetadata(
-    val uniqueId: String,
-    val failureCause: Throwable?,
-    val status: ReportStatus,
-    val startTime: Long,
-    val endTime: Long,
-)
+enum class ReportStatus {
+    RUNNING,
+    PASSED,
+    FAILED,
+    SKIPPED
+}

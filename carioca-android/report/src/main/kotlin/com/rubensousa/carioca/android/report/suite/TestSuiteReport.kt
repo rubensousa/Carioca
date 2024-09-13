@@ -17,10 +17,10 @@
 package com.rubensousa.carioca.android.report.suite
 
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
-import com.rubensousa.carioca.junit.report.ExecutionStatus
+import com.rubensousa.carioca.junit.report.ReportStatus
 
 data class TestSuiteReport(
     val packageName: String,
     val executionMetadata: ExecutionMetadata,
-    val testStatus: Map<ExecutionStatus, Int>,
+    val testStatus: Map<ReportStatus, Int>,
 )

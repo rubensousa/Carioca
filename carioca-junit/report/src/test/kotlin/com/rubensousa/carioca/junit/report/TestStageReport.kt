@@ -16,12 +16,20 @@
 
 package com.rubensousa.carioca.junit.report
 
-/**
- * The different status of every stage
- */
-enum class ExecutionStatus {
-    RUNNING,
-    PASSED,
-    FAILED,
-    SKIPPED
+class TestStageReport : StageReport {
+
+    val id: Int?
+
+    constructor() : super() {
+        id = null
+    }
+
+    constructor(id: Int) : super(id.toString()) {
+        this.id = id
+    }
+
+    override fun toString(): String {
+        return "TestReport: $id"
+    }
+
 }

@@ -24,8 +24,8 @@ import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
-import com.rubensousa.carioca.junit.report.ExecutionStatus
 import com.rubensousa.carioca.junit.report.ReportProperty
+import com.rubensousa.carioca.junit.report.ReportStatus
 import com.rubensousa.carioca.junit.report.StageReport
 import com.rubensousa.carioca.junit.report.TestMetadata
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -225,8 +225,8 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
         return path.replace("/$dirName/", "")
     }
 
-    private fun getStatus(reportStatus: ExecutionStatus): String {
-        return if (reportStatus == ExecutionStatus.PASSED) {
+    private fun getStatus(reportStatus: ReportStatus): String {
+        return if (reportStatus == ReportStatus.PASSED) {
             "passed"
         } else {
             "broken"

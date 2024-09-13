@@ -152,7 +152,7 @@ open class CariocaInstrumentedReportRule(
             screenshotOptions = screenshotOptions,
             reporter = reporter
         )
-        reportConfig?.apply(testReport)
+        reportConfig?.applyTo(testReport)
 
         return testReport
     }

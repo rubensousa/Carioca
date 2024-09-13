@@ -59,8 +59,10 @@ data class TestReportConfig(
 
     }
 
-    fun apply(report: StageReport) {
-        report.addProperty(ReportProperty.Links, links.toList())
+    fun applyTo(report: StageReport) {
+        if (links.isNotEmpty()) {
+            report.addProperty(ReportProperty.Links, links.toList())
+        }
         id?.let {
             report.addProperty(ReportProperty.Id, it)
         }
