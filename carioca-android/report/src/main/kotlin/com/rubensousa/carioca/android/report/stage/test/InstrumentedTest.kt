@@ -40,7 +40,7 @@ import com.rubensousa.carioca.junit.report.TestMetadata
 /**
  * The main entry point for all reports.
  *
- * Get the metadata of this test through [getMetadata] and/or [getProperty].
+ * Get the metadata of this test through [metadata] and/or [getProperty].
  *
  * To get the stages for reporting, use [getStages]
  */

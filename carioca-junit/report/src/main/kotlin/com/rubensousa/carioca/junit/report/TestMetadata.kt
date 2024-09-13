@@ -30,6 +30,7 @@ data class TestMetadata(
         fun from(description: Description): TestMetadata {
             val packageName = description.testClass.`package`?.name ?: ""
             val className = description.testClass.name
+                .replace("$packageName.", "")
             val methodName = description.methodName
             return TestMetadata(
                 packageName = packageName,
