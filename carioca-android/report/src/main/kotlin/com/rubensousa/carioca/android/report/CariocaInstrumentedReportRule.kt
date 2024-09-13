@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.android.report
 
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineTestScope
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
@@ -29,7 +30,8 @@ import com.rubensousa.carioca.stage.TestId
 import com.rubensousa.carioca.stage.TestTitle
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
-
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * A test rule that builds a detailed report for a test, including its steps.
@@ -88,6 +90,19 @@ open class CariocaInstrumentedReportRule(
 
     operator fun invoke(block: InstrumentedTestScope.() -> Unit) {
         block(getCurrentTest())
+    }
+
+    /**
+     * Runs the report inside a coroutine scope
+     */
+    fun runTest(
+        context: CoroutineContext = EmptyCoroutineContext,
+        block: suspend InstrumentedCoroutineTestScope.() -> Unit,
+    ) {
+        val currentTest = getCurrentTest()
+        kotlinx.coroutines.test.runTest(context) {
+            block(currentTest)
+        }
     }
 
     final override fun starting(description: Description) {

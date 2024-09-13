@@ -16,6 +16,8 @@
 
 package com.rubensousa.carioca.android.report.stage.step
 
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStepScope
 import com.rubensousa.carioca.android.report.stage.InstrumentedStage
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageDelegate
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
@@ -24,16 +26,36 @@ class InstrumentedStep internal constructor(
     outputPath: String,
     private val metadata: InstrumentedStepMetadata,
     private val stageDelegate: InstrumentedStageDelegate,
-) : InstrumentedStage(outputPath), InstrumentedStepScope {
+) : InstrumentedStage(outputPath), InstrumentedStepScope, InstrumentedCoroutineStepScope {
 
-    override fun step(title: String, action: InstrumentedStepScope.() -> Unit) {
-        val step = stageDelegate.createStep(title, null)
+    override fun step(
+        title: String,
+        id: String?,
+        action: InstrumentedStepScope.() -> Unit,
+    ) {
+        val step = stageDelegate.createStep(title, id)
+        addStage(step)
+        stageDelegate.executeStep(step, action)
+    }
+
+    override suspend fun step(
+        title: String,
+        id: String?,
+        action: suspend InstrumentedCoroutineStepScope.() -> Unit,
+    ) {
+        val step = stageDelegate.createStep(title, id)
         addStage(step)
         stageDelegate.executeStep(step, action)
     }
 
     override fun scenario(scenario: InstrumentedTestScenario) {
         val newScenario = stageDelegate.createScenario(scenario)
+        addStage(newScenario)
+        stageDelegate.executeScenario(newScenario)
+    }
+
+    override suspend fun scenario(scenario: InstrumentedCoroutineScenario) {
+        val newScenario = stageDelegate.createCoroutineScenario(scenario)
         addStage(newScenario)
         stageDelegate.executeScenario(newScenario)
     }
@@ -47,6 +69,11 @@ class InstrumentedStep internal constructor(
     }
 
     internal fun execute(action: InstrumentedStepScope.() -> Unit) {
+        action(this)
+        pass()
+    }
+
+    internal suspend fun execute(action: suspend InstrumentedCoroutineStepScope.() -> Unit) {
         action(this)
         pass()
     }

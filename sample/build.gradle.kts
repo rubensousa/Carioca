@@ -60,10 +60,15 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.kotlinx.coroutines.android)
+
     testImplementation(libs.junit)
+
+    androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.test.uiautomator)
+
     androidTestImplementation(project(":carioca-android:report"))
     androidTestImplementation(project(":carioca-android:report-allure"))
     androidTestUtil(libs.androidx.test.services)

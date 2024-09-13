@@ -16,6 +16,9 @@
 
 package com.rubensousa.carioca.android.report.stage.scenario
 
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenarioScope
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStepScope
 import com.rubensousa.carioca.android.report.stage.InstrumentedStage
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageDelegate
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
@@ -23,11 +26,23 @@ import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
 class InstrumentedScenario internal constructor(
     outputPath: String,
     private val metadata: InstrumentedScenarioMetadata,
-    private val scenario: InstrumentedTestScenario,
+    private val scenario: InstrumentedTestScenario?,
+    private val coroutineScenario: InstrumentedCoroutineScenario?,
     private val stageDelegate: InstrumentedStageDelegate,
-) : InstrumentedStage(outputPath), InstrumentedScenarioScope {
+) : InstrumentedStage(outputPath), InstrumentedScenarioScope,
+    InstrumentedCoroutineScenarioScope {
 
     override fun step(title: String, id: String?, action: InstrumentedStepScope.() -> Unit) {
+        val step = stageDelegate.createStep(title, id)
+        addStage(step)
+        stageDelegate.executeStep(step, action)
+    }
+
+    override suspend fun step(
+        title: String,
+        id: String?,
+        action: suspend InstrumentedCoroutineStepScope.() -> Unit,
+    ) {
         val step = stageDelegate.createStep(title, id)
         addStage(step)
         stageDelegate.executeStep(step, action)
@@ -40,7 +55,12 @@ class InstrumentedScenario internal constructor(
     fun getMetadata(): InstrumentedScenarioMetadata = metadata
 
     internal fun execute() {
-        scenario.run(this)
+        scenario?.run(this)
+        pass()
+    }
+
+    internal suspend fun executeAwait() {
+        coroutineScenario?.run(this)
         pass()
     }
 

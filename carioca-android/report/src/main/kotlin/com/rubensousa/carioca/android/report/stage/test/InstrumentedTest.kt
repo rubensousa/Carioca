@@ -18,6 +18,9 @@ package com.rubensousa.carioca.android.report.stage.test
 
 import android.util.Log
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStepScope
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineTestScope
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.recording.DeviceScreenRecorder
@@ -47,7 +50,7 @@ class InstrumentedTest internal constructor(
     private val screenshotOptions: ScreenshotOptions,
     private val reporter: CariocaInstrumentedReporter,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
-) : InstrumentedStage(outputPath), InstrumentedTestScope {
+) : InstrumentedStage(outputPath), InstrumentedTestScope, InstrumentedCoroutineTestScope {
 
     private val stageStack = StageStack<InstrumentedStage>()
     private val stageDelegate = InstrumentedStageDelegate(
@@ -65,10 +68,26 @@ class InstrumentedTest internal constructor(
         stageDelegate.executeStep(step, action)
     }
 
+    override suspend fun step(
+        title: String,
+        id: String?,
+        action: suspend InstrumentedCoroutineStepScope.() -> Unit,
+    ) {
+        val step = stageDelegate.createStep(title, id)
+        addStage(step)
+        stageDelegate.executeStep(step, action)
+    }
+
     override fun scenario(scenario: InstrumentedTestScenario) {
         val newScenario = stageDelegate.createScenario(scenario)
         addStage(newScenario)
         stageDelegate.executeScenario(newScenario)
+    }
+
+    override suspend fun scenario(scenario: InstrumentedCoroutineScenario) {
+        val newScenario = stageDelegate.createCoroutineScenario(scenario)
+        addStage(newScenario)
+        stageDelegate.executeCoroutineScenario(newScenario)
     }
 
     fun getMetadata(): InstrumentedTestMetadata = metadata

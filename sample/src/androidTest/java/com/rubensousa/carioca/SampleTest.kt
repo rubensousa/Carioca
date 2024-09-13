@@ -41,14 +41,9 @@ class SampleTest {
     fun testSuccessfulTest() = report {
         scenario(SampleScreenScenario())
 
-        step("Open notification and quick settings") {
-
-            scenario(OpenNotificationScenario())
-
-            step("Open quick settings") {
-                device.openQuickSettings()
-                screenshot("Quick settings displayed")
-            }
+        step("Open quick settings") {
+            device.openQuickSettings()
+            screenshot("Quick settings displayed")
         }
 
         step("Press home") {
@@ -106,7 +101,6 @@ class SampleTest {
         Then("Launcher is displayed") {
             screenshot("Launcher")
         }
-
     }
 
     private class OpenNotificationScenario : InstrumentedTestScenario("Open Notification") {

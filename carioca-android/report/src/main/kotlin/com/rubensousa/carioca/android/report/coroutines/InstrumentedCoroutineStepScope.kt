@@ -14,14 +14,17 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.step
+package com.rubensousa.carioca.android.report.coroutines
 
-import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
+interface InstrumentedCoroutineStepScope {
 
-/**
- * Public API for a step block
- */
-interface InstrumentedStepScope {
+    /**
+     * Creates a nested step inside the current step
+     *
+     * @param title the name of the step
+     * @param action the step block that will be executed
+     */
+    suspend fun step(title: String, id: String? = null, action: suspend InstrumentedCoroutineStepScope.() -> Unit)
 
     /**
      * Takes a screenshot with the configuration set through [ScreenshotOptions].
@@ -32,19 +35,11 @@ interface InstrumentedStepScope {
      */
     fun screenshot(description: String)
 
-    /**
-     * Creates a nested step inside this step
-     *
-     * @param title the name of the step
-     * @param id an optional persistent step id
-     * @param action the step block that will be executed
-     */
-    fun step(title: String, id: String? = null, action: InstrumentedStepScope.() -> Unit)
 
     /**
      * Creates a report for a set of steps.
      * This is almost equivalent to calling [step] multiple times, but in a more re-usable way
      */
-    fun scenario(scenario: InstrumentedTestScenario)
+    suspend fun scenario(scenario: InstrumentedCoroutineScenario)
 
 }

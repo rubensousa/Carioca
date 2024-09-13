@@ -17,6 +17,8 @@
 package com.rubensousa.carioca.android.report.stage
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStepScope
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.screenshot.DeviceScreenshot
@@ -62,13 +64,38 @@ internal class InstrumentedStageDelegate(
         interceptors.intercept { onStagePassed(step) }
     }
 
+    suspend fun executeStep(
+        step: InstrumentedStep,
+        action: suspend InstrumentedCoroutineStepScope.() -> Unit,
+    ) {
+        stack.push(step)
+        interceptors.intercept { onStageStarted(step) }
+        step.execute(action)
+        stack.pop()
+        interceptors.intercept { onStagePassed(step) }
+    }
+
     fun createScenario(scenario: InstrumentedTestScenario): InstrumentedScenario {
         return InstrumentedScenario(
             metadata = InstrumentedScenarioMetadata(
-                id = getScenarioId(scenario),
+                id = scenario.id ?: ExecutionIdGenerator.get(),
                 title = scenario.title
             ),
             scenario = scenario,
+            coroutineScenario = null,
+            stageDelegate = this,
+            outputPath = outputPath
+        )
+    }
+
+    fun createCoroutineScenario(scenario: InstrumentedCoroutineScenario): InstrumentedScenario {
+        return InstrumentedScenario(
+            metadata = InstrumentedScenarioMetadata(
+                id = scenario.id ?: ExecutionIdGenerator.get(),
+                title = scenario.title
+            ),
+            scenario = null,
+            coroutineScenario = scenario,
             stageDelegate = this,
             outputPath = outputPath
         )
@@ -78,6 +105,14 @@ internal class InstrumentedStageDelegate(
         stack.push(scenario)
         interceptors.intercept { onStageStarted(scenario) }
         scenario.execute()
+        stack.pop()
+        interceptors.intercept { onStagePassed(scenario) }
+    }
+
+    suspend fun executeCoroutineScenario(scenario: InstrumentedScenario) {
+        stack.push(scenario)
+        interceptors.intercept { onStageStarted(scenario) }
+        scenario.executeAwait()
         stack.pop()
         interceptors.intercept { onStagePassed(scenario) }
     }
@@ -97,10 +132,6 @@ internal class InstrumentedStageDelegate(
             mimeType = getScreenshotMimeType(),
             keepOnSuccess = options.keepOnSuccess
         )
-    }
-
-    private fun getScenarioId(scenario: InstrumentedTestScenario): String {
-        return scenario.id ?: ExecutionIdGenerator.get()
     }
 
     private fun getStepId(id: String?): String {

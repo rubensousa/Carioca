@@ -41,6 +41,9 @@ android {
 
 dependencies {
     api(project(":carioca-stage"))
+    implementation(libs.kotlinx.coroutines.test)
+    implementation(libs.kotlinx.coroutines.android)
+
     implementation(libs.androidx.junit)
     implementation(libs.androidx.test.rules)
     implementation(libs.androidx.espresso.core)
@@ -49,6 +52,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.bundles.test.unit)
+    testImplementation(libs.kotlinx.coroutines.test)
 
     androidTestUtil(libs.androidx.test.services)
 }

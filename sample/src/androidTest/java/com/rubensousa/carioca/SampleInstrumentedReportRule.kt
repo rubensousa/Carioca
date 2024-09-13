@@ -48,7 +48,7 @@ class SampleInstrumentedReportRule : CariocaInstrumentedReportRule(
     interceptors = listOf(
         LoggerInterceptor(),
         DumpViewHierarchyInterceptor(
-            dumpOnEveryStage = true
+            dumpOnEveryStage = false
         )
     )
 )
