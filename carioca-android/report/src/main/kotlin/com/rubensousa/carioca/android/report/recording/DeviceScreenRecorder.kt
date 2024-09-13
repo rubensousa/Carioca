@@ -41,7 +41,7 @@ object DeviceScreenRecorder {
         val outputDir = TestStorageDirectory.outputDir
         val videoFilename = "${filename}.mp4"
         val relativePath = "$relativeOutputDirPath/$videoFilename"
-        val absolutePath = "${outputDir.absolutePath}/${relativePath}"
+        val absolutePath = "${outputDir.absolutePath}${relativePath}"
         val recording = ReportRecording(
             absoluteFilePath = absolutePath,
             relativeFilePath = relativePath,
@@ -69,18 +69,22 @@ object DeviceScreenRecorder {
     }
 
     private fun copyRecordingToTestStorage(recording: ReportRecording) {
-        val outputStream = TestStorageProvider.getOutputStream(recording.relativeFilePath)
-        val tmpFile = recording.tmpFile
-        val inputStream = BufferedInputStream(FileInputStream(tmpFile))
-        var bytesRead = inputStream.read(buffer)
-        while (bytesRead >= 0) {
-            outputStream.write(buffer, 0, bytesRead)
-            outputStream.flush()
-            bytesRead = inputStream.read(buffer)
+        try {
+            val outputStream = TestStorageProvider.getOutputStream(recording.relativeFilePath)
+            val tmpFile = recording.tmpFile
+            val inputStream = BufferedInputStream(FileInputStream(tmpFile))
+            var bytesRead = inputStream.read(buffer)
+            while (bytesRead >= 0) {
+                outputStream.write(buffer, 0, bytesRead)
+                outputStream.flush()
+                bytesRead = inputStream.read(buffer)
+            }
+            outputStream.close()
+            inputStream.close()
+            tmpFile.delete()
+        } catch (exception: Exception) {
+            // Ignore
         }
-        outputStream.close()
-        inputStream.close()
-        tmpFile.delete()
     }
 
 

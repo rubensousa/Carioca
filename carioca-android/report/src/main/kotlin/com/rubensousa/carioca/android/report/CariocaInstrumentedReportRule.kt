@@ -147,7 +147,10 @@ open class CariocaInstrumentedReportRule(
             className = description.testClass.name,
             methodName = description.methodName
         )
-        val outputPath = reporter.getOutputDir(metadata)
+        var outputPath = reporter.getOutputDir(metadata)
+        if (!outputPath.startsWith("/")) {
+            outputPath = "/$outputPath"
+        }
         val testReport = InstrumentedTest(
             outputPath = outputPath,
             metadata = metadata,
