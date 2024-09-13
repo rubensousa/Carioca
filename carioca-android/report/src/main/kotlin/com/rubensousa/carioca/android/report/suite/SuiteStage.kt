@@ -18,11 +18,15 @@ package com.rubensousa.carioca.android.report.suite
 
 import androidx.test.platform.app.InstrumentationRegistry
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.recording.RecordingOptions
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestBuilder
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.junit.report.ExecutionIdGenerator
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
 import com.rubensousa.carioca.junit.report.ReportStatus
+import org.junit.runner.Description
 import org.junit.runner.Result
 
 internal interface SuiteStage {
@@ -31,6 +35,8 @@ internal interface SuiteStage {
         reporter: CariocaInstrumentedReporter,
         test: InstrumentedTest,
     )
+
+    fun testIgnored(description: Description)
 
     fun clear()
 
@@ -41,6 +47,8 @@ internal interface SuiteStage {
 internal class InstrumentedSuiteStage : SuiteStage {
 
     private val tests = mutableListOf<InstrumentedTest>()
+    private val builder = InstrumentedTestBuilder()
+    private val ignoredTests = mutableListOf<Description>()
     private val reporters = mutableMapOf<Class<*>, CariocaInstrumentedReporter>()
     private var startTime = 0L
 
@@ -55,13 +63,17 @@ internal class InstrumentedSuiteStage : SuiteStage {
         tests.add(test)
     }
 
+    override fun testIgnored(description: Description) {
+        ignoredTests.add(description)
+    }
+
     override fun writeReport(result: Result) {
         /**
          * Nothing to be done if there is only one test.
          * This will happen if test orchestrator is used,
          * since every instrumentation exists in its own process
          */
-        if (tests.size <= 1) {
+        if (tests.size + ignoredTests.size <= 1) {
             return
         }
         val statusCount = mutableMapOf<ReportStatus, Int>()
@@ -83,12 +95,29 @@ internal class InstrumentedSuiteStage : SuiteStage {
             ),
             testStatus = statusCount
         )
+        writeIgnoredTestReports()
         writeReport(report)
     }
 
     override fun clear() {
         tests.clear()
         startTime = 0L
+    }
+
+    private fun writeIgnoredTestReports() {
+        val allReporters = reporters.values.toList()
+        allReporters.forEach { reporter ->
+            ignoredTests.forEach { description ->
+                val test = builder.build(
+                    description = description,
+                    recordingOptions = RecordingOptions(enabled = false),
+                    screenshotOptions = ScreenshotOptions(),
+                    reporter = reporter,
+                    interceptors = emptyList()
+                )
+                test.ignored()
+            }
+        }
     }
 
     private fun writeReport(report: TestSuiteReport) {

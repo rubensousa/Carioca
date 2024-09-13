@@ -139,6 +139,11 @@ class InstrumentedTest internal constructor(
         writeReport()
     }
 
+    internal fun ignored() {
+        skip()
+        writeReport()
+    }
+
     // Ensures there is no persistent state across test re-executions
     override fun reset() {
         super.reset()

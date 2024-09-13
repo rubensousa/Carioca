@@ -22,11 +22,10 @@ import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterc
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestBuilder
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestScope
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
 import com.rubensousa.carioca.android.report.suite.SuiteStage
-import com.rubensousa.carioca.junit.report.TestMetadata
-import com.rubensousa.carioca.junit.report.TestReportConfig
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import kotlin.coroutines.CoroutineContext
@@ -84,7 +83,8 @@ open class CariocaInstrumentedReportRule(
     private val interceptors: List<CariocaInstrumentedInterceptor> = listOf(DumpViewHierarchyInterceptor()),
 ) : TestWatcher() {
 
-    private var testStage: InstrumentedTest? = null
+    private val builder = InstrumentedTestBuilder()
+    private var instrumentedTest: InstrumentedTest? = null
     private val suiteStage: SuiteStage = SuiteReportRegistry.getSuiteStage()
 
     operator fun invoke(block: InstrumentedTestScope.() -> Unit) {
@@ -106,14 +106,15 @@ open class CariocaInstrumentedReportRule(
 
     final override fun starting(description: Description) {
         super.starting(description)
-        val test = createTestReport(
+        // TODO: Get the previous instance if this test was retried with a retry rule
+        val test = builder.build(
             description = description,
             recordingOptions = recordingOptions,
             screenshotOptions = screenshotOptions,
             interceptors = interceptors,
             reporter = reporter
         )
-        testStage = test
+        instrumentedTest = test
         suiteStage.addTest(reporter, test)
         test.starting()
     }
@@ -121,62 +122,17 @@ open class CariocaInstrumentedReportRule(
     final override fun succeeded(description: Description) {
         super.succeeded(description)
         getCurrentTest().succeeded()
-        testStage = null
+        instrumentedTest = null
     }
 
     final override fun failed(e: Throwable, description: Description) {
         super.failed(e, description)
         getCurrentTest().failed(e)
-        testStage = null
-    }
-
-    // TODO: Get the previous instance if this test was retried with a retry rule
-    private fun createTestReport(
-        description: Description,
-        recordingOptions: RecordingOptions,
-        screenshotOptions: ScreenshotOptions,
-        interceptors: List<CariocaInstrumentedInterceptor>,
-        reporter: CariocaInstrumentedReporter,
-    ): InstrumentedTest {
-        val reportConfig = TestReportConfig.from(description)
-        val testMetadata = TestMetadata.from(description)
-        var outputPath = reporter.getOutputDir(testMetadata)
-        if (!outputPath.startsWith("/")) {
-            outputPath = "/$outputPath"
-        }
-        val testReport = InstrumentedTest(
-            outputPath = outputPath,
-            metadata = testMetadata,
-            recordingOptions = recordingOptions,
-            interceptors = interceptors,
-            screenshotOptions = screenshotOptions,
-            reporter = reporter
-        )
-        reportConfig?.applyTo(testReport)
-
-        return testReport
-    }
-
-    private fun getTestId(
-        metadata: TestReportConfig?,
-        description: Description,
-    ): String {
-        return metadata?.id ?: getDefaultTestId(description)
-    }
-
-    private fun getTestTitle(
-        metadata: TestReportConfig?,
-        description: Description,
-    ): String {
-        return metadata?.title ?: description.methodName
-    }
-
-    private fun getDefaultTestId(description: Description): String {
-        return "${description.className}.${description.methodName}"
+        instrumentedTest = null
     }
 
     private fun getCurrentTest(): InstrumentedTest {
-        return requireNotNull(testStage) { "Test not started yet" }
+        return requireNotNull(instrumentedTest) { "Test not started yet" }
     }
 
 }

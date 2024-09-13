@@ -24,6 +24,7 @@ import com.rubensousa.carioca.android.report.stage.test.Given
 import com.rubensousa.carioca.android.report.stage.test.Then
 import com.rubensousa.carioca.android.report.stage.test.When
 import com.rubensousa.carioca.junit.report.TestReport
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
@@ -107,6 +108,12 @@ class SampleTest {
         Then("Launcher is displayed") {
             screenshot("Launcher")
         }
+    }
+
+    @Ignore
+    @Test
+    fun testIsIgnored() {
+        // Nothing
     }
 
     private class OpenNotificationScenario : InstrumentedTestScenario("Open Notification") {

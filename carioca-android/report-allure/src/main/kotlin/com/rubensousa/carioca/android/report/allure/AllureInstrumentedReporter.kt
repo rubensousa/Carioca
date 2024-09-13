@@ -226,10 +226,10 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
     }
 
     private fun getStatus(reportStatus: ReportStatus): String {
-        return if (reportStatus == ReportStatus.PASSED) {
-            "passed"
-        } else {
-            "broken"
+        return when (reportStatus) {
+            ReportStatus.PASSED -> "passed"
+            ReportStatus.SKIPPED -> "skipped"
+            else -> "broken"
         }
     }
 

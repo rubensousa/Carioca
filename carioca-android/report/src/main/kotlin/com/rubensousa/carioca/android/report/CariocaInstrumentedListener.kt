@@ -43,4 +43,9 @@ class CariocaInstrumentedListener : InstrumentationRunListener() {
         stage.writeReport(result)
     }
 
+    override fun testIgnored(description: Description) {
+        super.testIgnored(description)
+        stage.testIgnored(description)
+    }
+
 }
