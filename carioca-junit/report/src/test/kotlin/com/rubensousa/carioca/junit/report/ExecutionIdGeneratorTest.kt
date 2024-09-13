@@ -16,22 +16,24 @@
 
 package com.rubensousa.carioca.junit.report
 
-interface PropertyKey {
-    val id: String
+import com.google.common.truth.Truth.assertThat
+import org.junit.Test
 
-    data object Id : PropertyKey {
-        override val id: String = "id"
+class ExecutionIdGeneratorTest {
+    
+    @Test
+    fun `ids are unique across many generations`() {
+        // given
+        val iterations = 1000
+        val generatedIds = mutableSetOf<String>()
+
+        // when
+        repeat(iterations) {
+            generatedIds.add(ExecutionIdGenerator.get())
+        }
+
+        // then
+        assertThat(generatedIds).hasSize(iterations)
     }
 
-    data object Title : PropertyKey {
-        override val id: String = "title"
-    }
-
-    data object Links : PropertyKey {
-        override val id: String = "links"
-    }
-
-    data object Description : PropertyKey {
-        override val id: String = "description"
-    }
 }

@@ -20,13 +20,13 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-import com.rubensousa.carioca.junit.report.CariocaStage
+import com.rubensousa.carioca.junit.report.StageReport
 import java.io.File
 import java.io.OutputStream
 
-abstract class InstrumentedStage(
+abstract class InstrumentedStageReport(
     protected val outputPath: String,
-) : CariocaStage() {
+) : StageReport() {
 
     private val attachments = mutableListOf<StageAttachment>()
 

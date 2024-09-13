@@ -19,8 +19,8 @@ package com.rubensousa.carioca.android.report.stage.scenario
 import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
 import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenarioScope
 import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStepScope
-import com.rubensousa.carioca.android.report.stage.InstrumentedStage
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageDelegate
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
 
 class InstrumentedScenario internal constructor(
@@ -29,7 +29,7 @@ class InstrumentedScenario internal constructor(
     private val scenario: InstrumentedTestScenario?,
     private val coroutineScenario: InstrumentedCoroutineScenario?,
     private val stageDelegate: InstrumentedStageDelegate,
-) : InstrumentedStage(outputPath), InstrumentedScenarioScope,
+) : InstrumentedStageReport(outputPath), InstrumentedScenarioScope,
     InstrumentedCoroutineScenarioScope {
 
     override fun step(title: String, id: String?, action: InstrumentedStepScope.() -> Unit) {

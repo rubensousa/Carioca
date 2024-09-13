@@ -20,11 +20,11 @@ import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestMetadata
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
-import com.rubensousa.carioca.junit.report.CariocaStage
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
-import com.rubensousa.carioca.junit.report.PropertyKey
+import com.rubensousa.carioca.junit.report.ReportProperty
+import com.rubensousa.carioca.junit.report.StageReport
+import com.rubensousa.carioca.junit.report.TestMetadata
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -44,7 +44,7 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
         explicitNulls = false
     }
 
-    override fun getOutputDir(metadata: InstrumentedTestMetadata): String {
+    override fun getOutputDir(metadata: TestMetadata): String {
         return "${metadata.className}/${metadata.methodName}"
     }
 
@@ -76,15 +76,15 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
     }
 
     private fun buildTestReport(test: InstrumentedTest): CariocaJsonTestReport {
-        val metadata = test.getMetadata()
-        val testId = test.getProperty(PropertyKey.Id) ?: metadata.getTestFullName()
-        val testTitle = test.getProperty(PropertyKey.Title) ?: metadata.getTestFullName()
+        val metadata = test.metadata
+        val testId = test.getProperty(ReportProperty.Id) ?: metadata.fullName
+        val testTitle = test.getProperty(ReportProperty.Title) ?: metadata.methodName
         return CariocaJsonTestReport(
             testId = testId,
             testDescription = testTitle,
             testClass = metadata.className,
             testName = metadata.methodName,
-            testFullName = metadata.getTestFullName(),
+            testFullName = metadata.fullName,
             execution = mapExecutionReport(test.getExecutionMetadata()),
             attachments = mapAttachments(test.getAttachments()),
             stages = test.getStages().mapNotNull { stage ->
@@ -106,7 +106,7 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun buildStageReport(stage: CariocaStage): StageJsonReport? {
+    private fun buildStageReport(stage: StageReport): StageJsonReport? {
         return when (stage) {
             is InstrumentedStep -> buildStepReport(stage)
             is InstrumentedScenario -> buildScenarioReport(stage)

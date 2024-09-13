@@ -35,7 +35,7 @@ import com.rubensousa.carioca.junit.report.ExecutionIdGenerator
 import com.rubensousa.carioca.junit.report.StageStack
 
 internal class InstrumentedStageDelegate(
-    private val stack: StageStack<InstrumentedStage>,
+    private val stack: StageStack<InstrumentedStageReport>,
     private val reporter: CariocaInstrumentedReporter,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
     private val outputPath: String,

@@ -27,32 +27,33 @@ import com.rubensousa.carioca.android.report.recording.DeviceScreenRecorder
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.recording.ReportRecording
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.stage.InstrumentedStage
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageDelegate
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.junit.report.StageStack
+import com.rubensousa.carioca.junit.report.TestMetadata
 
 /**
  * The main entry point for all reports.
  *
- * Get the metadata of this test through [getMetadata] and/or [getProperties].
+ * Get the metadata of this test through [getMetadata] and/or [getProperty].
  *
  * To get the stages for reporting, use [getStages]
  */
 class InstrumentedTest internal constructor(
     outputPath: String,
-    private val metadata: InstrumentedTestMetadata,
+    val metadata: TestMetadata,
     private val recordingOptions: RecordingOptions,
     private val screenshotOptions: ScreenshotOptions,
     private val reporter: CariocaInstrumentedReporter,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
-) : InstrumentedStage(outputPath), InstrumentedTestScope, InstrumentedCoroutineTestScope {
+) : InstrumentedStageReport(outputPath), InstrumentedTestScope, InstrumentedCoroutineTestScope {
 
-    private val stageStack = StageStack<InstrumentedStage>()
+    private val stageStack = StageStack<InstrumentedStageReport>()
     private val stageDelegate = InstrumentedStageDelegate(
         stack = stageStack,
         reporter = reporter,
@@ -89,8 +90,6 @@ class InstrumentedTest internal constructor(
         addStage(newScenario)
         stageDelegate.executeCoroutineScenario(newScenario)
     }
-
-    fun getMetadata(): InstrumentedTestMetadata = metadata
 
     internal fun starting() {
         intercept { onTestStarted(this@InstrumentedTest) }
@@ -192,7 +191,7 @@ class InstrumentedTest internal constructor(
     }
 
     override fun toString(): String {
-        return "Test(fullName='${metadata.getTestFullName()}')"
+        return "Test(fullName='${metadata.fullName}')"
     }
 
 }

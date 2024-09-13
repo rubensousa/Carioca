@@ -1,6 +1,7 @@
 plugins {
     id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.kover)
 }
 
 java {
@@ -9,5 +10,6 @@ java {
 }
 
 dependencies {
+    implementation(libs.junit)
     testImplementation(libs.bundles.test.unit)
 }

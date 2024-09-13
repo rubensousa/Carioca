@@ -14,19 +14,31 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.test
+package com.rubensousa.carioca.junit.report
 
 import org.junit.runner.Description
 
-data class InstrumentedTestMetadata(
-    val description: Description,
+data class TestMetadata(
     val packageName: String,
     val className: String,
     val methodName: String,
+    val fullName: String,
 ) {
 
-    fun getTestFullName(): String {
-        return "$packageName.$className.$methodName"
+    companion object {
+
+        fun from(description: Description): TestMetadata {
+            val packageName = description.testClass.`package`?.name ?: ""
+            val className = description.testClass.name
+            val methodName = description.methodName
+            return TestMetadata(
+                packageName = packageName,
+                className = className,
+                methodName = methodName,
+                fullName = "$packageName.$className.$methodName"
+            )
+        }
+
     }
 
 }

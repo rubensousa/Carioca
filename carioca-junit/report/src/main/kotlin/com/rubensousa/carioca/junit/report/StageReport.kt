@@ -16,16 +16,17 @@
 
 package com.rubensousa.carioca.junit.report
 
+
 /**
  * The building block of all test reports
  */
-abstract class CariocaStage(
+abstract class StageReport(
     private val executionId: String = ExecutionIdGenerator.get(),
 ) {
 
-    private val childStages = mutableListOf<CariocaStage>()
-    private val properties = mutableMapOf<String, Any>()
-    private val startTime = System.currentTimeMillis()
+    private val childStages = mutableListOf<StageReport>()
+    private val properties = mutableMapOf<ReportProperty, Any>()
+    private var startTime = System.currentTimeMillis()
     private var endTime = startTime
     private var status = ExecutionStatus.RUNNING
     private var failureCause: Throwable? = null
@@ -71,57 +72,53 @@ abstract class CariocaStage(
     }
 
     /**
-     * @return the child stages that started within this stage
-     */
-    fun getStages(): List<CariocaStage> = childStages.toList()
-
-    /**
      * Adds an extra property to this report
      *
      * @param key identifier for this property
      * @param value value of this property
      */
-    fun addProperty(key: PropertyKey, value: Any) {
-        properties[key.id] = value
-    }
-
-    /**
-     * Adds an extra property to this report
-     *
-     * @param key identifier for this property
-     * @param value value of this property
-     */
-    fun addProperty(key: String, value: Any) {
+    fun addProperty(key: ReportProperty, value: Any) {
         properties[key] = value
     }
 
     /**
-     * @return collection of properties added through [addProperty]
+     * @return all properties registered through [addProperty]
      */
-    fun getProperties(): Map<String, Any> = properties.toMap()
+    fun getProperties() = properties.toMap()
 
     /**
-     * @return the property registered previously through [addProperty] or null if not found
+     * @return the property registered previously through [addProperty]
+     * or null if not found or does not match the expected type
      */
-    fun <T : Any> getProperty(key: PropertyKey): T? {
-        return getProperty(key.id)
+    inline fun <reified T> getProperty(key: ReportProperty): T? {
+        return getProperties()[key] as? T?
     }
 
-    @Suppress("UNCHECKED_CAST")
-    fun <T : Any> getProperty(key: String): T? {
-        return properties[key] as? T?
-    }
+    /**
+     * @return the child stages that started within this stage
+     */
+    fun getStages(): List<StageReport> = childStages.toList()
 
-    protected fun addStage(stage: CariocaStage) {
+    /**
+     * @param stage a nested stage within this report
+     */
+    fun addStage(stage: StageReport) {
         childStages.add(stage)
     }
 
-    protected open fun reset() {
+    open fun reset() {
+        status = ExecutionStatus.RUNNING
+        startTime = System.currentTimeMillis()
+        endTime = startTime
+        failureCause = null
         childStages.clear()
+        properties.clear()
     }
 
     private fun ensureStageRunning() {
-        require(status == ExecutionStatus.RUNNING) { "Cannot change stage in current state: $status" }
+        require(status == ExecutionStatus.RUNNING) {
+            "Cannot change stage in current state: $status"
+        }
     }
 
     private fun saveEndTime() {

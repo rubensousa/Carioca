@@ -17,8 +17,8 @@
 package com.rubensousa.carioca.android.report
 
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestMetadata
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
+import com.rubensousa.carioca.junit.report.TestMetadata
 import java.io.OutputStream
 
 /**
@@ -32,7 +32,7 @@ interface CariocaInstrumentedReporter {
      *
      * @return The relative output directory for this report
      */
-    fun getOutputDir(metadata: InstrumentedTestMetadata): String
+    fun getOutputDir(metadata: TestMetadata): String
 
     /**
      * @param stage the test report to be saved

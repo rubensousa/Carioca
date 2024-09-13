@@ -18,7 +18,7 @@ package com.rubensousa.carioca.android.report.interceptor
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.stage.InstrumentedStage
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
@@ -29,7 +29,7 @@ class DumpViewHierarchyInterceptor(
     private val device: UiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()),
 ) : CariocaInstrumentedInterceptor {
 
-    override fun onStageStarted(stage: InstrumentedStage) {
+    override fun onStageStarted(stage: InstrumentedStageReport) {
         if (dumpOnEveryStage) {
             dump(stage)
         }
@@ -43,7 +43,7 @@ class DumpViewHierarchyInterceptor(
         return metadata.uniqueId + "${metadata.status.name.lowercase()}_view_hierarchy.txt"
     }
 
-    private fun dump(stage: InstrumentedStage) {
+    private fun dump(stage: InstrumentedStageReport) {
         try {
             val filename = getFilename(stage.getExecutionMetadata())
             val outputStream = stage.getAttachmentOutputStream(filename)

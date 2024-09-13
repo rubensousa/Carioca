@@ -21,7 +21,7 @@ package com.rubensousa.carioca.junit.report
  *
  * The top of the stack points to the current active stage
  */
-class StageStack<T : CariocaStage> {
+class StageStack<T : StageReport> {
 
     private val stack = ArrayDeque<T>()
     private val stages = mutableListOf<T>()

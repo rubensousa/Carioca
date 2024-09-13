@@ -16,9 +16,14 @@
 
 package com.rubensousa.carioca.junit.report
 
-data class TestReportMetadata(
-    val id: String?,
-    val title: String?,
-    val links: List<String>,
-    val description: String?
-)
+interface ReportProperty {
+
+    data object Id : ReportProperty
+
+    data object Title : ReportProperty
+
+    data object Links : ReportProperty
+
+    data object Description : ReportProperty
+
+}

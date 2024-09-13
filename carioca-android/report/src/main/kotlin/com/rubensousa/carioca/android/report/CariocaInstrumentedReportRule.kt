@@ -22,13 +22,11 @@ import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterc
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestMetadata
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestScope
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
 import com.rubensousa.carioca.android.report.suite.SuiteStage
-import com.rubensousa.carioca.junit.report.PropertyKey
-import com.rubensousa.carioca.junit.report.TestReport
-import com.rubensousa.carioca.junit.report.TestReportMetadata
+import com.rubensousa.carioca.junit.report.TestMetadata
+import com.rubensousa.carioca.junit.report.TestReportConfig
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import kotlin.coroutines.CoroutineContext
@@ -140,66 +138,34 @@ open class CariocaInstrumentedReportRule(
         interceptors: List<CariocaInstrumentedInterceptor>,
         reporter: CariocaInstrumentedReporter,
     ): InstrumentedTest {
-        val reportMetadata = getReportMetadata(description)
-        val metadata = InstrumentedTestMetadata(
-            description = description,
-            packageName = description.testClass.`package`?.name ?: "",
-            className = description.testClass.name,
-            methodName = description.methodName
-        )
-        var outputPath = reporter.getOutputDir(metadata)
+        val reportConfig = TestReportConfig.from(description)
+        val testMetadata = TestMetadata.from(description)
+        var outputPath = reporter.getOutputDir(testMetadata)
         if (!outputPath.startsWith("/")) {
             outputPath = "/$outputPath"
         }
         val testReport = InstrumentedTest(
             outputPath = outputPath,
-            metadata = metadata,
+            metadata = testMetadata,
             recordingOptions = recordingOptions,
             interceptors = interceptors,
             screenshotOptions = screenshotOptions,
             reporter = reporter
         )
+        reportConfig?.apply(testReport)
 
-        reportMetadata?.let {
-            addReportProperties(testReport, it)
-        }
         return testReport
     }
 
-    private fun getReportMetadata(description: Description): TestReportMetadata? {
-        val annotation = description.getAnnotation(TestReport::class.java) ?: return null
-        return TestReportMetadata(
-            id = annotation.id.nullIfEmpty(),
-            title = annotation.title.nullIfEmpty(),
-            links = annotation.links.toList(),
-            description = annotation.description.nullIfEmpty(),
-        )
-    }
-
-    private fun String.nullIfEmpty() = takeIf { it.isNotBlank() }
-
-    private fun addReportProperties(
-        test: InstrumentedTest,
-        metadata: TestReportMetadata,
-    ) {
-        test.addProperty(PropertyKey.Links, metadata.links.toList())
-        metadata.title?.let {
-            test.addProperty(PropertyKey.Title, it)
-        }
-        metadata.description?.let {
-            test.addProperty(PropertyKey.Description, it)
-        }
-    }
-
     private fun getTestId(
-        metadata: TestReportMetadata?,
+        metadata: TestReportConfig?,
         description: Description,
     ): String {
         return metadata?.id ?: getDefaultTestId(description)
     }
 
     private fun getTestTitle(
-        metadata: TestReportMetadata?,
+        metadata: TestReportConfig?,
         description: Description,
     ): String {
         return metadata?.title ?: description.methodName
