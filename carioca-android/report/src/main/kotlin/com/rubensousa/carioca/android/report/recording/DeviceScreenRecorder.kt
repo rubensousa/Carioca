@@ -41,7 +41,7 @@ object DeviceScreenRecorder {
         val outputDir = TestStorageDirectory.outputDir
         val videoFilename = "${filename}.mp4"
         val relativePath = "$relativeOutputDirPath/$videoFilename"
-        val absolutePath = "${outputDir.absolutePath}${relativePath}"
+        val absolutePath = "${outputDir.absolutePath}/${relativePath}"
         val recording = ReportRecording(
             absoluteFilePath = absolutePath,
             relativeFilePath = relativePath,
