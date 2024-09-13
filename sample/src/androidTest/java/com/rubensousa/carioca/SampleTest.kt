@@ -23,8 +23,7 @@ import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScen
 import com.rubensousa.carioca.android.report.stage.test.Given
 import com.rubensousa.carioca.android.report.stage.test.Then
 import com.rubensousa.carioca.android.report.stage.test.When
-import com.rubensousa.carioca.stage.TestId
-import com.rubensousa.carioca.stage.TestTitle
+import com.rubensousa.carioca.junit.report.TestReport
 import org.junit.Rule
 import org.junit.Test
 
@@ -35,8 +34,12 @@ class SampleTest {
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
-    @TestId("This is a persistent test id")
-    @TestTitle("Opening notification and quick settings works")
+    @TestReport(
+        id = "PROJECT-122",
+        description = "Opening notification and quick settings should be possible " +
+                "in pretty much all devices. This is just an example description",
+        links = ["https://developer.android.com/training/testing/other-components/ui-automator"]
+    )
     @Test
     fun testSuccessfulTest() = report {
         scenario(SampleScreenScenario())
@@ -55,8 +58,11 @@ class SampleTest {
         }
     }
 
-    @TestId(id = "This is a persistent test id 2")
-    @TestTitle("Opening notification and quick settings")
+    @TestReport(
+        id = "PROJECT-123",
+        title = "Opening notification and quick settings",
+        links = ["https://developer.android.com/training/testing/other-components/ui-automator"]
+    )
     @Test
     fun testFailedTest() = report {
         scenario(SampleScreenScenario())

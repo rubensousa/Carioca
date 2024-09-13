@@ -20,9 +20,9 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-import com.rubensousa.carioca.stage.ExecutionIdGenerator
-import com.rubensousa.carioca.stage.ExecutionMetadata
-import com.rubensousa.carioca.stage.ExecutionStatus
+import com.rubensousa.carioca.junit.report.ExecutionIdGenerator
+import com.rubensousa.carioca.junit.report.ExecutionMetadata
+import com.rubensousa.carioca.junit.report.ExecutionStatus
 import org.junit.runner.Result
 
 internal interface SuiteStage {

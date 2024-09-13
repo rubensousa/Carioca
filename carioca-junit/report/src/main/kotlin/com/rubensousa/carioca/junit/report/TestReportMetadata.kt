@@ -14,13 +14,11 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.junit.report
 
-import com.rubensousa.carioca.junit.report.ExecutionMetadata
-import com.rubensousa.carioca.junit.report.ExecutionStatus
-
-data class TestSuiteReport(
-    val packageName: String,
-    val executionMetadata: ExecutionMetadata,
-    val testStatus: Map<ExecutionStatus, Int>,
+data class TestReportMetadata(
+    val id: String?,
+    val title: String?,
+    val links: List<String>,
+    val description: String?
 )

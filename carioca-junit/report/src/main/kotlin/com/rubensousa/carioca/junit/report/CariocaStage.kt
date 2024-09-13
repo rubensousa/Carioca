@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.stage
+package com.rubensousa.carioca.junit.report
 
 /**
- * The building block of all stages
+ * The building block of all test reports
  */
-abstract class CariocaStage {
+abstract class CariocaStage(
+    private val executionId: String = ExecutionIdGenerator.get(),
+) {
 
     private val childStages = mutableListOf<CariocaStage>()
-    private val executionId = ExecutionIdGenerator.get()
+    private val properties = mutableMapOf<String, Any>()
     private val startTime = System.currentTimeMillis()
     private var endTime = startTime
     private var status = ExecutionStatus.RUNNING
@@ -73,11 +75,48 @@ abstract class CariocaStage {
      */
     fun getStages(): List<CariocaStage> = childStages.toList()
 
+    /**
+     * Adds an extra property to this report
+     *
+     * @param key identifier for this property
+     * @param value value of this property
+     */
+    fun addProperty(key: PropertyKey, value: Any) {
+        properties[key.id] = value
+    }
+
+    /**
+     * Adds an extra property to this report
+     *
+     * @param key identifier for this property
+     * @param value value of this property
+     */
+    fun addProperty(key: String, value: Any) {
+        properties[key] = value
+    }
+
+    /**
+     * @return collection of properties added through [addProperty]
+     */
+    fun getProperties(): Map<String, Any> = properties.toMap()
+
+    /**
+     * @return the property registered previously through [addProperty] or null if not found
+     */
+    fun <T : Any> getProperty(key: PropertyKey): T? {
+        return getProperty(key.id)
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T : Any> getProperty(key: String): T? {
+        return properties[key] as? T?
+    }
+
     protected fun addStage(stage: CariocaStage) {
         childStages.add(stage)
     }
 
-    protected fun clearStages() {
+    protected open fun reset() {
         childStages.clear()
     }
 

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.stage
+package com.rubensousa.carioca.junit.report
 
-import java.util.UUID
-
-object ExecutionIdGenerator {
-
-    fun get(): String {
-        return UUID.randomUUID().toString()
-    }
-
+/**
+ * The different status of every stage
+ */
+enum class ExecutionStatus {
+    RUNNING,
+    PASSED,
+    FAILED,
+    SKIPPED
 }

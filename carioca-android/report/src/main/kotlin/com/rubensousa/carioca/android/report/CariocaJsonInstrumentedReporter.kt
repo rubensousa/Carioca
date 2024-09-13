@@ -22,8 +22,9 @@ import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestMetadata
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
-import com.rubensousa.carioca.stage.CariocaStage
-import com.rubensousa.carioca.stage.ExecutionMetadata
+import com.rubensousa.carioca.junit.report.CariocaStage
+import com.rubensousa.carioca.junit.report.ExecutionMetadata
+import com.rubensousa.carioca.junit.report.PropertyKey
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -76,9 +77,11 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
 
     private fun buildTestReport(test: InstrumentedTest): CariocaJsonTestReport {
         val metadata = test.getMetadata()
+        val testId = test.getProperty(PropertyKey.Id) ?: metadata.getTestFullName()
+        val testTitle = test.getProperty(PropertyKey.Title) ?: metadata.getTestFullName()
         return CariocaJsonTestReport(
-            testId = metadata.testId,
-            testDescription = metadata.testTitle,
+            testId = testId,
+            testDescription = testTitle,
             testClass = metadata.className,
             testName = metadata.methodName,
             testFullName = metadata.getTestFullName(),

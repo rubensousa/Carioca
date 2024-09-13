@@ -40,7 +40,7 @@ android {
 }
 
 dependencies {
-    api(project(":carioca-stage"))
+    api(project(":carioca-junit:report"))
     implementation(libs.kotlinx.coroutines.test)
     implementation(libs.kotlinx.coroutines.android)
 

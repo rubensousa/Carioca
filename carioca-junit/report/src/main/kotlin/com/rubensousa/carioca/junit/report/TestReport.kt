@@ -14,19 +14,29 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.stage
+package com.rubensousa.carioca.junit.report
 
 /**
- * A persistent identifier for a test. Used to track progress of different executions
+ * Decorates the test reports with extra information
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION)
-annotation class TestId(val id: String)
-
-
-/**
- * A human-readable format of the test
- */
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION)
-annotation class TestTitle(val title: String)
+annotation class TestReport(
+    /**
+     * A persistent identifier for a test. Used to track progress of different executions
+     * Passing empty won't have effect
+     */
+    val id: String = "",
+    /**
+     * A human-readable title of the test
+     */
+    val title: String = "",
+    /**
+     * A human-readable description of the test
+     */
+    val description: String = "",
+    /**
+     * A collection of links relevant for the report
+     */
+    val links: Array<String> = [],
+)

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.stage
+package com.rubensousa.carioca.junit.report
 
 /**
  * Holds the current state of the stage execution.

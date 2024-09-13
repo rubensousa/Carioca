@@ -26,8 +26,9 @@ import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestMetadata
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestScope
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
 import com.rubensousa.carioca.android.report.suite.SuiteStage
-import com.rubensousa.carioca.stage.TestId
-import com.rubensousa.carioca.stage.TestTitle
+import com.rubensousa.carioca.junit.report.PropertyKey
+import com.rubensousa.carioca.junit.report.TestReport
+import com.rubensousa.carioca.junit.report.TestReportMetadata
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 import kotlin.coroutines.CoroutineContext
@@ -107,7 +108,7 @@ open class CariocaInstrumentedReportRule(
 
     final override fun starting(description: Description) {
         super.starting(description)
-        val test = createTestStage(
+        val test = createTestReport(
             description = description,
             recordingOptions = recordingOptions,
             screenshotOptions = screenshotOptions,
@@ -132,23 +133,22 @@ open class CariocaInstrumentedReportRule(
     }
 
     // TODO: Get the previous instance if this test was retried with a retry rule
-    private fun createTestStage(
+    private fun createTestReport(
         description: Description,
         recordingOptions: RecordingOptions,
         screenshotOptions: ScreenshotOptions,
         interceptors: List<CariocaInstrumentedInterceptor>,
         reporter: CariocaInstrumentedReporter,
     ): InstrumentedTest {
+        val reportMetadata = getReportMetadata(description)
         val metadata = InstrumentedTestMetadata(
             description = description,
-            testId = getTestId(description),
-            testTitle = getTestTitle(description),
             packageName = description.testClass.`package`?.name ?: "",
             className = description.testClass.name,
             methodName = description.methodName
         )
         val outputPath = reporter.getOutputDir(metadata)
-        return InstrumentedTest(
+        val testReport = InstrumentedTest(
             outputPath = outputPath,
             metadata = metadata,
             recordingOptions = recordingOptions,
@@ -156,16 +156,50 @@ open class CariocaInstrumentedReportRule(
             screenshotOptions = screenshotOptions,
             reporter = reporter
         )
+
+        reportMetadata?.let {
+            addReportProperties(testReport, it)
+        }
+        return testReport
     }
 
-    private fun getTestId(description: Description): String {
-        val testId = description.getAnnotation(TestId::class.java)
-        return testId?.id ?: getDefaultTestId(description)
+    private fun getReportMetadata(description: Description): TestReportMetadata? {
+        val annotation = description.getAnnotation(TestReport::class.java) ?: return null
+        return TestReportMetadata(
+            id = annotation.id.nullIfEmpty(),
+            title = annotation.title.nullIfEmpty(),
+            links = annotation.links.toList(),
+            description = annotation.description.nullIfEmpty(),
+        )
     }
 
-    private fun getTestTitle(description: Description): String {
-        val annotation = description.getAnnotation(TestTitle::class.java)
-        return annotation?.title ?: description.methodName
+    private fun String.nullIfEmpty() = takeIf { it.isNotBlank() }
+
+    private fun addReportProperties(
+        test: InstrumentedTest,
+        metadata: TestReportMetadata,
+    ) {
+        test.addProperty(PropertyKey.Links, metadata.links.toList())
+        metadata.title?.let {
+            test.addProperty(PropertyKey.Title, it)
+        }
+        metadata.description?.let {
+            test.addProperty(PropertyKey.Description, it)
+        }
+    }
+
+    private fun getTestId(
+        metadata: TestReportMetadata?,
+        description: Description,
+    ): String {
+        return metadata?.id ?: getDefaultTestId(description)
+    }
+
+    private fun getTestTitle(
+        metadata: TestReportMetadata?,
+        description: Description,
+    ): String {
+        return metadata?.title ?: description.methodName
     }
 
     private fun getDefaultTestId(description: Description): String {

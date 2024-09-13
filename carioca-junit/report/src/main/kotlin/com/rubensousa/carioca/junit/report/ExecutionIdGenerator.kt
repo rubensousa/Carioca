@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.junit.report
 
-import com.rubensousa.carioca.junit.report.ExecutionMetadata
-import com.rubensousa.carioca.junit.report.ExecutionStatus
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-data class TestSuiteReport(
-    val packageName: String,
-    val executionMetadata: ExecutionMetadata,
-    val testStatus: Map<ExecutionStatus, Int>,
-)
+@OptIn(ExperimentalUuidApi::class)
+object ExecutionIdGenerator {
+
+    fun get(): String {
+        return Uuid.random().toString()
+    }
+
+}

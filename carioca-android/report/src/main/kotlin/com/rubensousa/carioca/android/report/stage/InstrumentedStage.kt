@@ -20,7 +20,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-import com.rubensousa.carioca.stage.CariocaStage
+import com.rubensousa.carioca.junit.report.CariocaStage
 import java.io.File
 import java.io.OutputStream
 
@@ -29,7 +29,6 @@ abstract class InstrumentedStage(
 ) : CariocaStage() {
 
     private val attachments = mutableListOf<StageAttachment>()
-    private val properties = mutableMapOf<String, Any>()
 
     fun attach(attachment: StageAttachment) {
         attachments.add(attachment)
@@ -42,15 +41,8 @@ abstract class InstrumentedStage(
         return TestStorageProvider.getOutputStream(relativePath)
     }
 
-    fun addProperty(key: String, value: Any) {
-        properties[key] = value
-    }
-
-    fun getProperties(): Map<String, Any> = properties.toMap()
-
-    protected fun resetState() {
-        clearStages()
-        properties.clear()
+    override fun reset() {
+        super.reset()
         attachments.clear()
     }
 

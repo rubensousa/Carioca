@@ -34,7 +34,7 @@ import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScen
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-import com.rubensousa.carioca.stage.StageStack
+import com.rubensousa.carioca.junit.report.StageStack
 
 /**
  * The main entry point for all reports.
@@ -141,8 +141,8 @@ class InstrumentedTest internal constructor(
     }
 
     // Ensures there is no persistent state across test re-executions
-    private fun reset() {
-        resetState()
+    override fun reset() {
+        super.reset()
         stageStack.clear()
         screenRecording = null
     }
@@ -192,7 +192,7 @@ class InstrumentedTest internal constructor(
     }
 
     override fun toString(): String {
-        return "Test(id='${metadata.testId}', fullName='${metadata.getTestFullName()}')"
+        return "Test(fullName='${metadata.getTestFullName()}')"
     }
 
 }

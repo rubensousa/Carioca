@@ -28,6 +28,7 @@ data class AllureReport(
     val labels: List<AllureLabel>,
     val name: String,
     val status: String,
+    val description: String? = null,
     val statusDetails: AllureStatusDetail? = null,
     val stage: String,
     val steps: List<AllureStep>,

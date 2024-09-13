@@ -20,8 +20,6 @@ import org.junit.runner.Description
 
 data class InstrumentedTestMetadata(
     val description: Description,
-    val testId: String,
-    val testTitle: String,
     val packageName: String,
     val className: String,
     val methodName: String,

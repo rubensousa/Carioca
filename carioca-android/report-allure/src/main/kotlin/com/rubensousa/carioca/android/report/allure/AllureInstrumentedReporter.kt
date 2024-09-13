@@ -24,9 +24,10 @@ import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestMetadata
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
-import com.rubensousa.carioca.stage.CariocaStage
-import com.rubensousa.carioca.stage.ExecutionMetadata
-import com.rubensousa.carioca.stage.ExecutionStatus
+import com.rubensousa.carioca.junit.report.CariocaStage
+import com.rubensousa.carioca.junit.report.ExecutionMetadata
+import com.rubensousa.carioca.junit.report.ExecutionStatus
+import com.rubensousa.carioca.junit.report.PropertyKey
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
@@ -42,6 +43,7 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
     private val json = Json {
         prettyPrint = true
         prettyPrintIndent = " "
+        explicitNulls = false
     }
 
     override fun getOutputDir(metadata: InstrumentedTestMetadata): String {
@@ -89,14 +91,17 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
     private fun createTestReport(test: InstrumentedTest): AllureReport {
         val metadata = test.getMetadata()
         val execution = test.getExecutionMetadata()
+        val testId = test.getProperty(PropertyKey.Id) ?: metadata.getTestFullName()
+        val testTitle = test.getProperty(PropertyKey.Title) ?: metadata.methodName
         return AllureReport(
             uuid = execution.uniqueId,
-            historyId = metadata.testId,
-            testCaseId = metadata.testId,
+            historyId = testId,
+            testCaseId = testId,
             fullName = metadata.getTestFullName(),
-            links = emptyList(),
+            links = createLinks(test),
             labels = createLabels(metadata),
-            name = metadata.testTitle,
+            name = testTitle,
+            description = test.getProperty(PropertyKey.Description),
             status = getStatus(execution.status),
             statusDetails = getStatusDetail(execution),
             stage = stageValue,
@@ -255,6 +260,17 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
                 value = "kotlin"
             ),
         )
+    }
+
+    private fun createLinks(test: InstrumentedTest): List<AllureLink> {
+        val links = test.getProperty<List<String>>(PropertyKey.Links) ?: return emptyList()
+        return links.map { link ->
+            AllureLink(
+                name = link,
+                url = link,
+                type = "general"
+            )
+        }
     }
 
     private fun getStatusDetail(metadata: ExecutionMetadata): AllureStatusDetail? {

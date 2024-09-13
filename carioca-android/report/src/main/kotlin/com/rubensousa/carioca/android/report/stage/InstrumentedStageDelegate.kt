@@ -31,8 +31,8 @@ import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepMetadata
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-import com.rubensousa.carioca.stage.ExecutionIdGenerator
-import com.rubensousa.carioca.stage.StageStack
+import com.rubensousa.carioca.junit.report.ExecutionIdGenerator
+import com.rubensousa.carioca.junit.report.StageStack
 
 internal class InstrumentedStageDelegate(
     private val stack: StageStack<InstrumentedStage>,
@@ -78,7 +78,7 @@ internal class InstrumentedStageDelegate(
     fun createScenario(scenario: InstrumentedTestScenario): InstrumentedScenario {
         return InstrumentedScenario(
             metadata = InstrumentedScenarioMetadata(
-                id = scenario.id ?: ExecutionIdGenerator.get(),
+                id = scenario.id,
                 title = scenario.title
             ),
             scenario = scenario,
@@ -89,9 +89,10 @@ internal class InstrumentedStageDelegate(
     }
 
     fun createCoroutineScenario(scenario: InstrumentedCoroutineScenario): InstrumentedScenario {
+        val id = ExecutionIdGenerator.get()
         return InstrumentedScenario(
             metadata = InstrumentedScenarioMetadata(
-                id = scenario.id ?: ExecutionIdGenerator.get(),
+                id = scenario.id ?: id,
                 title = scenario.title
             ),
             scenario = null,

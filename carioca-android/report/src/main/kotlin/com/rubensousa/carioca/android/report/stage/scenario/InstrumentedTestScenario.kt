@@ -22,11 +22,12 @@ package com.rubensousa.carioca.android.report.stage.scenario
  * set of steps that need to execute in an consistent order
  *
  * @param title the description of this scenario
- * @param id an optional persistent id for tracking multiple executions of this scenario
+ * @param id a persistent id for tracking multiple executions of this scenario.
+ * Default: same as [title]
  */
 abstract class InstrumentedTestScenario(
     val title: String,
-    val id: String? = null,
+    val id: String = title,
 ) {
 
     abstract fun run(scope: InstrumentedScenarioScope)

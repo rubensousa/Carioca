@@ -14,14 +14,24 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.stage
+package com.rubensousa.carioca.junit.report
 
-/**
- * The different status of every stage
- */
-enum class ExecutionStatus {
-    RUNNING,
-    PASSED,
-    FAILED,
-    SKIPPED
+interface PropertyKey {
+    val id: String
+
+    data object Id : PropertyKey {
+        override val id: String = "id"
+    }
+
+    data object Title : PropertyKey {
+        override val id: String = "title"
+    }
+
+    data object Links : PropertyKey {
+        override val id: String = "links"
+    }
+
+    data object Description : PropertyKey {
+        override val id: String = "description"
+    }
 }
