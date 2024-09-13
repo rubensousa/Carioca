@@ -16,8 +16,8 @@
 
 package com.rubensousa.carioca.android.report.interceptor
 
+import com.rubensousa.carioca.android.report.stage.InstrumentedStage
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
-import com.rubensousa.carioca.stage.CariocaStage
 
 /**
  * Lifecycle of a report:
@@ -34,11 +34,11 @@ interface CariocaInstrumentedInterceptor {
 
     fun onTestStarted(test: InstrumentedTest) {}
 
-    fun onStageStarted(stage: CariocaStage) {}
+    fun onStageStarted(stage: InstrumentedStage) {}
 
-    fun onStagePassed(stage: CariocaStage) {}
+    fun onStagePassed(stage: InstrumentedStage) {}
 
-    fun onStageFailed(stage: CariocaStage) {}
+    fun onStageFailed(stage: InstrumentedStage) {}
 
     fun onTestPassed(test: InstrumentedTest) {}
 

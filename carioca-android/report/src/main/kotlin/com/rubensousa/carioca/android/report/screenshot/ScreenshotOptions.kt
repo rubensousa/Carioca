@@ -24,11 +24,13 @@ import android.graphics.Bitmap
  * @param scale the scale of the screenshot in relation to the original display size. Default: 0.5
  * @param quality the quality of the screenshot. From 0 to 100. Default: 80
  * @param format the image format of the screenshot. Default: JPG
+ * @param keepOnSuccess true if images should be kept if the test passes. Default: false
  */
 data class ScreenshotOptions(
     val scale: Float = 0.5f,
     val quality: Int = 80,
     val format: Bitmap.CompressFormat = Bitmap.CompressFormat.JPEG,
+    val keepOnSuccess: Boolean = false
 ) {
 
     init {

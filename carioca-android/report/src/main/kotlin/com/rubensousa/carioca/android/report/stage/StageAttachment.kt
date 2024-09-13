@@ -20,4 +20,5 @@ data class StageAttachment(
     val description: String,
     val path: String,
     val mimeType: String,
+    val keepOnSuccess: Boolean,
 )

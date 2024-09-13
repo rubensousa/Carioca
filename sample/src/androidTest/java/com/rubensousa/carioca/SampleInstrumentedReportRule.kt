@@ -17,14 +17,14 @@
 package com.rubensousa.carioca
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReportRule
-import com.rubensousa.carioca.android.report.allure.CariocaAllureInstrumentedReporter
+import com.rubensousa.carioca.android.report.allure.AllureInstrumentedReporter
 import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
 import com.rubensousa.carioca.android.report.interceptor.LoggerInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 
 class SampleInstrumentedReportRule : CariocaInstrumentedReportRule(
-    reporter = CariocaAllureInstrumentedReporter(),
+    reporter = AllureInstrumentedReporter(),
     recordingOptions = RecordingOptions(
         bitrate = 20_000_000,
         resolutionScale = 1.0f,
@@ -37,7 +37,18 @@ class SampleInstrumentedReportRule : CariocaInstrumentedReportRule(
     ),
     screenshotOptions = ScreenshotOptions(
         scale = 0.5f,
-        quality = 100
+        quality = 100,
+        /**
+         * Be extra careful with this option,
+         * as this might fill up the entire device depending on the number of tests.
+         * For demo purposes, we have it on
+         */
+        keepOnSuccess = true
     ),
-    interceptors = listOf(LoggerInterceptor(), DumpViewHierarchyInterceptor())
+    interceptors = listOf(
+        LoggerInterceptor(),
+        DumpViewHierarchyInterceptor(
+            dumpOnEveryStage = true
+        )
+    )
 )

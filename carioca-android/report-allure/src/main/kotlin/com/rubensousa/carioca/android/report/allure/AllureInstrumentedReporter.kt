@@ -33,7 +33,7 @@ import kotlinx.serialization.json.encodeToStream
 import java.io.BufferedOutputStream
 import java.io.OutputStream
 
-class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
+class AllureInstrumentedReporter : CariocaInstrumentedReporter {
 
     private val stageValue = "finished"
     private val dirName = "allure-results"
@@ -44,7 +44,7 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         prettyPrintIndent = " "
     }
 
-    override fun getOutputDir(test: InstrumentedTest): String {
+    override fun getOutputDir(metadata: InstrumentedTestMetadata): String {
         return dirName
     }
 
@@ -86,10 +86,10 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         }
     }
 
-    private fun createTestReport(test: InstrumentedTest): CariocaAllureReport {
+    private fun createTestReport(test: InstrumentedTest): AllureReport {
         val metadata = test.getMetadata()
         val execution = test.getExecutionMetadata()
-        return CariocaAllureReport(
+        return AllureReport(
             uuid = execution.uniqueId,
             historyId = metadata.testId,
             testCaseId = metadata.testId,
@@ -107,9 +107,9 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun createSuiteReport(report: TestSuiteReport): CariocaAllureReport {
+    private fun createSuiteReport(report: TestSuiteReport): AllureReport {
         val execution = report.executionMetadata
-        return CariocaAllureReport(
+        return AllureReport(
             uuid = execution.uniqueId,
             historyId = report.packageName,
             testCaseId = report.packageName,
@@ -165,7 +165,7 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         return when (stage) {
             is InstrumentedStep -> mapStep(stage)
             is InstrumentedScenario -> mapScenario(stage)
-            is InstrumentedStage<*> -> mapUnknownStage(stage)
+            is InstrumentedStage -> mapUnknownStage(stage)
             else -> null
         }
     }
@@ -187,7 +187,7 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun mapUnknownStage(stage: InstrumentedStage<*>): AllureStep {
+    private fun mapUnknownStage(stage: InstrumentedStage): AllureStep {
         val execution = stage.getExecutionMetadata()
         return AllureStep(
             name = stage.toString(),
@@ -201,7 +201,7 @@ class CariocaAllureInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun getAttachments(stage: InstrumentedStage<*>): List<AllureAttachment> {
+    private fun getAttachments(stage: InstrumentedStage): List<AllureAttachment> {
         return mapAttachments(stage.getAttachments())
     }
 

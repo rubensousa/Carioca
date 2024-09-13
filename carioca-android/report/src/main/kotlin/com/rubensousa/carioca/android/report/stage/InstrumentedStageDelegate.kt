@@ -33,7 +33,7 @@ import com.rubensousa.carioca.stage.ExecutionIdGenerator
 import com.rubensousa.carioca.stage.StageStack
 
 internal class InstrumentedStageDelegate(
-    private val stack: StageStack,
+    private val stack: StageStack<InstrumentedStage>,
     private val reporter: CariocaInstrumentedReporter,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
     private val outputPath: String,
@@ -46,7 +46,8 @@ internal class InstrumentedStageDelegate(
                 id = getStepId(id),
                 title = title,
             ),
-            stageDelegate = this
+            stageDelegate = this,
+            outputPath = outputPath
         )
     }
 
@@ -68,7 +69,8 @@ internal class InstrumentedStageDelegate(
                 title = scenario.title
             ),
             scenario = scenario,
-            stageDelegate = this
+            stageDelegate = this,
+            outputPath = outputPath
         )
     }
 
@@ -80,16 +82,20 @@ internal class InstrumentedStageDelegate(
         interceptors.intercept { onStagePassed(scenario) }
     }
 
-    fun takeScreenshot(description: String): StageAttachment? {
+    fun takeScreenshot(
+        description: String,
+        options: ScreenshotOptions = screenshotOptions,
+    ): StageAttachment? {
         val screenshotUri = DeviceScreenshot.take(
             storageDir = TestStorageProvider.getOutputUri(outputPath),
-            options = screenshotOptions,
+            options = options,
             filename = reporter.getScreenshotName(FileIdGenerator.get())
         ) ?: return null
         return StageAttachment(
             path = screenshotUri.path!!,
             description = description,
             mimeType = getScreenshotMimeType(),
+            keepOnSuccess = options.keepOnSuccess
         )
     }
 

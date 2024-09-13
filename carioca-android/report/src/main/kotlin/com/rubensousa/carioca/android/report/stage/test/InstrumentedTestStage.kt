@@ -32,7 +32,6 @@ import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.stage.StageStack
-import java.io.OutputStream
 
 /**
  * The main entry point for all reports.
@@ -42,21 +41,20 @@ import java.io.OutputStream
  * To get the stages for reporting, use [getStages]
  */
 class InstrumentedTest internal constructor(
+    outputPath: String,
     private val metadata: InstrumentedTestMetadata,
     private val recordingOptions: RecordingOptions,
     private val screenshotOptions: ScreenshotOptions,
     private val reporter: CariocaInstrumentedReporter,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
-) : InstrumentedStage<InstrumentedTestMetadata>(), InstrumentedTestScope {
+) : InstrumentedStage(outputPath), InstrumentedTestScope {
 
-    private val stageStack = StageStack()
-    private val attachments = mutableListOf<StageAttachment>()
-    private val outputDir = TestStorageProvider.getTestOutputDir(this, reporter)
+    private val stageStack = StageStack<InstrumentedStage>()
     private val stageDelegate = InstrumentedStageDelegate(
         stack = stageStack,
         reporter = reporter,
         interceptors = interceptors,
-        outputPath = outputDir,
+        outputPath = outputPath,
         screenshotOptions = screenshotOptions,
     )
     private var screenRecording: ReportRecording? = null
@@ -73,34 +71,23 @@ class InstrumentedTest internal constructor(
         stageDelegate.executeScenario(newScenario)
     }
 
-    override fun getMetadata(): InstrumentedTestMetadata = metadata
-
-    fun getAttachmentOutputStream(path: String): OutputStream {
-        val relativePath = "$outputDir/$path"
-        return TestStorageProvider.getOutputStream(relativePath)
-    }
+    fun getMetadata(): InstrumentedTestMetadata = metadata
 
     internal fun starting() {
         intercept { onTestStarted(this@InstrumentedTest) }
         if (recordingOptions.enabled) {
-            val filename = reporter.getRecordingName(FileIdGenerator.get())
-            screenRecording = DeviceScreenRecorder.startRecording(
-                filename = filename,
-                options = recordingOptions,
-                relativeOutputDirPath = outputDir
-            )
+            startRecording()
         }
     }
 
     internal fun failed(error: Throwable) {
         // Take a screenshot asap to record the state on failures
         stageDelegate.takeScreenshot("Screenshot of Failure")?.let {
-            attachments.add(it)
+            attach(it)
         }
 
-        // Now stop the recording, if there is one, and attach it
+        // Now stop the recording, if there is one
         screenRecording?.let { activeRecording ->
-            attachments.add(createRecordingAttachment(activeRecording))
             DeviceScreenRecorder.stopRecording(
                 recording = activeRecording,
                 delete = false
@@ -125,17 +112,12 @@ class InstrumentedTest internal constructor(
         pass()
         intercept { onTestPassed(this@InstrumentedTest) }
         screenRecording?.let {
-            val delete = !recordingOptions.keepOnSuccess
             DeviceScreenRecorder.stopRecording(
                 recording = it,
-                delete = delete
+                delete = !recordingOptions.keepOnSuccess
             )
-            if (delete) {
-                screenRecording = null
-            } else {
-                attachments.add(createRecordingAttachment(it))
-            }
         }
+        deleteAttachmentsOnSuccess()
         writeReport()
     }
 
@@ -147,7 +129,7 @@ class InstrumentedTest internal constructor(
     }
 
     private fun writeReport() {
-        val file = "$outputDir/${reporter.getReportFilename(this)}"
+        val file = "$outputPath/${reporter.getReportFilename(this)}"
         val outputStream = TestStorageProvider.getOutputStream(file)
         try {
             reporter.writeTestReport(this, outputStream)
@@ -163,11 +145,30 @@ class InstrumentedTest internal constructor(
         interceptors.intercept(action)
     }
 
+    private fun startRecording() {
+        val filename = reporter.getRecordingName(FileIdGenerator.get())
+        val newRecording = DeviceScreenRecorder.startRecording(
+            filename = filename,
+            options = recordingOptions,
+            relativeOutputDirPath = outputPath
+        )
+        attach(createRecordingAttachment(newRecording))
+        screenRecording = newRecording
+    }
+
+    private fun deleteAttachmentsOnSuccess() {
+        stageStack.getAll().forEach { stage ->
+            stage.deleteUnnecessaryAttachments()
+        }
+        deleteUnnecessaryAttachments()
+    }
+
     private fun createRecordingAttachment(recording: ReportRecording): StageAttachment {
         return StageAttachment(
             description = "Screen recording",
             path = recording.relativeFilePath,
-            mimeType = "video/mp4"
+            mimeType = "video/mp4",
+            keepOnSuccess = recordingOptions.keepOnSuccess
         )
     }
 

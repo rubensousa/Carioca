@@ -16,21 +16,32 @@
 
 package com.rubensousa.carioca.android.report.stage
 
+import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.uiautomator.UiDevice
+import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
+import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.stage.AbstractCariocaStage
 import com.rubensousa.carioca.stage.CariocaStage
+import java.io.File
+import java.io.OutputStream
 
-abstract class InstrumentedStage<T> : AbstractCariocaStage() {
+abstract class InstrumentedStage(
+    protected val outputPath: String,
+) : AbstractCariocaStage() {
 
-    private val attachments = arrayListOf<StageAttachment>()
+    private val attachments = mutableListOf<StageAttachment>()
     private val properties = mutableMapOf<String, Any>()
     private val stages = mutableListOf<CariocaStage>()
 
-    abstract fun getMetadata(): T
+    fun attach(attachment: StageAttachment) {
+        attachments.add(attachment)
+    }
 
     fun getAttachments(): List<StageAttachment> = attachments.toList()
 
-    fun attach(attachment: StageAttachment) {
-        attachments.add(attachment)
+    fun getAttachmentOutputStream(path: String): OutputStream {
+        val relativePath = "$outputPath/$path"
+        return TestStorageProvider.getOutputStream(relativePath)
     }
 
     fun addProperty(key: String, value: Any) {
@@ -49,6 +60,45 @@ abstract class InstrumentedStage<T> : AbstractCariocaStage() {
         stages.clear()
         properties.clear()
         attachments.clear()
+    }
+
+    /**
+     * This is called when the test passes to remove all attachments
+     * that did not request [StageAttachment.keepOnSuccess].
+     */
+    internal fun deleteUnnecessaryAttachments() {
+        val iterator = attachments.iterator()
+        while (iterator.hasNext()) {
+            val attachment = iterator.next()
+            if (!attachment.keepOnSuccess) {
+                deleteAttachment(attachment)
+                iterator.remove()
+            }
+        }
+    }
+
+    private fun deleteAttachment(attachment: StageAttachment) {
+        try {
+            val outputFile = File(TestStorageDirectory.outputDir, attachment.path)
+            if (outputFile.exists()) {
+                deleteAttachmentFile(outputFile)
+                outputFile.delete()
+            } else {
+                val tmpFile = File(TestStorageDirectory.tmpOutputDir, attachment.path)
+                if (tmpFile.exists()) {
+                    deleteAttachmentFile(tmpFile)
+                }
+            }
+        } catch (exception: Exception) {
+            // Ignore
+        }
+    }
+
+    private fun deleteAttachmentFile(file: File) {
+        if (!file.delete()) {
+            UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+                .executeShellCommand("rm ${file.absolutePath}")
+        }
     }
 
 }

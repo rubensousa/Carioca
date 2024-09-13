@@ -21,10 +21,11 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedStageDelegate
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
 
 class InstrumentedScenario internal constructor(
+    outputPath: String,
     private val metadata: InstrumentedScenarioMetadata,
     private val scenario: InstrumentedTestScenario,
     private val stageDelegate: InstrumentedStageDelegate,
-) : InstrumentedStage<InstrumentedScenarioMetadata>(), InstrumentedScenarioScope {
+) : InstrumentedStage(outputPath), InstrumentedScenarioScope {
 
     override fun step(title: String, id: String?, action: InstrumentedStepScope.() -> Unit) {
         val step = stageDelegate.createStep(title, id)
@@ -36,7 +37,7 @@ class InstrumentedScenario internal constructor(
         stageDelegate.takeScreenshot(description)?.let { attach(it) }
     }
 
-    override fun getMetadata(): InstrumentedScenarioMetadata = metadata
+    fun getMetadata(): InstrumentedScenarioMetadata = metadata
 
     internal fun execute() {
         scenario.run(this)

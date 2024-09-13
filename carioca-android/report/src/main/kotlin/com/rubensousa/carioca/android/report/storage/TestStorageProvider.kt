@@ -18,27 +18,14 @@ package com.rubensousa.carioca.android.report.storage
 
 import android.net.Uri
 import androidx.test.platform.io.PlatformTestStorageRegistry
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import java.io.OutputStream
 
 object TestStorageProvider {
 
     private val testStorage by lazy { PlatformTestStorageRegistry.getInstance() }
 
-    fun getRootOutputDir(): Uri {
-        return testStorage.getOutputFileUri("")
-    }
-
     fun getOutputUri(path: String): Uri {
         return testStorage.getOutputFileUri(path)
-    }
-
-    fun getTestOutputDir(
-        test: InstrumentedTest,
-        reporter: CariocaInstrumentedReporter,
-    ): String {
-        return "${getRootOutputDir().path}/${reporter.getOutputDir(test)}"
     }
 
     fun getOutputStream(uri: Uri): OutputStream {
@@ -48,6 +35,5 @@ object TestStorageProvider {
     fun getOutputStream(path: String): OutputStream {
         return testStorage.openOutputFile(path)
     }
-
 
 }

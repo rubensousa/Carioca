@@ -26,9 +26,13 @@ import java.io.File
  * Adapted from: androidx.test.platform.io.TestDirCalculator to ensure we can delete files
  */
 @SuppressLint("SdCardPath")
-internal object TestStorageDirectory {
+object TestStorageDirectory {
 
     val outputDir: File by lazy { calculateOutputDir() }
+
+    val tmpOutputDir: File by lazy {
+        File("/sdcard/googletest/test_outputfiles")
+    }
 
     private fun calculateOutputDir(): File {
         val additionalOutputTestDir = try {

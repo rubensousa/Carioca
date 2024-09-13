@@ -20,6 +20,7 @@ import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestMetadata
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.stage.CariocaStage
 import com.rubensousa.carioca.stage.ExecutionMetadata
@@ -42,8 +43,7 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
         explicitNulls = false
     }
 
-    override fun getOutputDir(test: InstrumentedTest): String {
-        val metadata = test.getMetadata()
+    override fun getOutputDir(metadata: InstrumentedTestMetadata): String {
         return "${metadata.className}/${metadata.methodName}"
     }
 

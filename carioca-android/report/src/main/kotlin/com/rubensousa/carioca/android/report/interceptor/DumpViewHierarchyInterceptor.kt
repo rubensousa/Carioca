@@ -18,27 +18,46 @@ package com.rubensousa.carioca.android.report.interceptor
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import com.rubensousa.carioca.android.report.stage.InstrumentedStage
 import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
+import com.rubensousa.carioca.stage.ExecutionMetadata
 
-class DumpViewHierarchyInterceptor : CariocaInstrumentedInterceptor {
+class DumpViewHierarchyInterceptor(
+    private val dumpOnEveryStage: Boolean = false,
+    private val keepOnSuccess: Boolean = false,
+    private val device: UiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()),
+) : CariocaInstrumentedInterceptor {
 
-    private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-    private val file = "view_hierarchy.txt"
+    override fun onStageStarted(stage: InstrumentedStage) {
+        if (dumpOnEveryStage) {
+            dump(stage)
+        }
+    }
 
     override fun onTestFailed(test: InstrumentedTest) {
+        dump(test)
+    }
+
+    private fun getFilename(metadata: ExecutionMetadata): String {
+        return metadata.uniqueId + "${metadata.status.name.lowercase()}_view_hierarchy.txt"
+    }
+
+    private fun dump(stage: InstrumentedStage) {
         try {
-            val outputStream = test.getAttachmentOutputStream(file)
+            val filename = getFilename(stage.getExecutionMetadata())
+            val outputStream = stage.getAttachmentOutputStream(filename)
             device.dumpWindowHierarchy(outputStream)
-            test.attach(
+            stage.attach(
                 StageAttachment(
                     description = "View hierarchy dump",
-                    path = file,
-                    mimeType = "text/plain"
+                    path = filename,
+                    mimeType = "text/plain",
+                    keepOnSuccess = keepOnSuccess
                 )
             )
         } catch (exception: Exception) {
-            // Do nothing
+            // Ignore
         }
     }
 

@@ -17,8 +17,8 @@
 package com.rubensousa.carioca.android.report.interceptor
 
 import android.util.Log
+import com.rubensousa.carioca.android.report.stage.InstrumentedStage
 import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
-import com.rubensousa.carioca.stage.CariocaStage
 
 class LoggerInterceptor : CariocaInstrumentedInterceptor {
 
@@ -28,15 +28,15 @@ class LoggerInterceptor : CariocaInstrumentedInterceptor {
         log("Test started: $test")
     }
 
-    override fun onStageStarted(stage: CariocaStage) {
+    override fun onStageStarted(stage: InstrumentedStage) {
         log("Stage started: $stage")
     }
 
-    override fun onStagePassed(stage: CariocaStage) {
+    override fun onStagePassed(stage: InstrumentedStage) {
         log("Stage passed: $stage")
     }
 
-    override fun onStageFailed(stage: CariocaStage) {
+    override fun onStageFailed(stage: InstrumentedStage) {
         log("Stage failed: $stage")
     }
 

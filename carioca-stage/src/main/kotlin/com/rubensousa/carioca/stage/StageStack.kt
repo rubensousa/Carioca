@@ -21,20 +21,24 @@ package com.rubensousa.carioca.stage
  *
  * The top of the stack points to the current active stage
  */
-class StageStack {
+class StageStack<T : CariocaStage> {
 
-    private val stack = ArrayDeque<CariocaStage>()
+    private val stack = ArrayDeque<T>()
+    private val stages = mutableListOf<T>()
 
-    fun push(stage: CariocaStage) {
+    fun push(stage: T) {
         stack.addLast(stage)
+        stages.add(stage)
     }
 
-    fun pop(): CariocaStage? {
+    fun pop(): T? {
         return stack.removeLastOrNull()
     }
 
     fun clear() {
         stack.clear()
     }
+
+    fun getAll() = stages.toList()
 
 }

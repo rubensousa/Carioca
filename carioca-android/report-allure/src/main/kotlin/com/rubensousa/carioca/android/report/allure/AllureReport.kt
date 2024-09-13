@@ -19,7 +19,7 @@ package com.rubensousa.carioca.android.report.allure
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CariocaAllureReport(
+data class AllureReport(
     val uuid: String,
     val historyId: String,
     val testCaseId: String,

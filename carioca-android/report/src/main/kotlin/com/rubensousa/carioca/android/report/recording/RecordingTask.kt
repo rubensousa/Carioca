@@ -92,7 +92,7 @@ internal class RecordingTask(
             if (delete) {
                 // Kill the process immediately and delete the file
                 device.executeShellCommand("pkill -9 $recordCommand")
-                device.executeShellCommand("rm ${recordingFile.path}")
+                device.executeShellCommand("rm ${recordingFile.absolutePath}")
             } else {
                 // Wait for a minimum amount of time before finishing to ensure the recording contains the last steps
                 Thread.sleep(options.stopDelay)
