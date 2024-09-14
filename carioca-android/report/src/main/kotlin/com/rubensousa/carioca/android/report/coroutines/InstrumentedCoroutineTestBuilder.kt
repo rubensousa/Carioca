@@ -14,17 +14,18 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.test
+package com.rubensousa.carioca.android.report.coroutines
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.junit.report.TestMetadata
 import com.rubensousa.carioca.junit.report.TestReportConfig
 import org.junit.runner.Description
 
-internal class InstrumentedTestBuilder {
+internal class InstrumentedCoroutineTestBuilder {
 
     fun build(
         description: Description,
@@ -32,19 +33,23 @@ internal class InstrumentedTestBuilder {
         screenshotOptions: ScreenshotOptions,
         reporter: CariocaInstrumentedReporter,
         interceptors: List<CariocaInstrumentedInterceptor>,
-    ): InstrumentedTest {
+    ): InstrumentedCoroutineTest {
         val reportConfig = TestReportConfig.from(description)
         val testMetadata = TestMetadata.from(description)
         var outputPath = reporter.getOutputDir(testMetadata)
         if (!outputPath.startsWith("/")) {
             outputPath = "/$outputPath"
         }
-        val testReport = InstrumentedTest(
+        val testReport = InstrumentedCoroutineTest(
             outputPath = outputPath,
             metadata = testMetadata,
             recordingOptions = recordingOptions,
+            screenshotDelegate = ScreenshotDelegate(
+                outputPath = outputPath,
+                reporter = reporter,
+                defaultOptions = screenshotOptions
+            ),
             interceptors = interceptors,
-            screenshotOptions = screenshotOptions,
             reporter = reporter
         )
         reportConfig?.applyTo(testReport)

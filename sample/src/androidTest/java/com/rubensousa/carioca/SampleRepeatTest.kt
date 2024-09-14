@@ -18,9 +18,6 @@ package com.rubensousa.carioca
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.stage.test.Given
-import com.rubensousa.carioca.android.report.stage.test.Then
-import com.rubensousa.carioca.android.report.stage.test.When
 import com.rubensousa.carioca.android.rules.RepeatTest
 import com.rubensousa.carioca.android.rules.RepeatTestRule
 import org.junit.Before

@@ -129,16 +129,11 @@ abstract class StageReport(
     }
 
     override fun equals(other: Any?): Boolean {
-        val equal = other?.javaClass == javaClass
+        return other?.javaClass == javaClass
                 && other is StageReport
                 && other.getExecutionMetadata() == getExecutionMetadata()
                 && other.getStages() == childStages
                 && other.getProperties() == properties
-
-        if(!equal){
-            println("Whoops")
-        }
-        return equal
     }
 
     override fun hashCode(): Int {

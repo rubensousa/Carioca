@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report
+package com.rubensousa.carioca
 
+import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
+import com.rubensousa.carioca.android.report.stage.InstrumentedStep
+import com.rubensousa.carioca.android.report.stage.InstrumentedTest
 import com.rubensousa.carioca.android.report.stage.StageAttachment
-import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenario
-import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
 import com.rubensousa.carioca.junit.report.ReportProperty
@@ -35,7 +36,7 @@ import java.io.OutputStream
 /**
  * Represents the test report in a json format that can be used for analysing the test output
  */
-class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
+class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
 
     @ExperimentalSerializationApi
     private val json = Json {
@@ -136,15 +137,14 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
     }
 
     private fun buildStepReport(step: InstrumentedStep): StageJsonReport {
-        val metadata = step.getMetadata()
         val execution = step.getExecutionMetadata()
         val nestedStages = mutableListOf<StageJsonReport>()
         step.getStages().forEach { nestedStage ->
             buildStageReport(nestedStage)?.let { nestedStages.add(it) }
         }
         return StageJsonReport(
-            id = metadata.id,
-            name = metadata.title,
+            id = step.id,
+            name = step.title,
             type = "step",
             execution = mapExecutionReport(execution),
             attachments = mapAttachments(step.getAttachments()),
@@ -158,8 +158,8 @@ class CariocaJsonInstrumentedReporter : CariocaInstrumentedReporter {
             buildStageReport(nestedStage)?.let { nestedStages.add(it) }
         }
         return StageJsonReport(
-            id = scenario.getMetadata().id,
-            name = scenario.getMetadata().title,
+            id = scenario.id,
+            name = scenario.title,
             type = "scenario",
             execution = mapExecutionReport(scenario.getExecutionMetadata()),
             attachments = emptyList(),

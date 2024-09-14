@@ -14,9 +14,19 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.scenario
+package com.rubensousa.carioca.android.report.stage
 
-data class InstrumentedScenarioMetadata(
-    val id: String,
+/**
+ * @param outputPath the output directory for this stage's attachments
+ * @param title the title of this stage
+ */
+abstract class InstrumentedAfter(
+    outputPath: String,
     val title: String,
-)
+) : InstrumentedStageReport(outputPath) {
+
+    override fun toString(): String {
+        return "After: $title"
+    }
+
+}

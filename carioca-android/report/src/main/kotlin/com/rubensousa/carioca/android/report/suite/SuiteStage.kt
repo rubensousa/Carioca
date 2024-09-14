@@ -20,8 +20,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestBuilder
+import com.rubensousa.carioca.android.report.stage.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.junit.report.ExecutionIdGenerator
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
@@ -115,7 +115,7 @@ internal class InstrumentedSuiteStage : SuiteStage {
                     reporter = reporter,
                     interceptors = emptyList()
                 )
-                test.ignored()
+                test.onIgnored()
             }
         }
     }

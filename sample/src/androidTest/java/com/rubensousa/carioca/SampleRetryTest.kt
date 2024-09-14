@@ -18,9 +18,6 @@ package com.rubensousa.carioca
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.stage.test.Given
-import com.rubensousa.carioca.android.report.stage.test.Then
-import com.rubensousa.carioca.android.report.stage.test.When
 import com.rubensousa.carioca.android.rules.RetryTest
 import com.rubensousa.carioca.android.rules.RetryTestRule
 import org.junit.Before
@@ -38,7 +35,7 @@ class SampleRetryTest {
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     @Before
-    fun setup() {
+    fun setup() = report.before {
         device.pressHome()
     }
 

@@ -17,11 +17,11 @@
 package com.rubensousa.carioca.android.report.allure
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedStep
+import com.rubensousa.carioca.android.report.stage.InstrumentedTest
 import com.rubensousa.carioca.android.report.stage.StageAttachment
-import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenario
-import com.rubensousa.carioca.android.report.stage.step.InstrumentedStep
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
 import com.rubensousa.carioca.junit.report.ReportProperty
@@ -150,10 +150,9 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
     }
 
     private fun mapScenario(scenario: InstrumentedScenario): AllureStep {
-        val metadata = scenario.getMetadata()
         val execution = scenario.getExecutionMetadata()
         return AllureStep(
-            name = metadata.title,
+            name = scenario.title,
             status = getStatus(execution.status),
             statusDetails = getStatusDetail(execution),
             stage = stageValue,
@@ -176,10 +175,9 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
     }
 
     private fun mapStep(step: InstrumentedStep): AllureStep {
-        val metadata = step.getMetadata()
         val execution = step.getExecutionMetadata()
         return AllureStep(
-            name = metadata.title,
+            name = step.title,
             status = getStatus(execution.status),
             statusDetails = getStatusDetail(execution),
             stage = stageValue,

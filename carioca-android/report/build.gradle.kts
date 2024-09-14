@@ -17,7 +17,6 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kover)
 }
 
@@ -50,7 +49,6 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.test.runner)
     implementation(libs.androidx.test.uiautomator)
-    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.kotlinx.coroutines.test)

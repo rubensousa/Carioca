@@ -16,14 +16,13 @@
 
 package com.rubensousa.carioca.android.report
 
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedTest
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.junit.report.TestMetadata
 import java.io.OutputStream
 
 /**
- * Implement this to generate your own test reports, in any format you want,
- * or use [CariocaJsonInstrumentedReporter] for a template json file
+ * Implement this to generate your own test reports, in any format you want
  */
 interface CariocaInstrumentedReporter {
 

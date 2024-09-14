@@ -18,7 +18,7 @@ package com.rubensousa.carioca.android.report.interceptor
 
 import android.util.Log
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedTest
 
 class LoggerInterceptor : CariocaInstrumentedInterceptor {
 

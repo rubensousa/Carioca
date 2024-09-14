@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.coroutines
+package com.rubensousa.carioca.android.report.stage
 
-interface InstrumentedCoroutineTestScope : InstrumentedCoroutineStageScope {
+/**
+ * The public API for each report. This is the main entry for each test report.
+ */
+interface InstrumentedTestScope : InstrumentedStageScope {
 
-    suspend fun Given(
-        scenario: InstrumentedCoroutineScenario,
-        action: suspend InstrumentedCoroutineStageScope.() -> Unit = {},
+    @Suppress("FunctionName")
+    fun Given(
+        scenario: InstrumentedTestScenario,
+        action: InstrumentedStageScope.() -> Unit = {},
     ) {
         scenario(
-            object : InstrumentedCoroutineScenario(
+            object : InstrumentedTestScenario(
                 title = "Given: ${scenario.title}",
                 id = scenario.id
             ) {
-                override suspend fun run(scope: InstrumentedCoroutineStageScope) {
+                override fun run(scope: InstrumentedStageScope) {
                     scenario.run(scope)
                     action(scope)
                 }
@@ -36,25 +40,25 @@ interface InstrumentedCoroutineTestScope : InstrumentedCoroutineStageScope {
     }
 
     @Suppress("FunctionName")
-    suspend fun Given(
+    fun Given(
         title: String,
-        action: suspend InstrumentedCoroutineStageScope.() -> Unit,
+        action: InstrumentedStageScope.() -> Unit,
     ) {
         step("Given: $title", null, action)
     }
 
     @Suppress("FunctionName")
-    suspend fun When(
+    fun When(
         title: String,
-        action: suspend InstrumentedCoroutineStageScope.() -> Unit,
+        action: InstrumentedStageScope.() -> Unit,
     ) {
         step("When: $title", null, action)
     }
 
     @Suppress("FunctionName")
-    suspend fun Then(
+    fun Then(
         title: String,
-        action: suspend InstrumentedCoroutineStageScope.() -> Unit,
+        action: InstrumentedStageScope.() -> Unit,
     ) {
         step("Then: $title", null, action)
     }

@@ -19,8 +19,8 @@ package com.rubensousa.carioca.android.report.interceptor
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedTest
 import com.rubensousa.carioca.android.report.stage.StageAttachment
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
 
 class DumpViewHierarchyInterceptor(

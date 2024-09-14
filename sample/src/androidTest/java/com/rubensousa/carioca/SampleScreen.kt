@@ -16,8 +16,8 @@
 
 package com.rubensousa.carioca
 
-import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenarioScope
-import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestScenario
 
 fun sampleScreen(action: SampleScreen.() -> Unit) {
     action(SampleScreen())
@@ -28,7 +28,7 @@ class SampleScreenScenario : InstrumentedTestScenario(
     id = "Persistent scenario id"
 ) {
 
-    override fun run(scope: InstrumentedScenarioScope) = with(scope) {
+    override fun run(scope: InstrumentedStageScope) = with(scope) {
         step("Step 1 of Scenario") {
 
         }

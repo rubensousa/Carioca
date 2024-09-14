@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.core
-
-import org.junit.Assert.assertEquals
-import org.junit.Test
+package com.rubensousa.carioca.android.report.stage
 
 /**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * @param outputPath the output directory for this stage's attachments
+ * @param title the title of this stage
  */
-class ExampleUnitInstrumentedBlockingTestStageReportInterfaceImpl {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+abstract class InstrumentedBefore(
+    outputPath: String,
+    val title: String,
+) : InstrumentedStageReport(outputPath) {
+
+    override fun toString(): String {
+        return "Before: $title"
     }
+
 }

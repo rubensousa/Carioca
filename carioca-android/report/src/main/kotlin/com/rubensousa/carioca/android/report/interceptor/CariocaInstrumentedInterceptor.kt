@@ -17,7 +17,7 @@
 package com.rubensousa.carioca.android.report.interceptor
 
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedTest
 
 /**
  * Lifecycle of a report:
@@ -46,7 +46,9 @@ interface CariocaInstrumentedInterceptor {
 
 }
 
-internal fun List<CariocaInstrumentedInterceptor>.intercept(action: CariocaInstrumentedInterceptor.() -> Unit) {
+internal fun List<CariocaInstrumentedInterceptor>.intercept(
+    action: CariocaInstrumentedInterceptor.() -> Unit
+) {
     forEach { interceptor ->
         action(interceptor)
     }

@@ -14,19 +14,11 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.core
-
-import org.junit.Assert.assertEquals
-import org.junit.Test
+package com.rubensousa.carioca.android.report.stage
 
 /**
- * Example local unit test, which will execute on the development machine (host).
+ * The main entry point for stage reports
  *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * Default scopes allowed: [InstrumentedStageScope]
  */
-class ExampleUnitInstrumentedBlockingTestStageReportInterfaceImpl {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
-    }
-}
+interface InstrumentedReportScope

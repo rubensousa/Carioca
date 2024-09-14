@@ -16,20 +16,17 @@
 
 package com.rubensousa.carioca.android.report
 
-import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineTestScope
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTest
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestBuilder
-import com.rubensousa.carioca.android.report.stage.test.InstrumentedTestScope
+import com.rubensousa.carioca.android.report.stage.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestScope
+import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
 import com.rubensousa.carioca.android.report.suite.SuiteStage
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
-import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * A test rule that builds a detailed report for a test, including its steps.
@@ -79,34 +76,17 @@ import kotlin.coroutines.EmptyCoroutineContext
  * @param interceptors the interceptors that will receive multiple stage events
  * during the lifecycle of this report
  */
-open class CariocaInstrumentedReportRule(
+abstract class AbstractInstrumentedReportRule(
     private val reporter: CariocaInstrumentedReporter,
     private val recordingOptions: RecordingOptions = RecordingOptions(),
     private val screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
     private val interceptors: List<CariocaInstrumentedInterceptor> = listOf(DumpViewHierarchyInterceptor()),
+    private val testCreator: (Description) -> InstrumentedTest,
 ) : TestWatcher() {
 
-    private val builder = InstrumentedTestBuilder()
     private var instrumentedTest: InstrumentedTest? = null
     private var lastDescription: Description? = null
     private val suiteStage: SuiteStage = SuiteReportRegistry.getSuiteStage()
-
-    operator fun invoke(block: InstrumentedTestScope.() -> Unit) {
-        block(getCurrentTest())
-    }
-
-    /**
-     * Runs the report inside a coroutine scope
-     */
-    fun runTest(
-        context: CoroutineContext = EmptyCoroutineContext,
-        block: suspend InstrumentedCoroutineTestScope.() -> Unit,
-    ) {
-        val currentTest = getCurrentTest()
-        kotlinx.coroutines.test.runTest(context) {
-            block(currentTest)
-        }
-    }
 
     final override fun starting(description: Description) {
         super.starting(description)
@@ -117,32 +97,57 @@ open class CariocaInstrumentedReportRule(
         if (description == lastDescription) {
             instrumentedTest?.reset()
         } else {
-            val newTest = builder.build(
-                description = description,
-                recordingOptions = recordingOptions,
-                screenshotOptions = screenshotOptions,
-                interceptors = interceptors,
-                reporter = reporter
-            )
+            val newTest = testCreator(description)
             instrumentedTest = newTest
             suiteStage.addTest(reporter, newTest)
         }
-        instrumentedTest?.starting()
+        instrumentedTest?.onStarted()
         lastDescription = description
     }
 
     final override fun succeeded(description: Description) {
         super.succeeded(description)
-        instrumentedTest?.succeeded()
+        instrumentedTest?.onPassed()
     }
 
     final override fun failed(e: Throwable, description: Description) {
         super.failed(e, description)
-        instrumentedTest?.failed(e)
+        instrumentedTest?.onFailed(e)
     }
 
-    private fun getCurrentTest(): InstrumentedTest {
-        return requireNotNull(instrumentedTest) { "Test not started yet" }
+    protected open fun <T: InstrumentedTest> getCurrentTest(): T {
+        return requireNotNull(instrumentedTest as T) { "Test not started yet" }
+    }
+
+}
+
+open class InstrumentedReportRule(
+    reporter: CariocaInstrumentedReporter,
+    recordingOptions: RecordingOptions = RecordingOptions(),
+    screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
+    interceptors: List<CariocaInstrumentedInterceptor> = listOf(DumpViewHierarchyInterceptor()),
+) : AbstractInstrumentedReportRule(
+    reporter = reporter,
+    recordingOptions = recordingOptions,
+    screenshotOptions = screenshotOptions,
+    interceptors = interceptors,
+    testCreator = { description ->
+        InstrumentedTestBuilder.build(
+            description = description,
+            recordingOptions = recordingOptions,
+            screenshotOptions = screenshotOptions,
+            interceptors = interceptors,
+            reporter = reporter
+        )
+    }
+) {
+
+    operator fun invoke(block: InstrumentedTestScope.() -> Unit) {
+        block(getCurrentTest())
+    }
+
+    fun before(block: InstrumentedTestScope.() -> Unit) {
+        block(getCurrentTest())
     }
 
 }

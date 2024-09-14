@@ -14,13 +14,21 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.step
+package com.rubensousa.carioca.android.report.stage
 
 /**
- * @param id unique id that identifies a step. By default, unique per execution
- * @param title the description of a step
+ * @param outputPath the output directory for this scenario's attachments
+ * @param id unique id that identifies a scenario. By default, unique per execution
+ * @param title the title of the step
  */
-data class InstrumentedStepMetadata(
+abstract class InstrumentedScenario(
+    outputPath: String,
     val id: String,
     val title: String,
-)
+) : InstrumentedStageReport(outputPath) {
+
+    override fun toString(): String {
+        return "Scenario: $title - $id"
+    }
+
+}

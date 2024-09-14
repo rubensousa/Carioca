@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.scenario
+package com.rubensousa.carioca.android.report.stage
 
 /**
  * A re-usable set of stages that can be used across multiple tests.
@@ -30,6 +30,6 @@ abstract class InstrumentedTestScenario(
     val id: String = title,
 ) {
 
-    abstract fun run(scope: InstrumentedScenarioScope)
+    abstract fun run(scope: InstrumentedStageScope)
 
 }

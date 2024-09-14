@@ -14,40 +14,24 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.coroutines
+package com.rubensousa.carioca.android.report.stage.internal
 
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestScenario
 
-/**
- * A re-usable set of stages that can be used across multiple tests.
- * Use this carefully and only when you have a stable
- * set of steps that need to execute in an consistent order
- *
- * @param title the description of this scenario
- * @param id a persistent id for tracking multiple executions of this scenario.
- * Default: same as [title]
- */
-abstract class InstrumentedCoroutineScenario(
-    val title: String,
-    val id: String = title,
-) {
-
-    abstract suspend fun run(scope: InstrumentedCoroutineStageScope)
-
-}
-
-internal class InstrumentedCoroutineScenarioImpl(
+internal class InstrumentedBlockingScenario(
+    delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
     outputPath: String,
-    delegateFactory: InstrumentedReportDelegateFactory<InstrumentedCoroutineStageScope>,
     id: String,
     title: String,
-    private val scenario: InstrumentedCoroutineScenario,
+    private val scenario: InstrumentedTestScenario,
 ) : InstrumentedScenario(
     outputPath = outputPath,
     id = id,
     title = title
-), InstrumentedCoroutineStageScope {
+), InstrumentedStageScope {
 
     private val delegate = delegateFactory.create(this)
 
@@ -55,19 +39,19 @@ internal class InstrumentedCoroutineScenarioImpl(
         delegate.screenshot(description)
     }
 
-    override suspend fun step(
+    override fun step(
         title: String,
         id: String?,
-        action: suspend InstrumentedCoroutineStageScope.() -> Unit,
+        action: InstrumentedStageScope.() -> Unit,
     ) {
         delegate.step(title, id, action)
     }
 
-    override suspend fun scenario(scenario: InstrumentedCoroutineScenario) {
+    override fun scenario(scenario: InstrumentedTestScenario) {
         delegate.scenario(scenario)
     }
 
-    internal suspend fun execute() {
+    internal fun execute() {
         scenario.run(this)
         pass()
     }

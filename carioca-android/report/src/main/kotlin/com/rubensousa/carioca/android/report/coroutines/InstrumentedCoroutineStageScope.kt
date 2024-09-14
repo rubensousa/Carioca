@@ -14,15 +14,23 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.test
+package com.rubensousa.carioca.android.report.coroutines
 
-import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
-import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
+import com.rubensousa.carioca.android.report.stage.InstrumentedReportScope
 
 /**
- * The public API for each report. This is the main entry for each test report.
+ * The main entry point for stage reports for tests that need coroutines
  */
-interface InstrumentedTestScope {
+interface InstrumentedCoroutineStageScope: InstrumentedReportScope {
+
+    /**
+     * Takes a screenshot with the configuration set through the report rule.
+     *
+     * The generated file will be pulled from the device once the test runner finishes running all tests
+     *
+     * @param description the description of the screenshot for the report
+     */
+    fun screenshot(description: String)
 
     /**
      * Creates an individual section of a test
@@ -31,13 +39,16 @@ interface InstrumentedTestScope {
      * @param id an optional persistent step id
      * @param action the step block that will be executed
      */
-    fun step(title: String, id: String? = null, action: InstrumentedStepScope.() -> Unit)
-
+    suspend fun step(
+        title: String,
+        id: String? = null,
+        action: suspend InstrumentedCoroutineStageScope.() -> Unit,
+    )
 
     /**
      * Creates a report for a set of steps.
      * This is almost equivalent to calling [step] multiple times, but in a more re-usable way
      */
-    fun scenario(scenario: InstrumentedTestScenario)
+    suspend fun scenario(scenario: InstrumentedCoroutineScenario)
 
 }

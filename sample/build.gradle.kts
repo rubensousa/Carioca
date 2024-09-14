@@ -17,6 +17,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -69,6 +70,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.test.uiautomator)
+    androidTestImplementation(libs.kotlinx.serialization.json)
 
     androidTestImplementation(project(":carioca-android:rules"))
     androidTestImplementation(project(":carioca-android:report"))

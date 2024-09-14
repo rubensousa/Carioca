@@ -18,11 +18,9 @@ package com.rubensousa.carioca
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.coroutines.Given
 import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
-import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenarioScope
-import com.rubensousa.carioca.android.report.coroutines.Then
-import com.rubensousa.carioca.android.report.coroutines.When
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStageScope
+
 import kotlinx.coroutines.delay
 import org.junit.Rule
 import org.junit.Test
@@ -30,12 +28,12 @@ import org.junit.Test
 class CoroutineSampleTest {
 
     @get:Rule
-    val report = SampleInstrumentedReportRule()
+    val report = SampleCoroutineInstrumentedReportRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     @Test
-    fun testGivenWhenThenCoroutines() = report.runTest {
+    fun testGivenWhenThenCoroutines() = report {
         Given(OpenNotificationScenario())
 
         When("User presses home") {
@@ -49,20 +47,19 @@ class CoroutineSampleTest {
     }
 
     @Test
-    fun testCoroutine() = report.runTest {
+    fun testCoroutine() = report {
         delay(1000L)
 
         step("Some step") {
             delay(2000L)
         }
-
     }
 
     private class OpenNotificationScenario : InstrumentedCoroutineScenario("Open Notification") {
 
         private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
-        override suspend fun run(scope: InstrumentedCoroutineScenarioScope) = with(scope) {
+        override suspend fun run(scope: InstrumentedCoroutineStageScope) = with(scope) {
             screenshot("Before opening notifications")
 
             step("Request notification open") {

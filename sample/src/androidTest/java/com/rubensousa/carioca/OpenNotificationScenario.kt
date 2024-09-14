@@ -18,14 +18,14 @@ package com.rubensousa.carioca
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedScenarioScope
-import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestScenario
 
 class OpenNotificationScenario : InstrumentedTestScenario("Open Notification") {
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
-    override fun run(scope: InstrumentedScenarioScope) = with(scope) {
+    override fun run(scope: InstrumentedStageScope) = with(scope) {
         screenshot("Before opening notifications")
 
         step("Request notification open") {

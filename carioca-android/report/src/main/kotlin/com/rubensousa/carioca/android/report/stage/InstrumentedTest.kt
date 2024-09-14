@@ -14,24 +14,16 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.test
+package com.rubensousa.carioca.android.report.stage
 
 import android.util.Log
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
-import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStepScope
-import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineTestScope
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.recording.DeviceScreenRecorder
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.recording.ReportRecording
-import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.stage.InstrumentedStageDelegate
-import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
-import com.rubensousa.carioca.android.report.stage.StageAttachment
-import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
-import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
@@ -46,65 +38,46 @@ import java.io.File
  *
  * To get the stages for reporting, use [getStages]
  */
-class InstrumentedTest internal constructor(
+abstract class InstrumentedTest(
     outputPath: String,
     val metadata: TestMetadata,
     private val recordingOptions: RecordingOptions,
-    private val screenshotOptions: ScreenshotOptions,
+    private val screenshotDelegate: ScreenshotDelegate,
     private val reporter: CariocaInstrumentedReporter,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
-) : InstrumentedStageReport(outputPath), InstrumentedTestScope, InstrumentedCoroutineTestScope {
+) : InstrumentedStageReport(outputPath) {
 
-    private val stageStack = StageStack<InstrumentedStageReport>()
-    private val stageDelegate = InstrumentedStageDelegate(
-        stack = stageStack,
-        reporter = reporter,
-        interceptors = interceptors,
-        outputPath = outputPath,
-        screenshotOptions = screenshotOptions,
-    )
+    protected val stageStack = StageStack<InstrumentedStageReport>()
     private var screenRecording: ReportRecording? = null
 
-    override fun step(title: String, id: String?, action: InstrumentedStepScope.() -> Unit) {
-        val step = stageDelegate.createStep(title, id)
-        addStage(step)
-        stageDelegate.executeStep(step, action)
-    }
-
-    override suspend fun step(
-        title: String,
-        id: String?,
-        action: suspend InstrumentedCoroutineStepScope.() -> Unit,
-    ) {
-        val step = stageDelegate.createStep(title, id)
-        addStage(step)
-        stageDelegate.executeStep(step, action)
-    }
-
-    override fun scenario(scenario: InstrumentedTestScenario) {
-        val newScenario = stageDelegate.createScenario(scenario)
-        addStage(newScenario)
-        stageDelegate.executeScenario(newScenario)
-    }
-
-    override suspend fun scenario(scenario: InstrumentedCoroutineScenario) {
-        val newScenario = stageDelegate.createCoroutineScenario(scenario)
-        addStage(newScenario)
-        stageDelegate.executeCoroutineScenario(newScenario)
-    }
-
-    internal fun starting() {
-        intercept { onTestStarted(this@InstrumentedTest) }
+    fun onStarted() {
+        interceptors.intercept { onTestStarted(this@InstrumentedTest) }
         if (recordingOptions.enabled) {
             startRecording()
         }
     }
 
-    internal fun failed(error: Throwable) {
-        // Take a screenshot asap to record the state on failures
-        stageDelegate.takeScreenshot("Screenshot of Failure")?.let {
-            attach(it)
+    fun onPassed() {
+        screenRecording?.let {
+            DeviceScreenRecorder.stopRecording(
+                recording = it,
+                delete = !recordingOptions.keepOnSuccess
+            )
         }
+        pass()
+        interceptors.intercept { onTestPassed(this@InstrumentedTest) }
+        deleteAttachmentsOnSuccess()
+        writeReport()
+    }
+
+    fun onIgnored() {
+        skip()
+        writeReport()
+    }
+
+    fun onFailed(error: Throwable) {
+        // Take a screenshot asap to record the state on failures
+        screenshotDelegate.takeScreenshot(this, "Screenshot of failure")
 
         // Now stop the recording, if there is one
         screenRecording?.let { activeRecording ->
@@ -119,30 +92,12 @@ class InstrumentedTest internal constructor(
         while (stage != null) {
             val currentStage = stage
             currentStage.fail(error)
-            intercept { onStageFailed(currentStage) }
+            interceptors.intercept { onStageFailed(currentStage) }
             stage = stageStack.pop()
         }
 
         fail(error)
-        intercept { onTestFailed(this@InstrumentedTest) }
-        writeReport()
-    }
-
-    internal fun succeeded() {
-        pass()
-        intercept { onTestPassed(this@InstrumentedTest) }
-        screenRecording?.let {
-            DeviceScreenRecorder.stopRecording(
-                recording = it,
-                delete = !recordingOptions.keepOnSuccess
-            )
-        }
-        deleteAttachmentsOnSuccess()
-        writeReport()
-    }
-
-    internal fun ignored() {
-        skip()
+        interceptors.intercept { onTestFailed(this@InstrumentedTest) }
         writeReport()
     }
 
@@ -173,10 +128,6 @@ class InstrumentedTest internal constructor(
 
     private fun getRelativeReportPath(): String {
         return "$outputPath/${reporter.getReportFilename(this)}"
-    }
-
-    private fun intercept(action: CariocaInstrumentedInterceptor.() -> Unit) {
-        interceptors.intercept(action)
     }
 
     private fun startRecording() {
@@ -211,3 +162,4 @@ class InstrumentedTest internal constructor(
     }
 
 }
+
