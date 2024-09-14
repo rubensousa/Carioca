@@ -224,6 +224,21 @@ class StageReportTest {
     }
 
     @Test
+    fun `reset clears nested stages`() {
+        // given
+        val parentReport = createReport()
+        val childReport = TestStageReport(id = 1000)
+        parentReport.addStage(childReport)
+        childReport.addProperty(ReportProperty.Title, "title")
+
+        // when
+        parentReport.reset()
+
+        // then
+        assertThat(childReport.getProperties()).isEmpty()
+    }
+
+    @Test
     fun `equals and hashcode`() {
         // given
         val childStage = TestStageReport(2)

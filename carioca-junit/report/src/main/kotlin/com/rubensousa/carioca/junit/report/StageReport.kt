@@ -107,6 +107,9 @@ abstract class StageReport(
     }
 
     open fun reset() {
+        childStages.forEach { stage ->
+            stage.reset()
+        }
         status = ReportStatus.RUNNING
         startTime = System.currentTimeMillis()
         endTime = startTime

@@ -21,16 +21,17 @@ import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.android.report.stage.test.Given
 import com.rubensousa.carioca.android.report.stage.test.Then
 import com.rubensousa.carioca.android.report.stage.test.When
-import com.rubensousa.carioca.android.rules.RetryTest
-import com.rubensousa.carioca.android.rules.RetryTestRule
+import com.rubensousa.carioca.android.rules.RepeatTest
+import com.rubensousa.carioca.android.rules.RepeatTestRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
-class SampleRetryTest {
+@RepeatTest(times = 3)
+class SampleRepeatTest {
 
     @get:Rule(order = 0)
-    val retryRule = RetryTestRule()
+    val repeatRule = RepeatTestRule()
 
     @get:Rule(order = 1)
     val report = SampleInstrumentedReportRule()
@@ -42,9 +43,8 @@ class SampleRetryTest {
         device.pressHome()
     }
 
-    @RetryTest(times = 4)
     @Test
-    fun testThatWillRetryUntilItPasses() = report {
+    fun testThatWillBeExecutedMultipleTimes() = report {
         Given(OpenNotificationScenario())
 
         When("User presses home") {
@@ -53,10 +53,6 @@ class SampleRetryTest {
 
         Then("Launcher is displayed") {
             screenshot("Launcher")
-        }
-
-        if (retryRule.currentExecution != 5) {
-            throw IllegalStateException("Fail test on purpose")
         }
     }
 

@@ -33,9 +33,11 @@ import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScenario
 import com.rubensousa.carioca.android.report.stage.step.InstrumentedStepScope
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
+import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.junit.report.StageStack
 import com.rubensousa.carioca.junit.report.TestMetadata
+import java.io.File
 
 /**
  * The main entry point for all reports.
@@ -144,24 +146,33 @@ class InstrumentedTest internal constructor(
         writeReport()
     }
 
-    // Ensures there is no persistent state across test re-executions
     override fun reset() {
         super.reset()
+        deleteReportFile()
         stageStack.clear()
         screenRecording = null
     }
 
     private fun writeReport() {
-        val file = "$outputPath/${reporter.getReportFilename(this)}"
-        val outputStream = TestStorageProvider.getOutputStream(file)
         try {
-            reporter.writeTestReport(this, outputStream)
+            TestStorageProvider.getOutputStream(getRelativeReportPath()).use {
+                reporter.writeTestReport(this, it)
+            }
         } catch (exception: Exception) {
             Log.e("CariocaReport", "Failed writing report for test ${this.metadata.methodName}", exception)
-        } finally {
-            outputStream.close()
         }
-        reset()
+    }
+
+    private fun deleteReportFile() {
+        val relativePath = getRelativeReportPath()
+        val file = File(TestStorageDirectory.tmpOutputDir, relativePath)
+        if (file.exists()) {
+            deleteFile(file)
+        }
+    }
+
+    private fun getRelativeReportPath(): String {
+        return "$outputPath/${reporter.getReportFilename(this)}"
     }
 
     private fun intercept(action: CariocaInstrumentedInterceptor.() -> Unit) {

@@ -88,6 +88,7 @@ open class CariocaInstrumentedReportRule(
 
     private val builder = InstrumentedTestBuilder()
     private var instrumentedTest: InstrumentedTest? = null
+    private var lastDescription: Description? = null
     private val suiteStage: SuiteStage = SuiteReportRegistry.getSuiteStage()
 
     operator fun invoke(block: InstrumentedTestScope.() -> Unit) {
@@ -109,28 +110,35 @@ open class CariocaInstrumentedReportRule(
 
     final override fun starting(description: Description) {
         super.starting(description)
-        val test = builder.build(
-            description = description,
-            recordingOptions = recordingOptions,
-            screenshotOptions = screenshotOptions,
-            interceptors = interceptors,
-            reporter = reporter
-        )
-        instrumentedTest = test
-        suiteStage.addTest(reporter, test)
-        test.starting()
+        /**
+         * If we're running the same test, we can re-use the previous instance
+         * Before doing that, we reset its entire state to ensure we don't keep the old reports
+         */
+        if (description == lastDescription) {
+            instrumentedTest?.reset()
+        } else {
+            val newTest = builder.build(
+                description = description,
+                recordingOptions = recordingOptions,
+                screenshotOptions = screenshotOptions,
+                interceptors = interceptors,
+                reporter = reporter
+            )
+            instrumentedTest = newTest
+            suiteStage.addTest(reporter, newTest)
+        }
+        instrumentedTest?.starting()
+        lastDescription = description
     }
 
     final override fun succeeded(description: Description) {
         super.succeeded(description)
-        getCurrentTest().succeeded()
-        instrumentedTest = null
+        instrumentedTest?.succeeded()
     }
 
     final override fun failed(e: Throwable, description: Description) {
         super.failed(e, description)
-        getCurrentTest().failed(e)
-        instrumentedTest = null
+        instrumentedTest?.failed(e)
     }
 
     private fun getCurrentTest(): InstrumentedTest {

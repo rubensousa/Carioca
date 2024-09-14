@@ -43,6 +43,9 @@ abstract class InstrumentedStageReport(
 
     override fun reset() {
         super.reset()
+        attachments.forEach { attachment ->
+            deleteAttachment(attachment)
+        }
         attachments.clear()
     }
 
@@ -65,12 +68,12 @@ abstract class InstrumentedStageReport(
         try {
             val outputFile = File(TestStorageDirectory.outputDir, attachment.path)
             if (outputFile.exists()) {
-                deleteAttachmentFile(outputFile)
+                deleteFile(outputFile)
                 outputFile.delete()
             } else {
                 val tmpFile = File(TestStorageDirectory.tmpOutputDir, attachment.path)
                 if (tmpFile.exists()) {
-                    deleteAttachmentFile(tmpFile)
+                    deleteFile(tmpFile)
                 }
             }
         } catch (exception: Exception) {
@@ -78,7 +81,7 @@ abstract class InstrumentedStageReport(
         }
     }
 
-    private fun deleteAttachmentFile(file: File) {
+    internal fun deleteFile(file: File) {
         if (!file.delete()) {
             UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
                 .executeShellCommand("rm ${file.absolutePath}")
