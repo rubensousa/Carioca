@@ -20,8 +20,10 @@ import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInte
 import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestScope
+import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTest
 import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
 import com.rubensousa.carioca.android.report.suite.SuiteStage
@@ -159,8 +161,18 @@ open class InstrumentedReportRule(
         block(getCurrentTest())
     }
 
-    fun before(block: InstrumentedTestScope.() -> Unit) {
-        block(getCurrentTest())
+    /**
+     * Use this to track `@Before` methods separately from the other stages
+     */
+    fun before(title: String = "Before", block: InstrumentedStageScope.() -> Unit) {
+        getCurrentTest<InstrumentedBlockingTest>().before(title, block)
+    }
+
+    /**
+     * Use this to track `@After` methods separately from the other stages
+     */
+    fun after(title: String = "After", block: InstrumentedStageScope.() -> Unit) {
+        getCurrentTest<InstrumentedBlockingTest>().after(title, block)
     }
 
 }

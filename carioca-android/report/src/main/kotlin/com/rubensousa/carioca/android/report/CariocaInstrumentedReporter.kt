@@ -17,6 +17,7 @@
 package com.rubensousa.carioca.android.report
 
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.junit.report.TestMetadata
 import java.io.OutputStream
@@ -27,37 +28,29 @@ import java.io.OutputStream
 interface CariocaInstrumentedReporter {
 
     /**
-     * @param test the test report to be saved
+     * @param metadata the test report to be saved
      *
      * @return The relative output directory for this report
      */
     fun getOutputDir(metadata: TestMetadata): String
 
     /**
-     * @param stage the test report to be saved
-     *
-     * @return the filename of the report, including the extension
-     */
-    fun getReportFilename(test: InstrumentedTestReport): String
-
-    /**
-     * @param report the test report to be saved
-     *
-     * @return the relative path of the report, including the extension
-     */
-    fun getSuiteReportFilePath(report: TestSuiteReport): String
-
-    /**
      * @param test test report to be written
-     * @param outputStream the destination of the report contents
+     * @param storageProvider the storage provider to query for a [OutputStream]
      */
-    fun writeTestReport(test: InstrumentedTestReport, outputStream: OutputStream)
+    fun writeTestReport(
+        test: InstrumentedTestReport,
+        storageProvider: ReportStorageProvider,
+    )
 
     /**
      * @param report suite report to be written
      * @param outputStream the destination of the report contents
      */
-    fun writeSuiteReport(report: TestSuiteReport, outputStream: OutputStream)
+    fun writeSuiteReport(
+        report: TestSuiteReport,
+        storageProvider: ReportStorageProvider,
+    )
 
     /**
      * @return the filename of the screenshot, excluding the extension

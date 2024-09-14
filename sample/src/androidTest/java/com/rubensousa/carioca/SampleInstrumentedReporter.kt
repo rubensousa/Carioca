@@ -17,10 +17,12 @@
 package com.rubensousa.carioca
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.stage.InstrumentedBeforeAfterReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.StageAttachment
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
 import com.rubensousa.carioca.junit.report.ReportProperty
@@ -31,7 +33,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
 import java.io.BufferedOutputStream
-import java.io.OutputStream
 
 /**
  * Represents the test report in a json format that can be used for analysing the test output
@@ -49,28 +50,27 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
         return "${metadata.className}/${metadata.methodName}"
     }
 
-    override fun getReportFilename(test: InstrumentedTestReport): String {
+    @OptIn(ExperimentalSerializationApi::class)
+    override fun writeTestReport(
+        test: InstrumentedTestReport,
+        storageProvider: ReportStorageProvider,
+    ) {
         val metadata = test.getExecutionMetadata()
-        return "${metadata.uniqueId}_report.json"
-    }
-
-    override fun getSuiteReportFilePath(report: TestSuiteReport): String {
-        return "suite_report.json"
-    }
-
-    @ExperimentalSerializationApi
-    override fun writeTestReport(test: InstrumentedTestReport, outputStream: OutputStream) {
+        val filePath = "${test.outputPath}/${metadata.uniqueId}_report.json"
         val jsonReport = buildTestReport(test)
-        BufferedOutputStream(outputStream).use { stream ->
+        BufferedOutputStream(storageProvider.getOutputStream(filePath)).use { stream ->
             json.encodeToStream(jsonReport, stream)
             stream.flush()
         }
     }
 
     @ExperimentalSerializationApi
-    override fun writeSuiteReport(report: TestSuiteReport, outputStream: OutputStream) {
+    override fun writeSuiteReport(
+        report: TestSuiteReport,
+        storageProvider: ReportStorageProvider,
+    ) {
         val jsonReport = buildSuiteReport(report)
-        BufferedOutputStream(outputStream).use { stream ->
+        BufferedOutputStream(storageProvider.getOutputStream("suite_report.json")).use { stream ->
             json.encodeToStream(jsonReport, stream)
             stream.flush()
         }
@@ -88,9 +88,15 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
             testFullName = metadata.fullName,
             execution = mapExecutionReport(test.getExecutionMetadata()),
             attachments = mapAttachments(test.getAttachments()),
-            stages = test.getStages().mapNotNull { stage ->
+            beforeStages = test.getStagesBefore().mapNotNull { stage ->
                 buildStageReport(stage)
-            }
+            },
+            stages = test.getTestStages().mapNotNull { stage ->
+                buildStageReport(stage)
+            },
+            afterStages = test.getStagesAfter().mapNotNull { stage ->
+                buildStageReport(stage)
+            },
         )
     }
 
@@ -139,7 +145,7 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
     private fun buildStepReport(step: InstrumentedStepReport): StageJsonReport {
         val execution = step.getExecutionMetadata()
         val nestedStages = mutableListOf<StageJsonReport>()
-        step.getStages().forEach { nestedStage ->
+        step.getTestStages().forEach { nestedStage ->
             buildStageReport(nestedStage)?.let { nestedStages.add(it) }
         }
         return StageJsonReport(
@@ -154,7 +160,7 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
 
     private fun buildScenarioReport(scenario: InstrumentedScenarioReport): StageJsonReport {
         val nestedStages = mutableListOf<StageJsonReport>()
-        scenario.getStages().forEach { nestedStage ->
+        scenario.getTestStages().forEach { nestedStage ->
             buildStageReport(nestedStage)?.let { nestedStages.add(it) }
         }
         return StageJsonReport(
@@ -162,7 +168,29 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
             name = scenario.title,
             type = "scenario",
             execution = mapExecutionReport(scenario.getExecutionMetadata()),
-            attachments = emptyList(),
+            attachments = mapAttachments(scenario.getAttachments()),
+            stages = nestedStages,
+        )
+    }
+
+    private fun buildBeforeAfterReport(
+        beforeAfterReport: InstrumentedBeforeAfterReport,
+    ): StageJsonReport {
+        val nestedStages = mutableListOf<StageJsonReport>()
+        beforeAfterReport.getTestStages().forEach { nestedStage ->
+            buildStageReport(nestedStage)?.let { nestedStages.add(it) }
+        }
+        val executionMetadata = beforeAfterReport.getExecutionMetadata()
+        return StageJsonReport(
+            id = executionMetadata.uniqueId,
+            name = beforeAfterReport.title,
+            type = if (beforeAfterReport.before) {
+                "before"
+            } else {
+                "after"
+            },
+            execution = mapExecutionReport(executionMetadata),
+            attachments = mapAttachments(beforeAfterReport.getAttachments()),
             stages = nestedStages,
         )
     }
@@ -177,7 +205,9 @@ internal data class CariocaJsonTestReport(
     val testName: String,
     val testFullName: String,
     val execution: ExecutionJsonReport,
+    val beforeStages: List<StageJsonReport>,
     val stages: List<StageJsonReport>,
+    val afterStages: List<StageJsonReport>,
     val attachments: List<AttachmentJsonReport>,
 )
 

@@ -16,24 +16,10 @@
 
 package com.rubensousa.carioca.android.report.storage
 
-import android.net.Uri
-import androidx.test.platform.io.PlatformTestStorageRegistry
 import java.io.OutputStream
 
-object TestStorageProvider : ReportStorageProvider {
+interface ReportStorageProvider {
 
-    private val testStorage by lazy { PlatformTestStorageRegistry.getInstance() }
-
-    fun getOutputUri(path: String): Uri {
-        return testStorage.getOutputFileUri(path)
-    }
-
-    fun getOutputStream(uri: Uri): OutputStream {
-        return testStorage.openOutputFile(uri.path)
-    }
-
-    override fun getOutputStream(path: String): OutputStream {
-        return testStorage.openOutputFile(path)
-    }
+    fun getOutputStream(path: String): OutputStream
 
 }

@@ -20,7 +20,6 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.android.rules.RetryTest
 import com.rubensousa.carioca.android.rules.RetryTestRule
-import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -33,11 +32,6 @@ class SampleRetryTest {
     val report = SampleInstrumentedReportRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-
-    @Before
-    fun setup() = report.before {
-        device.pressHome()
-    }
 
     @RetryTest(times = 4)
     @Test

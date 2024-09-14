@@ -29,7 +29,8 @@ abstract class InstrumentedStageReport(
 ) : StageReport() {
 
     private val attachments = mutableListOf<StageAttachment>()
-    protected val outputPath: String = if (!reportDirPath.startsWith("/")) {
+
+    val outputPath: String = if (!reportDirPath.startsWith("/")) {
         "/$reportDirPath"
     } else {
         reportDirPath

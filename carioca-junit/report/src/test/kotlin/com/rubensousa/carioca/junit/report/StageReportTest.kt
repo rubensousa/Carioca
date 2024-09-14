@@ -193,11 +193,11 @@ class StageReportTest {
         val childReport2 = createReport()
 
         // when
-        report.addStage(childReport1)
-        report.addStage(childReport2)
+        report.addTestStage(childReport1)
+        report.addTestStage(childReport2)
 
         // then
-        assertThat(report.getStages())
+        assertThat(report.getTestStages())
             .isEqualTo(listOf(childReport1, childReport2))
     }
 
@@ -209,7 +209,9 @@ class StageReportTest {
         val cause = IllegalStateException()
         report.fail(cause)
         report.addProperty(ReportProperty.Title, "title")
-        report.addStage(createReport())
+        report.addTestStage(createReport())
+        report.addStageBefore(createReport())
+        report.addStageAfter(createReport())
 
         // when
         report.reset()
@@ -220,22 +222,33 @@ class StageReportTest {
         assertThat(metadata.status).isEqualTo(ReportStatus.RUNNING)
         assertThat(metadata.failureCause).isNull()
         assertThat(report.getProperties()).isEmpty()
-        assertThat(report.getStages()).isEmpty()
+        assertThat(report.getTestStages()).isEmpty()
+        assertThat(report.getStagesBefore()).isEmpty()
+        assertThat(report.getStagesAfter()).isEmpty()
     }
 
     @Test
     fun `reset clears nested stages`() {
         // given
         val parentReport = createReport()
-        val childReport = TestStageReport(id = 1000)
-        parentReport.addStage(childReport)
-        childReport.addProperty(ReportProperty.Title, "title")
+        val beforeChildReport = TestStageReport(id = 1)
+        val childReport = TestStageReport(id = 2)
+        val afterChildReport = TestStageReport(id = 3)
+        parentReport.addTestStage(beforeChildReport)
+        parentReport.addTestStage(childReport)
+        parentReport.addStageAfter(afterChildReport)
+        val reports = listOf(beforeChildReport, childReport, afterChildReport)
+        reports.forEach { report ->
+            report.addProperty(ReportProperty.Title, "title")
+        }
 
         // when
         parentReport.reset()
 
         // then
-        assertThat(childReport.getProperties()).isEmpty()
+        reports.forEach { report ->
+            assertThat(report.getProperties()).isEmpty()
+        }
     }
 
     @Test
@@ -253,13 +266,43 @@ class StageReportTest {
         // when
         val reports = listOf(firstReport, secondReport)
         reports.forEach { report ->
-            report.addStage(childStage)
+            report.addTestStage(childStage)
             report.addProperty(ReportProperty.Title, "title")
         }
 
         // then
         assertThat(firstReport).isEqualTo(secondReport)
         assertThat(firstReport.hashCode()).isEqualTo(secondReport.hashCode())
+    }
+
+    @Test
+    fun `stage is added before`() {
+        // given
+        val report = TestStageReport()
+        val childReport = TestStageReport(id = 1)
+
+        // when
+        report.addStageBefore(childReport)
+
+        // then
+        assertThat(report.getStagesBefore()).isEqualTo(listOf(childReport))
+        assertThat(report.getTestStages()).isEmpty()
+        assertThat(report.getStagesAfter()).isEmpty()
+    }
+
+    @Test
+    fun `stage is added after`() {
+        // given
+        val report = TestStageReport()
+        val childReport = TestStageReport(id = 1)
+
+        // when
+        report.addStageAfter(childReport)
+
+        // then
+        assertThat(report.getStagesAfter()).isEqualTo(listOf(childReport))
+        assertThat(report.getTestStages()).isEmpty()
+        assertThat(report.getStagesBefore()).isEmpty()
     }
 
     private fun createReport(): TestStageReport = TestStageReport()

@@ -18,6 +18,7 @@ package com.rubensousa.carioca.android.report.stage.internal
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
+import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
@@ -69,6 +70,40 @@ internal class InstrumentedBlockingTest(
 
     override fun scenario(scenario: InstrumentedScenario) {
         delegate.scenario(scenario)
+    }
+
+    fun before(title: String, action: InstrumentedStageScope.() -> Unit) {
+        val stage = InstrumentedBlockingBeforeAfter(
+            delegateFactory = delegateFactory,
+            title = title,
+            outputPath = outputPath,
+            before = true
+        )
+        addStageBefore(stage)
+        executeStage(stage) {
+            stage.execute(action)
+        }
+    }
+
+    fun after(title: String, action: InstrumentedStageScope.() -> Unit) {
+        val stage = InstrumentedBlockingBeforeAfter(
+            delegateFactory = delegateFactory,
+            title = title,
+            outputPath = outputPath,
+            before = false
+        )
+        addStageAfter(stage)
+        executeStage(stage) {
+            stage.execute(action)
+        }
+    }
+
+    private fun executeStage(stage: InstrumentedStageReport, action: () -> Unit) {
+        stageStack.push(stage)
+        interceptors.intercept { onStageStarted(stage) }
+        action()
+        stageStack.pop()
+        interceptors.intercept { onStagePassed(stage) }
     }
 
 }

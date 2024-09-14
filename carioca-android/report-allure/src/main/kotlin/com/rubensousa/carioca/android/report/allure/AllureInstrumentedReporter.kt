@@ -17,12 +17,15 @@
 package com.rubensousa.carioca.android.report.allure
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.stage.InstrumentedBeforeAfterReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.StageAttachment
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
+import com.rubensousa.carioca.junit.report.ExecutionIdGenerator
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
 import com.rubensousa.carioca.junit.report.ReportProperty
 import com.rubensousa.carioca.junit.report.ReportStatus
@@ -32,7 +35,6 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
 import java.io.BufferedOutputStream
-import java.io.OutputStream
 
 class AllureInstrumentedReporter : CariocaInstrumentedReporter {
 
@@ -50,14 +52,6 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
         return dirName
     }
 
-    override fun getReportFilename(test: InstrumentedTestReport): String {
-        return test.getExecutionMetadata().uniqueId + "-result.json"
-    }
-
-    override fun getSuiteReportFilePath(report: TestSuiteReport): String {
-        return "${dirName}/${report.executionMetadata.uniqueId}-result.json"
-    }
-
     override fun getScreenshotName(id: String): String {
         return getAttachmentName(id)
     }
@@ -70,30 +64,79 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
         return "$id-attachment"
     }
 
+    private fun getTestReportPath(test: InstrumentedTestReport): String {
+        val filename = test.getExecutionMetadata().uniqueId + "-result.json"
+        return "${test.outputPath}/$filename"
+    }
+
     @ExperimentalSerializationApi
-    override fun writeTestReport(test: InstrumentedTestReport, outputStream: OutputStream) {
-        val allureReport = createTestReport(test)
-        BufferedOutputStream(outputStream).use { stream ->
-            json.encodeToStream(allureReport, stream)
+    override fun writeTestReport(
+        test: InstrumentedTestReport,
+        storageProvider: ReportStorageProvider,
+    ) {
+        // First save the test report
+        writeTestReport(
+            report = createTestReport(test),
+            storageProvider = storageProvider,
+            destPath = getTestReportPath(test)
+        )
+
+        // Now save the container if we have before or after stages
+        if (test.getStagesBefore().isNotEmpty() || test.getStagesAfter().isNotEmpty()) {
+            val report = createContainerReport(test)
+            writeContainerReport(
+                report = createContainerReport(test),
+                storageProvider = storageProvider,
+                destPath = "${test.outputPath}/${report.uuid}-container.json"
+            )
+        }
+    }
+
+    @ExperimentalSerializationApi
+    private fun writeTestReport(
+        report: AllureTestReport,
+        storageProvider: ReportStorageProvider,
+        destPath: String,
+    ) {
+        val testOutputStream = storageProvider.getOutputStream(destPath)
+        BufferedOutputStream(testOutputStream).use { stream ->
+            json.encodeToStream(report, stream)
             stream.flush()
         }
     }
 
     @ExperimentalSerializationApi
-    override fun writeSuiteReport(report: TestSuiteReport, outputStream: OutputStream) {
+    private fun writeContainerReport(
+        report: AllureContainerReport,
+        storageProvider: ReportStorageProvider,
+        destPath: String,
+    ) {
+        val testOutputStream = storageProvider.getOutputStream(destPath)
+        BufferedOutputStream(testOutputStream).use { stream ->
+            json.encodeToStream(report, stream)
+            stream.flush()
+        }
+    }
+
+    @ExperimentalSerializationApi
+    override fun writeSuiteReport(
+        report: TestSuiteReport,
+        storageProvider: ReportStorageProvider,
+    ) {
+        val filePath = "${dirName}/${report.executionMetadata.uniqueId}-result.json"
         val allureReport = createSuiteReport(report)
-        BufferedOutputStream(outputStream).use { stream ->
+        BufferedOutputStream(storageProvider.getOutputStream(filePath)).use { stream ->
             json.encodeToStream(allureReport, stream)
             stream.flush()
         }
     }
 
-    private fun createTestReport(test: InstrumentedTestReport): AllureReport {
+    private fun createTestReport(test: InstrumentedTestReport): AllureTestReport {
         val metadata = test.metadata
         val execution = test.getExecutionMetadata()
         val testId = test.getProperty(ReportProperty.Id) ?: metadata.fullName
         val testTitle = test.getProperty(ReportProperty.Title) ?: metadata.methodName
-        return AllureReport(
+        return AllureTestReport(
             uuid = execution.uniqueId,
             historyId = testId,
             testCaseId = testId,
@@ -105,16 +148,29 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
             status = getStatus(execution.status),
             statusDetails = getStatusDetail(execution),
             stage = stageValue,
-            steps = test.getStages().mapNotNull { mapStage(it) },
+            steps = test.getTestStages().mapNotNull { mapStage(it) },
             attachments = getAttachments(test),
             start = execution.startTime,
             stop = execution.endTime
         )
     }
 
-    private fun createSuiteReport(report: TestSuiteReport): AllureReport {
+    private fun createContainerReport(test: InstrumentedTestReport): AllureContainerReport {
+        val execution = test.getExecutionMetadata()
+        return AllureContainerReport(
+            uuid = ExecutionIdGenerator.get(),
+            name = test.metadata.methodName,
+            children = listOf(execution.uniqueId),
+            befores = test.getStagesBefore().mapNotNull { mapStage(it) },
+            afters = test.getStagesAfter().mapNotNull { mapStage(it) },
+            start = execution.startTime,
+            stop = execution.endTime
+        )
+    }
+
+    private fun createSuiteReport(report: TestSuiteReport): AllureTestReport {
         val execution = report.executionMetadata
-        return AllureReport(
+        return AllureTestReport(
             uuid = execution.uniqueId,
             historyId = report.packageName,
             testCaseId = report.packageName,
@@ -159,7 +215,7 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
             attachments = emptyList(),
             start = execution.startTime,
             stop = execution.endTime,
-            steps = scenario.getStages().mapNotNull { step ->
+            steps = scenario.getTestStages().mapNotNull { step ->
                 mapStage(step)
             }
         )
@@ -169,6 +225,7 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
         return when (stage) {
             is InstrumentedStepReport -> mapStep(stage)
             is InstrumentedScenarioReport -> mapScenario(stage)
+            is InstrumentedBeforeAfterReport -> mapBeforeAfter(stage)
             is InstrumentedStageReport -> mapUnknownStage(stage)
             else -> null
         }
@@ -184,7 +241,23 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
             attachments = getAttachments(step),
             start = execution.startTime,
             stop = execution.endTime,
-            steps = step.getStages().mapNotNull { stage ->
+            steps = step.getTestStages().mapNotNull { stage ->
+                mapStage(stage)
+            }
+        )
+    }
+
+    private fun mapBeforeAfter(step: InstrumentedBeforeAfterReport): AllureStep {
+        val execution = step.getExecutionMetadata()
+        return AllureStep(
+            name = step.title,
+            status = getStatus(execution.status),
+            statusDetails = getStatusDetail(execution),
+            stage = stageValue,
+            attachments = getAttachments(step),
+            start = execution.startTime,
+            stop = execution.endTime,
+            steps = step.getTestStages().mapNotNull { stage ->
                 mapStage(stage)
             }
         )
@@ -200,7 +273,7 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
             attachments = getAttachments(stage),
             start = execution.startTime,
             stop = execution.endTime,
-            steps = stage.getStages().mapNotNull { childStage -> mapStage(childStage) }
+            steps = stage.getTestStages().mapNotNull { childStage -> mapStage(childStage) }
         )
     }
 

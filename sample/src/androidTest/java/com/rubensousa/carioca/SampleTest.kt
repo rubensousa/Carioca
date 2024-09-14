@@ -20,10 +20,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.android.rules.RepeatTest
-import com.rubensousa.carioca.android.rules.RepeatTestRule
-import com.rubensousa.carioca.android.rules.RetryTest
 import com.rubensousa.carioca.junit.report.TestReport
+import org.junit.After
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
@@ -31,17 +29,29 @@ import org.junit.Test
 
 class SampleTest {
 
-    @get:Rule(order = 0)
-    val repeatRule = RepeatTestRule()
-
-    @get:Rule(order = 1)
+    @get:Rule
     val report = SampleInstrumentedReportRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     @Before
-    fun setup() {
-        device.pressHome()
+    fun before() = report.before {
+        step("Press home") {
+            device.pressHome()
+        }
+        step("Set device orientation to natural") {
+            device.setOrientationNatural()
+        }
+    }
+
+    @After
+    fun after() = report.after {
+        step("Press home") {
+            device.pressHome()
+        }
+        step("Unfreeze orientation") {
+            device.unfreezeRotation()
+        }
     }
 
     @TestReport(
@@ -68,7 +78,6 @@ class SampleTest {
         }
     }
 
-    @RetryTest(times = 2)
     @TestReport(
         id = "PROJECT-123",
         title = "Opening notification and quick settings",
@@ -106,7 +115,6 @@ class SampleTest {
         }
     }
 
-    @RepeatTest(times = 2)
     @Test
     fun testGivenWhenThenScenario() = report {
         Given(OpenNotificationScenario())
@@ -121,12 +129,11 @@ class SampleTest {
         }
     }
 
-    @Ignore
+    @Ignore("Just for checking reports")
     @Test
     fun testIsIgnored() {
         // Nothing
     }
-
 
     private class WaitDismissScenario : InstrumentedScenario("Wait for dismissal") {
 

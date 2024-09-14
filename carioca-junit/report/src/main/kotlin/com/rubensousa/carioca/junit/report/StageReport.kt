@@ -19,12 +19,19 @@ package com.rubensousa.carioca.junit.report
 
 /**
  * The building block of all test reports
+ *
+ * To get the main result of this report, use [getExecutionMetadata]
+ *
+ * To get the reports within this own report, use:
+ * [getStagesBefore], [getTestStages], [getStagesAfter]
  */
 abstract class StageReport(
     private val executionId: String = ExecutionIdGenerator.get(),
 ) {
 
-    private val childStages = mutableListOf<StageReport>()
+    private val beforeStages = mutableListOf<StageReport>()
+    private val testStages = mutableListOf<StageReport>()
+    private val afterStages = mutableListOf<StageReport>()
     private val properties = mutableMapOf<ReportProperty, Any>()
     private var startTime = System.currentTimeMillis()
     private var endTime = startTime
@@ -95,26 +102,52 @@ abstract class StageReport(
     }
 
     /**
-     * @return the child stages that started within this stage
+     * @return the child stages that started in a `@Before` method
      */
-    fun getStages(): List<StageReport> = childStages.toList()
+    fun getStagesBefore(): List<StageReport> = beforeStages.toList()
+
+    /**
+     * @return the child stages that started within this stage inside the test method
+     */
+    fun getTestStages(): List<StageReport> = testStages.toList()
+
+    /**
+     * @return the child stages that started in a `@After` method
+     */
+    fun getStagesAfter(): List<StageReport> = afterStages.toList()
 
     /**
      * @param stage a nested stage within this report
      */
-    fun addStage(stage: StageReport) {
-        childStages.add(stage)
+    fun addStageBefore(stage: StageReport) {
+        beforeStages.add(stage)
+    }
+
+    /**
+     * @param stage a nested stage within this report
+     */
+    fun addTestStage(stage: StageReport) {
+        testStages.add(stage)
+    }
+
+    /**
+     * @param stage a nested stage within this report
+     */
+    fun addStageAfter(stage: StageReport) {
+        afterStages.add(stage)
     }
 
     open fun reset() {
-        childStages.forEach { stage ->
-            stage.reset()
-        }
+        testStages.forEach { stage -> stage.reset() }
+        beforeStages.forEach { stage -> stage.reset() }
+        afterStages.forEach { stage -> stage.reset() }
         status = ReportStatus.RUNNING
         startTime = System.currentTimeMillis()
         endTime = startTime
         failureCause = null
-        childStages.clear()
+        testStages.clear()
+        beforeStages.clear()
+        afterStages.clear()
         properties.clear()
     }
 
@@ -132,13 +165,15 @@ abstract class StageReport(
         return other?.javaClass == javaClass
                 && other is StageReport
                 && other.getExecutionMetadata() == getExecutionMetadata()
-                && other.getStages() == childStages
+                && other.getTestStages() == testStages
+                && other.getStagesBefore() == beforeStages
+                && other.getStagesAfter() == afterStages
                 && other.getProperties() == properties
     }
 
     override fun hashCode(): Int {
         var result = getExecutionMetadata().hashCode()
-        result = 31 * result + childStages.hashCode()
+        result = 31 * result + testStages.hashCode()
         result = 31 * result + properties.hashCode()
         return result
     }

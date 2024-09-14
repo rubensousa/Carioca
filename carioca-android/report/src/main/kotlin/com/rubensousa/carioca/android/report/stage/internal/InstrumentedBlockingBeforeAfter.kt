@@ -16,16 +16,21 @@
 
 package com.rubensousa.carioca.android.report.stage.internal
 
-import com.rubensousa.carioca.android.report.stage.InstrumentedBeforeReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedBeforeAfterReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
 
-internal class InstrumentedBlockingBefore internal constructor(
+internal class InstrumentedBlockingBeforeAfter internal constructor(
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
     title: String,
     outputPath: String,
-) : InstrumentedBeforeReport(title, outputPath), InstrumentedStageScope {
+    before: Boolean,
+) : InstrumentedBeforeAfterReport(
+    outputPath = outputPath,
+    title = title,
+    before = before,
+), InstrumentedStageScope {
 
     private val delegate = delegateFactory.create(this)
 
@@ -39,6 +44,11 @@ internal class InstrumentedBlockingBefore internal constructor(
 
     override fun scenario(scenario: InstrumentedScenario) {
         delegate.scenario(scenario)
+    }
+
+    internal fun execute(action: InstrumentedStageScope.() -> Unit) {
+        action(this)
+        pass()
     }
 
 }

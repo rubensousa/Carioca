@@ -48,18 +48,18 @@ internal class InstrumentedBlockingDelegate(
         id: String?,
         action: InstrumentedStageScope.() -> Unit,
     ) {
-        executeStage(createStep(title, id)) { stage ->
+        execute(createStep(title, id)) { stage ->
             stage.execute(action)
         }
     }
 
     override fun scenario(scenario: InstrumentedScenario) {
-        executeStage(createScenario(scenario)) { stage ->
+        execute(createScenario(scenario)) { stage ->
             stage.execute()
         }
     }
 
-    private fun <T : InstrumentedStageReport> executeStage(
+    private fun <T : InstrumentedStageReport> execute(
         stage: T,
         executor: (T) -> Unit,
     ) {
@@ -69,7 +69,7 @@ internal class InstrumentedBlockingDelegate(
     }
 
     private fun onStageStarted(stage: InstrumentedStageReport) {
-        host.addStage(stage)
+        host.addTestStage(stage)
         stack.push(stage)
         interceptors.intercept { onStageStarted(stage) }
     }

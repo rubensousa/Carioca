@@ -19,7 +19,7 @@ package com.rubensousa.carioca.android.report.allure
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class AllureReport(
+data class AllureTestReport(
     val uuid: String,
     val historyId: String,
     val testCaseId: String,
@@ -35,7 +35,18 @@ data class AllureReport(
     val attachments: List<AllureAttachment>,
     val start: Long,
     val stop: Long,
-    val parameters: List<Int> = emptyList()
+    val parameters: List<Int> = emptyList(),
+)
+
+@Serializable
+data class AllureContainerReport(
+    val uuid: String,
+    val name: String,
+    val children: List<String>,
+    val befores: List<AllureStep> = emptyList(),
+    val afters: List<AllureStep> = emptyList(),
+    val start: Long,
+    val stop: Long,
 )
 
 @Serializable
@@ -48,7 +59,7 @@ data class AllureStep(
     val start: Long,
     val stop: Long,
     val steps: List<AllureStep>,
-    val parameters: List<Int> = emptyList()
+    val parameters: List<Int> = emptyList(),
 )
 
 @Serializable
@@ -57,7 +68,7 @@ data class AllureStatusDetail(
     val muted: Boolean,
     val flaky: Boolean,
     val message: String,
-    val trace: String
+    val trace: String,
 )
 
 @Serializable
@@ -77,5 +88,5 @@ data class AllureLink(
 @Serializable
 data class AllureLabel(
     val name: String,
-    val value: String
+    val value: String,
 )

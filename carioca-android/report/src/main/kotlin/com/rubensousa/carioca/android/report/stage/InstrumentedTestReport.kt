@@ -29,22 +29,21 @@ import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.junit.report.StageStack
 import com.rubensousa.carioca.junit.report.TestMetadata
-import java.io.File
 
 /**
  * The main entry point for all reports.
  *
  * Get the metadata of this test through [metadata] and/or [getProperty].
  *
- * To get the stages for reporting, use [getStages]
+ * To get the stages for reporting, use [getTestStages]
  */
 abstract class InstrumentedTestReport(
     outputPath: String,
     val metadata: TestMetadata,
-    private val recordingOptions: RecordingOptions,
-    private val screenshotDelegate: ScreenshotDelegate,
-    private val reporter: CariocaInstrumentedReporter,
-    private val interceptors: List<CariocaInstrumentedInterceptor>,
+    protected val recordingOptions: RecordingOptions,
+    protected val screenshotDelegate: ScreenshotDelegate,
+    protected val reporter: CariocaInstrumentedReporter,
+    protected val interceptors: List<CariocaInstrumentedInterceptor>,
 ) : InstrumentedStageReport(outputPath) {
 
     protected val stageStack = StageStack<InstrumentedStageReport>()
@@ -103,31 +102,23 @@ abstract class InstrumentedTestReport(
 
     override fun reset() {
         super.reset()
-        deleteReportFile()
+        deleteReportFiles()
         stageStack.clear()
         screenRecording = null
     }
 
     private fun writeReport() {
         try {
-            TestStorageProvider.getOutputStream(getRelativeReportPath()).use {
-                reporter.writeTestReport(this, it)
-            }
+            reporter.writeTestReport(this, TestStorageProvider)
         } catch (exception: Exception) {
             Log.e("CariocaReport", "Failed writing report for test ${this.metadata.methodName}", exception)
         }
     }
 
-    private fun deleteReportFile() {
-        val relativePath = getRelativeReportPath()
-        val file = File(TestStorageDirectory.tmpOutputDir, relativePath)
-        if (file.exists()) {
+    private fun deleteReportFiles() {
+        TestStorageDirectory.tmpOutputDir.listFiles()?.forEach { file ->
             deleteFile(file)
         }
-    }
-
-    private fun getRelativeReportPath(): String {
-        return "$outputPath/${reporter.getReportFilename(this)}"
     }
 
     private fun startRecording() {

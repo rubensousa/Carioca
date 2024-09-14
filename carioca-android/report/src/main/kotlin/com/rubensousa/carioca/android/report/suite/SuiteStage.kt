@@ -122,10 +122,7 @@ internal class InstrumentedSuiteStage : SuiteStage {
 
     private fun writeReport(report: TestSuiteReport) {
         reporters.values.forEach { reporter ->
-            val outputStream = TestStorageProvider.getOutputStream(
-                reporter.getSuiteReportFilePath(report)
-            )
-            reporter.writeSuiteReport(report, outputStream)
+            reporter.writeSuiteReport(report, TestStorageProvider)
         }
     }
 

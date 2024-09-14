@@ -20,13 +20,18 @@ package com.rubensousa.carioca.android.report.stage
  * @param outputPath the output directory for this stage's attachments
  * @param title the title of this stage
  */
-abstract class InstrumentedBeforeReport(
+abstract class InstrumentedBeforeAfterReport(
     outputPath: String,
     val title: String,
+    val before: Boolean,
 ) : InstrumentedStageReport(outputPath) {
 
     override fun toString(): String {
-        return "Before: $title"
+        return if (before) {
+            "Before: $title"
+        } else {
+            "After: $title"
+        }
     }
 
 }

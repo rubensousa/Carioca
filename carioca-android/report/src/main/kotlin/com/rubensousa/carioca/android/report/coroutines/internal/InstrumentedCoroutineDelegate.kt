@@ -69,7 +69,7 @@ internal class InstrumentedCoroutineDelegate(
     }
 
     private fun onStageStarted(stage: InstrumentedStageReport) {
-        host.addStage(stage)
+        host.addTestStage(stage)
         stack.push(stage)
         interceptors.intercept { onStageStarted(stage) }
     }
