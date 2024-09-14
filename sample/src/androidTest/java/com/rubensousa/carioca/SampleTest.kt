@@ -23,17 +23,29 @@ import com.rubensousa.carioca.android.report.stage.scenario.InstrumentedTestScen
 import com.rubensousa.carioca.android.report.stage.test.Given
 import com.rubensousa.carioca.android.report.stage.test.Then
 import com.rubensousa.carioca.android.report.stage.test.When
+import com.rubensousa.carioca.android.rules.RepeatTest
+import com.rubensousa.carioca.android.rules.RepeatTestRule
+import com.rubensousa.carioca.android.rules.RetryTest
 import com.rubensousa.carioca.junit.report.TestReport
+import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
 class SampleTest {
 
-    @get:Rule
+    @get:Rule(order = 0)
+    val repeatRule = RepeatTestRule()
+
+    @get:Rule(order = 1)
     val report = SampleInstrumentedReportRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+
+    @Before
+    fun setup() {
+        device.pressHome()
+    }
 
     @TestReport(
         id = "PROJECT-122",
@@ -59,6 +71,7 @@ class SampleTest {
         }
     }
 
+    @RetryTest(times = 2)
     @TestReport(
         id = "PROJECT-123",
         title = "Opening notification and quick settings",
@@ -96,6 +109,7 @@ class SampleTest {
         }
     }
 
+    @RepeatTest(times = 2)
     @Test
     fun testGivenWhenThenScenario() = report {
         Given(OpenNotificationScenario())
@@ -116,25 +130,6 @@ class SampleTest {
         // Nothing
     }
 
-    private class OpenNotificationScenario : InstrumentedTestScenario("Open Notification") {
-
-        private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-
-        override fun run(scope: InstrumentedScenarioScope) = with(scope) {
-            screenshot("Before opening notifications")
-
-            step("Request notification open") {
-                device.openNotification()
-            }
-
-            step("Wait for animation") {
-                Thread.sleep(1000L)
-                screenshot("Notification")
-            }
-
-            screenshot("After opening notifications")
-        }
-    }
 
     private class WaitDismissScenario : InstrumentedTestScenario("Wait for dismissal") {
 

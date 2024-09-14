@@ -39,4 +39,5 @@ rootProject.name = "carioca"
 include(":sample")
 include(":carioca-android:report")
 include(":carioca-android:report-allure")
+include(":carioca-android:rules")
 include(":carioca-junit:report")

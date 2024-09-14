@@ -34,9 +34,6 @@ import kotlin.coroutines.EmptyCoroutineContext
 /**
  * A test rule that builds a detailed report for a test, including its steps.
  *
- * Start by calling [report] to start the report. Then use either [InstrumentedTestScope.step] or [InstrumentedTestScope.scenario]
- * to start describing the report in detail.
- *
  * You can also extend this class to provide a default report configuration across all tests:
  *
  * ```kotlin
@@ -75,6 +72,12 @@ import kotlin.coroutines.EmptyCoroutineContext
  *     }
  * }
  * ```
+ *
+ * @param reporter the instrumented reporter for this report
+ * @param recordingOptions the default recording options for this report
+ * @param screenshotOptions the default screenshot options for this report
+ * @param interceptors the interceptors that will receive multiple stage events
+ * during the lifecycle of this report
  */
 open class CariocaInstrumentedReportRule(
     private val reporter: CariocaInstrumentedReporter,
@@ -106,7 +109,6 @@ open class CariocaInstrumentedReportRule(
 
     final override fun starting(description: Description) {
         super.starting(description)
-        // TODO: Get the previous instance if this test was retried with a retry rule
         val test = builder.build(
             description = description,
             recordingOptions = recordingOptions,
