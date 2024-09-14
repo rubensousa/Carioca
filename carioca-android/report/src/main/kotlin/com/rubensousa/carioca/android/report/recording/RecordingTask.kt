@@ -59,8 +59,8 @@ internal class RecordingTask(
         val displayMetrics = InstrumentationRegistry.getInstrumentation().targetContext
             .applicationContext.resources.displayMetrics
         try {
-            val width = scaleToDivisibleByEight(displayMetrics.widthPixels, options.resolutionScale)
-            val height = scaleToDivisibleByEight(displayMetrics.heightPixels, options.resolutionScale)
+            val width = scaleToDivisibleByEight(displayMetrics.widthPixels, options.scale)
+            val height = scaleToDivisibleByEight(displayMetrics.heightPixels, options.scale)
             val command = getScreenRecordingCommand(
                 primaryResolution = if (width > height) width else height,
                 secondaryResolution = if (width > height) height else width

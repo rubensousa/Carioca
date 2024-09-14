@@ -17,9 +17,12 @@
 package com.rubensousa.carioca.android.report.screenshot
 
 import android.graphics.Bitmap
+import org.junit.runner.Description
 
 /**
- * Configurable screenshot options that apply to all tests
+ * Configurable screenshot options that apply to all tests.
+ *
+ * To override a configuration for a single test, annotate it with [TestScreenshot]
  *
  * @param scale the scale of the screenshot in relation to the original display size. Default: 0.5
  * @param quality the quality of the screenshot. From 0 to 100. Default: 80
@@ -47,6 +50,21 @@ data class ScreenshotOptions(
             Bitmap.CompressFormat.JPEG -> ".jpg"
             else -> ".webp"
         }
+    }
+
+    companion object {
+
+        fun from(description: Description): ScreenshotOptions? {
+            val annotation = description.getAnnotation(TestScreenshot::class.java)
+                ?: return null
+            return ScreenshotOptions(
+                scale = annotation.scale,
+                quality = annotation.quality,
+                keepOnSuccess = annotation.keepOnSuccess,
+                format = annotation.format,
+            )
+        }
+
     }
 
 }

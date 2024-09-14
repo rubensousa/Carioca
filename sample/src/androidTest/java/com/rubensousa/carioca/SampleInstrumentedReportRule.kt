@@ -28,7 +28,7 @@ class SampleInstrumentedReportRule : InstrumentedReportRule(
     reporter = AllureInstrumentedReporter(),
     recordingOptions = RecordingOptions(
         bitrate = 20_000_000,
-        resolutionScale = 1.0f,
+        scale = 1.0f,
         /**
          * Be extra careful with this option,
          * as this might fill up the entire device depending on the number of tests.
@@ -59,7 +59,7 @@ class SampleCoroutineInstrumentedReportRule : InstrumentedCoroutineReportRule(
     reporter = AllureInstrumentedReporter(),
     recordingOptions = RecordingOptions(
         bitrate = 20_000_000,
-        resolutionScale = 1.0f,
+        scale = 1.0f,
         /**
          * Be extra careful with this option,
          * as this might fill up the entire device depending on the number of tests.

@@ -18,26 +18,27 @@ package com.rubensousa.carioca
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.rules.RetryTest
-import com.rubensousa.carioca.android.rules.RetryTestRule
+import com.rubensousa.carioca.android.report.recording.TestRecord
 import org.junit.Rule
 import org.junit.Test
 
-class SampleRetryTest {
+class SampleRecordingTest {
 
-    @get:Rule(order = 0)
-    val retryRule = RetryTestRule()
-
-    @get:Rule(order = 1)
+    @get:Rule
     val report = SampleInstrumentedReportRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-    private var execution = 0
 
-    @RetryTest(times = 2)
+    // Overrides the screen recording options
+    @TestRecord(scale = 1.0f)
     @Test
-    fun testThatWillRetryUntilItPasses() = report {
-        Given(OpenNotificationScenario())
+    fun testGivenWhenThen() = report {
+
+        Given("User opens notifications") {
+            device.openNotification()
+            Thread.sleep(1000L)
+            screenshot("Notifications opened")
+        }
 
         When("User presses home") {
             device.pressHome()
@@ -46,13 +47,6 @@ class SampleRetryTest {
         Then("Launcher is displayed") {
             screenshot("Launcher")
         }
-
-        execution++
-
-        if (execution < 3) {
-            throw IllegalStateException("Fail test on purpose")
-        }
-
     }
 
 }

@@ -150,8 +150,8 @@ open class InstrumentedReportRule(
     override fun createTest(description: Description): InstrumentedTestReport {
         return testBuilder.build(
             description = description,
-            recordingOptions = recordingOptions,
-            screenshotOptions = screenshotOptions,
+            recordingOptions = RecordingOptions.from(description) ?: recordingOptions,
+            screenshotOptions = ScreenshotOptions.from(description) ?: screenshotOptions,
             reporter = reporter,
             interceptors = interceptors
         )
