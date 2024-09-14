@@ -25,10 +25,15 @@ import java.io.File
 import java.io.OutputStream
 
 abstract class InstrumentedStageReport(
-    protected val outputPath: String,
+    reportDirPath: String,
 ) : StageReport() {
 
     private val attachments = mutableListOf<StageAttachment>()
+    protected val outputPath: String = if (!reportDirPath.startsWith("/")) {
+        "/$reportDirPath"
+    } else {
+        reportDirPath
+    }
 
     fun attach(attachment: StageAttachment) {
         attachments.add(attachment)

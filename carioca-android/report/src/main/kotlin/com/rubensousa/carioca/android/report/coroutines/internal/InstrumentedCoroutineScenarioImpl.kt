@@ -14,17 +14,24 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.coroutines
+package com.rubensousa.carioca.android.report.coroutines.internal
 
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStageScope
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
-import com.rubensousa.carioca.android.report.stage.InstrumentedStep
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
 
-internal class InstrumentedCoroutineStep(
+internal class InstrumentedCoroutineScenarioImpl(
     outputPath: String,
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedCoroutineStageScope>,
     id: String,
     title: String,
-) : InstrumentedStep(outputPath, id, title), InstrumentedCoroutineStageScope {
+    private val scenario: InstrumentedCoroutineScenario,
+) : InstrumentedScenarioReport(
+    outputPath = outputPath,
+    id = id,
+    title = title
+), InstrumentedCoroutineStageScope {
 
     private val delegate = delegateFactory.create(this)
 
@@ -44,8 +51,8 @@ internal class InstrumentedCoroutineStep(
         delegate.scenario(scenario)
     }
 
-    internal suspend fun execute(action: suspend InstrumentedCoroutineStageScope.() -> Unit) {
-        action(this)
+    internal suspend fun execute() {
+        scenario.run(this)
         pass()
     }
 

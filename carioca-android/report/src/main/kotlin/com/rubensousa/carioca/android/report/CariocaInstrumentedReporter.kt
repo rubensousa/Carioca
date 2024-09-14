@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.android.report
 
-import com.rubensousa.carioca.android.report.stage.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.junit.report.TestMetadata
 import java.io.OutputStream
@@ -38,7 +38,7 @@ interface CariocaInstrumentedReporter {
      *
      * @return the filename of the report, including the extension
      */
-    fun getReportFilename(test: InstrumentedTest): String
+    fun getReportFilename(test: InstrumentedTestReport): String
 
     /**
      * @param report the test report to be saved
@@ -51,7 +51,7 @@ interface CariocaInstrumentedReporter {
      * @param test test report to be written
      * @param outputStream the destination of the report contents
      */
-    fun writeTestReport(test: InstrumentedTest, outputStream: OutputStream)
+    fun writeTestReport(test: InstrumentedTestReport, outputStream: OutputStream)
 
     /**
      * @param report suite report to be written

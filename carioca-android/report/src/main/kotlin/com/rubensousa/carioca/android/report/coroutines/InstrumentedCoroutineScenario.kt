@@ -16,9 +16,6 @@
 
 package com.rubensousa.carioca.android.report.coroutines
 
-import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
-import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
-
 /**
  * A re-usable set of stages that can be used across multiple tests.
  * Use this carefully and only when you have a stable
@@ -34,42 +31,5 @@ abstract class InstrumentedCoroutineScenario(
 ) {
 
     abstract suspend fun run(scope: InstrumentedCoroutineStageScope)
-
-}
-
-internal class InstrumentedCoroutineScenarioImpl(
-    outputPath: String,
-    delegateFactory: InstrumentedReportDelegateFactory<InstrumentedCoroutineStageScope>,
-    id: String,
-    title: String,
-    private val scenario: InstrumentedCoroutineScenario,
-) : InstrumentedScenario(
-    outputPath = outputPath,
-    id = id,
-    title = title
-), InstrumentedCoroutineStageScope {
-
-    private val delegate = delegateFactory.create(this)
-
-    override fun screenshot(description: String) {
-        delegate.screenshot(description)
-    }
-
-    override suspend fun step(
-        title: String,
-        id: String?,
-        action: suspend InstrumentedCoroutineStageScope.() -> Unit,
-    ) {
-        delegate.step(title, id, action)
-    }
-
-    override suspend fun scenario(scenario: InstrumentedCoroutineScenario) {
-        delegate.scenario(scenario)
-    }
-
-    internal suspend fun execute() {
-        scenario.run(this)
-        pass()
-    }
 
 }

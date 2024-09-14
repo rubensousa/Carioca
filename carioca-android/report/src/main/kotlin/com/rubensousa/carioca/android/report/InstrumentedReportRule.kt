@@ -20,7 +20,7 @@ import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInte
 import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.stage.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestScope
 import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
@@ -29,12 +29,67 @@ import org.junit.rules.TestWatcher
 import org.junit.runner.Description
 
 /**
+ * The basic report structure.
+ *
+ * Default implementation is [InstrumentedReportRule].
+ *
+ * You can extend this class directly to create your own scopes,
+ * by returning your own test report class in [createTest]
+ */
+abstract class AbstractInstrumentedReportRule(
+    protected val reporter: CariocaInstrumentedReporter,
+    protected val recordingOptions: RecordingOptions,
+    protected val screenshotOptions: ScreenshotOptions,
+    protected val interceptors: List<CariocaInstrumentedInterceptor>
+    = listOf(DumpViewHierarchyInterceptor()),
+) : TestWatcher() {
+
+    private var instrumentedTest: InstrumentedTestReport? = null
+    private var lastDescription: Description? = null
+    private val suiteStage: SuiteStage = SuiteReportRegistry.getSuiteStage()
+
+    abstract fun createTest(description: Description): InstrumentedTestReport
+
+    final override fun starting(description: Description) {
+        super.starting(description)
+        /**
+         * If we're running the same test, we can re-use the previous instance
+         * Before doing that, we reset its entire state to ensure we don't keep the old reports
+         */
+        if (description == lastDescription) {
+            instrumentedTest?.reset()
+        } else {
+            val newTest = createTest(description)
+            instrumentedTest = newTest
+            suiteStage.addTest(reporter, newTest)
+        }
+        instrumentedTest?.onStarted()
+        lastDescription = description
+    }
+
+    final override fun succeeded(description: Description) {
+        super.succeeded(description)
+        instrumentedTest?.onPassed()
+    }
+
+    final override fun failed(e: Throwable, description: Description) {
+        super.failed(e, description)
+        instrumentedTest?.onFailed(e)
+    }
+
+    protected open fun <T : InstrumentedTestReport> getCurrentTest(): T {
+        return requireNotNull(instrumentedTest as T) { "Test not started yet" }
+    }
+
+}
+
+/**
  * A test rule that builds a detailed report for a test, including its steps.
  *
  * You can also extend this class to provide a default report configuration across all tests:
  *
  * ```kotlin
- * class SampleReportRule : CariocaReportRule(
+ * class SampleReportRule : InstrumentedReportRule(
  *     reporter = CariocaAllureReporter(),
  *     recordingOptions = RecordingOptions(
  *         bitrate = 20_000_000,
@@ -76,51 +131,6 @@ import org.junit.runner.Description
  * @param interceptors the interceptors that will receive multiple stage events
  * during the lifecycle of this report
  */
-abstract class AbstractInstrumentedReportRule(
-    private val reporter: CariocaInstrumentedReporter,
-    private val recordingOptions: RecordingOptions = RecordingOptions(),
-    private val screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
-    private val interceptors: List<CariocaInstrumentedInterceptor> = listOf(DumpViewHierarchyInterceptor()),
-    private val testCreator: (Description) -> InstrumentedTest,
-) : TestWatcher() {
-
-    private var instrumentedTest: InstrumentedTest? = null
-    private var lastDescription: Description? = null
-    private val suiteStage: SuiteStage = SuiteReportRegistry.getSuiteStage()
-
-    final override fun starting(description: Description) {
-        super.starting(description)
-        /**
-         * If we're running the same test, we can re-use the previous instance
-         * Before doing that, we reset its entire state to ensure we don't keep the old reports
-         */
-        if (description == lastDescription) {
-            instrumentedTest?.reset()
-        } else {
-            val newTest = testCreator(description)
-            instrumentedTest = newTest
-            suiteStage.addTest(reporter, newTest)
-        }
-        instrumentedTest?.onStarted()
-        lastDescription = description
-    }
-
-    final override fun succeeded(description: Description) {
-        super.succeeded(description)
-        instrumentedTest?.onPassed()
-    }
-
-    final override fun failed(e: Throwable, description: Description) {
-        super.failed(e, description)
-        instrumentedTest?.onFailed(e)
-    }
-
-    protected open fun <T: InstrumentedTest> getCurrentTest(): T {
-        return requireNotNull(instrumentedTest as T) { "Test not started yet" }
-    }
-
-}
-
 open class InstrumentedReportRule(
     reporter: CariocaInstrumentedReporter,
     recordingOptions: RecordingOptions = RecordingOptions(),
@@ -131,16 +141,19 @@ open class InstrumentedReportRule(
     recordingOptions = recordingOptions,
     screenshotOptions = screenshotOptions,
     interceptors = interceptors,
-    testCreator = { description ->
-        InstrumentedTestBuilder.build(
+) {
+
+    private val testBuilder = InstrumentedTestBuilder()
+
+    override fun createTest(description: Description): InstrumentedTestReport {
+        return testBuilder.build(
             description = description,
             recordingOptions = recordingOptions,
             screenshotOptions = screenshotOptions,
-            interceptors = interceptors,
-            reporter = reporter
+            reporter = reporter,
+            interceptors = interceptors
         )
     }
-) {
 
     operator fun invoke(block: InstrumentedTestScope.() -> Unit) {
         block(getCurrentTest())

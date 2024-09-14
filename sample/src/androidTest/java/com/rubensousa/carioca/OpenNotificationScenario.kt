@@ -18,10 +18,10 @@ package com.rubensousa.carioca
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.android.report.stage.InstrumentedTestScenario
 
-class OpenNotificationScenario : InstrumentedTestScenario("Open Notification") {
+class OpenNotificationScenario : InstrumentedScenario("Open Notification") {
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 

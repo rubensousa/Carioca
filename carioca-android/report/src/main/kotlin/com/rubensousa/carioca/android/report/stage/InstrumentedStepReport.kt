@@ -21,7 +21,7 @@ package com.rubensousa.carioca.android.report.stage
  * @param id unique id that identifies a step. By default, unique per execution
  * @param title the title of the step
  */
-abstract class InstrumentedStep(
+abstract class InstrumentedStepReport(
     outputPath: String,
     val id: String,
     val title: String,

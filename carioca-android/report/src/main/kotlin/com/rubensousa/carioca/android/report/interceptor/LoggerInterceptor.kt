@@ -18,13 +18,13 @@ package com.rubensousa.carioca.android.report.interceptor
 
 import android.util.Log
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
-import com.rubensousa.carioca.android.report.stage.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 
 class LoggerInterceptor : CariocaInstrumentedInterceptor {
 
     private val tag = "CariocaLogger"
 
-    override fun onTestStarted(test: InstrumentedTest) {
+    override fun onTestStarted(test: InstrumentedTestReport) {
         log("Test started: $test")
     }
 
@@ -40,11 +40,11 @@ class LoggerInterceptor : CariocaInstrumentedInterceptor {
         log("Stage failed: $stage")
     }
 
-    override fun onTestFailed(test: InstrumentedTest) {
+    override fun onTestFailed(test: InstrumentedTestReport) {
         log("Test failed: $test", test.getExecutionMetadata().failureCause)
     }
 
-    override fun onTestPassed(test: InstrumentedTest) {
+    override fun onTestPassed(test: InstrumentedTestReport) {
         log("Test passed: $test")
     }
 

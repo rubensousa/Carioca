@@ -38,7 +38,7 @@ import java.io.File
  *
  * To get the stages for reporting, use [getStages]
  */
-abstract class InstrumentedTest(
+abstract class InstrumentedTestReport(
     outputPath: String,
     val metadata: TestMetadata,
     private val recordingOptions: RecordingOptions,
@@ -51,7 +51,7 @@ abstract class InstrumentedTest(
     private var screenRecording: ReportRecording? = null
 
     fun onStarted() {
-        interceptors.intercept { onTestStarted(this@InstrumentedTest) }
+        interceptors.intercept { onTestStarted(this@InstrumentedTestReport) }
         if (recordingOptions.enabled) {
             startRecording()
         }
@@ -65,7 +65,7 @@ abstract class InstrumentedTest(
             )
         }
         pass()
-        interceptors.intercept { onTestPassed(this@InstrumentedTest) }
+        interceptors.intercept { onTestPassed(this@InstrumentedTestReport) }
         deleteAttachmentsOnSuccess()
         writeReport()
     }
@@ -97,7 +97,7 @@ abstract class InstrumentedTest(
         }
 
         fail(error)
-        interceptors.intercept { onTestFailed(this@InstrumentedTest) }
+        interceptors.intercept { onTestFailed(this@InstrumentedTestReport) }
         writeReport()
     }
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.coroutines
+package com.rubensousa.carioca.android.report.coroutines.internal
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
@@ -36,10 +36,7 @@ internal class InstrumentedCoroutineTestBuilder {
     ): InstrumentedCoroutineTest {
         val reportConfig = TestReportConfig.from(description)
         val testMetadata = TestMetadata.from(description)
-        var outputPath = reporter.getOutputDir(testMetadata)
-        if (!outputPath.startsWith("/")) {
-            outputPath = "/$outputPath"
-        }
+        val outputPath = reporter.getOutputDir(testMetadata)
         val testReport = InstrumentedCoroutineTest(
             outputPath = outputPath,
             metadata = testMetadata,

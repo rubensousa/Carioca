@@ -20,9 +20,9 @@ import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInte
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.android.report.stage.InstrumentedTestScenario
 import com.rubensousa.carioca.junit.report.ExecutionIdGenerator
 import com.rubensousa.carioca.junit.report.StageStack
 
@@ -53,7 +53,7 @@ internal class InstrumentedBlockingDelegate(
         }
     }
 
-    override fun scenario(scenario: InstrumentedTestScenario) {
+    override fun scenario(scenario: InstrumentedScenario) {
         executeStage(createScenario(scenario)) { stage ->
             stage.execute()
         }
@@ -89,7 +89,7 @@ internal class InstrumentedBlockingDelegate(
     }
 
     private fun createScenario(
-        scenario: InstrumentedTestScenario,
+        scenario: InstrumentedScenario,
     ): InstrumentedBlockingScenario {
         return InstrumentedBlockingScenario(
             outputPath = outputPath,

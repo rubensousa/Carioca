@@ -16,14 +16,14 @@
 
 package com.rubensousa.carioca
 
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.android.report.stage.InstrumentedTestScenario
 
 fun sampleScreen(action: SampleScreen.() -> Unit) {
     action(SampleScreen())
 }
 
-class SampleScreenScenario : InstrumentedTestScenario(
+class SampleScreenScenario : InstrumentedScenario(
     title = "Sample Scenario",
     id = "Persistent scenario id"
 ) {

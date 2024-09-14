@@ -17,19 +17,16 @@
 package com.rubensousa.carioca.android.report.stage
 
 /**
- * A re-usable set of stages that can be used across multiple tests.
- * Use this carefully and only when you have a stable
- * set of steps that need to execute in an consistent order
- *
- * @param title the description of this scenario
- * @param id a persistent id for tracking multiple executions of this scenario.
- * Default: same as [title]
+ * @param outputPath the output directory for this stage's attachments
+ * @param title the title of this stage
  */
-abstract class InstrumentedTestScenario(
+abstract class InstrumentedBeforeReport(
+    outputPath: String,
     val title: String,
-    val id: String = title,
-) {
+) : InstrumentedStageReport(outputPath) {
 
-    abstract fun run(scope: InstrumentedStageScope)
+    override fun toString(): String {
+        return "Before: $title"
+    }
 
 }

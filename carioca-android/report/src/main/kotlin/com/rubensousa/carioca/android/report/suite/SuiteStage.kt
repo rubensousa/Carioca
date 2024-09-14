@@ -20,7 +20,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.stage.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.junit.report.ExecutionIdGenerator
@@ -33,7 +33,7 @@ internal interface SuiteStage {
 
     fun addTest(
         reporter: CariocaInstrumentedReporter,
-        test: InstrumentedTest,
+        test: InstrumentedTestReport,
     )
 
     fun testIgnored(description: Description)
@@ -46,7 +46,7 @@ internal interface SuiteStage {
 
 internal class InstrumentedSuiteStage : SuiteStage {
 
-    private val tests = mutableListOf<InstrumentedTest>()
+    private val tests = mutableListOf<InstrumentedTestReport>()
     private val builder = InstrumentedTestBuilder()
     private val ignoredTests = mutableListOf<Description>()
     private val reporters = mutableMapOf<Class<*>, CariocaInstrumentedReporter>()
@@ -54,7 +54,7 @@ internal class InstrumentedSuiteStage : SuiteStage {
 
     override fun addTest(
         reporter: CariocaInstrumentedReporter,
-        test: InstrumentedTest,
+        test: InstrumentedTestReport,
     ) {
         reporters[reporter::class.java] = reporter
         if (startTime == 0L) {
@@ -122,7 +122,9 @@ internal class InstrumentedSuiteStage : SuiteStage {
 
     private fun writeReport(report: TestSuiteReport) {
         reporters.values.forEach { reporter ->
-            val outputStream = TestStorageProvider.getOutputStream(reporter.getSuiteReportFilePath(report))
+            val outputStream = TestStorageProvider.getOutputStream(
+                reporter.getSuiteReportFilePath(report)
+            )
             reporter.writeSuiteReport(report, outputStream)
         }
     }

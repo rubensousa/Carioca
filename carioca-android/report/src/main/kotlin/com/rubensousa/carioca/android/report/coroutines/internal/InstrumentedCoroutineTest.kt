@@ -14,15 +14,18 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.coroutines
+package com.rubensousa.carioca.android.report.coroutines.internal
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStageScope
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineTestScope
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
-import com.rubensousa.carioca.android.report.stage.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.junit.report.TestMetadata
 
 internal class InstrumentedCoroutineTest(
@@ -32,7 +35,7 @@ internal class InstrumentedCoroutineTest(
     reporter: CariocaInstrumentedReporter,
     screenshotDelegate: ScreenshotDelegate,
     interceptors: List<CariocaInstrumentedInterceptor>,
-) : InstrumentedTest(
+) : InstrumentedTestReport(
     outputPath = outputPath,
     metadata = metadata,
     recordingOptions = recordingOptions,
@@ -43,10 +46,10 @@ internal class InstrumentedCoroutineTest(
 
     private val coroutineDelegateFactory =
         object : InstrumentedReportDelegateFactory<InstrumentedCoroutineStageScope> {
-            override fun create(host: InstrumentedStageReport): InstrumentedCoroutineDelegate {
+            override fun create(report: InstrumentedStageReport): InstrumentedCoroutineDelegate {
                 return InstrumentedCoroutineDelegate(
                     delegateFactory = this,
-                    host = host,
+                    host = report,
                     screenshotDelegate = screenshotDelegate,
                     stack = stageStack,
                     interceptors = interceptors,

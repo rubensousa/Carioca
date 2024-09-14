@@ -25,7 +25,7 @@ import com.rubensousa.carioca.junit.report.TestMetadata
 import com.rubensousa.carioca.junit.report.TestReportConfig
 import org.junit.runner.Description
 
-internal object InstrumentedTestBuilder {
+internal class InstrumentedTestBuilder {
 
     fun build(
         description: Description,
@@ -36,10 +36,7 @@ internal object InstrumentedTestBuilder {
     ): InstrumentedBlockingTest {
         val reportConfig = TestReportConfig.from(description)
         val testMetadata = TestMetadata.from(description)
-        var outputPath = reporter.getOutputDir(testMetadata)
-        if (!outputPath.startsWith("/")) {
-            outputPath = "/$outputPath"
-        }
+        val outputPath = reporter.getOutputDir(testMetadata)
         val testReport = InstrumentedBlockingTest(
             outputPath = outputPath,
             metadata = testMetadata,

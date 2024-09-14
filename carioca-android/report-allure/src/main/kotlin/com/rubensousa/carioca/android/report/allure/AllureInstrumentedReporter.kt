@@ -17,10 +17,10 @@
 package com.rubensousa.carioca.android.report.allure
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
-import com.rubensousa.carioca.android.report.stage.InstrumentedStep
-import com.rubensousa.carioca.android.report.stage.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
@@ -50,7 +50,7 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
         return dirName
     }
 
-    override fun getReportFilename(test: InstrumentedTest): String {
+    override fun getReportFilename(test: InstrumentedTestReport): String {
         return test.getExecutionMetadata().uniqueId + "-result.json"
     }
 
@@ -71,7 +71,7 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
     }
 
     @ExperimentalSerializationApi
-    override fun writeTestReport(test: InstrumentedTest, outputStream: OutputStream) {
+    override fun writeTestReport(test: InstrumentedTestReport, outputStream: OutputStream) {
         val allureReport = createTestReport(test)
         BufferedOutputStream(outputStream).use { stream ->
             json.encodeToStream(allureReport, stream)
@@ -88,7 +88,7 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
         }
     }
 
-    private fun createTestReport(test: InstrumentedTest): AllureReport {
+    private fun createTestReport(test: InstrumentedTestReport): AllureReport {
         val metadata = test.metadata
         val execution = test.getExecutionMetadata()
         val testId = test.getProperty(ReportProperty.Id) ?: metadata.fullName
@@ -149,7 +149,7 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun mapScenario(scenario: InstrumentedScenario): AllureStep {
+    private fun mapScenario(scenario: InstrumentedScenarioReport): AllureStep {
         val execution = scenario.getExecutionMetadata()
         return AllureStep(
             name = scenario.title,
@@ -167,14 +167,14 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
 
     private fun mapStage(stage: StageReport): AllureStep? {
         return when (stage) {
-            is InstrumentedStep -> mapStep(stage)
-            is InstrumentedScenario -> mapScenario(stage)
+            is InstrumentedStepReport -> mapStep(stage)
+            is InstrumentedScenarioReport -> mapScenario(stage)
             is InstrumentedStageReport -> mapUnknownStage(stage)
             else -> null
         }
     }
 
-    private fun mapStep(step: InstrumentedStep): AllureStep {
+    private fun mapStep(step: InstrumentedStepReport): AllureStep {
         val execution = step.getExecutionMetadata()
         return AllureStep(
             name = step.title,
@@ -260,7 +260,7 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun createLinks(test: InstrumentedTest): List<AllureLink> {
+    private fun createLinks(test: InstrumentedTestReport): List<AllureLink> {
         val links = test.getProperty<List<String>>(ReportProperty.Links) ?: return emptyList()
         return links.map { link ->
             AllureLink(

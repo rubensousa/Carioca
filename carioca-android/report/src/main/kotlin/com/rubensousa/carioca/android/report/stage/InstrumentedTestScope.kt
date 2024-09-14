@@ -23,11 +23,11 @@ interface InstrumentedTestScope : InstrumentedStageScope {
 
     @Suppress("FunctionName")
     fun Given(
-        scenario: InstrumentedTestScenario,
+        scenario: InstrumentedScenario,
         action: InstrumentedStageScope.() -> Unit = {},
     ) {
         scenario(
-            object : InstrumentedTestScenario(
+            object : InstrumentedScenario(
                 title = "Given: ${scenario.title}",
                 id = scenario.id
             ) {

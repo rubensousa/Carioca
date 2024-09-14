@@ -17,5 +17,5 @@
 package com.rubensousa.carioca.android.report.stage
 
 interface InstrumentedReportDelegateFactory<T : InstrumentedReportScope> {
-    fun create(host: InstrumentedStageReport): T
+    fun create(report: InstrumentedStageReport): T
 }

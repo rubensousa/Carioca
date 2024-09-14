@@ -44,6 +44,6 @@ interface InstrumentedStageScope : InstrumentedReportScope {
      * Creates a report for a set of steps.
      * This is almost equivalent to calling [step] multiple times, but in a more re-usable way
      */
-    fun scenario(scenario: InstrumentedTestScenario)
+    fun scenario(scenario: InstrumentedScenario)
 
 }

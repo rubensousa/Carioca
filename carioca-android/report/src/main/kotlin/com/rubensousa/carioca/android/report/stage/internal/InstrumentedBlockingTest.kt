@@ -21,10 +21,10 @@ import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInte
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.android.report.stage.InstrumentedTest
-import com.rubensousa.carioca.android.report.stage.InstrumentedTestScenario
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestScope
 import com.rubensousa.carioca.junit.report.TestMetadata
 
@@ -35,7 +35,7 @@ internal class InstrumentedBlockingTest(
     screenshotDelegate: ScreenshotDelegate,
     reporter: CariocaInstrumentedReporter,
     interceptors: List<CariocaInstrumentedInterceptor>,
-) : InstrumentedTest(
+) : InstrumentedTestReport(
     outputPath = outputPath,
     metadata = metadata,
     recordingOptions = recordingOptions,
@@ -46,10 +46,10 @@ internal class InstrumentedBlockingTest(
 
     private val delegateFactory =
         object : InstrumentedReportDelegateFactory<InstrumentedStageScope> {
-            override fun create(host: InstrumentedStageReport): InstrumentedBlockingDelegate {
+            override fun create(report: InstrumentedStageReport): InstrumentedBlockingDelegate {
                 return InstrumentedBlockingDelegate(
                     delegateFactory = this,
-                    host = host,
+                    host = report,
                     screenshotDelegate = screenshotDelegate,
                     stack = stageStack,
                     interceptors = interceptors,
@@ -67,7 +67,7 @@ internal class InstrumentedBlockingTest(
         delegate.step(title, id, action)
     }
 
-    override fun scenario(scenario: InstrumentedTestScenario) {
+    override fun scenario(scenario: InstrumentedScenario) {
         delegate.scenario(scenario)
     }
 

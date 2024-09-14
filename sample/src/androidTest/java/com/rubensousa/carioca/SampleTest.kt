@@ -18,8 +18,8 @@ package com.rubensousa.carioca
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.android.report.stage.InstrumentedTestScenario
 import com.rubensousa.carioca.android.rules.RepeatTest
 import com.rubensousa.carioca.android.rules.RepeatTestRule
 import com.rubensousa.carioca.android.rules.RetryTest
@@ -128,7 +128,7 @@ class SampleTest {
     }
 
 
-    private class WaitDismissScenario : InstrumentedTestScenario("Wait for dismissal") {
+    private class WaitDismissScenario : InstrumentedScenario("Wait for dismissal") {
 
         override fun run(scope: InstrumentedStageScope) {
             Thread.sleep(1000L)

@@ -17,16 +17,18 @@
 package com.rubensousa.carioca.android.report.stage
 
 /**
- * @param outputPath the output directory for this stage's attachments
- * @param title the title of this stage
+ * @param outputPath the output directory for this scenario's attachments
+ * @param id unique id that identifies a scenario. By default, unique per execution
+ * @param title the title of the step
  */
-abstract class InstrumentedAfter(
+abstract class InstrumentedScenarioReport(
     outputPath: String,
+    val id: String,
     val title: String,
 ) : InstrumentedStageReport(outputPath) {
 
     override fun toString(): String {
-        return "After: $title"
+        return "Scenario: $title - $id"
     }
 
 }

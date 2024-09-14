@@ -17,16 +17,16 @@
 package com.rubensousa.carioca.android.report.stage.internal
 
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.android.report.stage.InstrumentedStep
-import com.rubensousa.carioca.android.report.stage.InstrumentedTestScenario
+import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
 
 internal class InstrumentedBlockingStep(
     outputPath: String,
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
     id: String,
     title: String,
-) : InstrumentedStep(outputPath, id, title), InstrumentedStageScope {
+) : InstrumentedStepReport(outputPath, id, title), InstrumentedStageScope {
 
     private val stageDelegate = delegateFactory.create(this)
 
@@ -42,7 +42,7 @@ internal class InstrumentedBlockingStep(
         stageDelegate.step(title, id, action)
     }
 
-    override fun scenario(scenario: InstrumentedTestScenario) {
+    override fun scenario(scenario: InstrumentedScenario) {
         stageDelegate.scenario(scenario)
     }
 

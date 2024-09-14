@@ -17,9 +17,9 @@
 package com.rubensousa.carioca
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
-import com.rubensousa.carioca.android.report.stage.InstrumentedStep
-import com.rubensousa.carioca.android.report.stage.InstrumentedTest
+import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
 import com.rubensousa.carioca.junit.report.ExecutionMetadata
@@ -49,7 +49,7 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
         return "${metadata.className}/${metadata.methodName}"
     }
 
-    override fun getReportFilename(test: InstrumentedTest): String {
+    override fun getReportFilename(test: InstrumentedTestReport): String {
         val metadata = test.getExecutionMetadata()
         return "${metadata.uniqueId}_report.json"
     }
@@ -59,7 +59,7 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
     }
 
     @ExperimentalSerializationApi
-    override fun writeTestReport(test: InstrumentedTest, outputStream: OutputStream) {
+    override fun writeTestReport(test: InstrumentedTestReport, outputStream: OutputStream) {
         val jsonReport = buildTestReport(test)
         BufferedOutputStream(outputStream).use { stream ->
             json.encodeToStream(jsonReport, stream)
@@ -76,7 +76,7 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
         }
     }
 
-    private fun buildTestReport(test: InstrumentedTest): CariocaJsonTestReport {
+    private fun buildTestReport(test: InstrumentedTestReport): CariocaJsonTestReport {
         val metadata = test.metadata
         val testId = test.getProperty(ReportProperty.Id) ?: metadata.fullName
         val testTitle = test.getProperty(ReportProperty.Title) ?: metadata.methodName
@@ -109,8 +109,8 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
 
     private fun buildStageReport(stage: StageReport): StageJsonReport? {
         return when (stage) {
-            is InstrumentedStep -> buildStepReport(stage)
-            is InstrumentedScenario -> buildScenarioReport(stage)
+            is InstrumentedStepReport -> buildStepReport(stage)
+            is InstrumentedScenarioReport -> buildScenarioReport(stage)
             else -> null
         }
     }
@@ -136,7 +136,7 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun buildStepReport(step: InstrumentedStep): StageJsonReport {
+    private fun buildStepReport(step: InstrumentedStepReport): StageJsonReport {
         val execution = step.getExecutionMetadata()
         val nestedStages = mutableListOf<StageJsonReport>()
         step.getStages().forEach { nestedStage ->
@@ -152,7 +152,7 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun buildScenarioReport(scenario: InstrumentedScenario): StageJsonReport {
+    private fun buildScenarioReport(scenario: InstrumentedScenarioReport): StageJsonReport {
         val nestedStages = mutableListOf<StageJsonReport>()
         scenario.getStages().forEach { nestedStage ->
             buildStageReport(nestedStage)?.let { nestedStages.add(it) }

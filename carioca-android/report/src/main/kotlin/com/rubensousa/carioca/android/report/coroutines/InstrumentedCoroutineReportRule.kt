@@ -18,14 +18,19 @@ package com.rubensousa.carioca.android.report.coroutines
 
 import com.rubensousa.carioca.android.report.AbstractInstrumentedReportRule
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.coroutines.internal.InstrumentedCoroutineTestBuilder
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
+import org.junit.runner.Description
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
+/**
+ * A report rule for coroutine tests
+ */
 open class InstrumentedCoroutineReportRule(
     reporter: CariocaInstrumentedReporter,
     recordingOptions: RecordingOptions = RecordingOptions(),
@@ -35,17 +40,20 @@ open class InstrumentedCoroutineReportRule(
     reporter = reporter,
     recordingOptions = recordingOptions,
     screenshotOptions = screenshotOptions,
-    interceptors = interceptors,
-    testCreator = { description ->
-        InstrumentedTestBuilder.build(
+    interceptors = interceptors
+) {
+
+    private val testBuilder = InstrumentedCoroutineTestBuilder()
+
+    override fun createTest(description: Description): InstrumentedTestReport {
+        return testBuilder.build(
             description = description,
             recordingOptions = recordingOptions,
             screenshotOptions = screenshotOptions,
-            interceptors = interceptors,
-            reporter = reporter
+            reporter = reporter,
+            interceptors = interceptors
         )
     }
-) {
 
     /*
      * Runs the report inside a coroutine scope

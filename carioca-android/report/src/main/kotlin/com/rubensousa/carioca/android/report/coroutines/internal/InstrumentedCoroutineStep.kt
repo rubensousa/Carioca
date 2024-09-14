@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.internal
+package com.rubensousa.carioca.android.report.coroutines.internal
 
-import com.rubensousa.carioca.android.report.stage.InstrumentedBeforeReport
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStageScope
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
-import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
-import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
 
-internal class InstrumentedBlockingBefore internal constructor(
-    delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
-    title: String,
+internal class InstrumentedCoroutineStep(
     outputPath: String,
-) : InstrumentedBeforeReport(title, outputPath), InstrumentedStageScope {
+    delegateFactory: InstrumentedReportDelegateFactory<InstrumentedCoroutineStageScope>,
+    id: String,
+    title: String,
+) : InstrumentedStepReport(outputPath, id, title), InstrumentedCoroutineStageScope {
 
     private val delegate = delegateFactory.create(this)
 
@@ -33,12 +34,21 @@ internal class InstrumentedBlockingBefore internal constructor(
         delegate.screenshot(description)
     }
 
-    override fun step(title: String, id: String?, action: InstrumentedStageScope.() -> Unit) {
+    override suspend fun step(
+        title: String,
+        id: String?,
+        action: suspend InstrumentedCoroutineStageScope.() -> Unit,
+    ) {
         delegate.step(title, id, action)
     }
 
-    override fun scenario(scenario: InstrumentedScenario) {
+    override suspend fun scenario(scenario: InstrumentedCoroutineScenario) {
         delegate.scenario(scenario)
+    }
+
+    internal suspend fun execute(action: suspend InstrumentedCoroutineStageScope.() -> Unit) {
+        action(this)
+        pass()
     }
 
 }
