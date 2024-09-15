@@ -39,14 +39,14 @@ jobs:
 
   ui_test:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        arch: [ x86 ]
-        target: [ android-tv ]
-        api-level: [22, 25, 27, 28, 29, 30, 31]
-        profile: [tv_1080p]
+        arch: [x86_x64]
+        target: [ google_apis ]
+        api-level: [34]
+        profile: [Pixel 8]
     steps:
       - name: checkout
         uses: actions/checkout@v3
