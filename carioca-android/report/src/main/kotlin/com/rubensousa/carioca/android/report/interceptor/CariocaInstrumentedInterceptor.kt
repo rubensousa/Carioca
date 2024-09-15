@@ -46,7 +46,7 @@ interface CariocaInstrumentedInterceptor {
 
 }
 
-internal fun List<CariocaInstrumentedInterceptor>.intercept(
+fun List<CariocaInstrumentedInterceptor>.intercept(
     action: CariocaInstrumentedInterceptor.() -> Unit
 ) {
     forEach { interceptor ->

@@ -74,6 +74,7 @@ dependencies {
 
     androidTestImplementation(project(":carioca-android:rules"))
     androidTestImplementation(project(":carioca-android:report"))
+    androidTestImplementation(project(":carioca-android:report-coroutines"))
     androidTestImplementation(project(":carioca-android:report-allure"))
     androidTestUtil(libs.androidx.test.services)
     androidTestUtil(libs.androidx.test.orchestrator)
