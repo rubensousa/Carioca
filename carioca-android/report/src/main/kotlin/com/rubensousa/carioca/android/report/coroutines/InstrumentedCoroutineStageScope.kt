@@ -45,7 +45,7 @@ interface InstrumentedCoroutineStageScope: InstrumentedReportScope {
     suspend fun step(
         title: String,
         id: String? = null,
-        action: suspend InstrumentedCoroutineStageScope.() -> Unit,
+        action: suspend InstrumentedCoroutineStageScope.() -> Unit = {},
     )
 
     /**

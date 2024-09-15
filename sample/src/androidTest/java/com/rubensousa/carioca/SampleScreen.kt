@@ -19,8 +19,11 @@ package com.rubensousa.carioca
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
 
-fun sampleScreen(action: SampleScreen.() -> Unit) {
-    action(SampleScreen())
+fun sampleScreen(
+    reportScope: InstrumentedStageScope,
+    action: SampleScreen.() -> Unit,
+) {
+    action(SampleScreen(reportScope))
 }
 
 class SampleScreenScenario : InstrumentedScenario(
@@ -40,14 +43,16 @@ class SampleScreenScenario : InstrumentedScenario(
 
 }
 
-class SampleScreen {
+class SampleScreen(
+    private val reportScope: InstrumentedStageScope,
+) {
 
     fun assertIsDisplayed() {
-
+        reportScope.step("Checking screen is displayed")
     }
 
     fun assertIsNotDisplayed() {
-
+        reportScope.step("Checking screen is not displayed")
     }
 
 }

@@ -66,15 +66,18 @@ class SampleTest {
 
         step("Open quick settings") {
             device.openQuickSettings()
+            sampleScreen(this) {
+                assertIsDisplayed()
+            }
             screenshot("Quick settings displayed")
         }
 
         step("Press home") {
             device.pressHome()
-            sampleScreen {
+            sampleScreen(this) {
                 assertIsNotDisplayed()
-                screenshot("Launcher")
             }
+            screenshot("Launcher")
         }
     }
 
