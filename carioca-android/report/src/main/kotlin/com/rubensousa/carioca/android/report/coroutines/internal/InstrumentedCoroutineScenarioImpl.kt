@@ -18,6 +18,7 @@ package com.rubensousa.carioca.android.report.coroutines.internal
 
 import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
 import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStageScope
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
 
@@ -35,8 +36,8 @@ internal class InstrumentedCoroutineScenarioImpl(
 
     private val delegate = delegateFactory.create(this)
 
-    override fun screenshot(description: String) {
-        delegate.screenshot(description)
+    override fun screenshot(description: String, options: ScreenshotOptions?) {
+        delegate.screenshot(description, options)
     }
 
     override suspend fun step(

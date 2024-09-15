@@ -21,6 +21,7 @@ import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.coroutines.internal.InstrumentedCoroutineTestBuilder
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
+import com.rubensousa.carioca.android.report.interceptor.LoggerInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
@@ -35,7 +36,10 @@ open class InstrumentedCoroutineReportRule(
     reporter: CariocaInstrumentedReporter,
     recordingOptions: RecordingOptions = RecordingOptions(),
     screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
-    interceptors: List<CariocaInstrumentedInterceptor> = listOf(DumpViewHierarchyInterceptor()),
+    interceptors: List<CariocaInstrumentedInterceptor> = listOf(
+        LoggerInterceptor(),
+        DumpViewHierarchyInterceptor()
+    ),
 ) : AbstractInstrumentedReportRule(
     reporter = reporter,
     recordingOptions = recordingOptions,

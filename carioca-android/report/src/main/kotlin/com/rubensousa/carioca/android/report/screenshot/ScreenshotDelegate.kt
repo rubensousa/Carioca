@@ -31,8 +31,9 @@ class ScreenshotDelegate(
     fun takeScreenshot(
         stage: InstrumentedStageReport,
         description: String,
-        options: ScreenshotOptions = defaultOptions,
+        optionsOverride: ScreenshotOptions? = null,
     ) {
+        val options = optionsOverride ?: defaultOptions
         val screenshotUri = DeviceScreenshot.take(
             storageDir = TestStorageProvider.getOutputUri(outputPath),
             options = options,

@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.android.report.stage.internal
 
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
@@ -35,8 +36,8 @@ internal class InstrumentedBlockingScenario(
 
     private val delegate = delegateFactory.create(this)
 
-    override fun screenshot(description: String) {
-        delegate.screenshot(description)
+    override fun screenshot(description: String, options: ScreenshotOptions?) {
+        delegate.screenshot(description, options)
     }
 
     override fun step(

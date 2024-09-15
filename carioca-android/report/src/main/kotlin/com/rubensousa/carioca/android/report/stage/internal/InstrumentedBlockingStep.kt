@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.android.report.stage.internal
 
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
@@ -28,10 +29,10 @@ internal class InstrumentedBlockingStep(
     title: String,
 ) : InstrumentedStepReport(outputPath, id, title), InstrumentedStageScope {
 
-    private val stageDelegate = delegateFactory.create(this)
+    private val delegate = delegateFactory.create(this)
 
-    override fun screenshot(description: String) {
-        stageDelegate.screenshot(description)
+    override fun screenshot(description: String, options: ScreenshotOptions?) {
+        delegate.screenshot(description, options)
     }
 
     override fun step(
@@ -39,11 +40,11 @@ internal class InstrumentedBlockingStep(
         id: String?,
         action: InstrumentedStageScope.() -> Unit,
     ) {
-        stageDelegate.step(title, id, action)
+        delegate.step(title, id, action)
     }
 
     override fun scenario(scenario: InstrumentedScenario) {
-        stageDelegate.scenario(scenario)
+        delegate.scenario(scenario)
     }
 
     internal fun execute(action: InstrumentedStageScope.() -> Unit) {

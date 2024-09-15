@@ -19,6 +19,7 @@ package com.rubensousa.carioca.android.report.stage.internal
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
@@ -39,7 +40,7 @@ internal class InstrumentedBlockingDelegate(
     private val outputPath: String,
 ) : InstrumentedStageScope {
 
-    override fun screenshot(description: String) {
+    override fun screenshot(description: String, options: ScreenshotOptions?) {
         screenshotDelegate.takeScreenshot(host, description)
     }
 

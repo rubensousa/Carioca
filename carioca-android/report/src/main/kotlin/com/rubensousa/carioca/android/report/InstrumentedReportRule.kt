@@ -18,6 +18,7 @@ package com.rubensousa.carioca.android.report
 
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
+import com.rubensousa.carioca.android.report.interceptor.LoggerInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
@@ -42,8 +43,7 @@ abstract class AbstractInstrumentedReportRule(
     protected val reporter: CariocaInstrumentedReporter,
     protected val recordingOptions: RecordingOptions,
     protected val screenshotOptions: ScreenshotOptions,
-    protected val interceptors: List<CariocaInstrumentedInterceptor>
-    = listOf(DumpViewHierarchyInterceptor()),
+    protected val interceptors: List<CariocaInstrumentedInterceptor>,
 ) : TestWatcher() {
 
     private var instrumentedTest: InstrumentedTestReport? = null
@@ -137,7 +137,10 @@ open class InstrumentedReportRule(
     reporter: CariocaInstrumentedReporter,
     recordingOptions: RecordingOptions = RecordingOptions(),
     screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
-    interceptors: List<CariocaInstrumentedInterceptor> = listOf(DumpViewHierarchyInterceptor()),
+    interceptors: List<CariocaInstrumentedInterceptor> = listOf(
+        LoggerInterceptor(),
+        DumpViewHierarchyInterceptor()
+    ),
 ) : AbstractInstrumentedReportRule(
     reporter = reporter,
     recordingOptions = recordingOptions,

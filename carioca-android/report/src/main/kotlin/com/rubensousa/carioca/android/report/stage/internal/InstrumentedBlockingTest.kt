@@ -21,6 +21,7 @@ import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInte
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
@@ -60,8 +61,8 @@ internal class InstrumentedBlockingTest(
         }
     private val delegate = delegateFactory.create(this)
 
-    override fun screenshot(description: String) {
-        delegate.screenshot(description)
+    override fun screenshot(description: String, options: ScreenshotOptions?) {
+        delegate.screenshot(description, options)
     }
 
     override fun step(title: String, id: String?, action: InstrumentedStageScope.() -> Unit) {

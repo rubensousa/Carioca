@@ -16,6 +16,8 @@
 
 package com.rubensousa.carioca.android.report.stage
 
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
+
 /**
  * The main entry point for stage reports
  */
@@ -27,8 +29,10 @@ interface InstrumentedStageScope : InstrumentedReportScope {
      * The generated file will be pulled from the device once the test runner finishes running all tests
      *
      * @param description the description of the screenshot for the report
+     * @param options the optional options that will override the setup from the test.
+     * If null, the default options set in the rule will apply
      */
-    fun screenshot(description: String)
+    fun screenshot(description: String, options: ScreenshotOptions? = null)
 
     /**
      * Creates an individual section of a test

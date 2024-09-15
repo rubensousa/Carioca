@@ -23,6 +23,7 @@ import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineTes
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
@@ -59,8 +60,8 @@ internal class InstrumentedCoroutineTest(
         }
     private val delegate = coroutineDelegateFactory.create(this)
 
-    override fun screenshot(description: String) {
-        delegate.screenshot(description)
+    override fun screenshot(description: String, options: ScreenshotOptions?) {
+        delegate.screenshot(description, options)
     }
 
     override suspend fun step(
