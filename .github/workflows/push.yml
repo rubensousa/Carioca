@@ -48,7 +48,7 @@ jobs:
         arch: [x86_64]
         target: [ google_apis ]
         api-level: [34]
-        profile: [Pixel 7]
+        profile: [pixel_6]
     steps:
       - name: checkout
         uses: actions/checkout@v4
