@@ -118,6 +118,6 @@ jobs:
           name: ${{ matrix.profile }}-${{ matrix.api-level }}--instrumentation-test-results
           path: |
             logs/**
-            ./**/build/reports/androidTests/connected/**
-            ./**/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/**
+            ./**/build/reports/androidTests-results/**
+            ./**/build/outputs/connected_android_test_additional_output/**
         if: always()
