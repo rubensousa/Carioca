@@ -19,11 +19,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:
+  unit_tests:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-java@v4.2.0
         with:
           distribution: 'zulu'
@@ -32,15 +32,12 @@ jobs:
           cache: "gradle"
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
 
-      - name: Run quality checks
-        run: ./gradlew --build-cache check --stacktrace
+      - name: Check and build libraries
+        run: ./gradlew --build-cache check assembleRelease --stacktrace
 
-      - name: Assemble library
-        run: ./gradlew --build-cache assembleRelease
-
-  ui_test:
+  instrumented_tests:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -49,10 +46,10 @@ jobs:
         arch: [x86_64]
         target: [ google_apis ]
         api-level: [34]
-        profile: [pixel_7]
+        profile: [pixel_6, tv_1080p]
     steps:
       - name: checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Enable KVM
         run: |
@@ -68,14 +65,14 @@ jobs:
           cache: "gradle"
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Compile instrumented tests
         run: ./gradlew --build-cache assembleDebugAndroidTest
 
       # Retrieve the cached emulator snapshot.
       - name: AVD cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: avd-cache
         with:
           path: |

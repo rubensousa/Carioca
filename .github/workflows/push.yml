@@ -15,7 +15,7 @@ on:
       - 'main'
 
 jobs:
-  create_emulator:
+  create_avds:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -24,7 +24,7 @@ jobs:
         arch: [x86_64]
         target: [ google_apis ]
         api-level: [34]
-        profile: [pixel_6]
+        profile: [pixel_6, tv_1080p]
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -32,7 +32,7 @@ jobs:
       - uses: actions/setup-java@v4.2.0
         with:
           distribution: 'zulu'
-          java-version: '17.0.12+7'
+          java-version: '17'
           check-latest: false
           cache: "gradle"
 
@@ -47,7 +47,7 @@ jobs:
 
       # Retrieve the cached emulator snapshot.
       - name: AVD cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: avd-cache
         with:
           path: |
