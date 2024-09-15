@@ -14,13 +14,26 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.junit4.report
 
-import com.rubensousa.carioca.junit4.report.ExecutionMetadata
-import com.rubensousa.carioca.junit4.report.ReportStatus
+import com.google.common.truth.Truth.assertThat
+import org.junit.Test
 
-data class TestSuiteReport(
-    val packageName: String,
-    val executionMetadata: ExecutionMetadata,
-    val testStatus: Map<ReportStatus, Int>,
-)
+class ExecutionIdGeneratorTest {
+    
+    @Test
+    fun `ids are unique across many generations`() {
+        // given
+        val iterations = 1000
+        val generatedIds = mutableSetOf<String>()
+
+        // when
+        repeat(iterations) {
+            generatedIds.add(ExecutionIdGenerator.get())
+        }
+
+        // then
+        assertThat(generatedIds).hasSize(iterations)
+    }
+
+}

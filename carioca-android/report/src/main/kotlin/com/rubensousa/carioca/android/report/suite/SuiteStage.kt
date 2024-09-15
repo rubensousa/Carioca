@@ -23,9 +23,9 @@ import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-import com.rubensousa.carioca.junit.report.ExecutionIdGenerator
-import com.rubensousa.carioca.junit.report.ExecutionMetadata
-import com.rubensousa.carioca.junit.report.ReportStatus
+import com.rubensousa.carioca.junit4.report.ExecutionIdGenerator
+import com.rubensousa.carioca.junit4.report.ExecutionMetadata
+import com.rubensousa.carioca.junit4.report.ReportStatus
 import org.junit.runner.Description
 import org.junit.runner.Result
 

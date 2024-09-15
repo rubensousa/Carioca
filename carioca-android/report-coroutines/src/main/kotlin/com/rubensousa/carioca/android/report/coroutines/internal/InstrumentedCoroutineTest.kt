@@ -27,7 +27,7 @@ import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
-import com.rubensousa.carioca.junit.report.TestMetadata
+import com.rubensousa.carioca.junit4.report.TestMetadata
 
 internal class InstrumentedCoroutineTest(
     outputPath: String,

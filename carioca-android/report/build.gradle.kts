@@ -40,7 +40,7 @@ android {
 }
 
 dependencies {
-    api(project(":carioca-junit:report"))
+    api(project(":carioca-junit4-report"))
     api(libs.androidx.junit)
     api(libs.androidx.test.rules)
     api(libs.androidx.espresso.core)

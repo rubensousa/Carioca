@@ -20,7 +20,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.junit.report.TestReport
+import com.rubensousa.carioca.junit4.report.TestReport
 import org.junit.After
 import org.junit.Before
 import org.junit.Ignore

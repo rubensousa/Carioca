@@ -37,8 +37,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "carioca"
 include(":sample")
+include(":carioca-junit4-report")
+include(":carioca-junit4-rules")
 include(":carioca-android:report")
 include(":carioca-android:report-allure")
 include(":carioca-android:rules")
-include(":carioca-junit:report")
 include(":carioca-android:report-coroutines")

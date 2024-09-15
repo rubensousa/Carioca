@@ -72,7 +72,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.uiautomator)
     androidTestImplementation(libs.kotlinx.serialization.json)
 
-    androidTestImplementation(project(":carioca-android:rules"))
+    androidTestImplementation(project(":carioca-junit4-rules"))
     androidTestImplementation(project(":carioca-android:report"))
     androidTestImplementation(project(":carioca-android:report-coroutines"))
     androidTestImplementation(project(":carioca-android:report-allure"))

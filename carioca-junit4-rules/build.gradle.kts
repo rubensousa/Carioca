@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+plugins {
+    id("java-library")
+    alias(libs.plugins.jetbrains.kotlin.jvm)
+    alias(libs.plugins.kover)
+}
 
-import com.rubensousa.carioca.junit4.report.ExecutionMetadata
-import com.rubensousa.carioca.junit4.report.ReportStatus
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
 
-data class TestSuiteReport(
-    val packageName: String,
-    val executionMetadata: ExecutionMetadata,
-    val testStatus: Map<ReportStatus, Int>,
-)
+dependencies {
+    implementation(libs.junit)
+    testImplementation(libs.bundles.test.unit)
+}

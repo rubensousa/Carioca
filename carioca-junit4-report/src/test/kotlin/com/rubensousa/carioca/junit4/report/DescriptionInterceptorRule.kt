@@ -14,13 +14,20 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.junit4.report
 
-import com.rubensousa.carioca.junit4.report.ExecutionMetadata
-import com.rubensousa.carioca.junit4.report.ReportStatus
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
-data class TestSuiteReport(
-    val packageName: String,
-    val executionMetadata: ExecutionMetadata,
-    val testStatus: Map<ReportStatus, Int>,
-)
+class DescriptionInterceptorRule : TestWatcher() {
+
+    private var currentDescription: Description? = null
+
+    override fun starting(description: Description) {
+        super.starting(description)
+        currentDescription = description
+    }
+
+    fun getDescription() = requireNotNull(currentDescription)
+
+}

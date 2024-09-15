@@ -14,13 +14,14 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.android.rules
 
-import com.rubensousa.carioca.junit4.report.ExecutionMetadata
-import com.rubensousa.carioca.junit4.report.ReportStatus
+import com.google.common.truth.Truth.assertThat
 
-data class TestSuiteReport(
-    val packageName: String,
-    val executionMetadata: ExecutionMetadata,
-    val testStatus: Map<ReportStatus, Int>,
-)
+internal object SingletonState {
+    var iteration: Int = 0
+
+    fun assertIterations(expected: Int) {
+        assertThat(iteration).isEqualTo(expected)
+    }
+}

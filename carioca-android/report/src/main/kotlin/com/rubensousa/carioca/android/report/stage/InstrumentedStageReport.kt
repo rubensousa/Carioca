@@ -20,7 +20,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-import com.rubensousa.carioca.junit.report.StageReport
+import com.rubensousa.carioca.junit4.report.StageReport
 import java.io.File
 import java.io.OutputStream
 

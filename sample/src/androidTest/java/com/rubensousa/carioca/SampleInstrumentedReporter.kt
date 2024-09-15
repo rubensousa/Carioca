@@ -24,10 +24,10 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
-import com.rubensousa.carioca.junit.report.ExecutionMetadata
-import com.rubensousa.carioca.junit.report.ReportProperty
-import com.rubensousa.carioca.junit.report.StageReport
-import com.rubensousa.carioca.junit.report.TestMetadata
+import com.rubensousa.carioca.junit4.report.ExecutionMetadata
+import com.rubensousa.carioca.junit4.report.ReportProperty
+import com.rubensousa.carioca.junit4.report.StageReport
+import com.rubensousa.carioca.junit4.report.TestMetadata
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -117,6 +117,7 @@ class SampleJsonInstrumentedReporter : CariocaInstrumentedReporter {
         return when (stage) {
             is InstrumentedStepReport -> buildStepReport(stage)
             is InstrumentedScenarioReport -> buildScenarioReport(stage)
+            is InstrumentedBeforeAfterReport -> buildBeforeAfterReport(stage)
             else -> null
         }
     }

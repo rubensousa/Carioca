@@ -19,7 +19,7 @@ package com.rubensousa.carioca.android.report
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.android.report.suite.TestSuiteReport
-import com.rubensousa.carioca.junit.report.TestMetadata
+import com.rubensousa.carioca.junit4.report.TestMetadata
 import java.io.OutputStream
 
 /**
