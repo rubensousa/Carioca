@@ -30,9 +30,12 @@ class SampleRecordingTest {
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     // Overrides the screen recording options
-    @TestRecord(scale = 1.0f)
+    @TestRecord(
+        scale = 1.0f,
+        keepOnSuccess = true
+    )
     @Test
-    fun testGivenWhenThen() = report {
+    fun testRecordingOverride() = report {
 
         Given("User opens notifications") {
             device.openNotification()

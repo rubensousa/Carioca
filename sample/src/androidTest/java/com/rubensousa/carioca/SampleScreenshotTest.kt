@@ -31,9 +31,12 @@ class SampleScreenshotTest {
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
     // Overrides the screenshot options
-    @TestScreenshot(scale = 1.0f, format = Bitmap.CompressFormat.WEBP_LOSSY)
+    @TestScreenshot(
+        scale = 1.0f,
+        format = Bitmap.CompressFormat.PNG,
+    )
     @Test
-    fun testGivenWhenThen() = report {
+    fun testScreenshotOverride() = report {
 
         Given("User opens notifications") {
             device.openNotification()

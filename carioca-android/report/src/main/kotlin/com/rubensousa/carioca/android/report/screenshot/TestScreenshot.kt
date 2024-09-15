@@ -39,5 +39,5 @@ annotation class TestScreenshot(
     /**
      * @see ScreenshotOptions.keepOnSuccess
      */
-    val keepOnSuccess: Boolean = false,
+    val keepOnSuccess: Boolean = true,
 )
