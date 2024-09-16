@@ -108,7 +108,7 @@ jobs:
           emulator-options: -no-window -no-snapshot-save -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
             ./gradlew uninstallAll
-            ./gradlew --build-cache connectedDebugAndroidTest
+            ./gradlew --build-cache connectedAllureReport
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
@@ -116,6 +116,5 @@ jobs:
           name: ${{ matrix.profile }}-${{ matrix.api-level }}--instrumentation-test-results
           path: |
             logs/**
-            ./**/build/reports/androidTests-results/**
-            ./**/build/outputs/connected_android_test_additional_output/**
+            ./**/build/outputs/allure-results
         if: always()

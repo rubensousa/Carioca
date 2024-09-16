@@ -20,7 +20,6 @@ import android.annotation.SuppressLint
 import androidx.test.internal.runner.listener.InstrumentationRunListener
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
 import org.junit.runner.Description
-import org.junit.runner.Result
 
 /**
  * Use this if you're interested in test suite reports.
@@ -36,11 +35,6 @@ class CariocaInstrumentedListener : InstrumentationRunListener() {
     override fun testRunStarted(description: Description) {
         super.testRunStarted(description)
         stage.clear()
-    }
-
-    override fun testRunFinished(result: Result) {
-        super.testRunFinished(result)
-        stage.writeReport(result)
     }
 
     override fun testIgnored(description: Description) {
