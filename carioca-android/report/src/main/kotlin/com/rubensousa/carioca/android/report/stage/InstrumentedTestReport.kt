@@ -27,8 +27,8 @@ import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-import com.rubensousa.carioca.junit4.report.StageStack
-import com.rubensousa.carioca.junit4.report.TestMetadata
+import com.rubensousa.carioca.report.junit4.StageStack
+import com.rubensousa.carioca.report.junit4.TestMetadata
 
 /**
  * The main entry point for all reports.

@@ -24,13 +24,12 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
-import com.rubensousa.carioca.android.report.suite.TestSuiteReport
-import com.rubensousa.carioca.junit4.report.ExecutionIdGenerator
-import com.rubensousa.carioca.junit4.report.ExecutionMetadata
-import com.rubensousa.carioca.junit4.report.ReportProperty
-import com.rubensousa.carioca.junit4.report.ReportStatus
-import com.rubensousa.carioca.junit4.report.StageReport
-import com.rubensousa.carioca.junit4.report.TestMetadata
+import com.rubensousa.carioca.report.junit4.ExecutionIdGenerator
+import com.rubensousa.carioca.report.junit4.ExecutionMetadata
+import com.rubensousa.carioca.report.junit4.ReportProperty
+import com.rubensousa.carioca.report.junit4.ReportStatus
+import com.rubensousa.carioca.report.junit4.StageReport
+import com.rubensousa.carioca.report.junit4.TestMetadata
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
@@ -118,19 +117,6 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
         }
     }
 
-    @ExperimentalSerializationApi
-    override fun writeSuiteReport(
-        report: TestSuiteReport,
-        storageProvider: ReportStorageProvider,
-    ) {
-        val filePath = "${dirName}/${report.executionMetadata.uniqueId}-result.json"
-        val allureReport = createSuiteReport(report)
-        BufferedOutputStream(storageProvider.getOutputStream(filePath)).use { stream ->
-            json.encodeToStream(allureReport, stream)
-            stream.flush()
-        }
-    }
-
     private fun createTestReport(test: InstrumentedTestReport): AllureTestReport {
         val metadata = test.metadata
         val execution = test.getExecutionMetadata()
@@ -168,7 +154,15 @@ class AllureInstrumentedReporter : CariocaInstrumentedReporter {
         )
     }
 
-    private fun createSuiteReport(report: TestSuiteReport): AllureTestReport {
+    data class InstrumentedTestSuiteReport(
+        val packageName: String,
+        val executionMetadata: ExecutionMetadata,
+        val passedTests: Int,
+        val ignoredTests: Int,
+        val failedTests: Int,
+    )
+
+    private fun createSuiteReport(report: InstrumentedTestSuiteReport): AllureTestReport {
         val execution = report.executionMetadata
         return AllureTestReport(
             uuid = execution.uniqueId,

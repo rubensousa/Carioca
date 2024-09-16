@@ -17,6 +17,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kover)
 }
 
@@ -40,12 +41,14 @@ android {
 }
 
 dependencies {
-    api(project(":carioca-junit4-report"))
+    api(libs.carioca.report.junit4)
+    api(libs.carioca.report.serialization)
     api(libs.androidx.junit)
     api(libs.androidx.test.rules)
     api(libs.androidx.espresso.core)
     api(libs.androidx.test.runner)
     api(libs.androidx.test.uiautomator)
+    implementation(libs.kotlinx.serialization.json)
 
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.kotlinx.coroutines.test)

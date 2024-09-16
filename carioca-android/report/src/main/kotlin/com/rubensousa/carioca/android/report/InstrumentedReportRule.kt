@@ -63,7 +63,7 @@ abstract class AbstractInstrumentedReportRule(
         } else {
             val newTest = createTest(description)
             instrumentedTest = newTest
-            suiteStage.addTest(reporter, newTest)
+            suiteStage.addReporter(reporter)
         }
         instrumentedTest?.onStarted()
         lastDescription = description
@@ -134,7 +134,7 @@ abstract class AbstractInstrumentedReportRule(
  * during the lifecycle of this report
  */
 open class InstrumentedReportRule(
-    reporter: CariocaInstrumentedReporter,
+    reporter: CariocaInstrumentedReporter = DefaultInstrumentedReporter(),
     recordingOptions: RecordingOptions = RecordingOptions(),
     screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
     interceptors: List<CariocaInstrumentedInterceptor> = listOf(

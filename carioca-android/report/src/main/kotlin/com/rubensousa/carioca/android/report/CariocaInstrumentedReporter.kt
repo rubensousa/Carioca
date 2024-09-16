@@ -18,12 +18,12 @@ package com.rubensousa.carioca.android.report
 
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
-import com.rubensousa.carioca.android.report.suite.TestSuiteReport
-import com.rubensousa.carioca.junit4.report.TestMetadata
+import com.rubensousa.carioca.report.junit4.TestMetadata
 import java.io.OutputStream
 
 /**
- * Implement this to generate your own test reports, in any format you want
+ * Implement this to generate your own test reports, in any format you want.
+ * [DefaultInstrumentedReporter] is the default implementation that is flexible enough
  */
 interface CariocaInstrumentedReporter {
 
@@ -40,15 +40,6 @@ interface CariocaInstrumentedReporter {
      */
     fun writeTestReport(
         test: InstrumentedTestReport,
-        storageProvider: ReportStorageProvider,
-    )
-
-    /**
-     * @param report suite report to be written
-     * @param outputStream the destination of the report contents
-     */
-    fun writeSuiteReport(
-        report: TestSuiteReport,
         storageProvider: ReportStorageProvider,
     )
 
