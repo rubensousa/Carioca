@@ -108,8 +108,6 @@ jobs:
           emulator-options: -no-window -no-snapshot-save -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none
           script: |
             ./gradlew uninstallAll
-            adb uninstall androidx.test.orchestrator 2> /dev/null
-            adb uninstall androidx.test.services 2> /dev/null
             ./gradlew --build-cache connectedDebugAndroidTest
 
       - name: Upload artifacts
@@ -118,6 +116,6 @@ jobs:
           name: ${{ matrix.profile }}-${{ matrix.api-level }}--instrumentation-test-results
           path: |
             logs/**
-            ./**/build/reports/androidTests/connected/**
-            ./**/build/outputs/connected_android_test_additional_output/debugAndroidTest/connected/**
+            ./**/build/reports/androidTests-results/**
+            ./**/build/outputs/connected_android_test_additional_output/**
         if: always()
