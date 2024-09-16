@@ -72,7 +72,7 @@ class AllureReportPlugin : Plugin<Project> {
                     inputDir = testOutputDir,
                     outputDir = outputDir
                 )
-                println("Report generated in $outputPath")
+                println("Allure report generated in $outputPath")
             }
         }
     }

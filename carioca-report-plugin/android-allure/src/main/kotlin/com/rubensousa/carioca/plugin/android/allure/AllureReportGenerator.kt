@@ -55,11 +55,31 @@ class AllureReportGenerator(
     ) {
         val reportFile = File(outputDir, "${report.uuid}-result.json")
         writeToFile(report, reportFile)
-        report.attachments.forEach { attachment ->
+        moveAttachments(report.attachments, inputDir, outputDir)
+        moveStepAttachments(report.steps, inputDir, outputDir)
+    }
+
+    private fun moveStepAttachments(
+        steps: List<AllureStep>,
+        inputDir: File,
+        outputDir: File,
+    ) {
+        steps.forEach { step ->
+            moveAttachments(step.attachments, inputDir, outputDir)
+            moveStepAttachments(step.steps, inputDir, outputDir)
+        }
+    }
+
+    private fun moveAttachments(
+        attachments: List<AllureAttachment>,
+        inputDir: File,
+        outputDir: File,
+    ) {
+        attachments.forEach { attachment ->
             val attachmentFile = File(inputDir, attachment.source)
             if (attachmentFile.exists()) {
                 val dstFile = File(outputDir, attachmentFile.name)
-                Files.copy(attachmentFile, dstFile)
+                Files.move(attachmentFile, dstFile)
             }
         }
     }
