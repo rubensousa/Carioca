@@ -35,13 +35,13 @@ class TestMetadataTest {
 
         // then
         assertThat(metadata.packageName)
-            .isEqualTo("com.rubensousa.carioca.junit.report")
+            .isEqualTo("com.rubensousa.carioca.junit4.report")
         assertThat(metadata.className)
             .isEqualTo("TestMetadataTest")
         assertThat(metadata.methodName)
             .isEqualTo("test metadata is fetched")
         assertThat(metadata.fullName)
-            .isEqualTo("com.rubensousa.carioca.junit.report.TestMetadataTest.test metadata is fetched")
+            .isEqualTo("com.rubensousa.carioca.junit4.report.TestMetadataTest.test metadata is fetched")
     }
 
 }
