@@ -24,6 +24,7 @@ import java.io.File
 class AllureReportPlugin : Plugin<Project> {
 
     private val testOutputDir = "outputs/connected_android_test_additional_output"
+    private val outputDir = "outputs/allure-results"
     private val supportedPlugins = listOf(
         "com.android.application",
         "com.android.library",
@@ -44,7 +45,7 @@ class AllureReportPlugin : Plugin<Project> {
     }
 
     private fun registerTask(project: Project, extension: AllureReportExtension?) {
-        val outputPath = project.layout.buildDirectory.file("allure-results").get().asFile.path
+        val outputPath = project.layout.buildDirectory.file(outputDir).get().asFile.path
         val outputDir = File(outputPath)
         val dependentTasks = extension?.testTasks ?: listOf("connectedDebugAndroidTest")
 
