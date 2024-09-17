@@ -1,8 +1,6 @@
 # Carioca
 
-An extensible testing library for Android with flexible reporting capabilities
-
-
+A collection of testing tools for Android and Kotlin that include flexible reporting capabilities
 
 ## License
 
