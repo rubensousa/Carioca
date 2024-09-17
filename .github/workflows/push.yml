@@ -32,6 +32,8 @@ jobs:
             profile: pixel_6
           - arch: x86
             profile: pixel_6
+          - arch: x86_64
+            profile: tv_1080p
 
     steps:
       - name: checkout
