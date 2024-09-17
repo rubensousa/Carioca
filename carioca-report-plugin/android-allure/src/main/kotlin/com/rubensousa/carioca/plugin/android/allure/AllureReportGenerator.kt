@@ -39,6 +39,7 @@ class AllureReportGenerator(
     fun generateReport(inputDir: File, outputDir: File) {
         val reportDir = parser.findReportDir(inputDir) ?: return
         val testReports = parser.parseTests(reportDir)
+        outputDir.mkdirs()
         testReports.forEach { testReport ->
             val allureTestReport = createTestReport(testReport)
             moveTestReport(allureTestReport, reportDir, outputDir)
@@ -54,7 +55,6 @@ class AllureReportGenerator(
         outputDir: File,
     ) {
         val reportFile = File(outputDir, "${report.uuid}-result.json")
-        reportFile.mkdirs()
         writeToFile(report, reportFile)
         moveAttachments(report.attachments, inputDir, outputDir)
         moveStepAttachments(report.steps, inputDir, outputDir)
