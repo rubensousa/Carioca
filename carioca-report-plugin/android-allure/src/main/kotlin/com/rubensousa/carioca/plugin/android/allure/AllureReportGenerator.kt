@@ -54,6 +54,7 @@ class AllureReportGenerator(
         outputDir: File,
     ) {
         val reportFile = File(outputDir, "${report.uuid}-result.json")
+        reportFile.mkdirs()
         writeToFile(report, reportFile)
         moveAttachments(report.attachments, inputDir, outputDir)
         moveStepAttachments(report.steps, inputDir, outputDir)
@@ -78,8 +79,11 @@ class AllureReportGenerator(
         attachments.forEach { attachment ->
             val attachmentFile = File(inputDir, attachment.source)
             if (attachmentFile.exists()) {
-                val dstFile = File(outputDir, attachmentFile.name)
-                Files.move(attachmentFile, dstFile)
+                val dstFile = File(
+                    outputDir,
+                    attachmentFile.nameWithoutExtension + "-attachment.${attachmentFile.extension}"
+                )
+                Files.copy(attachmentFile, dstFile)
             }
         }
     }
@@ -91,6 +95,9 @@ class AllureReportGenerator(
 
     private inline fun <reified T> writeToFile(content: T, file: File) {
         try {
+            if (!file.exists()) {
+                file.createNewFile()
+            }
             file.outputStream().use {
                 Json.encodeToStream(content, it)
             }
