@@ -22,9 +22,14 @@ jobs:
       fail-fast: false
       matrix:
         arch: [x86_64]
-        target: [ google_apis ]
+        target: [ google_apis, android-tv ]
         api-level: [34]
         profile: [pixel_6, tv_1080p]
+        exclude:
+          - target: google_apis
+            profile: tv_1080p
+          - target: android-tv
+            profile: pixel_6
     steps:
       - name: checkout
         uses: actions/checkout@v4
