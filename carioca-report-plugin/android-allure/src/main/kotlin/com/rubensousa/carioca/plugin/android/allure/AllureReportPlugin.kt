@@ -75,6 +75,19 @@ class AllureReportPlugin : Plugin<Project> {
                 println("Allure report generated in $outputPath")
             }
         }
+        project.tasks.register("generateAllureReport") {
+            group = "report"
+            description = "Generates the allure report for a previous test run"
+
+            doLast {
+                outputDir.deleteRecursively()
+                reportGenerator.generateReport(
+                    inputDir = testOutputDir,
+                    outputDir = outputDir
+                )
+                println("Allure report generated in $outputPath")
+            }
+        }
     }
 
 }
