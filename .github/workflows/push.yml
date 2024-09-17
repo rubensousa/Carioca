@@ -50,16 +50,6 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      # Retrieve the cached emulator snapshot.
-      - name: AVD cache
-        uses: actions/cache@v4
-        id: avd-cache
-        with:
-          path: |
-            ~/.android/avd/*
-            ~/.android/adb*
-          key: avd-${{ matrix.api-level }}-${{ matrix.profile }}
-
       - name: Create AVD snapshot
         uses: reactivecircus/android-emulator-runner@v2
         with:
