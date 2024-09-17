@@ -55,6 +55,11 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          android: false
+
       # Retrieve the cached emulator snapshot.
       - name: AVD cache
         uses: actions/cache@v4

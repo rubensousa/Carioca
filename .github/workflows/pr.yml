@@ -76,8 +76,10 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Compile instrumented tests
-        run: ./gradlew --build-cache assembleDebugAndroidTest
+      - name: Free Disk Space (Ubuntu)
+        uses: jlumbroso/free-disk-space@main
+        with:
+          android: false
 
       # Retrieve the cached emulator snapshot.
       - name: AVD cache
