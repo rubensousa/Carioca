@@ -14,34 +14,16 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.junit4
+package com.rubensousa.carioca.report.core
 
-/**
- * Holds the current state of the stage execution.
- *
- * The top of the stack points to the current active stage
- */
-class StageStack<T : StageReport> {
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
 
-    private val stack = ArrayDeque<T>()
-    private val stages = mutableListOf<T>()
+@OptIn(ExperimentalUuidApi::class)
+object ExecutionIdGenerator {
 
-    fun push(stage: T) {
-        stack.addLast(stage)
-        stages.add(stage)
+    fun get(): String {
+        return Uuid.random().toString()
     }
-
-    fun pop(): T? {
-        return stack.removeLastOrNull()
-    }
-
-    fun clear() {
-        stack.clear()
-        stages.clear()
-    }
-
-    fun getAll() = stages.toList()
-
-    internal fun getActive() = stack.toList()
 
 }

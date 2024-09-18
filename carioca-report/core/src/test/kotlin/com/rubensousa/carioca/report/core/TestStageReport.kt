@@ -14,26 +14,22 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.junit4
+package com.rubensousa.carioca.report.core
 
-import com.google.common.truth.Truth.assertThat
-import org.junit.Test
+class TestStageReport : StageReport {
 
-class ExecutionIdGeneratorTest {
-    
-    @Test
-    fun `ids are unique across many generations`() {
-        // given
-        val iterations = 1000
-        val generatedIds = mutableSetOf<String>()
+    val id: Int?
 
-        // when
-        repeat(iterations) {
-            generatedIds.add(ExecutionIdGenerator.get())
-        }
+    constructor() : super() {
+        id = null
+    }
 
-        // then
-        assertThat(generatedIds).hasSize(iterations)
+    constructor(id: Int) : super(id.toString()) {
+        this.id = id
+    }
+
+    override fun toString(): String {
+        return "TestReport: $id"
     }
 
 }

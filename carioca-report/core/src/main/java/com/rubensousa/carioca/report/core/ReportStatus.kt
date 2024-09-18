@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.junit4
+package com.rubensousa.carioca.report.core
 
-import kotlin.uuid.ExperimentalUuidApi
-import kotlin.uuid.Uuid
-
-@OptIn(ExperimentalUuidApi::class)
-object ExecutionIdGenerator {
-
-    fun get(): String {
-        return Uuid.random().toString()
-    }
-
+/**
+ * The different status of every report
+ */
+enum class ReportStatus {
+    RUNNING,
+    PASSED,
+    FAILED,
+    SKIPPED
 }

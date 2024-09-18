@@ -17,17 +17,20 @@
 package com.rubensousa.carioca.report.junit4
 
 import com.google.common.truth.Truth.assertThat
+import com.rubensousa.carioca.report.core.ReportProperty
+import com.rubensousa.carioca.report.core.TestReport
+import com.rubensousa.carioca.report.core.TestReportConfig
 import org.junit.Rule
 import org.junit.Test
 
-class TestReportConfigTest {
+class TestReportConfigJunit4Test {
 
     @get:Rule
     val descriptionInterceptorRule = DescriptionInterceptorRule()
 
     @Test
     fun `config is null if annotation is not used`() {
-        assertThat(TestReportConfig.from(descriptionInterceptorRule.getDescription())).isNull()
+        assertThat(descriptionInterceptorRule.getDescription().getTestReportConfig()).isNull()
     }
 
     @TestReport
@@ -102,7 +105,7 @@ class TestReportConfigTest {
     }
 
     private fun getCurrentTestReportConfig(): TestReportConfig {
-        return TestReportConfig.from(descriptionInterceptorRule.getDescription())!!
+        return descriptionInterceptorRule.getDescription().getTestReportConfig()!!
     }
 
 }

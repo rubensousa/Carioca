@@ -21,8 +21,8 @@ import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInte
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.report.junit4.TestMetadata
-import com.rubensousa.carioca.report.junit4.TestReportConfig
+import com.rubensousa.carioca.report.junit4.getTestMetadata
+import com.rubensousa.carioca.report.junit4.getTestReportConfig
 import org.junit.runner.Description
 
 internal class InstrumentedCoroutineTestBuilder {
@@ -34,8 +34,8 @@ internal class InstrumentedCoroutineTestBuilder {
         reporter: CariocaInstrumentedReporter,
         interceptors: List<CariocaInstrumentedInterceptor>,
     ): InstrumentedCoroutineTest {
-        val reportConfig = TestReportConfig.from(description)
-        val testMetadata = TestMetadata.from(description)
+        val reportConfig = description.getTestReportConfig()
+        val testMetadata = description.getTestMetadata()
         val outputPath = reporter.getOutputDir(testMetadata)
         val testReport = InstrumentedCoroutineTest(
             outputPath = outputPath,
@@ -43,7 +43,6 @@ internal class InstrumentedCoroutineTestBuilder {
             recordingOptions = recordingOptions,
             screenshotDelegate = ScreenshotDelegate(
                 outputPath = outputPath,
-                reporter = reporter,
                 defaultOptions = screenshotOptions
             ),
             interceptors = interceptors,

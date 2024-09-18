@@ -16,18 +16,22 @@
 
 package com.rubensousa.carioca.report.junit4
 
-import org.junit.rules.TestWatcher
+import com.rubensousa.carioca.report.core.TestReport
+import com.rubensousa.carioca.report.core.TestReportConfig
 import org.junit.runner.Description
 
-class DescriptionInterceptorRule : TestWatcher() {
-
-    private var currentDescription: Description? = null
-
-    override fun starting(description: Description) {
-        super.starting(description)
-        currentDescription = description
-    }
-
-    fun getDescription() = requireNotNull(currentDescription)
-
+/**
+ * Retrieves the metadata of [TestReport] from a test's [Description]
+ */
+fun Description.getTestReportConfig(): TestReportConfig? {
+    val annotation = getAnnotation(TestReport::class.java)
+        ?: return null
+    return TestReportConfig(
+        id = annotation.id.nullIfEmpty(),
+        title = annotation.title.nullIfEmpty(),
+        links = annotation.links.toList(),
+        description = annotation.description.nullIfEmpty(),
+    )
 }
+
+private fun String.nullIfEmpty() = takeIf { it.isNotBlank() }

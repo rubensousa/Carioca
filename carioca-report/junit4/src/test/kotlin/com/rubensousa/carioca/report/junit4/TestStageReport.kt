@@ -16,6 +16,8 @@
 
 package com.rubensousa.carioca.report.junit4
 
+import com.rubensousa.carioca.report.core.StageReport
+
 class TestStageReport : StageReport {
 
     val id: Int?

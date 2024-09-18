@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 Rúben Sousa
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 plugins {
     id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
@@ -12,20 +28,20 @@ java {
 }
 
 dependencies {
-    api(libs.carioca.report.core)
     implementation(libs.junit)
     testImplementation(libs.bundles.test.unit)
 }
 
+
 mavenPublishing {
     coordinates(
         groupId = "com.rubensousa.carioca",
-        artifactId = "carioca-report-junit4",
-        version = libs.versions.carioca.report.core.get()
+        artifactId = "carioca-rules-junit4",
+        version = libs.versions.carioca.junit4.rules.get()
     )
     pom {
-        name = "Carioca Junit4 Report"
-        description = "Report data structures for junit4 tests"
+        name = "Carioca Junit4 Rules"
+        description = "Library that provides serialization for carioca reports"
         packaging = "jar"
         inceptionYear.set("2024")
         url.set("https://github.com/rubensousa/carioca/")

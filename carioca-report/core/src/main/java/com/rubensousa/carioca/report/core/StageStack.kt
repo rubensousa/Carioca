@@ -14,20 +14,34 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.junit4
+package com.rubensousa.carioca.report.core
 
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
+/**
+ * Holds the current state of the stage execution.
+ *
+ * The top of the stack points to the current active stage
+ */
+class StageStack<T> {
 
-class DescriptionInterceptorRule : TestWatcher() {
+    private val stack = ArrayDeque<T>()
+    private val stages = mutableListOf<T>()
 
-    private var currentDescription: Description? = null
-
-    override fun starting(description: Description) {
-        super.starting(description)
-        currentDescription = description
+    fun push(stage: T) {
+        stack.addLast(stage)
+        stages.add(stage)
     }
 
-    fun getDescription() = requireNotNull(currentDescription)
+    fun pop(): T? {
+        return stack.removeLastOrNull()
+    }
+
+    fun clear() {
+        stack.clear()
+        stages.clear()
+    }
+
+    fun getAll() = stages.toList()
+
+    internal fun getActive() = stack.toList()
 
 }

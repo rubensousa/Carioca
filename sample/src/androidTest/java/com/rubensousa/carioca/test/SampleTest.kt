@@ -23,7 +23,7 @@ import com.rubensousa.carioca.SampleInstrumentedReportRule
 import com.rubensousa.carioca.SampleScreenScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.report.junit4.TestReport
+import com.rubensousa.carioca.report.core.TestReport
 import com.rubensousa.carioca.sampleScreen
 import org.junit.After
 import org.junit.Before

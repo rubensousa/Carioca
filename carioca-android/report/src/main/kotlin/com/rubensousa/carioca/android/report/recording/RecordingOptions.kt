@@ -52,7 +52,7 @@ data class RecordingOptions(
     companion object {
 
         fun from(description: Description): RecordingOptions? {
-            val annotation = description.getAnnotation(TestRecord::class.java)
+            val annotation = description.getAnnotation(TestRecording::class.java)
                 ?: return null
             return RecordingOptions(
                 enabled = annotation.enabled,

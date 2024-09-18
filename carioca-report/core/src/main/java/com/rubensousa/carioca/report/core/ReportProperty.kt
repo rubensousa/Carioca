@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.junit4
+package com.rubensousa.carioca.report.core
 
-/**
- * The different status of every report
- */
-enum class ReportStatus {
-    RUNNING,
-    PASSED,
-    FAILED,
-    SKIPPED
+interface ReportProperty {
+
+    data object Id : ReportProperty
+
+    data object Title : ReportProperty
+
+    data object Links : ReportProperty
+
+    data object Description : ReportProperty
+
 }

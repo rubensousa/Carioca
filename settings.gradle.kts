@@ -31,6 +31,8 @@ includeBuild("carioca-report") {
     dependencySubstitution {
         substitute(module("com.rubensousa.carioca:report-serialization"))
             .using(project(":serialization"))
+        substitute(module("com.rubensousa.carioca:report-core"))
+            .using(project(":core"))
         substitute(module("com.rubensousa.carioca:report-junit4"))
             .using(project(":junit4"))
     }
@@ -47,6 +49,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "carioca"
 include(":sample")
-include(":carioca-junit4-rules")
+include(":carioca-rules-junit4")
 include(":carioca-android:report")
 include(":carioca-android:report-coroutines")
+//include(":carioca-report:core")

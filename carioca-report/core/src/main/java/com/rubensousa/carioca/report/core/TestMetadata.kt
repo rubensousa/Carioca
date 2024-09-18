@@ -14,32 +14,17 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.junit4
+package com.rubensousa.carioca.report.core
 
-import org.junit.runner.Description
-
+/**
+ * @param packageName the package name of the test class
+ * @param className the class under test
+ * @param methodName the name of the test method
+ * @param fullName the full identifier of the test in the form of: packageName.className.methodName
+ */
 data class TestMetadata(
     val packageName: String,
     val className: String,
     val methodName: String,
     val fullName: String,
-) {
-
-    companion object {
-
-        fun from(description: Description): TestMetadata {
-            val packageName = description.testClass.`package`!!.name
-            val className = description.testClass.name
-                .replace("$packageName.", "")
-            val methodName = description.methodName
-            return TestMetadata(
-                packageName = packageName,
-                className = className,
-                methodName = methodName,
-                fullName = "$packageName.$className.$methodName"
-            )
-        }
-
-    }
-
-}
+)

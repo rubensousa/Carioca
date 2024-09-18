@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
-plugins {
-    id("java-library")
-    alias(libs.plugins.jetbrains.kotlin.jvm)
-    alias(libs.plugins.kover)
-    alias(libs.plugins.kotlin.dokka)
-    alias(libs.plugins.maven.publish)
-}
+package com.rubensousa.carioca.report.junit4
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
+import com.rubensousa.carioca.report.core.TestMetadata
+import org.junit.runner.Description
 
-dependencies {
-    implementation(libs.junit)
-    testImplementation(libs.bundles.test.unit)
+/**
+ * Parses the [TestMetadata] from a test's [Description]
+ */
+fun Description.getTestMetadata(): TestMetadata {
+    val packageName = testClass.`package`!!.name
+    val className = testClass.name
+        .replace("$packageName.", "")
+    val methodName = methodName
+    return TestMetadata(
+        packageName = packageName,
+        className = className,
+        methodName = methodName,
+        fullName = "$packageName.$className.$methodName"
+    )
 }

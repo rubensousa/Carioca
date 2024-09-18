@@ -14,40 +14,29 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.recording
+package com.rubensousa.carioca.report.core
 
 /**
- * Signals a test to be screen recorded
+ * Decorates the test reports with extra information
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION)
-annotation class TestRecord(
+annotation class TestReport(
     /**
-     * @see RecordingOptions.enabled
+     * A persistent identifier for a test. Used to track progress of different executions
+     * Passing empty won't have effect
      */
-    val enabled: Boolean = true,
+    val id: String = "",
     /**
-     * @see RecordingOptions.bitrate
+     * A human-readable title of the test
      */
-    val bitrate: Int = 16_000_000,
+    val title: String = "",
     /**
-     * @see RecordingOptions.scale
+     * A human-readable description of the test
      */
-    val scale: Float = 0.75f,
+    val description: String = "",
     /**
-     * @see RecordingOptions.keepOnSuccess
+     * A collection of links relevant for the report
      */
-    val keepOnSuccess: Boolean = false,
-    /**
-     * @see RecordingOptions.startDelay
-     */
-    val startDelay: Long = 1000L,
-    /**
-     * @see RecordingOptions.stopDelay
-     */
-    val stopDelay: Long = 2000L,
-    /**
-     * @see RecordingOptions.continueDelay
-     */
-    val continueDelay: Long = 500L,
+    val links: Array<String> = [],
 )

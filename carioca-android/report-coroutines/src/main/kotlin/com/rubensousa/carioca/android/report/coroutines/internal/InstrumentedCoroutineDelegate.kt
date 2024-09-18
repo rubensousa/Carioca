@@ -24,8 +24,8 @@ import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
-import com.rubensousa.carioca.report.junit4.ExecutionIdGenerator
-import com.rubensousa.carioca.report.junit4.StageStack
+import com.rubensousa.carioca.report.core.ExecutionIdGenerator
+import com.rubensousa.carioca.report.core.StageStack
 
 /**
  * Implements the common behavior of all stages, defined by [InstrumentedCoroutineStageScope].

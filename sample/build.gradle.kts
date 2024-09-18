@@ -73,8 +73,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.test.uiautomator)
     androidTestImplementation(libs.kotlinx.serialization.json)
-
-    androidTestImplementation(project(":carioca-junit4-rules"))
+    androidTestImplementation(project(":carioca-rules-junit4"))
     androidTestImplementation(project(":carioca-android:report"))
     androidTestImplementation(project(":carioca-android:report-coroutines"))
     androidTestUtil(libs.androidx.test.services)
@@ -82,6 +81,6 @@ dependencies {
 }
 
 allureReport {
-    // Override to provide variant tasks
-    testTasks = listOf("connectedDebugAndroidTest")
+    // Override to provide a variant task or another reporting task. Default: connectedDebugAndroidTest
+    testTask = "connectedDebugAndroidTest"
 }

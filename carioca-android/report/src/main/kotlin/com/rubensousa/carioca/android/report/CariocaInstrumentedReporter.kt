@@ -18,7 +18,7 @@ package com.rubensousa.carioca.android.report
 
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
-import com.rubensousa.carioca.report.junit4.TestMetadata
+import com.rubensousa.carioca.report.core.TestMetadata
 import java.io.OutputStream
 
 /**
@@ -42,15 +42,5 @@ interface CariocaInstrumentedReporter {
         test: InstrumentedTestReport,
         storageProvider: ReportStorageProvider,
     )
-
-    /**
-     * @return the filename of the screenshot, excluding the extension
-     */
-    fun getScreenshotName(id: String): String = id
-
-    /**
-     * @return the filename of the recording, excluding the extension
-     */
-    fun getRecordingName(id: String): String = id
 
 }

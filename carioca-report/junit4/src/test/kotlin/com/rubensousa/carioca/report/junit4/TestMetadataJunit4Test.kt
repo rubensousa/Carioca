@@ -20,7 +20,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
 
-class TestMetadataTest {
+class TestMetadataJunit4Test {
 
     @get:Rule
     val descriptionInterceptorRule = DescriptionInterceptorRule()
@@ -31,7 +31,7 @@ class TestMetadataTest {
         val description = descriptionInterceptorRule.getDescription()
 
         // when
-        val metadata = TestMetadata.from(description)
+        val metadata = description.getTestMetadata()
 
         // then
         assertThat(metadata.packageName)

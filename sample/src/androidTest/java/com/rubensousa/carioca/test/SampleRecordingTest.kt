@@ -19,7 +19,7 @@ package com.rubensousa.carioca.test
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.SampleInstrumentedReportRule
-import com.rubensousa.carioca.android.report.recording.TestRecord
+import com.rubensousa.carioca.android.report.recording.TestRecording
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule
@@ -53,7 +53,7 @@ class SampleRecordingTest {
     }
 
     // Overrides the screen recording options
-    @TestRecord(
+    @TestRecording(
         scale = 1.0f,
         keepOnSuccess = true
     )

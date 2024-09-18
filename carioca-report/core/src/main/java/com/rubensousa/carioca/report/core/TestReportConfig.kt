@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.junit4
-
-import org.junit.runner.Description
+package com.rubensousa.carioca.report.core
 
 /**
  * The configuration built from the [TestReport] annotation
@@ -41,23 +39,6 @@ data class TestReportConfig(
      */
     val description: String?,
 ) {
-
-    companion object {
-
-        fun from(description: Description): TestReportConfig? {
-            val annotation = description.getAnnotation(TestReport::class.java)
-                ?: return null
-            return TestReportConfig(
-                id = annotation.id.nullIfEmpty(),
-                title = annotation.title.nullIfEmpty(),
-                links = annotation.links.toList(),
-                description = annotation.description.nullIfEmpty(),
-            )
-        }
-
-        private fun String.nullIfEmpty() = takeIf { it.isNotBlank() }
-
-    }
 
     fun applyTo(report: StageReport) {
         if (links.isNotEmpty()) {

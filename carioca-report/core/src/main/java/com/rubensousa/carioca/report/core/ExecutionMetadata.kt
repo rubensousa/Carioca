@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.junit4
+package com.rubensousa.carioca.report.core
+
 /**
  * Metadata for the execution for a test, step or scenario
  *
