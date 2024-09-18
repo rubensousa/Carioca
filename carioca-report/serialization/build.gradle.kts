@@ -26,7 +26,7 @@ mavenPublishing {
     )
     pom {
         name = "Carioca Report Serialization"
-        description = "Library that provides serialization for carioca reports"
+        description = "Library that provides serialization support for carioca reports"
         packaging = "jar"
         inceptionYear.set("2024")
         url.set("https://github.com/rubensousa/carioca/")

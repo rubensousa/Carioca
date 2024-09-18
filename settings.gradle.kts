@@ -15,6 +15,7 @@
  */
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -44,12 +45,12 @@ includeBuild("carioca-report") {
             .using(project(":serialization"))
     }
 }
-includeBuild("carioca-report-plugin")
 
 rootProject.name = "carioca"
 
 include(":carioca-android:report")
 include(":carioca-android:report-coroutines")
 include(":carioca-android:report-sample")
+include(":carioca-report-plugin:android-allure")
 include(":carioca-junit4:rules")
 include(":carioca-junit4:report")
