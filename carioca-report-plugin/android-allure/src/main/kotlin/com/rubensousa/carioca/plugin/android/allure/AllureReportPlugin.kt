@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.plugin.android.allure
 
+import com.rubensousa.carioca.report.serialization.ReportParser
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.language.base.plugins.LifecycleBasePlugin.VERIFICATION_GROUP
@@ -23,14 +24,18 @@ import java.io.File
 
 class AllureReportPlugin : Plugin<Project> {
 
-    private val testOutputDir = "outputs/connected_android_test_additional_output"
-    private val outputDir = "outputs/allure-results"
+    private val logcatOutputDirPath = "outputs/androidTest-results"
+    private val testOutputDirPath = "outputs/connected_android_test_additional_output"
+    private val outputDirPath = "outputs/allure-results"
     private val supportedPlugins = listOf(
         "com.android.application",
         "com.android.library",
         "com.android.dynamic-feature"
     )
-    private val reportGenerator = AllureReportGenerator()
+    private val reportGenerator = AllureReportGenerator(
+        logcatFinder = LogcatFileFinder(),
+        parser = ReportParser()
+    )
 
     override fun apply(target: Project) {
         target.extensions.add("allureReport", AllureReportExtension::class.java)
@@ -45,11 +50,12 @@ class AllureReportPlugin : Plugin<Project> {
     }
 
     private fun registerTask(project: Project, extension: AllureReportExtension?) {
-        val outputPath = project.layout.buildDirectory.file(outputDir).get().asFile.path
+        val outputPath = project.layout.buildDirectory.file(outputDirPath).get().asFile.path
         val outputDir = File(outputPath)
         val dependentTasks = extension?.testTask ?: "connectedDebugAndroidTest"
 
-        val testOutputDir = project.layout.buildDirectory.file(testOutputDir).get().asFile
+        val testOutputDir = project.layout.buildDirectory.file(testOutputDirPath).get().asFile
+        val logcatOutputDir = project.layout.buildDirectory.file(logcatOutputDirPath).get().asFile
         testOutputDir.mkdirs()
         val cleanTask = project.tasks.register("cleanAllureReport") {
             description = "Deletes the previous generated allure report"
@@ -70,7 +76,8 @@ class AllureReportPlugin : Plugin<Project> {
             doLast {
                 outputDir.mkdirs()
                 reportGenerator.generateReport(
-                    inputDir = testOutputDir,
+                    testResultDir = testOutputDir,
+                    logcatOutputDir = logcatOutputDir,
                     outputDir = outputDir
                 )
                 println("Allure report generated in $outputPath")
@@ -83,7 +90,8 @@ class AllureReportPlugin : Plugin<Project> {
             doLast {
                 outputDir.deleteRecursively()
                 reportGenerator.generateReport(
-                    inputDir = testOutputDir,
+                    testResultDir = testOutputDir,
+                    logcatOutputDir = logcatOutputDir,
                     outputDir = outputDir
                 )
                 println("Allure report generated in $outputPath")
