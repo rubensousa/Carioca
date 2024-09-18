@@ -37,10 +37,10 @@ jobs:
 
       - name: Check and build core libraries
         working-directory: ./carioca-report
-        run: ./gradlew --build-cache check assembleRelease --stacktrace
+        run: ./gradlew --build-cache check assemble --stacktrace
 
       - name: Check and build integration libraries
-        run: ./gradlew --build-cache check assembleRelease --stacktrace
+        run: ./gradlew --build-cache check assemble --stacktrace
 
   instrumented_tests:
     runs-on: ubuntu-latest
