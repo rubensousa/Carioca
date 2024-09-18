@@ -18,6 +18,7 @@ plugins {
     id("java-gradle-plugin")
     alias(libs.plugins.jetbrains.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.maven.publish)
 }
 
 gradlePlugin {
