@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
+package com.rubensousa.carioca.junit4.report
 
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":serialization")
+import com.rubensousa.carioca.report.runtime.StageReport
+
+class TestStageReport : StageReport {
+
+    val id: Int?
+
+    constructor() : super() {
+        id = null
+    }
+
+    constructor(id: Int) : super(id.toString()) {
+        this.id = id
+    }
+
+    override fun toString(): String {
+        return "TestReport: $id"
+    }
+
+}

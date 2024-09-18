@@ -14,20 +14,22 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
+package com.rubensousa.carioca.junit4.report
 
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":serialization")
+import com.rubensousa.carioca.report.runtime.TestMetadata
+import org.junit.runner.Description
+
+/**
+ * Parses the [TestMetadata] from a test's [Description]
+ */
+fun Description.getTestMetadata(): TestMetadata {
+    val packageName = testClass.`package`!!.name
+    val className = testClass.name
+        .replace("$packageName.", "")
+    val methodName = methodName
+    return TestMetadata(
+        packageName = packageName,
+        className = className,
+        methodName = methodName,
+    )
+}

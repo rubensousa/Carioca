@@ -28,7 +28,7 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestScope
-import com.rubensousa.carioca.report.core.TestMetadata
+import com.rubensousa.carioca.report.runtime.TestMetadata
 
 internal class InstrumentedBlockingTest(
     outputPath: String,

@@ -42,8 +42,6 @@ includeBuild("carioca-report") {
             .using(project(":runtime"))
         substitute(module("com.rubensousa.carioca.report:serialization"))
             .using(project(":serialization"))
-        substitute(module("com.rubensousa.carioca.junit4:report"))
-            .using(project(":junit4"))
     }
 }
 includeBuild("carioca-report-plugin")
@@ -64,3 +62,4 @@ include(":carioca-android:report")
 include(":carioca-android:report-coroutines")
 include(":carioca-android:report-sample")
 include(":carioca-junit4:rules")
+include(":carioca-junit4:report")

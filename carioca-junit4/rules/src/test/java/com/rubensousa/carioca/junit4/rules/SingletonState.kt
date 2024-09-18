@@ -14,20 +14,14 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
+package com.rubensousa.carioca.junit4.rules
+
+import com.google.common.truth.Truth.assertThat
+
+internal object SingletonState {
+    var iteration: Int = 0
+
+    fun assertIterations(expected: Int) {
+        assertThat(iteration).isEqualTo(expected)
     }
 }
-
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":serialization")

@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
+package com.rubensousa.carioca.report.runtime
 
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":serialization")
+import com.google.common.truth.Truth.assertThat
+import org.junit.Test
+
+class TestMetadataTest {
+
+    @Test
+    fun `test full name`() {
+        // given
+        val metadata = TestMetadata(
+            packageName = "com.package",
+            className = "Class",
+            methodName = "testSomething"
+        )
+
+        // then
+        assertThat(metadata.fullName).isEqualTo("com.package.Class.testSomething")
+    }
+
+}

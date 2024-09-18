@@ -14,20 +14,20 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
+package com.rubensousa.carioca.junit4.report
 
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":serialization")
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
+
+class DescriptionInterceptorRule : TestWatcher() {
+
+    private var currentDescription: Description? = null
+
+    override fun starting(description: Description) {
+        super.starting(description)
+        currentDescription = description
+    }
+
+    fun getDescription() = requireNotNull(currentDescription)
+
+}

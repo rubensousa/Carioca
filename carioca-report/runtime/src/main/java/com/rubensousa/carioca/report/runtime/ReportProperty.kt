@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
+package com.rubensousa.carioca.report.runtime
 
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":serialization")
+interface ReportProperty {
+
+    data object Id : ReportProperty
+
+    data object Title : ReportProperty
+
+    data object Links : ReportProperty
+
+    data object Description : ReportProperty
+
+}

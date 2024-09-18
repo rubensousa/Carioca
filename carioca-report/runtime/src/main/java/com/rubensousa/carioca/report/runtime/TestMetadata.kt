@@ -14,20 +14,23 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
+package com.rubensousa.carioca.report.runtime
 
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":serialization")
+/**
+ * @param packageName the package name of the test class
+ * @param className the class under test
+ * @param methodName the name of the test method
+ */
+data class TestMetadata(
+    val packageName: String,
+    val className: String,
+    val methodName: String,
+) {
+
+    /**
+     * The full identifier of the test in the form of: packageName.className.methodName
+     */
+    val fullName: String
+        get() = "$packageName.$className.$methodName"
+
+}

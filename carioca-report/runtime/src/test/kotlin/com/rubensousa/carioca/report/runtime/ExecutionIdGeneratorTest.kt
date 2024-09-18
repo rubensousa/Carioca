@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
+package com.rubensousa.carioca.report.runtime
 
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":serialization")
+import com.google.common.truth.Truth.assertThat
+import org.junit.Test
+
+class ExecutionIdGeneratorTest {
+    
+    @Test
+    fun `ids are unique across many generations`() {
+        // given
+        val iterations = 1000
+        val generatedIds = mutableSetOf<String>()
+
+        // when
+        repeat(iterations) {
+            generatedIds.add(ExecutionIdGenerator.get())
+        }
+
+        // then
+        assertThat(generatedIds).hasSize(iterations)
+    }
+
+}

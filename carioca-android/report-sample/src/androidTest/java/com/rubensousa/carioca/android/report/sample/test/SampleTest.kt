@@ -24,7 +24,7 @@ import com.rubensousa.carioca.android.report.sample.SampleScreenScenario
 import com.rubensousa.carioca.android.report.sample.sampleScreen
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.report.core.TestReport
+import com.rubensousa.carioca.report.runtime.TestReport
 import org.junit.After
 import org.junit.Before
 import org.junit.Ignore

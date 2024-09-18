@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
+package com.rubensousa.carioca.report.runtime
 
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":serialization")
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
+@OptIn(ExperimentalUuidApi::class)
+object ExecutionIdGenerator {
+
+    fun get(): String {
+        return Uuid.random().toString()
+    }
+
+}

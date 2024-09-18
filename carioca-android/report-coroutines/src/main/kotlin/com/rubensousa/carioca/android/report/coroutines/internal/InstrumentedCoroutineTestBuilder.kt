@@ -21,8 +21,8 @@ import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInte
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.report.junit4.getTestMetadata
-import com.rubensousa.carioca.report.junit4.getTestReportConfig
+import com.rubensousa.carioca.junit4.report.getTestMetadata
+import com.rubensousa.carioca.junit4.report.getTestReportConfig
 import org.junit.runner.Description
 
 internal class InstrumentedCoroutineTestBuilder {

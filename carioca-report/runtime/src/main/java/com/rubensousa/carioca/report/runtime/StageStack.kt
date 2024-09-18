@@ -14,20 +14,34 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
-        }
-    }
-}
+package com.rubensousa.carioca.report.runtime
 
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":serialization")
+/**
+ * Holds the current state of the stage execution.
+ *
+ * The top of the stack points to the current active stage
+ */
+class StageStack<T> {
+
+    private val stack = ArrayDeque<T>()
+    private val stages = mutableListOf<T>()
+
+    fun push(stage: T) {
+        stack.addLast(stage)
+        stages.add(stage)
+    }
+
+    fun pop(): T? {
+        return stack.removeLastOrNull()
+    }
+
+    fun clear() {
+        stack.clear()
+        stages.clear()
+    }
+
+    fun getAll() = stages.toList()
+
+    internal fun getActive() = stack.toList()
+
+}

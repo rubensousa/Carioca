@@ -20,8 +20,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.android.report.sample.OpenNotificationScenario
 import com.rubensousa.carioca.android.report.sample.SampleInstrumentedReportRule
-import com.rubensousa.carioca.android.rules.RepeatTest
-import com.rubensousa.carioca.android.rules.RepeatTestRule
+import com.rubensousa.carioca.junit4.rules.RepeatTest
+import com.rubensousa.carioca.junit4.rules.RepeatTestRule
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
