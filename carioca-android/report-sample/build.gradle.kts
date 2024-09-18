@@ -83,4 +83,9 @@ dependencies {
 allureReport {
     // Override to provide a variant task or another reporting task. Default: connectedDebugAndroidTest
     testTask = "connectedDebugAndroidTest"
+
+    /**
+     * True just for testing. By default this is false
+     */
+    keepLogcatOnSuccess = true
 }

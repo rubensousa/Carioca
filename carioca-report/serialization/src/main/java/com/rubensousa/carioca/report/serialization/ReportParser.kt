@@ -23,7 +23,7 @@ import java.io.File
 
 class ReportParser {
 
-    fun parseSuite(inputDir: File): SuiteReport? {
+    fun parseSuiteReport(inputDir: File): SuiteReport? {
         val reportDir = findReportDir(inputDir) ?: return null
         reportDir.listFiles()?.forEach { file ->
             if (file.name == ReportFiles.SUITE_REPORT) {
@@ -33,14 +33,14 @@ class ReportParser {
         return null
     }
 
-    fun parseTests(inputDir: File): List<TestReport> {
+    fun parseTestReports(inputDir: File): List<TestReportFile> {
         val reportDir = findReportDir(inputDir) ?: return emptyList()
-        val tests = mutableListOf<TestReport>()
+        val tests = mutableListOf<TestReportFile>()
         reportDir.listFiles()?.forEach { file ->
             if (file.name.endsWith(ReportFiles.TEST_REPORT)) {
-                val test = decodeFromFile<TestReport>(file)
-                if (test != null) {
-                    tests.add(test)
+                val report = decodeFromFile<TestReport>(file)
+                if (report != null) {
+                    tests.add(TestReportFile(file, report))
                 }
             }
         }
@@ -71,5 +71,10 @@ class ReportParser {
             null
         }
     }
+
+    data class TestReportFile(
+        val file: File,
+        val report: TestReport
+    )
 
 }

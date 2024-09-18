@@ -31,20 +31,42 @@ import java.util.UUID
 
 @OptIn(ExperimentalSerializationApi::class)
 class AllureReportGenerator(
-    private val parser: ReportParser = ReportParser(),
+    private val logcatFinder: LogcatFileFinder,
+    private val parser: ReportParser,
 ) {
 
     private val stageValue = "finished"
+    private val brokenStatus = "broken"
 
-    fun generateReport(inputDir: File, outputDir: File) {
-        val reportDir = parser.findReportDir(inputDir) ?: return
-        val testReports = parser.parseTests(reportDir)
+    fun generateReport(
+        testResultDir: File,
+        logcatOutputDir: File,
+        outputDir: File,
+        keepLogcatOnSuccess: Boolean,
+        deleteOriginalReports: Boolean
+    ) {
+        val reportDir = parser.findReportDir(testResultDir) ?: return
+        val testReportFiles = parser.parseTestReports(reportDir)
+        val logcatFiles = logcatFinder.find(logcatOutputDir)
         outputDir.mkdirs()
-        testReports.forEach { testReport ->
-            val originalReport = createTestReport(testReport)
-            moveTestReport(originalReport, reportDir, outputDir)
-            createContainerReport(testReport)?.let {
-                moveContainerReport(it, inputDir, outputDir)
+        testReportFiles.forEach { testReportFile ->
+            val originalReport = createTestReport(testReportFile.report)
+            val logcatFile = if (keepLogcatOnSuccess || originalReport.status == brokenStatus) {
+                logcatFiles[originalReport.fullName]
+            } else {
+                null
+            }
+            moveTestReport(
+                report = originalReport,
+                inputDir = reportDir,
+                outputDir = outputDir,
+                logcatFile = logcatFile
+            )
+            if (deleteOriginalReports) {
+                testReportFile.file.delete()
+            }
+            createContainerReport(testReportFile.report)?.let {
+                moveContainerReport(it, testResultDir, outputDir)
             }
         }
     }
@@ -53,9 +75,26 @@ class AllureReportGenerator(
         report: AllureTestReport,
         inputDir: File,
         outputDir: File,
+        logcatFile: File?,
     ) {
         val reportFile = File(outputDir, "${report.uuid}-result.json")
-        val newReport = moveTestAttachments(report, inputDir, outputDir)
+        var newReport = moveTestAttachments(report, inputDir, outputDir)
+        if (logcatFile != null) {
+            val newFile = moveAttachment(
+                src = logcatFile,
+                outputDir = outputDir,
+                fileId = UUID.randomUUID().toString()
+            )
+            newReport = newReport.copy(
+                attachments = newReport.attachments + listOf(
+                    AllureAttachment(
+                        name = "Logcat",
+                        source = newFile.name,
+                        type = "text/plain"
+                    )
+                )
+            )
+        }
         writeToFile(newReport, reportFile)
     }
 
@@ -107,19 +146,29 @@ class AllureReportGenerator(
         attachments.forEach { attachment ->
             val attachmentFile = File(inputDir, attachment.source)
             if (attachmentFile.exists()) {
-                val dstFile = File(
-                    outputDir,
-                    attachmentFile.nameWithoutExtension + "-attachment.${attachmentFile.extension}"
+                val newFile = moveAttachment(
+                    src = attachmentFile,
+                    outputDir = outputDir,
+                    fileId = attachmentFile.nameWithoutExtension
                 )
-                Files.copy(attachmentFile, dstFile)
                 newAttachments.add(
                     attachment.copy(
-                        source = dstFile.name
+                        source = newFile.name
                     )
                 )
             }
         }
         return newAttachments
+    }
+
+    private fun moveAttachment(
+        src: File,
+        outputDir: File,
+        fileId: String,
+    ): File {
+        val newFile = File(outputDir, fileId + "-attachment.${src.extension}")
+        Files.move(src, newFile)
+        return newFile
     }
 
     private fun moveContainerReport(report: AllureContainerReport, inputDir: File, outputDir: File) {
@@ -210,7 +259,7 @@ class AllureReportGenerator(
         return when (reportStatus) {
             ExecutionStatus.PASSED -> "passed"
             ExecutionStatus.IGNORED -> "skipped"
-            else -> "broken"
+            else -> brokenStatus
         }
     }
 
