@@ -27,17 +27,6 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-includeBuild("carioca-report") {
-    dependencySubstitution {
-        substitute(module("com.rubensousa.carioca:report-serialization"))
-            .using(project(":serialization"))
-        substitute(module("com.rubensousa.carioca:report-core"))
-            .using(project(":core"))
-        substitute(module("com.rubensousa.carioca:report-junit4"))
-            .using(project(":junit4"))
-    }
-}
-includeBuild("carioca-report-plugin")
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -47,9 +36,31 @@ dependencyResolutionManagement {
     }
 }
 
+includeBuild("carioca-report") {
+    dependencySubstitution {
+        substitute(module("com.rubensousa.carioca.report:runtime"))
+            .using(project(":runtime"))
+        substitute(module("com.rubensousa.carioca.report:serialization"))
+            .using(project(":serialization"))
+        substitute(module("com.rubensousa.carioca.junit4:report"))
+            .using(project(":junit4"))
+    }
+}
+includeBuild("carioca-report-plugin")
+
+
+
 rootProject.name = "carioca"
-include(":sample")
-include(":carioca-rules-junit4")
+
+includeBuild(".")
+includeBuild("carioca-report-plugin") {
+    dependencySubstitution {
+        substitute(module("com.rubensousa.carioca.report:serialization"))
+            .using(project(":"))
+    }
+}
+
 include(":carioca-android:report")
 include(":carioca-android:report-coroutines")
-//include(":carioca-report:core")
+include(":carioca-android:report-sample")
+include(":carioca-junit4:rules")

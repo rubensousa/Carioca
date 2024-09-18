@@ -14,21 +14,26 @@
  * limitations under the License.
  */
 
-dependencyResolutionManagement {
-    repositories {
-        gradlePluginPortal()
-        google()
-        mavenCentral()
-        mavenLocal()
-    }
-    versionCatalogs {
-        create("libs") {
-            from(files("../gradle/libs.versions.toml"))
+package com.rubensousa.carioca.android.report.sample.test
+
+import com.rubensousa.carioca.android.report.sample.SampleCoroutineInstrumentedReportRule
+import kotlinx.coroutines.delay
+import org.junit.Rule
+import org.junit.Test
+
+
+class SampleCoroutineTest {
+
+    @get:Rule
+    val report = SampleCoroutineInstrumentedReportRule()
+
+    @Test
+    fun testCoroutine() = report {
+        delay(500L)
+
+        step("Some step") {
+            delay(500L)
         }
     }
-}
 
-rootProject.name = "carioca-report"
-include(":runtime")
-include(":junit4")
-include(":serialization")
+}

@@ -42,7 +42,7 @@ android {
 }
 
 dependencies {
-    api(libs.carioca.report.junit4)
+    api(libs.carioca.junit4.report)
     api(libs.carioca.report.serialization)
     api(libs.androidx.junit)
     api(libs.androidx.test.rules)

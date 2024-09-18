@@ -16,11 +16,13 @@ dependencies {
     testImplementation(libs.bundles.test.unit)
 }
 
+group = "com.rubensousa.carioca.report"
+
 mavenPublishing {
     coordinates(
-        groupId = "com.rubensousa.carioca",
-        artifactId = "carioca-report-serialization",
-        version = libs.versions.carioca.report.core.get()
+        groupId = "com.rubensousa.carioca.report",
+        artifactId = "serialization",
+        version = libs.versions.cariocaReport.get()
     )
     pom {
         name = "Carioca Report Serialization"

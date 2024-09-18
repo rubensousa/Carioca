@@ -38,7 +38,6 @@ java {
 dependencies {
     compileOnly(gradleApi())
     implementation(libs.carioca.report.serialization)
-
     implementation(libs.gradle.kotlin)
     implementation(libs.gradle.android)
     implementation(libs.gradle.android.tools)

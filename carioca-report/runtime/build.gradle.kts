@@ -12,20 +12,19 @@ java {
 }
 
 dependencies {
-    api(project(":runtime"))
-    implementation(libs.junit)
     testImplementation(libs.bundles.test.unit)
 }
 
+
 mavenPublishing {
     coordinates(
-        groupId = "com.rubensousa.carioca.junit4",
-        artifactId = "report",
+        groupId = "com.rubensousa.carioca.report",
+        artifactId = "runtime",
         version = libs.versions.cariocaReport.get()
     )
     pom {
-        name = "Carioca Junit4 Report"
-        description = "Report data structures for junit4 tests"
+        name = "Carioca Report Core"
+        description = "Report data structures"
         packaging = "jar"
         inceptionYear.set("2024")
         url.set("https://github.com/rubensousa/carioca/")
