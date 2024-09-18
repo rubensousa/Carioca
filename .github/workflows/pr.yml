@@ -19,7 +19,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  unit_tests:
+
+  check_libraries:
     runs-on: ubuntu-latest
 
     steps:
@@ -34,8 +35,12 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Check and build libraries
-        run: ./gradlew --build-cache check assembleRelease --stacktrace
+      - name: Check and build core libraries
+        working-directory: ./carioca-report
+        run: ./gradlew --build-cache check assemble --stacktrace
+
+      - name: Check and build integration libraries
+        run: ./gradlew --build-cache check assemble --stacktrace
 
   instrumented_tests:
     runs-on: ubuntu-latest

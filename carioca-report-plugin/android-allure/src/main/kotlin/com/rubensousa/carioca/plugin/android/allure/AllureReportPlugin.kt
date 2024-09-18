@@ -47,7 +47,7 @@ class AllureReportPlugin : Plugin<Project> {
     private fun registerTask(project: Project, extension: AllureReportExtension?) {
         val outputPath = project.layout.buildDirectory.file(outputDir).get().asFile.path
         val outputDir = File(outputPath)
-        val dependentTasks = extension?.testTasks ?: listOf("connectedDebugAndroidTest")
+        val dependentTasks = extension?.testTask ?: "connectedDebugAndroidTest"
 
         val testOutputDir = project.layout.buildDirectory.file(testOutputDir).get().asFile
         testOutputDir.mkdirs()
@@ -60,6 +60,7 @@ class AllureReportPlugin : Plugin<Project> {
                 testOutputDir.deleteRecursively()
             }
         }
+        // TODO: Add support for variants
         project.tasks.register("connectedAllureReport") {
             group = VERIFICATION_GROUP
             description = "Runs android tests and generates the allure report"
@@ -94,5 +95,5 @@ class AllureReportPlugin : Plugin<Project> {
 
 
 interface AllureReportExtension {
-    var testTasks: List<String>?
+    var testTask: String?
 }

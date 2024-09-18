@@ -41,10 +41,10 @@ class AllureReportGenerator(
         val testReports = parser.parseTests(reportDir)
         outputDir.mkdirs()
         testReports.forEach { testReport ->
-            val allureTestReport = createTestReport(testReport)
-            moveTestReport(allureTestReport, reportDir, outputDir)
+            val originalReport = createTestReport(testReport)
+            moveTestReport(originalReport, reportDir, outputDir)
             createContainerReport(testReport)?.let {
-                moveContainerReport(it, outputDir)
+                moveContainerReport(it, inputDir, outputDir)
             }
         }
     }
@@ -55,27 +55,55 @@ class AllureReportGenerator(
         outputDir: File,
     ) {
         val reportFile = File(outputDir, "${report.uuid}-result.json")
-        writeToFile(report, reportFile)
-        moveAttachments(report.attachments, inputDir, outputDir)
-        moveStepAttachments(report.steps, inputDir, outputDir)
+        val newReport = moveTestAttachments(report, inputDir, outputDir)
+        writeToFile(newReport, reportFile)
+    }
+
+    private fun moveTestAttachments(
+        report: AllureTestReport,
+        inputDir: File,
+        outputDir: File,
+    ): AllureTestReport {
+        return report.copy(
+            attachments = moveAttachments(report.attachments, inputDir, outputDir),
+            steps = moveStepAttachments(report.steps, inputDir, outputDir)
+        )
     }
 
     private fun moveStepAttachments(
         steps: List<AllureStep>,
         inputDir: File,
         outputDir: File,
-    ) {
+    ): List<AllureStep> {
+        val newSteps = mutableListOf<AllureStep>()
         steps.forEach { step ->
-            moveAttachments(step.attachments, inputDir, outputDir)
-            moveStepAttachments(step.steps, inputDir, outputDir)
+            newSteps.add(
+                step.copy(
+                    steps = moveStepAttachments(
+                        steps = step.steps,
+                        inputDir = inputDir,
+                        outputDir = outputDir
+                    ),
+                    attachments = moveAttachments(
+                        attachments = step.attachments,
+                        inputDir = inputDir,
+                        outputDir = outputDir
+                    )
+                )
+            )
         }
+        return newSteps
     }
 
+    /**
+     * Ensures all attachments are also renamed to match the allure spec of having "-attachment" as suffix
+     */
     private fun moveAttachments(
         attachments: List<AllureAttachment>,
         inputDir: File,
         outputDir: File,
-    ) {
+    ): List<AllureAttachment> {
+        val newAttachments = mutableListOf<AllureAttachment>()
         attachments.forEach { attachment ->
             val attachmentFile = File(inputDir, attachment.source)
             if (attachmentFile.exists()) {
@@ -84,13 +112,23 @@ class AllureReportGenerator(
                     attachmentFile.nameWithoutExtension + "-attachment.${attachmentFile.extension}"
                 )
                 Files.copy(attachmentFile, dstFile)
+                newAttachments.add(
+                    attachment.copy(
+                        source = dstFile.name
+                    )
+                )
             }
         }
+        return newAttachments
     }
 
-    private fun moveContainerReport(report: AllureContainerReport, outputDir: File) {
+    private fun moveContainerReport(report: AllureContainerReport, inputDir: File, outputDir: File) {
         val reportFile = File(outputDir, "${report.uuid}-container.json")
-        writeToFile(report, reportFile)
+        val newReport = report.copy(
+            befores = moveStepAttachments(report.befores, inputDir, outputDir),
+            afters = moveStepAttachments(report.afters, inputDir, outputDir)
+        )
+        writeToFile(newReport, reportFile)
     }
 
     private inline fun <reified T> writeToFile(content: T, file: File) {

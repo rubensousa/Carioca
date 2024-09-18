@@ -15,6 +15,7 @@
  */
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -27,15 +28,6 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
-includeBuild("carioca-report") {
-    dependencySubstitution {
-        substitute(module("com.rubensousa.carioca:report-serialization"))
-            .using(project(":serialization"))
-        substitute(module("com.rubensousa.carioca:report-junit4"))
-            .using(project(":junit4"))
-    }
-}
-includeBuild("carioca-report-plugin")
 
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -45,8 +37,20 @@ dependencyResolutionManagement {
     }
 }
 
+includeBuild("carioca-report") {
+    dependencySubstitution {
+        substitute(module("com.rubensousa.carioca.report:runtime"))
+            .using(project(":runtime"))
+        substitute(module("com.rubensousa.carioca.report:serialization"))
+            .using(project(":serialization"))
+    }
+}
+
 rootProject.name = "carioca"
-include(":sample")
-include(":carioca-junit4-rules")
+
 include(":carioca-android:report")
 include(":carioca-android:report-coroutines")
+include(":carioca-android:report-sample")
+include(":carioca-report-plugin:android-allure")
+include(":carioca-junit4:rules")
+include(":carioca-junit4:report")

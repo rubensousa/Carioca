@@ -22,11 +22,11 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
-import com.rubensousa.carioca.report.junit4.ExecutionMetadata
-import com.rubensousa.carioca.report.junit4.ReportProperty
-import com.rubensousa.carioca.report.junit4.ReportStatus
-import com.rubensousa.carioca.report.junit4.StageReport
-import com.rubensousa.carioca.report.junit4.TestMetadata
+import com.rubensousa.carioca.report.runtime.ExecutionMetadata
+import com.rubensousa.carioca.report.runtime.ReportProperty
+import com.rubensousa.carioca.report.runtime.ReportStatus
+import com.rubensousa.carioca.report.runtime.StageReport
+import com.rubensousa.carioca.report.runtime.TestMetadata
 import com.rubensousa.carioca.report.serialization.ExecutionReport
 import com.rubensousa.carioca.report.serialization.ExecutionStatus
 import com.rubensousa.carioca.report.serialization.ReportAttachment

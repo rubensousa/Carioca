@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kover)
+    alias(libs.plugins.maven.publish)
 }
 
 android {
@@ -10,17 +11,10 @@ android {
 
     defaultConfig {
         minSdk = 21
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
 
-    buildTypes {
-        release {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -40,4 +34,38 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+mavenPublishing {
+    coordinates(
+        groupId = "com.rubensousa.carioca.android",
+        artifactId = "report-coroutines",
+        version = libs.versions.cariocaAndroid.get()
+    )
+    pom {
+        name = "Carioca Android Coroutines Report"
+        description = "Coroutine extensions for instrumented test reports"
+        packaging = "aar"
+        inceptionYear.set("2024")
+        url.set("https://github.com/rubensousa/carioca/")
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+        developers {
+            developer {
+                id.set("rubensousa")
+                name.set("Ruben Sousa")
+                url.set("https://github.com/rubensousa/")
+            }
+        }
+        scm {
+            url.set("https://github.com/rubensousa/carioca/")
+            connection.set("scm:git:git://github.com/rubensousa/carioca.git")
+            developerConnection.set("scm:git:ssh://git@github.com/rubensousa/carioca.git")
+        }
+    }
 }
