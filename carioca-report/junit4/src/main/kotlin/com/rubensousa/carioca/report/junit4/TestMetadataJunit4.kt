@@ -31,6 +31,5 @@ fun Description.getTestMetadata(): TestMetadata {
         packageName = packageName,
         className = className,
         methodName = methodName,
-        fullName = "$packageName.$className.$methodName"
     )
 }

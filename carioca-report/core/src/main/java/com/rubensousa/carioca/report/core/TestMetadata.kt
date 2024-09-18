@@ -20,11 +20,17 @@ package com.rubensousa.carioca.report.core
  * @param packageName the package name of the test class
  * @param className the class under test
  * @param methodName the name of the test method
- * @param fullName the full identifier of the test in the form of: packageName.className.methodName
  */
 data class TestMetadata(
     val packageName: String,
     val className: String,
     val methodName: String,
-    val fullName: String,
-)
+) {
+
+    /**
+     * The full identifier of the test in the form of: packageName.className.methodName
+     */
+    val fullName: String
+        get() = "$packageName.$className.$methodName"
+
+}

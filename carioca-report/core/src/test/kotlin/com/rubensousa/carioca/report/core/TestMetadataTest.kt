@@ -14,32 +14,24 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.junit4
+package com.rubensousa.carioca.report.core
 
 import com.google.common.truth.Truth.assertThat
-import org.junit.Rule
 import org.junit.Test
 
-class TestMetadataJunit4Test {
-
-    @get:Rule
-    val descriptionInterceptorRule = DescriptionInterceptorRule()
+class TestMetadataTest {
 
     @Test
-    fun `test metadata is fetched`() {
+    fun `test full name`() {
         // given
-        val description = descriptionInterceptorRule.getDescription()
-
-        // when
-        val metadata = description.getTestMetadata()
+        val metadata = TestMetadata(
+            packageName = "com.package",
+            className = "Class",
+            methodName = "testSomething"
+        )
 
         // then
-        assertThat(metadata.packageName)
-            .isEqualTo("com.rubensousa.carioca.junit4.report")
-        assertThat(metadata.className)
-            .isEqualTo("TestMetadataTest")
-        assertThat(metadata.methodName)
-            .isEqualTo("test metadata is fetched")
+        assertThat(metadata.fullName).isEqualTo("com.package.Class.testSomething")
     }
 
 }
