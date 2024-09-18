@@ -46,17 +46,7 @@ includeBuild("carioca-report") {
 }
 includeBuild("carioca-report-plugin")
 
-
-
 rootProject.name = "carioca"
-
-includeBuild(".")
-includeBuild("carioca-report-plugin") {
-    dependencySubstitution {
-        substitute(module("com.rubensousa.carioca.report:serialization"))
-            .using(project(":"))
-    }
-}
 
 include(":carioca-android:report")
 include(":carioca-android:report-coroutines")
