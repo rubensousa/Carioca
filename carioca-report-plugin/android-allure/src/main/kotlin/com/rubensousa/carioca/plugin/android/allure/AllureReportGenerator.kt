@@ -36,25 +36,36 @@ class AllureReportGenerator(
 ) {
 
     private val stageValue = "finished"
+    private val brokenStatus = "broken"
 
     fun generateReport(
         testResultDir: File,
         logcatOutputDir: File,
         outputDir: File,
+        keepLogcatOnSuccess: Boolean,
+        deleteOriginalReports: Boolean
     ) {
         val reportDir = parser.findReportDir(testResultDir) ?: return
-        val testReports = parser.parseTests(reportDir)
+        val testReportFiles = parser.parseTestReports(reportDir)
         val logcatFiles = logcatFinder.find(logcatOutputDir)
         outputDir.mkdirs()
-        testReports.forEach { testReport ->
-            val originalReport = createTestReport(testReport)
+        testReportFiles.forEach { testReportFile ->
+            val originalReport = createTestReport(testReportFile.report)
+            val logcatFile = if (keepLogcatOnSuccess || originalReport.status == brokenStatus) {
+                logcatFiles[originalReport.fullName]
+            } else {
+                null
+            }
             moveTestReport(
                 report = originalReport,
                 inputDir = reportDir,
                 outputDir = outputDir,
-                logcatFile = logcatFiles[originalReport.fullName]
+                logcatFile = logcatFile
             )
-            createContainerReport(testReport)?.let {
+            if (deleteOriginalReports) {
+                testReportFile.file.delete()
+            }
+            createContainerReport(testReportFile.report)?.let {
                 moveContainerReport(it, testResultDir, outputDir)
             }
         }
@@ -156,7 +167,7 @@ class AllureReportGenerator(
         fileId: String,
     ): File {
         val newFile = File(outputDir, fileId + "-attachment.${src.extension}")
-        Files.copy(src, newFile)
+        Files.move(src, newFile)
         return newFile
     }
 
@@ -248,7 +259,7 @@ class AllureReportGenerator(
         return when (reportStatus) {
             ExecutionStatus.PASSED -> "passed"
             ExecutionStatus.IGNORED -> "skipped"
-            else -> "broken"
+            else -> brokenStatus
         }
     }
 

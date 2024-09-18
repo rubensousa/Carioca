@@ -34,7 +34,7 @@ class AllureReportPlugin : Plugin<Project> {
     )
     private val reportGenerator = AllureReportGenerator(
         logcatFinder = LogcatFileFinder(),
-        parser = ReportParser()
+        parser = ReportParser(),
     )
 
     override fun apply(target: Project) {
@@ -45,11 +45,11 @@ class AllureReportPlugin : Plugin<Project> {
                 "Report generation only works for modules of type: $supportedPlugins"
             }
             val extension = extensions.getByType(AllureReportExtension::class.java)
-            registerTask(target, extension)
+            registerTasks(target, extension)
         }
     }
 
-    private fun registerTask(project: Project, extension: AllureReportExtension?) {
+    private fun registerTasks(project: Project, extension: AllureReportExtension?) {
         val outputPath = project.layout.buildDirectory.file(outputDirPath).get().asFile.path
         val outputDir = File(outputPath)
         val dependentTasks = extension?.testTask ?: "connectedDebugAndroidTest"
@@ -66,6 +66,9 @@ class AllureReportPlugin : Plugin<Project> {
                 testOutputDir.deleteRecursively()
             }
         }
+        val keepLogcatOnSuccess = extension?.keepLogcatOnSuccess ?: false
+        val deleteOriginalReports = extension?.deleteOriginalReports ?: true
+
         // TODO: Add support for variants
         project.tasks.register("connectedAllureReport") {
             group = VERIFICATION_GROUP
@@ -78,11 +81,14 @@ class AllureReportPlugin : Plugin<Project> {
                 reportGenerator.generateReport(
                     testResultDir = testOutputDir,
                     logcatOutputDir = logcatOutputDir,
-                    outputDir = outputDir
+                    outputDir = outputDir,
+                    keepLogcatOnSuccess = keepLogcatOnSuccess,
+                    deleteOriginalReports = deleteOriginalReports
                 )
                 println("Allure report generated in $outputPath")
             }
         }
+
         project.tasks.register("generateAllureReport") {
             group = "report"
             description = "Generates the allure report for a previous test run"
@@ -92,7 +98,9 @@ class AllureReportPlugin : Plugin<Project> {
                 reportGenerator.generateReport(
                     testResultDir = testOutputDir,
                     logcatOutputDir = logcatOutputDir,
-                    outputDir = outputDir
+                    outputDir = outputDir,
+                    keepLogcatOnSuccess = keepLogcatOnSuccess,
+                    deleteOriginalReports = deleteOriginalReports
                 )
                 println("Allure report generated in $outputPath")
             }
@@ -103,5 +111,20 @@ class AllureReportPlugin : Plugin<Project> {
 
 
 interface AllureReportExtension {
+    /**
+     * The name of the test task that will be invoked to generate the report
+     */
     var testTask: String?
+
+    /**
+     * True to keep logcat files even if tests pass, or false to only pull them if tests fail.
+     * Default: false
+     */
+    var keepLogcatOnSuccess: Boolean?
+
+    /**
+     * True if the original reports should be removed after the allure reports are generated
+     * Default: true to save space
+     */
+    var deleteOriginalReports: Boolean?
 }
