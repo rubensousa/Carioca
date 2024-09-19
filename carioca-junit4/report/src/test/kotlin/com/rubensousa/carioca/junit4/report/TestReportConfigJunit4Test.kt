@@ -32,6 +32,7 @@ class TestReportConfigJunit4Test {
         assertThat(descriptionInterceptorRule.getDescription().getTestReportConfig()).isNull()
     }
 
+    @TestReport
     @Test
     fun `config properties are null when they are empty`() {
         // given
