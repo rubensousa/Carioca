@@ -20,7 +20,7 @@ import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 import java.io.File
 
-class JsonFakeReportParserTest {
+class JsonReportParserTest {
 
     private val parser = JsonReportParser()
 

@@ -95,7 +95,7 @@ class JsonReportWriter {
         val execution = stage.getExecutionMetadata()
         val nestedStages = mutableListOf<JsonStage>()
         stage.getTestStages().forEach { nestedStage ->
-            buildStageReport(nestedStage).let { nestedStages.add(it) }
+            nestedStages.add(buildStageReport(nestedStage))
         }
         return JsonStage(
             id = stage.getId(),

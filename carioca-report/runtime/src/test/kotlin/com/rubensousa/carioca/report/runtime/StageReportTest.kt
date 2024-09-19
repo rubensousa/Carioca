@@ -34,6 +34,28 @@ class StageReportTest {
     }
 
     @Test
+    fun `id is the same as execution id by default`() {
+        // given
+        val report = createReport()
+
+        // then
+        assertThat(report.getId()).isEqualTo(report.executionId)
+    }
+
+    @Test
+    fun `id is the same as property id when it exists`() {
+        // given
+        val report = createReport()
+        val id = "newId"
+
+        // when
+        report.addProperty(ReportProperty.Id, id)
+
+        // then
+        assertThat(report.getId()).isEqualTo(id)
+    }
+
+    @Test
     fun `report starts with RUNNING state`() {
         // given
         val report = createReport()

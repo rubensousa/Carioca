@@ -19,7 +19,7 @@ package com.rubensousa.carioca.report.json
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-class JsonFakeReportFilesTest {
+class JsonReportFilesTest {
 
     @Test
     fun `check default filenames`() {
