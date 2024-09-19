@@ -26,6 +26,8 @@ import com.rubensousa.carioca.android.report.interceptor.LoggerInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import org.junit.runner.Description
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
@@ -41,6 +43,7 @@ open class InstrumentedCoroutineReportRule(
         LoggerInterceptor(),
         DumpViewHierarchyInterceptor()
     ),
+    storageProvider: ReportStorageProvider = TestStorageProvider
 ) : AbstractInstrumentedReportRule(
     reporter = reporter,
     recordingOptions = recordingOptions,
@@ -48,7 +51,7 @@ open class InstrumentedCoroutineReportRule(
     interceptors = interceptors
 ) {
 
-    private val testBuilder = InstrumentedCoroutineTestBuilder()
+    private val testBuilder = InstrumentedCoroutineTestBuilder(storageProvider)
 
     override fun createTest(description: Description): InstrumentedTestReport {
         return testBuilder.build(

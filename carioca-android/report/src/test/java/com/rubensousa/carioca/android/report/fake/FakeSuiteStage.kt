@@ -14,19 +14,23 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca
+package com.rubensousa.carioca.android.report.fake
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.suite.SuiteStage
+import org.junit.runner.Description
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+class FakeSuiteStage : SuiteStage {
+
+    val ignored = mutableListOf<Description>()
+    val reporters = mutableListOf<CariocaInstrumentedReporter>()
+
+    override fun addReporter(reporter: CariocaInstrumentedReporter) {
+        reporters.add(reporter)
     }
+
+    override fun testIgnored(description: Description) {
+        ignored.add(description)
+    }
+
 }

@@ -17,9 +17,6 @@
 package com.rubensousa.carioca.android.report.suite
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
-import com.rubensousa.carioca.android.report.recording.RecordingOptions
-import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
 import org.junit.runner.Description
 
 internal interface SuiteStage {
@@ -27,36 +24,5 @@ internal interface SuiteStage {
     fun addReporter(reporter: CariocaInstrumentedReporter)
 
     fun testIgnored(description: Description)
-
-    fun clear()
-
-}
-
-internal class InstrumentedSuiteStage : SuiteStage {
-
-    private val builder = InstrumentedTestBuilder()
-    private val reporters = mutableMapOf<Class<*>, CariocaInstrumentedReporter>()
-
-    override fun addReporter(reporter: CariocaInstrumentedReporter) {
-        reporters[reporter::class.java] = reporter
-    }
-
-    override fun testIgnored(description: Description) {
-        val allReporters = reporters.values.toList()
-        allReporters.forEach { reporter ->
-            val test = builder.build(
-                description = description,
-                recordingOptions = RecordingOptions(enabled = false),
-                screenshotOptions = ScreenshotOptions(),
-                reporter = reporter,
-                interceptors = emptyList()
-            )
-            test.onIgnored()
-        }
-    }
-
-    override fun clear() {
-        reporters.clear()
-    }
 
 }

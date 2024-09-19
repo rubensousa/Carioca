@@ -20,6 +20,9 @@ import android.net.Uri
 import androidx.test.platform.io.PlatformTestStorageRegistry
 import java.io.OutputStream
 
+/**
+ * An implementation of [ReportStorageProvider] that uses the test platform's directories
+ */
 object TestStorageProvider : ReportStorageProvider {
 
     private val testStorage by lazy { PlatformTestStorageRegistry.getInstance() }

@@ -17,6 +17,8 @@
 package com.rubensousa.carioca.android.report
 
 import com.google.common.truth.Truth.assertThat
+import com.rubensousa.carioca.android.report.fake.FakeReportStorageProvider
+import com.rubensousa.carioca.android.report.fake.FakeStageReport
 import com.rubensousa.carioca.report.json.JsonReportFiles
 import com.rubensousa.carioca.report.json.JsonReportParser
 import com.rubensousa.carioca.report.runtime.TestMetadata

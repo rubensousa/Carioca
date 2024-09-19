@@ -25,8 +25,8 @@ import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.recording.ReportRecording
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
-import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.report.runtime.ReportProperty
 import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageStack
@@ -46,6 +46,7 @@ abstract class InstrumentedTestReport(
     protected val screenshotDelegate: ScreenshotDelegate,
     protected val reporter: CariocaInstrumentedReporter,
     protected val interceptors: List<CariocaInstrumentedInterceptor>,
+    protected val storageProvider: ReportStorageProvider,
 ) : InstrumentedStageReport(reportDirPath = outputPath) {
 
     protected val stageStack = StageStack<InstrumentedStageReport>()
@@ -120,7 +121,7 @@ abstract class InstrumentedTestReport(
 
     private fun writeReport() {
         try {
-            reporter.writeTestReport(metadata, this, TestStorageProvider)
+            reporter.writeTestReport(metadata, this, storageProvider)
         } catch (exception: Exception) {
             Log.e("CariocaReport", "Failed writing report for test ${this.metadata.methodName}", exception)
         }

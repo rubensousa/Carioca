@@ -21,11 +21,14 @@ import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInte
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.junit4.report.getTestMetadata
 import com.rubensousa.carioca.junit4.report.getTestReportConfig
 import org.junit.runner.Description
 
-internal class InstrumentedTestBuilder {
+internal class InstrumentedTestBuilder(
+    private val storageProvider: ReportStorageProvider,
+) {
 
     fun build(
         description: Description,
@@ -46,7 +49,8 @@ internal class InstrumentedTestBuilder {
                 defaultOptions = screenshotOptions
             ),
             interceptors = interceptors,
-            reporter = reporter
+            reporter = reporter,
+            storageProvider = storageProvider
         )
         reportConfig?.applyTo(testReport)
         return testReport

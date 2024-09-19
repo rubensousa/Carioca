@@ -26,6 +26,8 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestScope
 import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTest
 import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
 import com.rubensousa.carioca.android.report.suite.SuiteStage
 import org.junit.rules.TestWatcher
@@ -141,6 +143,7 @@ open class InstrumentedReportRule(
         LoggerInterceptor(),
         DumpViewHierarchyInterceptor()
     ),
+    storageProvider: ReportStorageProvider = TestStorageProvider
 ) : AbstractInstrumentedReportRule(
     reporter = reporter,
     recordingOptions = recordingOptions,
@@ -148,7 +151,7 @@ open class InstrumentedReportRule(
     interceptors = interceptors,
 ) {
 
-    private val testBuilder = InstrumentedTestBuilder()
+    private val testBuilder = InstrumentedTestBuilder(storageProvider)
 
     override fun createTest(description: Description): InstrumentedTestReport {
         return testBuilder.build(
