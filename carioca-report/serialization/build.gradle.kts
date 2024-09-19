@@ -16,8 +16,6 @@ dependencies {
     testImplementation(libs.bundles.test.unit)
 }
 
-group = "com.rubensousa.carioca.report"
-
 mavenPublishing {
     coordinates(
         groupId = "com.rubensousa.carioca.report",

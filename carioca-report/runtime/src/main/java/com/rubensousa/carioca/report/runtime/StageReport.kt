@@ -29,6 +29,7 @@ abstract class StageReport(
     private val executionId: String = ExecutionIdGenerator.get(),
 ) {
 
+    private val attachments = mutableListOf<StageAttachment>()
     private val beforeStages = mutableListOf<StageReport>()
     private val testStages = mutableListOf<StageReport>()
     private val afterStages = mutableListOf<StageReport>()
@@ -37,6 +38,11 @@ abstract class StageReport(
     private var endTime = startTime
     private var status = ReportStatus.RUNNING
     private var failureCause: Throwable? = null
+
+    /**
+     * @param attachment attachment to be deleted from the filesystem
+     */
+    abstract fun deleteAttachment(attachment: StageAttachment)
 
     /**
      * @return the execution metadata associated to this stage
@@ -58,6 +64,13 @@ abstract class StageReport(
         ensureStageRunning()
         status = ReportStatus.PASSED
         saveEndTime()
+        // Delete all attachments that shouldn't be kept when the test passes
+        getAttachments().forEach { attachment ->
+            if (!attachment.keepOnSuccess) {
+                deleteAttachment(attachment)
+                detach(attachment)
+            }
+        }
     }
 
     /**
@@ -137,7 +150,32 @@ abstract class StageReport(
         afterStages.add(stage)
     }
 
+    /**
+     * @param attachment an attachment that will be linked to this report
+     */
+    fun attach(attachment: StageAttachment) {
+        attachments.add(attachment)
+    }
+
+    /**
+     * @param attachment the attachment to remove from this report
+     */
+    fun detach(attachment: StageAttachment) {
+        attachments.remove(attachment)
+    }
+
+    /**
+     * @return all attachments registered through [attach]
+     */
+    fun getAttachments(): List<StageAttachment> = attachments.toList()
+
+    /**
+     * Clears all the metadata associated to this report
+     */
     open fun reset() {
+        getAttachments().forEach { attachment ->
+            deleteAttachment(attachment)
+        }
         testStages.forEach { stage -> stage.reset() }
         beforeStages.forEach { stage -> stage.reset() }
         afterStages.forEach { stage -> stage.reset() }
@@ -149,6 +187,7 @@ abstract class StageReport(
         beforeStages.clear()
         afterStages.clear()
         properties.clear()
+        attachments.clear()
     }
 
     private fun ensureStageRunning() {
@@ -169,6 +208,7 @@ abstract class StageReport(
                 && other.getStagesBefore() == beforeStages
                 && other.getStagesAfter() == afterStages
                 && other.getProperties() == properties
+                && other.getAttachments() == attachments
     }
 
     override fun hashCode(): Int {

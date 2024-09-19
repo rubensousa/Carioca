@@ -20,11 +20,11 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedBeforeAfterReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
-import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ExecutionMetadata
 import com.rubensousa.carioca.report.runtime.ReportProperty
 import com.rubensousa.carioca.report.runtime.ReportStatus
+import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageReport
 import com.rubensousa.carioca.report.runtime.TestMetadata
 import com.rubensousa.carioca.report.serialization.ExecutionReport
@@ -58,15 +58,14 @@ class DefaultInstrumentedReporter : CariocaInstrumentedReporter {
     ) {
         val metadata = test.getExecutionMetadata()
         val filePath = "${test.outputPath}/${metadata.uniqueId}_test_report.json"
-        val jsonReport = buildTestReport(test)
+        val jsonReport = buildTestReport(test.metadata, test)
         BufferedOutputStream(storageProvider.getOutputStream(filePath)).use { stream ->
             json.encodeToStream(jsonReport, stream)
             stream.flush()
         }
     }
 
-    private fun buildTestReport(test: InstrumentedTestReport): TestReport {
-        val metadata = test.metadata
+    private fun buildTestReport(metadata: TestMetadata, test: StageReport): TestReport {
         val testId = test.getProperty(ReportProperty.Id) ?: metadata.fullName
         val testTitle = test.getProperty(ReportProperty.Title) ?: metadata.methodName
         return TestReport(

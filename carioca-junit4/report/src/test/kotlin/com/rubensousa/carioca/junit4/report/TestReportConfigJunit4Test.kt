@@ -17,7 +17,6 @@
 package com.rubensousa.carioca.junit4.report
 
 import com.google.common.truth.Truth.assertThat
-import com.rubensousa.carioca.report.runtime.ReportProperty
 import com.rubensousa.carioca.report.runtime.TestReport
 import com.rubensousa.carioca.report.runtime.TestReportConfig
 import org.junit.Rule
@@ -33,7 +32,6 @@ class TestReportConfigJunit4Test {
         assertThat(descriptionInterceptorRule.getDescription().getTestReportConfig()).isNull()
     }
 
-    @TestReport
     @Test
     fun `config properties are null when they are empty`() {
         // given
@@ -62,46 +60,6 @@ class TestReportConfigJunit4Test {
         assertThat(reportConfig.title).isEqualTo("This is a custom test title")
         assertThat(reportConfig.description).isEqualTo("All properties should be visible")
         assertThat(reportConfig.links).isEqualTo(listOf("https://link.one", "https://link.two"))
-    }
-
-    @TestReport(
-        id = "PROJ-1",
-        title = "This is a custom test title",
-        description = "All properties should be visible",
-        links = ["https://link.one", "https://link.two"]
-    )
-    @Test
-    fun `properties are assigned to stage`() {
-        // given
-        val reportConfig = getCurrentTestReportConfig()
-        val stageReport = TestStageReport()
-
-        // when
-        reportConfig.applyTo(stageReport)
-
-        // then
-        assertThat(stageReport.getProperty<String>(ReportProperty.Id))
-            .isEqualTo("PROJ-1")
-        assertThat(stageReport.getProperty<String>(ReportProperty.Title))
-            .isEqualTo("This is a custom test title")
-        assertThat(stageReport.getProperty<String>(ReportProperty.Description))
-            .isEqualTo("All properties should be visible")
-        assertThat(stageReport.getProperty<List<String>>(ReportProperty.Links))
-            .isEqualTo(listOf("https://link.one", "https://link.two"))
-    }
-
-    @TestReport
-    @Test
-    fun `properties are not applied to report when they are null`() {
-        // given
-        val reportConfig = getCurrentTestReportConfig()
-        val stageReport = TestStageReport()
-
-        // when
-        reportConfig.applyTo(stageReport)
-
-        // then
-        assertThat(stageReport.getProperties()).isEmpty()
     }
 
     private fun getCurrentTestReportConfig(): TestReportConfig {

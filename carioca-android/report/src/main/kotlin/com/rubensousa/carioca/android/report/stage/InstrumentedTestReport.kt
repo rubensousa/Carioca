@@ -27,6 +27,7 @@ import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
+import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageStack
 import com.rubensousa.carioca.report.runtime.TestMetadata
 
@@ -65,7 +66,6 @@ abstract class InstrumentedTestReport(
         }
         pass()
         interceptors.intercept { onTestPassed(this@InstrumentedTestReport) }
-        deleteAttachmentsOnSuccess()
         writeReport()
     }
 
@@ -131,13 +131,6 @@ abstract class InstrumentedTestReport(
         screenRecording = newRecording
     }
 
-    private fun deleteAttachmentsOnSuccess() {
-        stageStack.getAll().forEach { stage ->
-            stage.deleteUnnecessaryAttachments()
-        }
-        deleteUnnecessaryAttachments()
-    }
-
     private fun createRecordingAttachment(recording: ReportRecording): StageAttachment {
         return StageAttachment(
             description = "Screen recording",
@@ -152,4 +145,3 @@ abstract class InstrumentedTestReport(
     }
 
 }
-

@@ -57,6 +57,37 @@ class StageReportTest {
     }
 
     @Test
+    fun `attachment is removed when status changes to passed`() {
+        // given
+        val report = createReport()
+        val attachment = createAttachment(keepOnSuccess = false)
+        report.attach(attachment)
+
+        // when
+        report.pass()
+
+        // then
+        assertThat(report.getAttachments()).isEmpty()
+        assertThat(report.deleteAttachmentRequests).isEqualTo(listOf(attachment))
+    }
+
+
+    @Test
+    fun `attachment is not removed when status changes to passed`() {
+        // given
+        val report = createReport()
+        val attachment = createAttachment(keepOnSuccess = true)
+        report.attach(attachment)
+
+        // when
+        report.pass()
+
+        // then
+        assertThat(report.getAttachments()).isEqualTo(listOf(attachment))
+        assertThat(report.deleteAttachmentRequests).isEmpty()
+    }
+
+    @Test
     fun `report changes status to failed`() {
         // given
         val report = createReport()
@@ -212,6 +243,7 @@ class StageReportTest {
         report.addTestStage(createReport())
         report.addStageBefore(createReport())
         report.addStageAfter(createReport())
+        report.attach(createAttachment(keepOnSuccess = false))
 
         // when
         report.reset()
@@ -225,6 +257,8 @@ class StageReportTest {
         assertThat(report.getTestStages()).isEmpty()
         assertThat(report.getStagesBefore()).isEmpty()
         assertThat(report.getStagesAfter()).isEmpty()
+        assertThat(report.getAttachments()).isEmpty()
+        assertThat(report.deleteAttachmentRequests).hasSize(1)
     }
 
     @Test
@@ -306,5 +340,14 @@ class StageReportTest {
     }
 
     private fun createReport(): TestStageReport = TestStageReport()
+
+    private fun createAttachment(keepOnSuccess: Boolean): StageAttachment {
+        return StageAttachment(
+            description = "Some attachment",
+            mimeType = "text/plain",
+            path = "this_path",
+            keepOnSuccess = keepOnSuccess
+        )
+    }
 
 }

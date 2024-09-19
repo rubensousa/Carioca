@@ -16,26 +16,18 @@
 
 package com.rubensousa.carioca.report.runtime
 
-class TestStageReport : StageReport {
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
-    val id: Int?
+class DescriptionInterceptorRule : TestWatcher() {
 
-    val deleteAttachmentRequests = mutableListOf<StageAttachment>()
+    private var currentDescription: Description? = null
 
-    constructor() : super() {
-        id = null
+    override fun starting(description: Description) {
+        super.starting(description)
+        currentDescription = description
     }
 
-    constructor(id: Int) : super(id.toString()) {
-        this.id = id
-    }
-
-    override fun deleteAttachment(attachment: StageAttachment) {
-        deleteAttachmentRequests.add(attachment)
-    }
-
-    override fun toString(): String {
-        return "TestReport: $id"
-    }
+    fun getDescription() = requireNotNull(currentDescription)
 
 }

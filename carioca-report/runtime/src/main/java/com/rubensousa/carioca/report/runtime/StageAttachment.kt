@@ -14,8 +14,16 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage
+package com.rubensousa.carioca.report.runtime
 
+/**
+ * An attachment linked to a given stage
+ *
+ * @param description a human readable representation of this attachment
+ * @param path the relative path of this attachment
+ * @param mimeType the mime type of the file
+ * @param keepOnSuccess true if the attachment should be kept if the test passes, false otherwise
+ */
 data class StageAttachment(
     val description: String,
     val path: String,
