@@ -16,14 +16,10 @@
 
 package com.rubensousa.carioca.report.serialization
 
-import kotlinx.serialization.Serializable
+object JsonReportFiles {
 
-@Serializable
-data class Stage(
-    val id: String,
-    val name: String,
-    val type: String,
-    val stages: List<Stage>,
-    val execution: ExecutionReport,
-    val attachments: List<ReportAttachment>,
-)
+    const val SUITE_REPORT = "suite_report.json"
+    const val TEST_REPORT = "test_report.json"
+    const val REPORT_DIR = "carioca-report"
+
+}

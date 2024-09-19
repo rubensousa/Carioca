@@ -26,7 +26,7 @@ package com.rubensousa.carioca.report.runtime
  * [getStagesBefore], [getTestStages], [getStagesAfter]
  */
 abstract class StageReport(
-    private val executionId: String = ExecutionIdGenerator.get(),
+    val executionId: String = ExecutionIdGenerator.get(),
 ) {
 
     private val attachments = mutableListOf<StageAttachment>()
@@ -43,6 +43,23 @@ abstract class StageReport(
      * @param attachment attachment to be deleted from the filesystem
      */
     abstract fun deleteAttachment(attachment: StageAttachment)
+
+    /**
+     * @return the type of this stage. Can be "test", "step", or anything else
+     */
+    abstract fun getType(): String
+
+    /**
+     * @return the title of this stage
+     */
+    abstract fun getTitle(): String
+
+    /**
+     * @return an optional identifier for this stage
+     */
+    open fun getId(): String {
+        return getProperty<String>(ReportProperty.Id) ?: executionId
+    }
 
     /**
      * @return the execution metadata associated to this stage
@@ -203,6 +220,8 @@ abstract class StageReport(
     override fun equals(other: Any?): Boolean {
         return other?.javaClass == javaClass
                 && other is StageReport
+                && other.getId() == getId()
+                && other.executionId == executionId
                 && other.getExecutionMetadata() == getExecutionMetadata()
                 && other.getTestStages() == testStages
                 && other.getStagesBefore() == beforeStages

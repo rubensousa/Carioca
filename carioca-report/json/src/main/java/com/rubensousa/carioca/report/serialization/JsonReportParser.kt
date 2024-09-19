@@ -21,12 +21,12 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import java.io.File
 
-class ReportParser {
+class JsonReportParser {
 
-    fun parseSuiteReport(inputDir: File): SuiteReport? {
+    fun parseSuiteReport(inputDir: File): JsonSuiteReport? {
         val reportDir = findReportDir(inputDir) ?: return null
         reportDir.listFiles()?.forEach { file ->
-            if (file.name == ReportFiles.SUITE_REPORT) {
+            if (file.name == JsonReportFiles.SUITE_REPORT) {
                 return decodeFromFile(file)
             }
         }
@@ -37,8 +37,8 @@ class ReportParser {
         val reportDir = findReportDir(inputDir) ?: return emptyList()
         val tests = mutableListOf<TestReportFile>()
         reportDir.listFiles()?.forEach { file ->
-            if (file.name.endsWith(ReportFiles.TEST_REPORT)) {
-                val report = decodeFromFile<TestReport>(file)
+            if (file.name.endsWith(JsonReportFiles.TEST_REPORT)) {
+                val report = decodeFromFile<JsonTestReport>(file)
                 if (report != null) {
                     tests.add(TestReportFile(file, report))
                 }
@@ -52,11 +52,16 @@ class ReportParser {
      * without assuming the parent directory structure
      */
     fun findReportDir(inputDir: File): File? {
-        if (inputDir.name == ReportFiles.REPORT_DIR) {
+        if (inputDir.name == JsonReportFiles.REPORT_DIR) {
             return inputDir
         }
-        inputDir.listFiles()?.forEach { dir ->
-            return findReportDir(dir)
+        inputDir.listFiles()?.forEach { file ->
+            if (file.isDirectory) {
+                val reportDir = findReportDir(file)
+                if (reportDir != null) {
+                    return reportDir
+                }
+            }
         }
         return null
     }
@@ -74,7 +79,7 @@ class ReportParser {
 
     data class TestReportFile(
         val file: File,
-        val report: TestReport
+        val report: JsonTestReport
     )
 
 }

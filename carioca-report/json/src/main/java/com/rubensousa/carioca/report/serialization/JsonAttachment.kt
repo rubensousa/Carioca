@@ -19,18 +19,8 @@ package com.rubensousa.carioca.report.serialization
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TestReport(
-    val id: String,
-    val title: String,
-    val description: String? = null,
-    val packageName: String,
-    val className: String,
-    val methodName: String,
-    val fullName: String,
-    val links: List<String>,
-    val execution: ExecutionReport,
-    val beforeStages: List<Stage>,
-    val stages: List<Stage>,
-    val afterStages: List<Stage>,
-    val attachments: List<ReportAttachment>,
+data class JsonAttachment(
+    val description: String,
+    val path: String,
+    val mimeType: String,
 )

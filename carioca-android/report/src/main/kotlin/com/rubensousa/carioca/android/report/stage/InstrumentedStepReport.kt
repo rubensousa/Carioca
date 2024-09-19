@@ -23,12 +23,20 @@ package com.rubensousa.carioca.android.report.stage
  */
 abstract class InstrumentedStepReport(
     outputPath: String,
-    val id: String,
-    val title: String,
-) : InstrumentedStageReport(outputPath) {
+    private val id: String,
+    private val title: String,
+) : InstrumentedStageReport(
+    reportDirPath = outputPath
+) {
 
     override fun toString(): String {
         return "Step: $title - $id"
     }
+
+    override fun getType(): String = "Step"
+
+    override fun getTitle(): String = title
+
+    override fun getId(): String = id
 
 }

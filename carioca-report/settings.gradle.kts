@@ -30,4 +30,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "carioca-report"
 include(":runtime")
-include(":serialization")
+include(":json")

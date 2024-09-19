@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.plugin.android.allure
 
-import com.rubensousa.carioca.report.serialization.ReportParser
+import com.rubensousa.carioca.report.serialization.JsonReportParser
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.language.base.plugins.LifecycleBasePlugin.VERIFICATION_GROUP
@@ -34,7 +34,7 @@ class AllureReportPlugin : Plugin<Project> {
     )
     private val reportGenerator = AllureReportGenerator(
         logcatFinder = LogcatFileFinder(),
-        parser = ReportParser(),
+        parser = JsonReportParser(),
     )
 
     override fun apply(target: Project) {

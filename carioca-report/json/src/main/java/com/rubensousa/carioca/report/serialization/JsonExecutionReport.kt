@@ -16,10 +16,21 @@
 
 package com.rubensousa.carioca.report.serialization
 
-object ReportFiles {
+import kotlinx.serialization.Serializable
 
-    const val SUITE_REPORT = "suite_report.json"
-    const val TEST_REPORT = "test_report.json"
-    const val REPORT_DIR = "carioca-report"
+@Serializable
+data class JsonExecutionReport(
+    val id: String,
+    val startTime: Long,
+    val endTime: Long,
+    val status: JsonExecutionStatus,
+    val failureMessage: String? = null,
+    val failureStacktrace: String? = null,
+)
 
+@Serializable
+enum class JsonExecutionStatus {
+    PASSED,
+    FAILED,
+    IGNORED
 }

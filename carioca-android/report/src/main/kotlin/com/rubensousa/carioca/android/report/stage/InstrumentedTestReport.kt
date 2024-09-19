@@ -27,6 +27,7 @@ import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
+import com.rubensousa.carioca.report.runtime.ReportProperty
 import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageStack
 import com.rubensousa.carioca.report.runtime.TestMetadata
@@ -45,10 +46,20 @@ abstract class InstrumentedTestReport(
     protected val screenshotDelegate: ScreenshotDelegate,
     protected val reporter: CariocaInstrumentedReporter,
     protected val interceptors: List<CariocaInstrumentedInterceptor>,
-) : InstrumentedStageReport(outputPath) {
+) : InstrumentedStageReport(reportDirPath = outputPath) {
 
     protected val stageStack = StageStack<InstrumentedStageReport>()
     private var screenRecording: ReportRecording? = null
+
+    override fun getType(): String = "Test"
+
+    override fun getTitle(): String {
+        return getProperty<String>(ReportProperty.Title) ?: metadata.methodName
+    }
+
+    override fun getId(): String {
+        return getProperty<String>(ReportProperty.Id) ?: metadata.fullName
+    }
 
     fun onStarted() {
         interceptors.intercept { onTestStarted(this@InstrumentedTestReport) }

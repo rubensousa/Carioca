@@ -19,7 +19,7 @@ package com.rubensousa.carioca.report.serialization
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SuiteReport(
+data class JsonSuiteReport(
     val id: String,
     val passedTests: Int,
     val failedTests: Int,

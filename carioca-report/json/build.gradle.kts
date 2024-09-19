@@ -12,6 +12,7 @@ java {
 }
 
 dependencies {
+    implementation(project(":runtime"))
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.bundles.test.unit)
 }

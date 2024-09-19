@@ -85,7 +85,12 @@ allureReport {
     testTask = "connectedDebugAndroidTest"
 
     /**
-     * True just for testing. By default this is false
+     * True just for testing. By default this is false to save disk space
      */
     keepLogcatOnSuccess = true
+
+    /**
+     * False just for testing. By default this is true, since the original reports aren't needed
+     */
+    deleteOriginalReports = false
 }
