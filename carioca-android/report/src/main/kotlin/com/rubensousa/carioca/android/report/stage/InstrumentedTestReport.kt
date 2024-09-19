@@ -120,7 +120,7 @@ abstract class InstrumentedTestReport(
 
     private fun writeReport() {
         try {
-            reporter.writeTestReport(this, TestStorageProvider)
+            reporter.writeTestReport(metadata, this, TestStorageProvider)
         } catch (exception: Exception) {
             Log.e("CariocaReport", "Failed writing report for test ${this.metadata.methodName}", exception)
         }

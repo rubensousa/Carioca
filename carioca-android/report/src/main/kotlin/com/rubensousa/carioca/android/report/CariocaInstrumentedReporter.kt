@@ -16,8 +16,8 @@
 
 package com.rubensousa.carioca.android.report
 
-import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+import com.rubensousa.carioca.report.runtime.StageReport
 import com.rubensousa.carioca.report.runtime.TestMetadata
 import java.io.OutputStream
 
@@ -35,11 +35,13 @@ interface CariocaInstrumentedReporter {
     fun getOutputDir(metadata: TestMetadata): String
 
     /**
-     * @param test test report to be written
+     * @param testMetadata the metadata of the test
+     * @param report  report to be written
      * @param storageProvider the storage provider to query for a [OutputStream]
      */
     fun writeTestReport(
-        test: InstrumentedTestReport,
+        testMetadata: TestMetadata,
+        report: StageReport,
         storageProvider: ReportStorageProvider,
     )
 

@@ -14,14 +14,21 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.core
+package com.rubensousa.carioca.android.report
 
-/**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleInstrumentedBlockingTestStageReportInterface {
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+import com.rubensousa.carioca.report.runtime.StageAttachment
+import com.rubensousa.carioca.report.runtime.StageReport
 
+class FakeStageReport(
+    private val storageProvider: ReportStorageProvider = FakeReportStorageProvider(),
+) : StageReport() {
 
+    override fun deleteAttachment(attachment: StageAttachment) {
+
+    }
+
+    override fun getType(): String = "Type"
+
+    override fun getTitle(): String = "Title"
 }
