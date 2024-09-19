@@ -38,7 +38,8 @@
               "path": "08bd21fa-1d3e-8f0f-4714-5e28b1213d42.jpg",
               "mimeType": "image/jpg"
             }
-          ]
+          ],
+          "parameters": []
         }
       ],
       "execution": {
@@ -47,7 +48,8 @@
         "endTime": 1726706586527,
         "status": "PASSED"
       },
-      "attachments": []
+      "attachments": [],
+      "parameters": []
     }
   ],
   "stages": [
@@ -67,6 +69,12 @@
           "description": "Notifications closed",
           "path": "1d3easdas-3213-4714-8f0f-5e28b1213d42.jpg",
           "mimeType": "image/jpg"
+        }
+      ],
+      "parameters": [
+        {
+          "key": "Name",
+          "value": "Test"
         }
       ]
     }
@@ -94,7 +102,8 @@
               "path": "asdgf21fa-1d3e-4714-8f0f-5e28b1213d42.jpg",
               "mimeType": "image/jpg"
             }
-          ]
+          ],
+          "parameters": []
         }
       ],
       "execution": {
@@ -103,7 +112,8 @@
         "endTime": 1726706589063,
         "status": "PASSED"
       },
-      "attachments": []
+      "attachments": [],
+      "parameters": []
     }
   ],
   "attachments": [
@@ -112,5 +122,6 @@
       "path": "f615abd4-5679-4179-a633-7be8a06cd85b.mp4",
       "mimeType": "video/mp4"
     }
-  ]
+  ],
+  "parameters": []
 }

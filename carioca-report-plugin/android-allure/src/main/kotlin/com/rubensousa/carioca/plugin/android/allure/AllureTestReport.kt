@@ -59,7 +59,7 @@ data class AllureStep(
     val start: Long,
     val stop: Long,
     val steps: List<AllureStep>,
-    val parameters: List<Int> = emptyList(),
+    val parameters: List<AllureParameter>,
 )
 
 @Serializable
@@ -76,6 +76,12 @@ data class AllureAttachment(
     val name: String,
     val source: String,
     val type: String,
+)
+
+@Serializable
+data class AllureParameter(
+    val name: String,
+    val value: String,
 )
 
 @Serializable

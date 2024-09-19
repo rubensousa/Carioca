@@ -47,6 +47,10 @@ internal class InstrumentedBlockingStep(
         delegate.scenario(scenario)
     }
 
+    override fun param(key: String, value: String) {
+        delegate.param(key, value)
+    }
+
     internal fun execute(action: InstrumentedStageScope.() -> Unit) {
         action(this)
         pass()

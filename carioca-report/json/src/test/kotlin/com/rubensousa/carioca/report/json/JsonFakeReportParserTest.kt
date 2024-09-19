@@ -77,6 +77,7 @@ class JsonFakeReportParserTest {
         assertThat(report.methodName).isEqualTo("testRecordingOverride")
         assertThat(report.fullName).isEqualTo("com.rubensousa.carioca.android.report.sample.test.SampleRecordingTest.testRecordingOverride")
         assertThat(report.links).isEqualTo(listOf("https://blabla.com"))
+        assertThat(report.parameters).isEmpty()
         with(report.execution) {
             assertThat(id).isEqualTo("fb3b36d0-24b3-41aa-9612-09b447eaf79a")
             assertThat(startTime).isEqualTo(1726706583788L)
@@ -125,6 +126,7 @@ class JsonFakeReportParserTest {
                         )
                     )
                 )
+                assertThat(parameters).isEmpty()
             }
         }
 
@@ -146,6 +148,14 @@ class JsonFakeReportParserTest {
                         description = "Notifications closed",
                         path = "1d3easdas-3213-4714-8f0f-5e28b1213d42.jpg",
                         mimeType = "image/jpg"
+                    )
+                )
+            )
+            assertThat(parameters).isEqualTo(
+                listOf(
+                    JsonParameter(
+                        key = "Name",
+                        value = "Test"
                     )
                 )
             )
@@ -184,6 +194,7 @@ class JsonFakeReportParserTest {
                     )
                 )
             }
+            assertThat(parameters).isEmpty()
         }
     }
 

@@ -241,6 +241,12 @@ class AllureReportGenerator(
             stop = execution.endTime,
             steps = stage.stages.map { step ->
                 mapStage(step)
+            },
+            parameters = stage.parameters.map {
+                AllureParameter(
+                    name = it.key,
+                    value = it.value
+                )
             }
         )
     }

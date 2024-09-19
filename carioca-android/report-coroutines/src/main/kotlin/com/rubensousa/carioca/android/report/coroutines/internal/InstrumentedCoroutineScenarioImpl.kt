@@ -52,6 +52,10 @@ internal class InstrumentedCoroutineScenarioImpl(
         delegate.scenario(scenario)
     }
 
+    override fun param(key: String, value: String) {
+        delegate.param(key, value)
+    }
+
     internal suspend fun execute() {
         scenario.run(this)
         pass()

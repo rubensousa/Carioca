@@ -87,6 +87,7 @@ class JsonReportWriter {
             afterStages = test.getStagesAfter().map { stage ->
                 buildStageReport(stage)
             },
+            parameters = mapParameters(test.getParameters())
         )
     }
 
@@ -103,7 +104,17 @@ class JsonReportWriter {
             execution = mapExecutionReport(execution),
             attachments = mapAttachments(stage.getAttachments()),
             stages = nestedStages,
+            parameters = mapParameters(stage.getParameters())
         )
+    }
+
+    private fun mapParameters(parameters: Map<String, String>): List<JsonParameter> {
+        return parameters.map { entry ->
+            JsonParameter(
+                key = entry.key,
+                value = entry.value
+            )
+        }
     }
 
     private fun mapAttachments(attachments: List<StageAttachment>): List<JsonAttachment> {

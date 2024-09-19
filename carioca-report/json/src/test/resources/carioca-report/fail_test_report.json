@@ -29,7 +29,8 @@
         "failureMessage": "Failed",
         "failureStacktrace": "java.lang.IllegalStateException: Failed"
       },
-      "attachments": []
+      "attachments": [],
+      "parameters": []
     }
   ],
   "afterStages": [],
@@ -49,5 +50,6 @@
       "path": "071b33c1-4596-4cda-a7bd-caaa217cff8cfailed_view_hierarchy.txt",
       "mimeType": "text/plain"
     }
-  ]
+  ],
+  "parameters": []
 }

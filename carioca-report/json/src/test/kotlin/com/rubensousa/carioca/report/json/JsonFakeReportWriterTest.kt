@@ -49,6 +49,7 @@ class JsonFakeReportWriterTest {
         )
         val report = FakeReport()
         report.ignore()
+        report.setParameter("key", "value")
 
         // when
         writer.writeReport(
@@ -64,6 +65,9 @@ class JsonFakeReportWriterTest {
         assertThat(parsedReport.stages).isEmpty()
         assertThat(parsedReport.afterStages).isEmpty()
         assertThat(parsedReport.attachments).isEmpty()
+        assertThat(parsedReport.parameters.first().key).isEqualTo("key")
+        assertThat(parsedReport.parameters.first().value).isEqualTo("value")
+
     }
 
     class FakeReport : StageReport() {

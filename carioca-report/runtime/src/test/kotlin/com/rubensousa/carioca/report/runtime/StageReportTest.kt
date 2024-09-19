@@ -244,6 +244,7 @@ class StageReportTest {
         report.addStageBefore(createReport())
         report.addStageAfter(createReport())
         report.attach(createAttachment(keepOnSuccess = false))
+        report.setParameter("Key", "Value")
 
         // when
         report.reset()
@@ -258,6 +259,7 @@ class StageReportTest {
         assertThat(report.getStagesBefore()).isEmpty()
         assertThat(report.getStagesAfter()).isEmpty()
         assertThat(report.getAttachments()).isEmpty()
+        assertThat(report.getParameters()).isEmpty()
         assertThat(report.deleteAttachmentRequests).hasSize(1)
     }
 
@@ -337,6 +339,18 @@ class StageReportTest {
         assertThat(report.getStagesAfter()).isEqualTo(listOf(childReport))
         assertThat(report.getTestStages()).isEmpty()
         assertThat(report.getStagesBefore()).isEmpty()
+    }
+
+    @Test
+    fun `parameter is added to report`() {
+        // given
+        val report = createReport()
+
+        // when
+        report.setParameter("Key", "Value")
+
+        // then
+        assertThat(report.getParameters()).isEqualTo(mapOf("Key" to "Value"))
     }
 
     private fun createReport(): TestStageReport = TestStageReport()

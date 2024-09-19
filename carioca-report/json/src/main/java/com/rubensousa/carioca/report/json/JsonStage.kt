@@ -25,5 +25,6 @@ data class JsonStage(
     val type: String,
     val stages: List<JsonStage>,
     val execution: JsonExecutionReport,
+    val parameters: List<JsonParameter>,
     val attachments: List<JsonAttachment>,
 )

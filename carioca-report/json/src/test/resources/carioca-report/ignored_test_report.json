@@ -15,5 +15,6 @@
   "beforeStages": [],
   "stages": [],
   "afterStages": [],
-  "attachments": []
+  "attachments": [],
+  "parameters": []
 }

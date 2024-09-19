@@ -32,8 +32,10 @@ class SampleScreenScenario : InstrumentedScenario(
 ) {
 
     override fun run(scope: InstrumentedStageScope) = with(scope) {
-        step("Step 1 of Scenario") {
+        param("Name", "Test")
+        param("Another parameter", "Another value")
 
+        step("Step 1 of Scenario") {
         }
 
         step("Step 2 of Scenario") {

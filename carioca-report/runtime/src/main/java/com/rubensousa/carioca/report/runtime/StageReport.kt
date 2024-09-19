@@ -34,6 +34,7 @@ abstract class StageReport(
     private val testStages = mutableListOf<StageReport>()
     private val afterStages = mutableListOf<StageReport>()
     private val properties = mutableMapOf<ReportProperty, Any>()
+    private val params = mutableMapOf<String, String>()
     private var startTime = System.currentTimeMillis()
     private var endTime = startTime
     private var status = ReportStatus.RUNNING
@@ -132,6 +133,19 @@ abstract class StageReport(
     }
 
     /**
+     * @param key the unique key of the parameter
+     * @param value the value of the parameter
+     */
+    fun setParameter(key: String, value: String) {
+        params[key] = value
+    }
+
+    /**
+     * @return the map of parameters created with [setParameter]
+     */
+    fun getParameters() = params.toMap()
+
+    /**
      * @return the child stages that started in a `@Before` method
      */
     fun getStagesBefore(): List<StageReport> = beforeStages.toList()
@@ -205,6 +219,7 @@ abstract class StageReport(
         afterStages.clear()
         properties.clear()
         attachments.clear()
+        params.clear()
     }
 
     private fun ensureStageRunning() {
@@ -218,22 +233,35 @@ abstract class StageReport(
     }
 
     override fun equals(other: Any?): Boolean {
-        return other?.javaClass == javaClass
-                && other is StageReport
-                && other.getId() == getId()
-                && other.executionId == executionId
-                && other.getExecutionMetadata() == getExecutionMetadata()
-                && other.getTestStages() == testStages
-                && other.getStagesBefore() == beforeStages
-                && other.getStagesAfter() == afterStages
-                && other.getProperties() == properties
-                && other.getAttachments() == attachments
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as StageReport
+        if (status != other.status) return false
+        if (startTime != other.startTime) return false
+        if (endTime != other.endTime) return false
+        if (executionId != other.executionId) return false
+        if (attachments != other.attachments) return false
+        if (beforeStages != other.beforeStages) return false
+        if (testStages != other.testStages) return false
+        if (afterStages != other.afterStages) return false
+        if (properties != other.properties) return false
+        if (params != other.params) return false
+        if (failureCause != other.failureCause) return false
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = getExecutionMetadata().hashCode()
+        var result = executionId.hashCode()
+        result = 31 * result + attachments.hashCode()
+        result = 31 * result + beforeStages.hashCode()
         result = 31 * result + testStages.hashCode()
+        result = 31 * result + afterStages.hashCode()
         result = 31 * result + properties.hashCode()
+        result = 31 * result + params.hashCode()
+        result = 31 * result + startTime.hashCode()
+        result = 31 * result + endTime.hashCode()
+        result = 31 * result + status.hashCode()
+        result = 31 * result + (failureCause?.hashCode() ?: 0)
         return result
     }
 

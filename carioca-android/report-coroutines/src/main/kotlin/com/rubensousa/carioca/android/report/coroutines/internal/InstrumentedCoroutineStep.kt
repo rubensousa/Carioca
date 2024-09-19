@@ -47,6 +47,10 @@ internal class InstrumentedCoroutineStep(
         delegate.scenario(scenario)
     }
 
+    override fun param(key: String, value: String) {
+        delegate.param(key, value)
+    }
+
     internal suspend fun execute(action: suspend InstrumentedCoroutineStageScope.() -> Unit) {
         action(this)
         pass()

@@ -22,7 +22,7 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedReportScope
 /**
  * The main entry point for stage reports for tests that need coroutines
  */
-interface InstrumentedCoroutineStageScope: InstrumentedReportScope {
+interface InstrumentedCoroutineStageScope : InstrumentedReportScope {
 
     /**
      * Takes a screenshot with the configuration set through the report rule.
@@ -53,5 +53,13 @@ interface InstrumentedCoroutineStageScope: InstrumentedReportScope {
      * This is almost equivalent to calling [step] multiple times, but in a more re-usable way
      */
     suspend fun scenario(scenario: InstrumentedCoroutineScenario)
+
+    /**
+     * Sets a parameter for the current stage
+     *
+     * @param key the unique identifier of the parameter
+     * @param value the value of the parameter
+     */
+    fun param(key: String, value: String)
 
 }

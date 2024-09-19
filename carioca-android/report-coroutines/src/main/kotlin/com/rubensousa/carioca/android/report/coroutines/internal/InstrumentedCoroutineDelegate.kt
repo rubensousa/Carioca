@@ -60,6 +60,10 @@ internal class InstrumentedCoroutineDelegate(
         }
     }
 
+    override fun param(key: String, value: String) {
+        host.setParameter(key, value)
+    }
+
     private suspend fun <T : InstrumentedStageReport> executeStageAwait(
         stage: T,
         executor: suspend (T) -> Unit,
