@@ -14,23 +14,12 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.serialization
+package com.rubensousa.carioca.report.json
 
-import kotlinx.serialization.Serializable
+object JsonReportFiles {
 
-@Serializable
-data class JsonExecutionReport(
-    val id: String,
-    val startTime: Long,
-    val endTime: Long,
-    val status: JsonExecutionStatus,
-    val failureMessage: String? = null,
-    val failureStacktrace: String? = null,
-)
+    const val SUITE_REPORT = "suite_report.json"
+    const val TEST_REPORT = "test_report.json"
+    const val REPORT_DIR = "carioca-report"
 
-@Serializable
-enum class JsonExecutionStatus {
-    PASSED,
-    FAILED,
-    IGNORED
 }

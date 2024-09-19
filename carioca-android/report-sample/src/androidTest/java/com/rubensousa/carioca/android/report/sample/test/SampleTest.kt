@@ -31,7 +31,7 @@ import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
-@Ignore
+
 class SampleTest {
 
     @get:Rule
@@ -66,6 +66,7 @@ class SampleTest {
         links = ["https://developer.android.com/training/testing/other-components/ui-automator"]
     )
     @Test
+    @Ignore
     fun testThatPasses() = report {
         scenario(SampleScreenScenario())
 
@@ -102,7 +103,7 @@ class SampleTest {
         step("Open quick settings") {
             device.openQuickSettings()
             // Uncomment to fail
-            // throw IllegalStateException("Failed")
+           throw IllegalStateException("Failed")
         }
     }
 

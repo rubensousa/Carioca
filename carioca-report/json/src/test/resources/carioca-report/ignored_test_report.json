@@ -1,0 +1,19 @@
+{
+  "id": "com.rubensousa.carioca.android.report.sample.test.SampleTest.testIsIgnored",
+  "title": "testIsIgnored",
+  "packageName": "com.rubensousa.carioca.android.report.sample.test",
+  "className": "SampleTest",
+  "methodName": "testIsIgnored",
+  "fullName": "com.rubensousa.carioca.android.report.sample.test.SampleTest.testIsIgnored",
+  "links": [],
+  "execution": {
+    "id": "0d0ab6a2-765a-426a-8315-56415c1da04d",
+    "startTime": 1726777667630,
+    "endTime": 1726777667630,
+    "status": "IGNORED"
+  },
+  "beforeStages": [],
+  "stages": [],
+  "afterStages": [],
+  "attachments": []
+}

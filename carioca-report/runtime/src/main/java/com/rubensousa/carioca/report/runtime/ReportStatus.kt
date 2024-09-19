@@ -23,5 +23,5 @@ enum class ReportStatus {
     RUNNING,
     PASSED,
     FAILED,
-    SKIPPED
+    IGNORED
 }

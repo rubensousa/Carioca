@@ -103,9 +103,9 @@ abstract class StageReport(
     /**
      * Marks this stage as skipped
      */
-    fun skip() {
+    fun ignore() {
         ensureStageRunning()
-        status = ReportStatus.SKIPPED
+        status = ReportStatus.IGNORED
     }
 
     /**

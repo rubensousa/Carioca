@@ -1,11 +1,14 @@
 {
   "id": "com.rubensousa.carioca.android.report.sample.test.SampleRecordingTest.testRecordingOverride",
   "title": "testRecordingOverride",
+  "description": "some description",
   "packageName": "com.rubensousa.carioca.android.report.sample.test",
   "className": "SampleRecordingTest",
   "methodName": "testRecordingOverride",
   "fullName": "com.rubensousa.carioca.android.report.sample.test.SampleRecordingTest.testRecordingOverride",
-  "links": [],
+  "links": [
+    "https://blabla.com"
+  ],
   "execution": {
     "id": "fb3b36d0-24b3-41aa-9612-09b447eaf79a",
     "startTime": 1726706583788,
@@ -15,7 +18,7 @@
   "beforeStages": [
     {
       "id": "6f3590e8-acc3-4fe5-8c73-52558015afd1",
-      "name": "Before",
+      "name": "Do something before",
       "type": "Before",
       "stages": [
         {
@@ -29,20 +32,13 @@
             "endTime": 1726706585924,
             "status": "PASSED"
           },
-          "attachments": []
-        },
-        {
-          "id": "cb98bfee-497e-4546-b439-1ff3120fe212",
-          "name": "Set device orientation to natural",
-          "type": "Step",
-          "stages": [],
-          "execution": {
-            "id": "027061a5-1739-4e00-8757-c5224e10621d",
-            "startTime": 1726706585925,
-            "endTime": 1726706586527,
-            "status": "PASSED"
-          },
-          "attachments": []
+          "attachments": [
+            {
+              "description": "Notifications opened",
+              "path": "08bd21fa-1d3e-8f0f-4714-5e28b1213d42.jpg",
+              "mimeType": "image/jpg"
+            }
+          ]
         }
       ],
       "execution": {
@@ -68,40 +64,8 @@
       },
       "attachments": [
         {
-          "description": "Notifications opened",
-          "path": "08bd21fa-1d3e-4714-8f0f-5e28b1213d42.jpg",
-          "mimeType": "image/jpg"
-        }
-      ]
-    },
-    {
-      "id": "1b2f4734-57a1-41d6-9e50-0d7a475179c7",
-      "name": "When: User presses home",
-      "type": "Step",
-      "stages": [],
-      "execution": {
-        "id": "ed03ab0e-9b3a-4d25-a8fd-bf913826b001",
-        "startTime": 1726706587864,
-        "endTime": 1726706587958,
-        "status": "PASSED"
-      },
-      "attachments": []
-    },
-    {
-      "id": "06b48f7c-b3a4-4402-a9b0-3d6462d9b0f7",
-      "name": "Then: Launcher is displayed",
-      "type": "Step",
-      "stages": [],
-      "execution": {
-        "id": "81013426-3099-4195-a9f8-732e64da2955",
-        "startTime": 1726706587961,
-        "endTime": 1726706588106,
-        "status": "PASSED"
-      },
-      "attachments": [
-        {
-          "description": "Launcher",
-          "path": "8b124f9f-2094-46ce-907b-45cd48272cbc.jpg",
+          "description": "Notifications closed",
+          "path": "1d3easdas-3213-4714-8f0f-5e28b1213d42.jpg",
           "mimeType": "image/jpg"
         }
       ]
@@ -110,7 +74,7 @@
   "afterStages": [
     {
       "id": "cc7f06b5-a5ed-4d35-b35a-80d7447f7bbf",
-      "name": "After",
+      "name": "Do something after",
       "type": "After",
       "stages": [
         {
@@ -124,20 +88,13 @@
             "endTime": 1726706589057,
             "status": "PASSED"
           },
-          "attachments": []
-        },
-        {
-          "id": "e08d0bbf-37fc-4ef7-a027-244688a9cf99",
-          "name": "Unfreeze orientation",
-          "type": "Step",
-          "stages": [],
-          "execution": {
-            "id": "ed5f5e52-d885-40b1-afa5-dc01afba958a",
-            "startTime": 1726706589058,
-            "endTime": 1726706589063,
-            "status": "PASSED"
-          },
-          "attachments": []
+          "attachments": [
+            {
+              "description": "Pressed home",
+              "path": "asdgf21fa-1d3e-4714-8f0f-5e28b1213d42.jpg",
+              "mimeType": "image/jpg"
+            }
+          ]
         }
       ],
       "execution": {

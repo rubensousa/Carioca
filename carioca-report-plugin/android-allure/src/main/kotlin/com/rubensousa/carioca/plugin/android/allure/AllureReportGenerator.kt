@@ -17,12 +17,12 @@
 package com.rubensousa.carioca.plugin.android.allure
 
 import com.google.common.io.Files
-import com.rubensousa.carioca.report.serialization.JsonExecutionReport
-import com.rubensousa.carioca.report.serialization.JsonExecutionStatus
-import com.rubensousa.carioca.report.serialization.JsonAttachment
-import com.rubensousa.carioca.report.serialization.JsonReportParser
-import com.rubensousa.carioca.report.serialization.JsonStage
-import com.rubensousa.carioca.report.serialization.JsonTestReport
+import com.rubensousa.carioca.report.json.JsonAttachment
+import com.rubensousa.carioca.report.json.JsonExecutionReport
+import com.rubensousa.carioca.report.json.JsonExecutionStatus
+import com.rubensousa.carioca.report.json.JsonReportParser
+import com.rubensousa.carioca.report.json.JsonStage
+import com.rubensousa.carioca.report.json.JsonTestReport
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream

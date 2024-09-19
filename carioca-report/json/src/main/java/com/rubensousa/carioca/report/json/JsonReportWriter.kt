@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.serialization
+package com.rubensousa.carioca.report.json
 
 import com.rubensousa.carioca.report.runtime.ExecutionMetadata
 import com.rubensousa.carioca.report.runtime.ReportProperty
@@ -32,6 +32,8 @@ import java.io.OutputStream
 
 /**
  * A reporter that saves the test results in a json format.
+ *
+ * Use [writeReport] to save the report to a file or output stream
  */
 class JsonReportWriter {
 

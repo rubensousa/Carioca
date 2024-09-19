@@ -14,12 +14,19 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.serialization
+package com.rubensousa.carioca.report.json
 
-object JsonReportFiles {
+import com.google.common.truth.Truth.assertThat
+import org.junit.Test
 
-    const val SUITE_REPORT = "suite_report.json"
-    const val TEST_REPORT = "test_report.json"
-    const val REPORT_DIR = "carioca-report"
+class JsonFakeReportFilesTest {
+
+    @Test
+    fun `check default filenames`() {
+        assertThat(JsonReportFiles.REPORT_DIR).isEqualTo("carioca-report")
+        assertThat(JsonReportFiles.TEST_REPORT).isEqualTo("test_report.json")
+        assertThat(JsonReportFiles.SUITE_REPORT).isEqualTo("suite_report.json")
+
+    }
 
 }

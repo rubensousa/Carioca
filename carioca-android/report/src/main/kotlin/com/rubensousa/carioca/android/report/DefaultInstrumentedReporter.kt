@@ -18,9 +18,9 @@ package com.rubensousa.carioca.android.report
 
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+import com.rubensousa.carioca.report.json.JsonReportFiles
+import com.rubensousa.carioca.report.json.JsonReportWriter
 import com.rubensousa.carioca.report.runtime.TestMetadata
-import com.rubensousa.carioca.report.serialization.JsonReportFiles
-import com.rubensousa.carioca.report.serialization.JsonReportWriter
 
 /**
  * A template reporter that uses [JsonReportWriter] to save the reports to the test storage

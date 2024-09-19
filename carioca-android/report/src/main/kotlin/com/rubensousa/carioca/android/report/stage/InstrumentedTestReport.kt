@@ -81,7 +81,7 @@ abstract class InstrumentedTestReport(
     }
 
     fun onIgnored() {
-        skip()
+        ignore()
         writeReport()
     }
 

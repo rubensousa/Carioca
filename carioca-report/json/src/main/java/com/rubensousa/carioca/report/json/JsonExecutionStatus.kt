@@ -14,32 +14,13 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.runtime
+package com.rubensousa.carioca.report.json
 
-class TestStageReport : StageReport {
+import kotlinx.serialization.Serializable
 
-    val id: Int?
-
-    val deleteAttachmentRequests = mutableListOf<StageAttachment>()
-
-    constructor() : super() {
-        id = null
-    }
-
-    constructor(id: Int) : super(id.toString()) {
-        this.id = id
-    }
-
-    override fun deleteAttachment(attachment: StageAttachment) {
-        deleteAttachmentRequests.add(attachment)
-    }
-
-    override fun getType(): String = "Type"
-
-    override fun getTitle(): String = "Title"
-
-    override fun toString(): String {
-        return "TestReport: $id"
-    }
-
+@Serializable
+enum class JsonExecutionStatus {
+    PASSED,
+    FAILED,
+    IGNORED
 }

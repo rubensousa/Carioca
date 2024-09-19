@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.plugin.android.allure
 
-import com.rubensousa.carioca.report.serialization.JsonReportParser
+import com.rubensousa.carioca.report.json.JsonReportParser
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.language.base.plugins.LifecycleBasePlugin.VERIFICATION_GROUP

@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.serialization
+package com.rubensousa.carioca.report.json
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class JsonSuiteReport(
+data class JsonExecutionReport(
     val id: String,
-    val passedTests: Int,
-    val failedTests: Int,
-    val ignoredTests: Int,
     val startTime: Long,
     val endTime: Long,
+    val status: JsonExecutionStatus,
+    val failureMessage: String? = null,
+    val failureStacktrace: String? = null,
 )

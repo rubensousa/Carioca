@@ -104,16 +104,16 @@ class StageReportTest {
     }
 
     @Test
-    fun `report changes status to skipped`() {
+    fun `report changes status to ignored`() {
         // given
         val report = createReport()
 
         // when
-        report.skip()
+        report.ignore()
 
         // then
         val metadata = report.getExecutionMetadata()
-        assertThat(metadata.status).isEqualTo(ReportStatus.SKIPPED)
+        assertThat(metadata.status).isEqualTo(ReportStatus.IGNORED)
     }
 
     @Test

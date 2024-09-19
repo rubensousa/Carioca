@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.serialization
+package com.rubensousa.carioca.report.json
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -23,28 +23,21 @@ import java.io.File
 
 class JsonReportParser {
 
-    fun parseSuiteReport(inputDir: File): JsonSuiteReport? {
-        val reportDir = findReportDir(inputDir) ?: return null
-        reportDir.listFiles()?.forEach { file ->
-            if (file.name == JsonReportFiles.SUITE_REPORT) {
-                return decodeFromFile(file)
-            }
-        }
-        return null
-    }
-
     fun parseTestReports(inputDir: File): List<TestReportFile> {
         val reportDir = findReportDir(inputDir) ?: return emptyList()
         val tests = mutableListOf<TestReportFile>()
         reportDir.listFiles()?.forEach { file ->
             if (file.name.endsWith(JsonReportFiles.TEST_REPORT)) {
-                val report = decodeFromFile<JsonTestReport>(file)
-                if (report != null) {
-                    tests.add(TestReportFile(file, report))
+                parseTestReport(file)?.let {
+                    tests.add(TestReportFile(file, it))
                 }
             }
         }
         return tests
+    }
+
+    fun parseTestReport(file: File): JsonTestReport? {
+        return decodeFromFile<JsonTestReport>(file)
     }
 
     /**
@@ -79,7 +72,7 @@ class JsonReportParser {
 
     data class TestReportFile(
         val file: File,
-        val report: JsonTestReport
+        val report: JsonTestReport,
     )
 
 }
