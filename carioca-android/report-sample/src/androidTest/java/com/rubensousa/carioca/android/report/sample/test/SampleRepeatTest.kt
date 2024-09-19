@@ -23,12 +23,10 @@ import com.rubensousa.carioca.android.report.sample.SampleInstrumentedReportRule
 import com.rubensousa.carioca.junit4.rules.RepeatTest
 import com.rubensousa.carioca.junit4.rules.RepeatTestRule
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
-@Ignore
-@RepeatTest(times = 3)
+@RepeatTest(times = 2)
 class SampleRepeatTest {
 
     @get:Rule(order = 0)

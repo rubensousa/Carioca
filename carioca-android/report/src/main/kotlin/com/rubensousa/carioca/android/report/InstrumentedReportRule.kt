@@ -160,7 +160,17 @@ open class InstrumentedReportRule(
         )
     }
 
+    /**
+     * Same as [test], but without the extra method call
+     */
     operator fun invoke(block: InstrumentedTestScope.() -> Unit) {
+        test(block)
+    }
+
+    /**
+     * Use this to start reporting the main test body
+     */
+    fun test(block: InstrumentedTestScope.() -> Unit) {
         block(getCurrentTest())
     }
 

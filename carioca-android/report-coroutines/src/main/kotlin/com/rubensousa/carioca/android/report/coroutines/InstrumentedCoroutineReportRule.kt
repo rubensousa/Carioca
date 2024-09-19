@@ -60,10 +60,20 @@ open class InstrumentedCoroutineReportRule(
         )
     }
 
-    /*
-     * Runs the report inside a coroutine scope
+    /**
+     * Same as [runTest]
      */
     operator fun invoke(
+        context: CoroutineContext = EmptyCoroutineContext,
+        block: suspend InstrumentedCoroutineTestScope.() -> Unit,
+    ) {
+        runTest(context, block)
+    }
+
+    /**
+     * Runs the report inside a coroutine scope
+     */
+    fun runTest(
         context: CoroutineContext = EmptyCoroutineContext,
         block: suspend InstrumentedCoroutineTestScope.() -> Unit,
     ) {

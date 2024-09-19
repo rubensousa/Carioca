@@ -44,15 +44,15 @@ class SampleScreenScenario : InstrumentedScenario(
 }
 
 class SampleScreen(
-    private val reportScope: InstrumentedStageScope,
+    private val scope: InstrumentedStageScope,
 ) {
 
-    fun assertIsDisplayed() {
-        reportScope.step("Checking screen is displayed")
+    fun assertIsDisplayed() = scope.step("checking screen is displayed") {
+
     }
 
-    fun assertIsNotDisplayed() {
-        reportScope.step("Checking screen is not displayed")
+    fun assertIsNotDisplayed() = scope.step("Checking screen is not displayed") {
+
     }
 
 }

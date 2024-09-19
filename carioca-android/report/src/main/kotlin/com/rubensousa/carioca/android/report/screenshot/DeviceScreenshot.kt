@@ -16,10 +16,11 @@
 
 package com.rubensousa.carioca.android.report.screenshot
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.net.Uri
 import android.util.Log
-import androidx.test.platform.app.InstrumentationRegistry
+import androidx.test.core.app.takeScreenshotNoSync
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import java.io.BufferedOutputStream
@@ -35,12 +36,17 @@ object DeviceScreenshot {
      * @param filename the desired screenshot filename. Defaults to a random uuid
      * @return a [Uri] that points to the new screenshot
      */
+    @SuppressLint("RestrictedApi")
     fun take(
         storageDir: Uri,
         options: ScreenshotOptions,
         filename: String? = null,
     ): Uri? {
-        val screenshot: Bitmap? = InstrumentationRegistry.getInstrumentation().uiAutomation.takeScreenshot()
+        val screenshot: Bitmap? = try {
+            takeScreenshotNoSync()
+        } catch (exception: Exception) {
+            null
+        }
         if (screenshot == null) {
             Log.w(TAG, "Failed to take screenshot")
             return null
