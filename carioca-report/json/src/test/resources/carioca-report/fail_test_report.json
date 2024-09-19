@@ -1,0 +1,55 @@
+{
+  "id": "PROJECT-123",
+  "title": "Opening notification and quick settings",
+  "packageName": "com.rubensousa.carioca.android.report.sample.test",
+  "className": "SampleTest",
+  "methodName": "testThatFails",
+  "fullName": "com.rubensousa.carioca.android.report.sample.test.SampleTest.testThatFails",
+  "links": [],
+  "execution": {
+    "id": "071b33c1-4596-4cda-a7bd-caaa217cff8c",
+    "startTime": 1726776878186,
+    "endTime": 1726776885030,
+    "status": "FAILED",
+    "failureMessage": "Failed",
+    "failureStacktrace": "java.lang.IllegalStateException: Failed"
+  },
+  "beforeStages": [],
+  "stages": [
+    {
+      "id": "4d3ee088-1361-47b8-ac7d-f513e4ca9e47",
+      "name": "Open quick settings",
+      "type": "Step",
+      "stages": [],
+      "execution": {
+        "id": "cb4794e0-985f-4d44-ae35-2ae5c81635e7",
+        "startTime": 1726776881512,
+        "endTime": 1726776885030,
+        "status": "FAILED",
+        "failureMessage": "Failed",
+        "failureStacktrace": "java.lang.IllegalStateException: Failed"
+      },
+      "attachments": [],
+      "parameters": []
+    }
+  ],
+  "afterStages": [],
+  "attachments": [
+    {
+      "description": "Screen recording",
+      "path": "50679ef0-67f5-434b-9310-1f517371b7a3.mp4",
+      "mimeType": "video/mp4"
+    },
+    {
+      "description": "Screenshot of failure",
+      "path": "80f485f0-11f2-40cf-bcc7-9157f59d271d.jpg",
+      "mimeType": "image/jpg"
+    },
+    {
+      "description": "View hierarchy dump",
+      "path": "071b33c1-4596-4cda-a7bd-caaa217cff8cfailed_view_hierarchy.txt",
+      "mimeType": "text/plain"
+    }
+  ],
+  "parameters": []
+}

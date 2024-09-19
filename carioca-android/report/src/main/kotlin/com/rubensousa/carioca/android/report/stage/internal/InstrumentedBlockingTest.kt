@@ -73,6 +73,10 @@ internal class InstrumentedBlockingTest(
         delegate.scenario(scenario)
     }
 
+    override fun param(key: String, value: String) {
+        delegate.param(key, value)
+    }
+
     fun before(title: String, action: InstrumentedStageScope.() -> Unit) {
         val stage = InstrumentedBlockingBeforeAfter(
             delegateFactory = delegateFactory,

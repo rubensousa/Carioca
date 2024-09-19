@@ -23,12 +23,20 @@ package com.rubensousa.carioca.android.report.stage
  */
 abstract class InstrumentedScenarioReport(
     outputPath: String,
-    val id: String,
-    val title: String,
-) : InstrumentedStageReport(outputPath) {
+    private val id: String,
+    private val title: String,
+) : InstrumentedStageReport(
+    reportDirPath = outputPath,
+) {
 
     override fun toString(): String {
         return "Scenario: $title - $id"
     }
+
+    override fun getType(): String = "Scenario"
+
+    override fun getTitle(): String = title
+
+    override fun getId(): String = id
 
 }

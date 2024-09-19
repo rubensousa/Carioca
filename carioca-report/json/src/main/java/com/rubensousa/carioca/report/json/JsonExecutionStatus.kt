@@ -14,22 +14,12 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.serialization
+package com.rubensousa.carioca.report.json
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ExecutionReport(
-    val id: String,
-    val startTime: Long,
-    val endTime: Long,
-    val status: ExecutionStatus,
-    val failureMessage: String? = null,
-    val failureStacktrace: String? = null,
-)
-
-@Serializable
-enum class ExecutionStatus {
+enum class JsonExecutionStatus {
     PASSED,
     FAILED,
     IGNORED

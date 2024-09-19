@@ -2,6 +2,7 @@ plugins {
     id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
     alias(libs.plugins.kotlin.dokka)
+    alias(libs.plugins.kover)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.maven.publish)
 }
@@ -12,11 +13,10 @@ java {
 }
 
 dependencies {
+    implementation(project(":runtime"))
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.bundles.test.unit)
 }
-
-group = "com.rubensousa.carioca.report"
 
 mavenPublishing {
     coordinates(

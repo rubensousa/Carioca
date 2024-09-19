@@ -17,12 +17,12 @@
 package com.rubensousa.carioca.plugin.android.allure
 
 import com.google.common.io.Files
-import com.rubensousa.carioca.report.serialization.ExecutionReport
-import com.rubensousa.carioca.report.serialization.ExecutionStatus
-import com.rubensousa.carioca.report.serialization.ReportAttachment
-import com.rubensousa.carioca.report.serialization.ReportParser
-import com.rubensousa.carioca.report.serialization.Stage
-import com.rubensousa.carioca.report.serialization.TestReport
+import com.rubensousa.carioca.report.json.JsonAttachment
+import com.rubensousa.carioca.report.json.JsonExecutionReport
+import com.rubensousa.carioca.report.json.JsonExecutionStatus
+import com.rubensousa.carioca.report.json.JsonReportParser
+import com.rubensousa.carioca.report.json.JsonStage
+import com.rubensousa.carioca.report.json.JsonTestReport
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
@@ -32,7 +32,7 @@ import java.util.UUID
 @OptIn(ExperimentalSerializationApi::class)
 class AllureReportGenerator(
     private val logcatFinder: LogcatFileFinder,
-    private val parser: ReportParser,
+    private val parser: JsonReportParser,
 ) {
 
     private val stageValue = "finished"
@@ -193,7 +193,7 @@ class AllureReportGenerator(
         }
     }
 
-    private fun createTestReport(test: TestReport): AllureTestReport {
+    private fun createTestReport(test: JsonTestReport): AllureTestReport {
         val execution = test.execution
         return AllureTestReport(
             uuid = execution.id,
@@ -214,7 +214,7 @@ class AllureReportGenerator(
         )
     }
 
-    private fun createContainerReport(test: TestReport): AllureContainerReport? {
+    private fun createContainerReport(test: JsonTestReport): AllureContainerReport? {
         if (test.beforeStages.isEmpty() && test.afterStages.isEmpty()) {
             return null
         }
@@ -229,7 +229,7 @@ class AllureReportGenerator(
         )
     }
 
-    private fun mapStage(stage: Stage): AllureStep {
+    private fun mapStage(stage: JsonStage): AllureStep {
         val execution = stage.execution
         return AllureStep(
             name = stage.name,
@@ -241,11 +241,17 @@ class AllureReportGenerator(
             stop = execution.endTime,
             steps = stage.stages.map { step ->
                 mapStage(step)
+            },
+            parameters = stage.parameters.map {
+                AllureParameter(
+                    name = it.key,
+                    value = it.value
+                )
             }
         )
     }
 
-    private fun mapAttachments(list: List<ReportAttachment>): List<AllureAttachment> {
+    private fun mapAttachments(list: List<JsonAttachment>): List<AllureAttachment> {
         return list.map { attachment ->
             AllureAttachment(
                 name = attachment.description,
@@ -255,15 +261,15 @@ class AllureReportGenerator(
         }
     }
 
-    private fun getStatus(reportStatus: ExecutionStatus): String {
+    private fun getStatus(reportStatus: JsonExecutionStatus): String {
         return when (reportStatus) {
-            ExecutionStatus.PASSED -> "passed"
-            ExecutionStatus.IGNORED -> "skipped"
+            JsonExecutionStatus.PASSED -> "passed"
+            JsonExecutionStatus.IGNORED -> "skipped"
             else -> brokenStatus
         }
     }
 
-    private fun createLabels(test: TestReport): List<AllureLabel> {
+    private fun createLabels(test: JsonTestReport): List<AllureLabel> {
         return listOf(
             AllureLabel(
                 name = "package",
@@ -292,7 +298,7 @@ class AllureReportGenerator(
         )
     }
 
-    private fun createLinks(test: TestReport): List<AllureLink> {
+    private fun createLinks(test: JsonTestReport): List<AllureLink> {
         return test.links.map { link ->
             AllureLink(
                 name = link,
@@ -302,7 +308,7 @@ class AllureReportGenerator(
         }
     }
 
-    private fun getStatusDetail(report: ExecutionReport): AllureStatusDetail? {
+    private fun getStatusDetail(report: JsonExecutionReport): AllureStatusDetail? {
         val failureMessage = report.failureMessage
         val failureStacktrace = report.failureStacktrace.orEmpty()
         return if (failureMessage == null) {

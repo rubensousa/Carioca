@@ -32,8 +32,10 @@ class SampleScreenScenario : InstrumentedScenario(
 ) {
 
     override fun run(scope: InstrumentedStageScope) = with(scope) {
-        step("Step 1 of Scenario") {
+        param("Name", "Test")
+        param("Another parameter", "Another value")
 
+        step("Step 1 of Scenario") {
         }
 
         step("Step 2 of Scenario") {
@@ -44,15 +46,15 @@ class SampleScreenScenario : InstrumentedScenario(
 }
 
 class SampleScreen(
-    private val reportScope: InstrumentedStageScope,
+    private val scope: InstrumentedStageScope,
 ) {
 
-    fun assertIsDisplayed() {
-        reportScope.step("Checking screen is displayed")
+    fun assertIsDisplayed() = scope.step("checking screen is displayed") {
+
     }
 
-    fun assertIsNotDisplayed() {
-        reportScope.step("Checking screen is not displayed")
+    fun assertIsNotDisplayed() = scope.step("Checking screen is not displayed") {
+
     }
 
 }

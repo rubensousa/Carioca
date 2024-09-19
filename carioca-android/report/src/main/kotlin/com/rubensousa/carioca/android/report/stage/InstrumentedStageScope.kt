@@ -50,7 +50,17 @@ interface InstrumentedStageScope : InstrumentedReportScope {
     /**
      * Creates a report for a set of steps.
      * This is almost equivalent to calling [step] multiple times, but in a more re-usable way
+     *
+     * @param scenario the re-usable set of stages
      */
     fun scenario(scenario: InstrumentedScenario)
+
+    /**
+     * Sets a parameter for the current stage
+     *
+     * @param key the unique identifier of the parameter
+     * @param value the value of the parameter
+     */
+    fun param(key: String, value: String)
 
 }

@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.serialization
+package com.rubensousa.carioca.report.json
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Stage(
+data class JsonStage(
     val id: String,
     val name: String,
     val type: String,
-    val stages: List<Stage>,
-    val execution: ExecutionReport,
-    val attachments: List<ReportAttachment>,
+    val stages: List<JsonStage>,
+    val execution: JsonExecutionReport,
+    val parameters: List<JsonParameter>,
+    val attachments: List<JsonAttachment>,
 )

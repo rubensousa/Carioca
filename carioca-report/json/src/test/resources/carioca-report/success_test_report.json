@@ -1,0 +1,127 @@
+{
+  "id": "com.rubensousa.carioca.android.report.sample.test.SampleRecordingTest.testRecordingOverride",
+  "title": "testRecordingOverride",
+  "description": "some description",
+  "packageName": "com.rubensousa.carioca.android.report.sample.test",
+  "className": "SampleRecordingTest",
+  "methodName": "testRecordingOverride",
+  "fullName": "com.rubensousa.carioca.android.report.sample.test.SampleRecordingTest.testRecordingOverride",
+  "links": [
+    "https://blabla.com"
+  ],
+  "execution": {
+    "id": "fb3b36d0-24b3-41aa-9612-09b447eaf79a",
+    "startTime": 1726706583788,
+    "endTime": 1726706591719,
+    "status": "PASSED"
+  },
+  "beforeStages": [
+    {
+      "id": "6f3590e8-acc3-4fe5-8c73-52558015afd1",
+      "name": "Do something before",
+      "type": "Before",
+      "stages": [
+        {
+          "id": "692eb765-5291-4159-aad5-13dc539488b0",
+          "name": "Press home",
+          "type": "Step",
+          "stages": [],
+          "execution": {
+            "id": "e286cff3-e4b8-4224-a3dd-92ff623f7443",
+            "startTime": 1726706585853,
+            "endTime": 1726706585924,
+            "status": "PASSED"
+          },
+          "attachments": [
+            {
+              "description": "Notifications opened",
+              "path": "08bd21fa-1d3e-8f0f-4714-5e28b1213d42.jpg",
+              "mimeType": "image/jpg"
+            }
+          ],
+          "parameters": []
+        }
+      ],
+      "execution": {
+        "id": "6f3590e8-acc3-4fe5-8c73-52558015afd1",
+        "startTime": 1726706585850,
+        "endTime": 1726706586527,
+        "status": "PASSED"
+      },
+      "attachments": [],
+      "parameters": []
+    }
+  ],
+  "stages": [
+    {
+      "id": "a914273c-3560-4baa-97de-244e6b5bd690",
+      "name": "Given: User opens notifications",
+      "type": "Step",
+      "stages": [],
+      "execution": {
+        "id": "0b97ebb0-ae00-4943-b4ec-68a1e0c5f114",
+        "startTime": 1726706586529,
+        "endTime": 1726706587863,
+        "status": "PASSED"
+      },
+      "attachments": [
+        {
+          "description": "Notifications closed",
+          "path": "1d3easdas-3213-4714-8f0f-5e28b1213d42.jpg",
+          "mimeType": "image/jpg"
+        }
+      ],
+      "parameters": [
+        {
+          "key": "Name",
+          "value": "Test"
+        }
+      ]
+    }
+  ],
+  "afterStages": [
+    {
+      "id": "cc7f06b5-a5ed-4d35-b35a-80d7447f7bbf",
+      "name": "Do something after",
+      "type": "After",
+      "stages": [
+        {
+          "id": "6cd999f3-6424-45f6-9133-b1f4262c0a9f",
+          "name": "Press home",
+          "type": "Step",
+          "stages": [],
+          "execution": {
+            "id": "aa762253-a47c-4167-abf3-e4af8ad0752b",
+            "startTime": 1726706588108,
+            "endTime": 1726706589057,
+            "status": "PASSED"
+          },
+          "attachments": [
+            {
+              "description": "Pressed home",
+              "path": "asdgf21fa-1d3e-4714-8f0f-5e28b1213d42.jpg",
+              "mimeType": "image/jpg"
+            }
+          ],
+          "parameters": []
+        }
+      ],
+      "execution": {
+        "id": "cc7f06b5-a5ed-4d35-b35a-80d7447f7bbf",
+        "startTime": 1726706588107,
+        "endTime": 1726706589063,
+        "status": "PASSED"
+      },
+      "attachments": [],
+      "parameters": []
+    }
+  ],
+  "attachments": [
+    {
+      "description": "Screen recording",
+      "path": "f615abd4-5679-4179-a633-7be8a06cd85b.mp4",
+      "mimeType": "video/mp4"
+    }
+  ],
+  "parameters": []
+}

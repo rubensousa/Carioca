@@ -22,8 +22,8 @@ package com.rubensousa.carioca.android.report.stage
  */
 abstract class InstrumentedBeforeAfterReport(
     outputPath: String,
-    val title: String,
-    val before: Boolean,
+    private val title: String,
+    private val before: Boolean,
 ) : InstrumentedStageReport(outputPath) {
 
     override fun toString(): String {
@@ -33,5 +33,15 @@ abstract class InstrumentedBeforeAfterReport(
             "After: $title"
         }
     }
+
+    override fun getType(): String {
+        return if (before) {
+            "Before"
+        } else {
+            "After"
+        }
+    }
+
+    override fun getTitle(): String = title
 
 }

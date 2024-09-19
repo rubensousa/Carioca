@@ -56,7 +56,7 @@ gradle-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin",
 
 # Own
 carioca-report-runtime = { group = "com.rubensousa.carioca.report", name = "runtime", version.ref = "cariocaReport" }
-carioca-report-serialization = { group = "com.rubensousa.carioca.report", name = "serialization", version.ref = "cariocaReport" }
+carioca-report-json = { group = "com.rubensousa.carioca.report", name = "json", version.ref = "cariocaReport" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

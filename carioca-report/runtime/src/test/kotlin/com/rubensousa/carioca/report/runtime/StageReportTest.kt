@@ -34,6 +34,28 @@ class StageReportTest {
     }
 
     @Test
+    fun `id is the same as execution id by default`() {
+        // given
+        val report = createReport()
+
+        // then
+        assertThat(report.getId()).isEqualTo(report.executionId)
+    }
+
+    @Test
+    fun `id is the same as property id when it exists`() {
+        // given
+        val report = createReport()
+        val id = "newId"
+
+        // when
+        report.addProperty(ReportProperty.Id, id)
+
+        // then
+        assertThat(report.getId()).isEqualTo(id)
+    }
+
+    @Test
     fun `report starts with RUNNING state`() {
         // given
         val report = createReport()
@@ -57,6 +79,37 @@ class StageReportTest {
     }
 
     @Test
+    fun `attachment is removed when status changes to passed`() {
+        // given
+        val report = createReport()
+        val attachment = createAttachment(keepOnSuccess = false)
+        report.attach(attachment)
+
+        // when
+        report.pass()
+
+        // then
+        assertThat(report.getAttachments()).isEmpty()
+        assertThat(report.deleteAttachmentRequests).isEqualTo(listOf(attachment))
+    }
+
+
+    @Test
+    fun `attachment is not removed when status changes to passed`() {
+        // given
+        val report = createReport()
+        val attachment = createAttachment(keepOnSuccess = true)
+        report.attach(attachment)
+
+        // when
+        report.pass()
+
+        // then
+        assertThat(report.getAttachments()).isEqualTo(listOf(attachment))
+        assertThat(report.deleteAttachmentRequests).isEmpty()
+    }
+
+    @Test
     fun `report changes status to failed`() {
         // given
         val report = createReport()
@@ -73,16 +126,16 @@ class StageReportTest {
     }
 
     @Test
-    fun `report changes status to skipped`() {
+    fun `report changes status to ignored`() {
         // given
         val report = createReport()
 
         // when
-        report.skip()
+        report.ignore()
 
         // then
         val metadata = report.getExecutionMetadata()
-        assertThat(metadata.status).isEqualTo(ReportStatus.SKIPPED)
+        assertThat(metadata.status).isEqualTo(ReportStatus.IGNORED)
     }
 
     @Test
@@ -212,6 +265,8 @@ class StageReportTest {
         report.addTestStage(createReport())
         report.addStageBefore(createReport())
         report.addStageAfter(createReport())
+        report.attach(createAttachment(keepOnSuccess = false))
+        report.setParameter("Key", "Value")
 
         // when
         report.reset()
@@ -225,6 +280,9 @@ class StageReportTest {
         assertThat(report.getTestStages()).isEmpty()
         assertThat(report.getStagesBefore()).isEmpty()
         assertThat(report.getStagesAfter()).isEmpty()
+        assertThat(report.getAttachments()).isEmpty()
+        assertThat(report.getParameters()).isEmpty()
+        assertThat(report.deleteAttachmentRequests).hasSize(1)
     }
 
     @Test
@@ -305,6 +363,27 @@ class StageReportTest {
         assertThat(report.getStagesBefore()).isEmpty()
     }
 
+    @Test
+    fun `parameter is added to report`() {
+        // given
+        val report = createReport()
+
+        // when
+        report.setParameter("Key", "Value")
+
+        // then
+        assertThat(report.getParameters()).isEqualTo(mapOf("Key" to "Value"))
+    }
+
     private fun createReport(): TestStageReport = TestStageReport()
+
+    private fun createAttachment(keepOnSuccess: Boolean): StageAttachment {
+        return StageAttachment(
+            description = "Some attachment",
+            mimeType = "text/plain",
+            path = "this_path",
+            keepOnSuccess = keepOnSuccess
+        )
+    }
 
 }

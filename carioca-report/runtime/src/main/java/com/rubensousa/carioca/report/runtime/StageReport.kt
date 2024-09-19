@@ -26,17 +26,41 @@ package com.rubensousa.carioca.report.runtime
  * [getStagesBefore], [getTestStages], [getStagesAfter]
  */
 abstract class StageReport(
-    private val executionId: String = ExecutionIdGenerator.get(),
+    val executionId: String = ExecutionIdGenerator.get(),
 ) {
 
+    private val attachments = mutableListOf<StageAttachment>()
     private val beforeStages = mutableListOf<StageReport>()
     private val testStages = mutableListOf<StageReport>()
     private val afterStages = mutableListOf<StageReport>()
     private val properties = mutableMapOf<ReportProperty, Any>()
+    private val params = mutableMapOf<String, String>()
     private var startTime = System.currentTimeMillis()
     private var endTime = startTime
     private var status = ReportStatus.RUNNING
     private var failureCause: Throwable? = null
+
+    /**
+     * @param attachment attachment to be deleted from the filesystem
+     */
+    abstract fun deleteAttachment(attachment: StageAttachment)
+
+    /**
+     * @return the type of this stage. Can be "test", "step", or anything else
+     */
+    abstract fun getType(): String
+
+    /**
+     * @return the title of this stage
+     */
+    abstract fun getTitle(): String
+
+    /**
+     * @return an optional identifier for this stage
+     */
+    open fun getId(): String {
+        return getProperty<String>(ReportProperty.Id) ?: executionId
+    }
 
     /**
      * @return the execution metadata associated to this stage
@@ -58,6 +82,13 @@ abstract class StageReport(
         ensureStageRunning()
         status = ReportStatus.PASSED
         saveEndTime()
+        // Delete all attachments that shouldn't be kept when the test passes
+        getAttachments().forEach { attachment ->
+            if (!attachment.keepOnSuccess) {
+                deleteAttachment(attachment)
+                detach(attachment)
+            }
+        }
     }
 
     /**
@@ -73,9 +104,9 @@ abstract class StageReport(
     /**
      * Marks this stage as skipped
      */
-    fun skip() {
+    fun ignore() {
         ensureStageRunning()
-        status = ReportStatus.SKIPPED
+        status = ReportStatus.IGNORED
     }
 
     /**
@@ -100,6 +131,19 @@ abstract class StageReport(
     inline fun <reified T> getProperty(key: ReportProperty): T? {
         return getProperties()[key] as? T?
     }
+
+    /**
+     * @param key the unique key of the parameter
+     * @param value the value of the parameter
+     */
+    fun setParameter(key: String, value: String) {
+        params[key] = value
+    }
+
+    /**
+     * @return the map of parameters created with [setParameter]
+     */
+    fun getParameters() = params.toMap()
 
     /**
      * @return the child stages that started in a `@Before` method
@@ -137,7 +181,32 @@ abstract class StageReport(
         afterStages.add(stage)
     }
 
+    /**
+     * @param attachment an attachment that will be linked to this report
+     */
+    fun attach(attachment: StageAttachment) {
+        attachments.add(attachment)
+    }
+
+    /**
+     * @param attachment the attachment to remove from this report
+     */
+    fun detach(attachment: StageAttachment) {
+        attachments.remove(attachment)
+    }
+
+    /**
+     * @return all attachments registered through [attach]
+     */
+    fun getAttachments(): List<StageAttachment> = attachments.toList()
+
+    /**
+     * Clears all the metadata associated to this report
+     */
     open fun reset() {
+        getAttachments().forEach { attachment ->
+            deleteAttachment(attachment)
+        }
         testStages.forEach { stage -> stage.reset() }
         beforeStages.forEach { stage -> stage.reset() }
         afterStages.forEach { stage -> stage.reset() }
@@ -149,6 +218,8 @@ abstract class StageReport(
         beforeStages.clear()
         afterStages.clear()
         properties.clear()
+        attachments.clear()
+        params.clear()
     }
 
     private fun ensureStageRunning() {
@@ -162,19 +233,35 @@ abstract class StageReport(
     }
 
     override fun equals(other: Any?): Boolean {
-        return other?.javaClass == javaClass
-                && other is StageReport
-                && other.getExecutionMetadata() == getExecutionMetadata()
-                && other.getTestStages() == testStages
-                && other.getStagesBefore() == beforeStages
-                && other.getStagesAfter() == afterStages
-                && other.getProperties() == properties
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        other as StageReport
+        if (status != other.status) return false
+        if (startTime != other.startTime) return false
+        if (endTime != other.endTime) return false
+        if (executionId != other.executionId) return false
+        if (attachments != other.attachments) return false
+        if (beforeStages != other.beforeStages) return false
+        if (testStages != other.testStages) return false
+        if (afterStages != other.afterStages) return false
+        if (properties != other.properties) return false
+        if (params != other.params) return false
+        if (failureCause != other.failureCause) return false
+        return true
     }
 
     override fun hashCode(): Int {
-        var result = getExecutionMetadata().hashCode()
+        var result = executionId.hashCode()
+        result = 31 * result + attachments.hashCode()
+        result = 31 * result + beforeStages.hashCode()
         result = 31 * result + testStages.hashCode()
+        result = 31 * result + afterStages.hashCode()
         result = 31 * result + properties.hashCode()
+        result = 31 * result + params.hashCode()
+        result = 31 * result + startTime.hashCode()
+        result = 31 * result + endTime.hashCode()
+        result = 31 * result + status.hashCode()
+        result = 31 * result + (failureCause?.hashCode() ?: 0)
         return result
     }
 

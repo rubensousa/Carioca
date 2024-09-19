@@ -17,9 +17,9 @@
 package com.rubensousa.carioca.android.report.screenshot
 
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
-import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
+import com.rubensousa.carioca.report.runtime.StageAttachment
 
 class ScreenshotDelegate(
     private val outputPath: String,

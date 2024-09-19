@@ -20,8 +20,8 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
-import com.rubensousa.carioca.android.report.stage.StageAttachment
 import com.rubensousa.carioca.report.runtime.ExecutionMetadata
+import com.rubensousa.carioca.report.runtime.StageAttachment
 
 class DumpViewHierarchyInterceptor(
     private val dumpOnEveryStage: Boolean = false,

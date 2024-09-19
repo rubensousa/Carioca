@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage
+package com.rubensousa.carioca.report.json
 
-data class StageAttachment(
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class JsonAttachment(
     val description: String,
     val path: String,
     val mimeType: String,
-    val keepOnSuccess: Boolean,
 )

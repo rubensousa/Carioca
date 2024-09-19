@@ -14,16 +14,19 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.serialization
+package com.rubensousa.carioca.report.json
 
-import kotlinx.serialization.Serializable
+import com.google.common.truth.Truth.assertThat
+import org.junit.Test
 
-@Serializable
-data class SuiteReport(
-    val id: String,
-    val passedTests: Int,
-    val failedTests: Int,
-    val ignoredTests: Int,
-    val startTime: Long,
-    val endTime: Long,
-)
+class JsonReportFilesTest {
+
+    @Test
+    fun `check default filenames`() {
+        assertThat(JsonReportFiles.REPORT_DIR).isEqualTo("carioca-report")
+        assertThat(JsonReportFiles.TEST_REPORT).isEqualTo("test_report.json")
+        assertThat(JsonReportFiles.SUITE_REPORT).isEqualTo("suite_report.json")
+
+    }
+
+}

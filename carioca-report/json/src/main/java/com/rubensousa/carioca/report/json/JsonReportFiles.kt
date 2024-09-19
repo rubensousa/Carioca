@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.serialization
+package com.rubensousa.carioca.report.json
 
-object ReportFiles {
+object JsonReportFiles {
 
     const val SUITE_REPORT = "suite_report.json"
     const val TEST_REPORT = "test_report.json"

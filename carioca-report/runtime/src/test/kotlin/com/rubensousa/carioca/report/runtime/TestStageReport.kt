@@ -20,6 +20,8 @@ class TestStageReport : StageReport {
 
     val id: Int?
 
+    val deleteAttachmentRequests = mutableListOf<StageAttachment>()
+
     constructor() : super() {
         id = null
     }
@@ -27,6 +29,14 @@ class TestStageReport : StageReport {
     constructor(id: Int) : super(id.toString()) {
         this.id = id
     }
+
+    override fun deleteAttachment(attachment: StageAttachment) {
+        deleteAttachmentRequests.add(attachment)
+    }
+
+    override fun getType(): String = "Type"
+
+    override fun getTitle(): String = "Title"
 
     override fun toString(): String {
         return "TestReport: $id"

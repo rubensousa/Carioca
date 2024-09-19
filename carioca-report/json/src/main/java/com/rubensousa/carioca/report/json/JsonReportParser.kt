@@ -14,37 +14,30 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.report.serialization
+package com.rubensousa.carioca.report.json
 
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import java.io.File
 
-class ReportParser {
-
-    fun parseSuiteReport(inputDir: File): SuiteReport? {
-        val reportDir = findReportDir(inputDir) ?: return null
-        reportDir.listFiles()?.forEach { file ->
-            if (file.name == ReportFiles.SUITE_REPORT) {
-                return decodeFromFile(file)
-            }
-        }
-        return null
-    }
+class JsonReportParser {
 
     fun parseTestReports(inputDir: File): List<TestReportFile> {
         val reportDir = findReportDir(inputDir) ?: return emptyList()
         val tests = mutableListOf<TestReportFile>()
         reportDir.listFiles()?.forEach { file ->
-            if (file.name.endsWith(ReportFiles.TEST_REPORT)) {
-                val report = decodeFromFile<TestReport>(file)
-                if (report != null) {
-                    tests.add(TestReportFile(file, report))
+            if (file.name.endsWith(JsonReportFiles.TEST_REPORT)) {
+                parseTestReport(file)?.let {
+                    tests.add(TestReportFile(file, it))
                 }
             }
         }
         return tests
+    }
+
+    fun parseTestReport(file: File): JsonTestReport? {
+        return decodeFromFile<JsonTestReport>(file)
     }
 
     /**
@@ -52,11 +45,16 @@ class ReportParser {
      * without assuming the parent directory structure
      */
     fun findReportDir(inputDir: File): File? {
-        if (inputDir.name == ReportFiles.REPORT_DIR) {
+        if (inputDir.name == JsonReportFiles.REPORT_DIR) {
             return inputDir
         }
-        inputDir.listFiles()?.forEach { dir ->
-            return findReportDir(dir)
+        inputDir.listFiles()?.forEach { file ->
+            if (file.isDirectory) {
+                val reportDir = findReportDir(file)
+                if (reportDir != null) {
+                    return reportDir
+                }
+            }
         }
         return null
     }
@@ -74,7 +72,7 @@ class ReportParser {
 
     data class TestReportFile(
         val file: File,
-        val report: TestReport
+        val report: JsonTestReport,
     )
 
 }

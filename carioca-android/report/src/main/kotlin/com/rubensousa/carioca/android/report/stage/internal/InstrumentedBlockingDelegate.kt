@@ -60,6 +60,10 @@ internal class InstrumentedBlockingDelegate(
         }
     }
 
+    override fun param(key: String, value: String) {
+        host.setParameter(key, value)
+    }
+
     private fun <T : InstrumentedStageReport> execute(
         stage: T,
         executor: (T) -> Unit,

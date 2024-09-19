@@ -41,8 +41,8 @@ includeBuild("carioca-report") {
     dependencySubstitution {
         substitute(module("com.rubensousa.carioca.report:runtime"))
             .using(project(":runtime"))
-        substitute(module("com.rubensousa.carioca.report:serialization"))
-            .using(project(":serialization"))
+        substitute(module("com.rubensousa.carioca.report:json"))
+            .using(project(":json"))
     }
 }
 
