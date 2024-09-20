@@ -25,21 +25,23 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedStageType
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
 internal class InstrumentedCoroutineStage(
-    id: String,
-    title: String,
     type: InstrumentedStageType,
     outputPath: String,
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedCoroutineStageScope>,
     storageProvider: ReportStorageProvider,
+    private val id: String,
+    private val title: String,
 ) : InstrumentedStageReport(
-    id = id,
-    title = title,
     type = type,
     outputPath = outputPath,
     storageProvider = storageProvider
 ), InstrumentedCoroutineStageScope {
 
     private val delegate = delegateFactory.create(this)
+
+    override fun getId(): String = id
+
+    override fun getTitle(): String = title
 
     override fun screenshot(description: String, options: ScreenshotOptions?) {
         delegate.screenshot(description, options)

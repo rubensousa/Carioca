@@ -19,27 +19,25 @@ package com.rubensousa.carioca.android.report.suite
 import com.google.common.truth.Truth.assertThat
 import com.rubensousa.carioca.android.report.DefaultInstrumentedReporter
 import com.rubensousa.carioca.android.report.DescriptionInterceptorRule
+import com.rubensousa.carioca.android.report.TemporaryStorageRule
 import com.rubensousa.carioca.android.report.fake.FakeReportStorageProvider
 import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTestBuilder
-import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 
 class InstrumentedSuiteStageTest {
+
+    @get:Rule
+    val temporaryStorageRule = TemporaryStorageRule()
+
+    @get:Rule
+    val descriptionInterceptorRule = DescriptionInterceptorRule()
 
     private val reporter = DefaultInstrumentedReporter()
     private val storageProvider = FakeReportStorageProvider()
     private val testBuilder = InstrumentedBlockingTestBuilder(
         storageProvider = storageProvider
     )
-
-    @get:Rule
-    val descriptionInterceptorRule = DescriptionInterceptorRule()
-
-    @After
-    fun clean() {
-        storageProvider.clean()
-    }
 
     @Test
     fun `test report is written for ignored test`() {

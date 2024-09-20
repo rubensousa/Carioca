@@ -39,25 +39,42 @@ import com.rubensousa.carioca.report.runtime.TestMetadata
  *
  * To get the stages for reporting, use [getTestStages]
  */
-abstract class InstrumentedTestReport(
+abstract class InstrumentedTestReport internal constructor(
     outputPath: String,
-    val metadata: TestMetadata,
-    protected val recordingOptions: RecordingOptions,
-    protected val screenshotDelegate: ScreenshotDelegate,
-    protected val reporter: CariocaInstrumentedReporter,
-    protected val interceptors: List<CariocaInstrumentedInterceptor>,
     storageProvider: ReportStorageProvider,
-    private val screenRecorder: ScreenRecorder = ScreenRecorder(
-        storageProvider,
-        RecordingTaskFactoryImpl()
-    )
+    protected val interceptors: List<CariocaInstrumentedInterceptor>,
+    private val metadata: TestMetadata,
+    private val recordingOptions: RecordingOptions,
+    private val screenshotDelegate: ScreenshotDelegate,
+    private val reporter: CariocaInstrumentedReporter,
+    private val screenRecorder: ScreenRecorder,
 ) : InstrumentedStageReport(
-    id = metadata.fullName,
-    title = metadata.methodName,
     type = InstrumentedStageType.TEST,
     outputPath = outputPath,
     storageProvider = storageProvider
 ) {
+
+    constructor(
+        outputPath: String,
+        metadata: TestMetadata,
+        recordingOptions: RecordingOptions,
+        screenshotDelegate: ScreenshotDelegate,
+        reporter: CariocaInstrumentedReporter,
+        interceptors: List<CariocaInstrumentedInterceptor>,
+        storageProvider: ReportStorageProvider,
+    ) : this(
+        outputPath = outputPath,
+        metadata = metadata,
+        recordingOptions = recordingOptions,
+        screenshotDelegate = screenshotDelegate,
+        reporter = reporter,
+        interceptors = interceptors,
+        storageProvider = storageProvider,
+        screenRecorder = ScreenRecorder(
+            storageProvider,
+            RecordingTaskFactoryImpl()
+        ),
+    )
 
     protected val stageStack = StageStack<InstrumentedStageReport>()
 

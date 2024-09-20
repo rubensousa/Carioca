@@ -26,16 +26,10 @@ import java.io.OutputStream
  * Attachments should be stored in [storageProvider]
  */
 abstract class InstrumentedStageReport(
-    private val id: String,
-    private val title: String,
     private val type: InstrumentedStageType,
     protected val outputPath: String,
     protected val storageProvider: ReportStorageProvider,
 ) : StageReport() {
-
-    override fun getId(): String = id
-
-    override fun getTitle(): String = title
 
     override fun getType(): String = type.id
 
@@ -49,7 +43,7 @@ abstract class InstrumentedStageReport(
     }
 
     override fun toString(): String {
-        return "$type - $title"
+        return "$type - ${getTitle()}"
     }
 
 }

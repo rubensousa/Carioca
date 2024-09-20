@@ -22,10 +22,13 @@ import com.rubensousa.carioca.android.report.fake.FakeStageReport
 import com.rubensousa.carioca.report.json.JsonReportFiles
 import com.rubensousa.carioca.report.json.JsonReportParser
 import com.rubensousa.carioca.report.runtime.TestMetadata
-import org.junit.After
+import org.junit.Rule
 import org.junit.Test
 
 class DefaultInstrumentedReporterTest {
+
+    @get:Rule
+    val temporaryStorageRule = TemporaryStorageRule()
 
     private val metadata = TestMetadata(
         packageName = "package",
@@ -34,11 +37,6 @@ class DefaultInstrumentedReporterTest {
     )
     private val fakeStorageProvider = FakeReportStorageProvider()
     private val parser = JsonReportParser()
-
-    @After
-    fun clean() {
-        fakeStorageProvider.clean()
-    }
 
     @Test
     fun `output dir is the same as json module`() {

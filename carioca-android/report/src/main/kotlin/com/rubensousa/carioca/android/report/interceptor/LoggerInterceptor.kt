@@ -41,7 +41,7 @@ class LoggerInterceptor : CariocaInstrumentedInterceptor {
     }
 
     override fun onTestFailed(test: InstrumentedTestReport) {
-        log("Test failed: $test", test.getExecutionMetadata().failureCause)
+        log("Test failed: $test")
     }
 
     override fun onTestPassed(test: InstrumentedTestReport) {
@@ -50,10 +50,6 @@ class LoggerInterceptor : CariocaInstrumentedInterceptor {
 
     private fun log(message: String) {
         Log.i(tag, message)
-    }
-
-    private fun log(message: String, error: Throwable?) {
-        Log.e(tag, message, error)
     }
 
 }
