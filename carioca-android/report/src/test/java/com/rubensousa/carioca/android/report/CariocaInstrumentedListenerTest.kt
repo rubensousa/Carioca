@@ -47,7 +47,7 @@ class CariocaInstrumentedListenerTest {
         listener.testIgnored(description)
 
         // then
-        assertThat(suiteStage.ignored).isEqualTo(listOf(description))
+        assertThat(suiteStage.ignoredDescriptions).isEqualTo(listOf(description))
     }
 
 }

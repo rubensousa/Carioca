@@ -16,21 +16,32 @@
 
 package com.rubensousa.carioca.android.report.fake
 
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.InstrumentedReporter
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.suite.SuiteStage
 import org.junit.runner.Description
 
 class FakeSuiteStage : SuiteStage {
 
-    val ignored = mutableListOf<Description>()
-    val reporters = mutableListOf<CariocaInstrumentedReporter>()
+    val ignoredDescriptions = mutableListOf<Description>()
 
-    override fun addReporter(reporter: CariocaInstrumentedReporter) {
+    private val reporters = mutableListOf<InstrumentedReporter>()
+    private val tests = mutableListOf<InstrumentedTestReport>()
+
+    override fun registerReporter(reporter: InstrumentedReporter) {
         reporters.add(reporter)
     }
 
+    override fun testStarted(test: InstrumentedTestReport) {
+        tests.add(test)
+    }
+
     override fun testIgnored(description: Description) {
-        ignored.add(description)
+        ignoredDescriptions.add(description)
+    }
+
+    override fun getTests(): List<InstrumentedTestReport> {
+        return tests.toList()
     }
 
 }

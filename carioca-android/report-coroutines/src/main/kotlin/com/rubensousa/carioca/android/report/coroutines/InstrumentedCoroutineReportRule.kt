@@ -17,9 +17,9 @@
 package com.rubensousa.carioca.android.report.coroutines
 
 import com.rubensousa.carioca.android.report.AbstractInstrumentedReportRule
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.DefaultInstrumentedReporter
 import com.rubensousa.carioca.android.report.InstrumentedReportRule
+import com.rubensousa.carioca.android.report.InstrumentedReporter
 import com.rubensousa.carioca.android.report.coroutines.internal.InstrumentedCoroutineTest
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
@@ -40,7 +40,7 @@ import kotlin.coroutines.EmptyCoroutineContext
  * Please check [InstrumentedReportRule] for more info on how to use the basic report functionality
  */
 open class InstrumentedCoroutineReportRule internal constructor(
-    reporter: CariocaInstrumentedReporter,
+    reporter: InstrumentedReporter,
     recordingOptions: RecordingOptions,
     screenshotOptions: ScreenshotOptions,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
@@ -55,7 +55,7 @@ open class InstrumentedCoroutineReportRule internal constructor(
      * Public constructor that uses [TestStorageProvider] to save the reports
      */
     constructor(
-        reporter: CariocaInstrumentedReporter = DefaultInstrumentedReporter(),
+        reporter: InstrumentedReporter = DefaultInstrumentedReporter(),
         recordingOptions: RecordingOptions = RecordingOptions(),
         screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
         interceptors: List<CariocaInstrumentedInterceptor> = listOf(

@@ -27,7 +27,7 @@ import com.rubensousa.carioca.report.runtime.TestMetadata
  */
 class DefaultInstrumentedReporter internal constructor(
     private val writer: JsonReportWriter,
-) : CariocaInstrumentedReporter {
+) : InstrumentedReporter {
 
     constructor() : this(JsonReportWriter())
 

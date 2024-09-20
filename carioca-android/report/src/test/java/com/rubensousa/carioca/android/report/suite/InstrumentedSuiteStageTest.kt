@@ -45,7 +45,7 @@ class InstrumentedSuiteStageTest {
         val suiteStage = InstrumentedSuiteStage(testBuilder)
 
         // when
-        suiteStage.addReporter(reporter)
+        suiteStage.registerReporter(reporter)
         suiteStage.testIgnored(testDescriptionRule.getDescription())
 
         // then

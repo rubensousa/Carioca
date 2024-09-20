@@ -16,13 +16,18 @@
 
 package com.rubensousa.carioca.android.report.suite
 
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.InstrumentedReporter
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import org.junit.runner.Description
 
 internal interface SuiteStage {
 
-    fun addReporter(reporter: CariocaInstrumentedReporter)
+    fun registerReporter(reporter: InstrumentedReporter)
+
+    fun testStarted(test: InstrumentedTestReport)
 
     fun testIgnored(description: Description)
+
+    fun getTests(): List<InstrumentedTestReport>
 
 }

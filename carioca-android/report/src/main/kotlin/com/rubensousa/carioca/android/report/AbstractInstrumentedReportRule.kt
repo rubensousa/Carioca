@@ -20,7 +20,6 @@ import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
-import com.rubensousa.carioca.android.report.suite.SuiteStage
 import com.rubensousa.carioca.junit4.report.getTestMetadata
 import com.rubensousa.carioca.junit4.report.getTestReportConfig
 import com.rubensousa.carioca.report.runtime.TestMetadata
@@ -37,16 +36,15 @@ import org.junit.runner.Description
  * by returning your own test report class in [createTest]
  */
 abstract class AbstractInstrumentedReportRule(
-    protected val reporter: CariocaInstrumentedReporter,
+    protected val reporter: InstrumentedReporter,
     protected val recordingOptions: RecordingOptions,
     protected val screenshotOptions: ScreenshotOptions,
 ) : TestWatcher() {
 
     private var instrumentedTest: InstrumentedTestReport? = null
     private var lastDescription: Description? = null
-    private val suiteStage: SuiteStage = SuiteReportRegistry.getSuiteStage()
 
-    abstract fun createTest(
+    protected abstract fun createTest(
         reportConfig: TestReportConfig?,
         testMetadata: TestMetadata,
         recordingOptions: RecordingOptions,
@@ -54,7 +52,6 @@ abstract class AbstractInstrumentedReportRule(
     ): InstrumentedTestReport
 
     final override fun starting(description: Description) {
-        super.starting(description)
         /**
          * If we're running the same test, we can re-use the previous instance
          * Before doing that, we reset its entire state to ensure we don't keep the old reports
@@ -69,21 +66,40 @@ abstract class AbstractInstrumentedReportRule(
                 screenshotOptions = ScreenshotOptions.from(description) ?: screenshotOptions
             )
             instrumentedTest = newTest
-            suiteStage.addReporter(reporter)
+            SuiteReportRegistry.getSuiteStage().apply {
+                registerReporter(reporter)
+                testStarted(newTest)
+            }
         }
         instrumentedTest?.onStarted()
         lastDescription = description
     }
 
     final override fun succeeded(description: Description) {
-        super.succeeded(description)
         instrumentedTest?.onPassed()
     }
 
     final override fun failed(e: Throwable, description: Description) {
-        super.failed(e, description)
         instrumentedTest?.onFailed(e)
     }
+
+    //  Internal for testing
+    internal fun start(description: Description) {
+        starting(description)
+    }
+
+    // Internal for testing
+    internal fun pass(description: Description) {
+        succeeded(description)
+    }
+
+    // Internal for testing
+    internal fun fail(error: Throwable, description: Description) {
+        failed(error, description)
+    }
+
+    // Visible for testing
+    internal fun getCurrentReport() = getCurrentTest<InstrumentedTestReport>()
 
     protected open fun <T : InstrumentedTestReport> getCurrentTest(): T {
         return requireNotNull(instrumentedTest as T) { "Test not started yet" }

@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.android.report.stage.internal
 
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.InstrumentedReporter
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
@@ -38,7 +38,7 @@ internal class InstrumentedBlockingTest(
     metadata: TestMetadata,
     recordingOptions: RecordingOptions,
     screenshotDelegate: ScreenshotDelegate,
-    reporter: CariocaInstrumentedReporter,
+    reporter: InstrumentedReporter,
     interceptors: List<CariocaInstrumentedInterceptor>,
     storageProvider: ReportStorageProvider,
 ) : InstrumentedTestReport(

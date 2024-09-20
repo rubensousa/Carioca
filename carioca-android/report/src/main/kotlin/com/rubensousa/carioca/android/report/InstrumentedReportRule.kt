@@ -81,7 +81,7 @@ import com.rubensousa.carioca.report.runtime.TestReportConfig
  * during the lifecycle of this report
  */
 open class InstrumentedReportRule internal constructor(
-    reporter: CariocaInstrumentedReporter,
+    reporter: InstrumentedReporter,
     recordingOptions: RecordingOptions,
     screenshotOptions: ScreenshotOptions,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
@@ -98,7 +98,7 @@ open class InstrumentedReportRule internal constructor(
      * Public constructor that uses [TestStorageProvider] to save the reports
      */
     constructor(
-        reporter: CariocaInstrumentedReporter = DefaultInstrumentedReporter(),
+        reporter: InstrumentedReporter = DefaultInstrumentedReporter(),
         recordingOptions: RecordingOptions = RecordingOptions(),
         screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
         interceptors: List<CariocaInstrumentedInterceptor> = listOf(

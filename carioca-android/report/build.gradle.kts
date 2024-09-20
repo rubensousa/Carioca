@@ -56,6 +56,8 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 
     androidTestImplementation(project(":carioca-junit4:rules"))
+    androidTestImplementation(libs.bundles.test.unit)
+
     androidTestUtil(libs.androidx.test.services)
 }
 

@@ -26,7 +26,7 @@ import java.io.OutputStream
  * [DefaultInstrumentedReporter] is the default implementation
  * that is flexible enough to convert to any other format
  */
-interface CariocaInstrumentedReporter {
+interface InstrumentedReporter {
 
     /**
      * @param metadata the test report to be saved

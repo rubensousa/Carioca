@@ -17,7 +17,7 @@
 package com.rubensousa.carioca.android.report.stage
 
 import android.util.Log
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.InstrumentedReporter
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
@@ -42,11 +42,11 @@ import com.rubensousa.carioca.report.runtime.TestMetadata
 abstract class InstrumentedTestReport internal constructor(
     outputPath: String,
     storageProvider: ReportStorageProvider,
+    val metadata: TestMetadata,
     protected val interceptors: List<CariocaInstrumentedInterceptor>,
-    private val metadata: TestMetadata,
     private val recordingOptions: RecordingOptions,
     private val screenshotDelegate: ScreenshotDelegate,
-    private val reporter: CariocaInstrumentedReporter,
+    private val reporter: InstrumentedReporter,
     private val screenRecorder: ScreenRecorder,
 ) : InstrumentedStageReport(
     type = InstrumentedStageType.TEST,
@@ -59,7 +59,7 @@ abstract class InstrumentedTestReport internal constructor(
         metadata: TestMetadata,
         recordingOptions: RecordingOptions,
         screenshotDelegate: ScreenshotDelegate,
-        reporter: CariocaInstrumentedReporter,
+        reporter: InstrumentedReporter,
         interceptors: List<CariocaInstrumentedInterceptor>,
         storageProvider: ReportStorageProvider,
     ) : this(

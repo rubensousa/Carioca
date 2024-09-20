@@ -15,9 +15,10 @@
  */
 package com.rubensousa.carioca.android.report.suite
 
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.InstrumentedReporter
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
+import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTestBuilder
 import com.rubensousa.carioca.junit4.report.getTestMetadata
 import com.rubensousa.carioca.junit4.report.getTestReportConfig
@@ -27,10 +28,15 @@ internal class InstrumentedSuiteStage(
     private val testBuilder: InstrumentedBlockingTestBuilder,
 ) : SuiteStage {
 
-    private val reporters = mutableMapOf<Class<*>, CariocaInstrumentedReporter>()
+    private val reporters = mutableMapOf<Class<*>, InstrumentedReporter>()
+    private val tests = mutableListOf<InstrumentedTestReport>()
 
-    override fun addReporter(reporter: CariocaInstrumentedReporter) {
+    override fun registerReporter(reporter: InstrumentedReporter) {
         reporters[reporter::class.java] = reporter
+    }
+
+    override fun testStarted(test: InstrumentedTestReport) {
+        tests.add(test)
     }
 
     override fun testIgnored(description: Description) {
@@ -44,8 +50,11 @@ internal class InstrumentedSuiteStage(
                 reporter = reporter,
                 interceptors = emptyList()
             )
+            tests.add(test)
             test.onIgnored()
         }
     }
+
+    override fun getTests() = tests.toList()
 
 }
