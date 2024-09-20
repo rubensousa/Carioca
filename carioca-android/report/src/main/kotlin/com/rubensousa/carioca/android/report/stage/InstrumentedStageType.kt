@@ -14,23 +14,15 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.android.report.stage
 
-import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTestBuilder
-import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-
-internal object SuiteReportRegistry {
-
-    private var suiteStage: SuiteStage = InstrumentedSuiteStage(
-        testBuilder = InstrumentedBlockingTestBuilder(TestStorageProvider)
-    )
-
-    internal fun getSuiteStage(): SuiteStage {
-        return suiteStage
-    }
-
-    internal fun setSuiteStage(stage: SuiteStage) {
-        suiteStage = stage
-    }
-
+/**
+ * The default instrumented stage types for each report
+ */
+enum class InstrumentedStageType(val id: String) {
+    BEFORE("Before"),
+    TEST("Test"),
+    STEP("Step"),
+    SCENARIO("Scenario"),
+    AFTER("After")
 }

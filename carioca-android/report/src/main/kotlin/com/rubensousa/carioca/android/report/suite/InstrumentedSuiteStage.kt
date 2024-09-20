@@ -13,17 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package com.rubensousa.carioca.android.report.suite
 
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
+import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTestBuilder
+import com.rubensousa.carioca.junit4.report.getTestMetadata
+import com.rubensousa.carioca.junit4.report.getTestReportConfig
 import org.junit.runner.Description
 
 internal class InstrumentedSuiteStage(
-    private val testBuilder: InstrumentedTestBuilder,
+    private val testBuilder: InstrumentedBlockingTestBuilder,
 ) : SuiteStage {
 
     private val reporters = mutableMapOf<Class<*>, CariocaInstrumentedReporter>()
@@ -36,7 +37,8 @@ internal class InstrumentedSuiteStage(
         val allReporters = reporters.values.toList()
         allReporters.forEach { reporter ->
             val test = testBuilder.build(
-                description = description,
+                reportConfig = description.getTestReportConfig(),
+                testMetadata = description.getTestMetadata(),
                 recordingOptions = RecordingOptions(enabled = false),
                 screenshotOptions = ScreenshotOptions(),
                 reporter = reporter,

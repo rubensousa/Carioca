@@ -32,7 +32,7 @@ class DefaultInstrumentedReporter internal constructor(
     constructor() : this(JsonReportWriter())
 
     override fun getOutputDir(metadata: TestMetadata): String {
-        return JsonReportFiles.REPORT_DIR
+        return "/${JsonReportFiles.REPORT_DIR}"
     }
 
     override fun writeTestReport(

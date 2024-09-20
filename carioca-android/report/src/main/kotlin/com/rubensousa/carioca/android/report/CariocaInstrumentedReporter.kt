@@ -23,14 +23,15 @@ import java.io.OutputStream
 
 /**
  * Implement this to generate your own test reports, in any format you want.
- * [DefaultInstrumentedReporter] is the default implementation that is flexible enough
+ * [DefaultInstrumentedReporter] is the default implementation
+ * that is flexible enough to convert to any other format
  */
 interface CariocaInstrumentedReporter {
 
     /**
      * @param metadata the test report to be saved
      *
-     * @return The relative output directory for this report
+     * @return The relative output directory for this report.
      */
     fun getOutputDir(metadata: TestMetadata): String
 

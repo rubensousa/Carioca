@@ -21,16 +21,23 @@ import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageReport
 import java.io.OutputStream
 
+/**
+ * A [StageReport] for instrumented tests.
+ * Attachments should be stored in [storageProvider]
+ */
 abstract class InstrumentedStageReport(
-    reportDirPath: String,
+    private val id: String,
+    private val title: String,
+    private val type: InstrumentedStageType,
+    protected val outputPath: String,
     protected val storageProvider: ReportStorageProvider,
 ) : StageReport() {
 
-    val outputPath: String = if (!reportDirPath.startsWith("/")) {
-        "/$reportDirPath"
-    } else {
-        reportDirPath
-    }
+    override fun getId(): String = id
+
+    override fun getTitle(): String = title
+
+    override fun getType(): String = type.id
 
     override fun deleteAttachment(attachment: StageAttachment) {
         storageProvider.delete(attachment.path)
@@ -39,6 +46,10 @@ abstract class InstrumentedStageReport(
     fun getAttachmentOutputStream(path: String): OutputStream {
         val relativePath = "$outputPath/$path"
         return storageProvider.getOutputStream(relativePath)
+    }
+
+    override fun toString(): String {
+        return "$type - $title"
     }
 
 }

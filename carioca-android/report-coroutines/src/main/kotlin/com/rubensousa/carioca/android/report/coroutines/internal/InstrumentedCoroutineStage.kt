@@ -14,27 +14,30 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.stage.internal
+package com.rubensousa.carioca.android.report.coroutines.internal
 
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
+import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStageScope
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
-import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
-import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageType
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
-internal class InstrumentedBlockingStep(
-    outputPath: String,
-    delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
+internal class InstrumentedCoroutineStage(
     id: String,
     title: String,
+    type: InstrumentedStageType,
+    outputPath: String,
+    delegateFactory: InstrumentedReportDelegateFactory<InstrumentedCoroutineStageScope>,
     storageProvider: ReportStorageProvider,
-) : InstrumentedStepReport(
-    outputPath = outputPath,
+) : InstrumentedStageReport(
     id = id,
     title = title,
+    type = type,
+    outputPath = outputPath,
     storageProvider = storageProvider
-), InstrumentedStageScope {
+), InstrumentedCoroutineStageScope {
 
     private val delegate = delegateFactory.create(this)
 
@@ -42,15 +45,19 @@ internal class InstrumentedBlockingStep(
         delegate.screenshot(description, options)
     }
 
-    override fun step(
+    override suspend fun step(
         title: String,
         id: String?,
-        action: InstrumentedStageScope.() -> Unit,
+        action: suspend InstrumentedCoroutineStageScope.() -> Unit,
     ) {
-        delegate.step(title, id, action)
+        delegate.step(
+            title = title,
+            id = id,
+            action = action
+        )
     }
 
-    override fun scenario(scenario: InstrumentedScenario) {
+    override suspend fun scenario(scenario: InstrumentedCoroutineScenario) {
         delegate.scenario(scenario)
     }
 
@@ -58,8 +65,13 @@ internal class InstrumentedBlockingStep(
         delegate.param(key, value)
     }
 
-    internal fun execute(action: InstrumentedStageScope.() -> Unit) {
+    internal suspend fun execute(action: suspend InstrumentedCoroutineStageScope.() -> Unit) {
         action(this)
+        pass()
+    }
+
+    internal suspend fun executeScenario(scenario: InstrumentedCoroutineScenario) {
+        scenario.run(this)
         pass()
     }
 

@@ -24,13 +24,14 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFac
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageType
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ExecutionIdGenerator
 import com.rubensousa.carioca.report.runtime.StageStack
 
 /**
  * Implements the common behavior of all stages, defined by [InstrumentedStageScope].
- * All stages should support this basic contract, at a minimum
+ * All stages support this basic contract
  */
 internal class InstrumentedBlockingDelegate(
     private val host: InstrumentedStageReport,
@@ -58,7 +59,7 @@ internal class InstrumentedBlockingDelegate(
 
     override fun scenario(scenario: InstrumentedScenario) {
         execute(createScenario(scenario)) { stage ->
-            stage.execute()
+            stage.executeScenario(scenario)
         }
     }
 
@@ -86,25 +87,26 @@ internal class InstrumentedBlockingDelegate(
         interceptors.intercept { onStagePassed(stage) }
     }
 
-    private fun createStep(title: String, id: String?): InstrumentedBlockingStep {
-        return InstrumentedBlockingStep(
-            outputPath = outputPath,
-            delegateFactory = delegateFactory,
+    private fun createStep(title: String, id: String?): InstrumentedBlockingStage {
+        return InstrumentedBlockingStage(
             id = id ?: ExecutionIdGenerator.get(),
             title = title,
+            type = InstrumentedStageType.STEP,
+            outputPath = outputPath,
+            delegateFactory = delegateFactory,
             storageProvider = storageProvider
         )
     }
 
     private fun createScenario(
         scenario: InstrumentedScenario,
-    ): InstrumentedBlockingScenario {
-        return InstrumentedBlockingScenario(
-            outputPath = outputPath,
-            delegateFactory = delegateFactory,
+    ): InstrumentedBlockingStage {
+        return InstrumentedBlockingStage(
             id = scenario.id,
             title = scenario.title,
-            scenario = scenario,
+            type = InstrumentedStageType.SCENARIO,
+            outputPath = outputPath,
+            delegateFactory = delegateFactory,
             storageProvider = storageProvider
         )
     }

@@ -20,7 +20,7 @@ import com.google.common.truth.Truth.assertThat
 import com.rubensousa.carioca.android.report.DefaultInstrumentedReporter
 import com.rubensousa.carioca.android.report.DescriptionInterceptorRule
 import com.rubensousa.carioca.android.report.fake.FakeReportStorageProvider
-import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
+import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTestBuilder
 import org.junit.After
 import org.junit.Rule
 import org.junit.Test
@@ -29,7 +29,7 @@ class InstrumentedSuiteStageTest {
 
     private val reporter = DefaultInstrumentedReporter()
     private val storageProvider = FakeReportStorageProvider()
-    private val testBuilder = InstrumentedTestBuilder(
+    private val testBuilder = InstrumentedBlockingTestBuilder(
         storageProvider = storageProvider
     )
 

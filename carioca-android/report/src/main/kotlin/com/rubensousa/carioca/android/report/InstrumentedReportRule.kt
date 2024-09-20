@@ -25,67 +25,12 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestScope
 import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTest
-import com.rubensousa.carioca.android.report.stage.internal.InstrumentedTestBuilder
+import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTestBuilder
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
-import com.rubensousa.carioca.android.report.suite.SuiteStage
-import org.junit.rules.TestWatcher
-import org.junit.runner.Description
+import com.rubensousa.carioca.report.runtime.TestMetadata
+import com.rubensousa.carioca.report.runtime.TestReportConfig
 
-/**
- * The basic report structure.
- *
- * Default implementation is [InstrumentedReportRule].
- *
- * You can extend this class directly to create your own scopes,
- * by returning your own test report class in [createTest]
- */
-abstract class AbstractInstrumentedReportRule(
-    protected val reporter: CariocaInstrumentedReporter,
-    protected val recordingOptions: RecordingOptions,
-    protected val screenshotOptions: ScreenshotOptions,
-    protected val interceptors: List<CariocaInstrumentedInterceptor>,
-) : TestWatcher() {
-
-    private var instrumentedTest: InstrumentedTestReport? = null
-    private var lastDescription: Description? = null
-    private val suiteStage: SuiteStage = SuiteReportRegistry.getSuiteStage()
-
-    abstract fun createTest(description: Description): InstrumentedTestReport
-
-    final override fun starting(description: Description) {
-        super.starting(description)
-        /**
-         * If we're running the same test, we can re-use the previous instance
-         * Before doing that, we reset its entire state to ensure we don't keep the old reports
-         */
-        if (description == lastDescription) {
-            instrumentedTest?.reset()
-        } else {
-            val newTest = createTest(description)
-            instrumentedTest = newTest
-            suiteStage.addReporter(reporter)
-        }
-        instrumentedTest?.onStarted()
-        lastDescription = description
-    }
-
-    final override fun succeeded(description: Description) {
-        super.succeeded(description)
-        instrumentedTest?.onPassed()
-    }
-
-    final override fun failed(e: Throwable, description: Description) {
-        super.failed(e, description)
-        instrumentedTest?.onFailed(e)
-    }
-
-    protected open fun <T : InstrumentedTestReport> getCurrentTest(): T {
-        return requireNotNull(instrumentedTest as T) { "Test not started yet" }
-    }
-
-}
 
 /**
  * A test rule that builds a detailed report for a test, including its steps.
@@ -135,29 +80,50 @@ abstract class AbstractInstrumentedReportRule(
  * @param interceptors the interceptors that will receive multiple stage events
  * during the lifecycle of this report
  */
-open class InstrumentedReportRule(
-    reporter: CariocaInstrumentedReporter = DefaultInstrumentedReporter(),
-    recordingOptions: RecordingOptions = RecordingOptions(),
-    screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
-    interceptors: List<CariocaInstrumentedInterceptor> = listOf(
-        LoggerInterceptor(),
-        DumpViewHierarchyInterceptor()
-    ),
-    storageProvider: ReportStorageProvider = TestStorageProvider
+open class InstrumentedReportRule internal constructor(
+    reporter: CariocaInstrumentedReporter,
+    recordingOptions: RecordingOptions,
+    screenshotOptions: ScreenshotOptions,
+    private val interceptors: List<CariocaInstrumentedInterceptor>,
+    private val storageProvider: ReportStorageProvider,
 ) : AbstractInstrumentedReportRule(
     reporter = reporter,
     recordingOptions = recordingOptions,
-    screenshotOptions = screenshotOptions,
-    interceptors = interceptors,
+    screenshotOptions = screenshotOptions
 ) {
 
-    private val testBuilder = InstrumentedTestBuilder(storageProvider)
+    private val testBuilder = InstrumentedBlockingTestBuilder(storageProvider)
 
-    override fun createTest(description: Description): InstrumentedTestReport {
+    /**
+     * Public constructor that uses [TestStorageProvider] to save the reports
+     */
+    constructor(
+        reporter: CariocaInstrumentedReporter = DefaultInstrumentedReporter(),
+        recordingOptions: RecordingOptions = RecordingOptions(),
+        screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
+        interceptors: List<CariocaInstrumentedInterceptor> = listOf(
+            LoggerInterceptor(),
+            DumpViewHierarchyInterceptor()
+        ),
+    ) : this(
+        reporter = reporter,
+        recordingOptions = recordingOptions,
+        screenshotOptions = screenshotOptions,
+        interceptors = interceptors,
+        storageProvider = TestStorageProvider
+    )
+
+    override fun createTest(
+        reportConfig: TestReportConfig?,
+        testMetadata: TestMetadata,
+        recordingOptions: RecordingOptions,
+        screenshotOptions: ScreenshotOptions,
+    ): InstrumentedTestReport {
         return testBuilder.build(
-            description = description,
-            recordingOptions = RecordingOptions.from(description) ?: recordingOptions,
-            screenshotOptions = ScreenshotOptions.from(description) ?: screenshotOptions,
+            reportConfig = reportConfig,
+            testMetadata = testMetadata,
+            recordingOptions = recordingOptions,
+            screenshotOptions = screenshotOptions,
             reporter = reporter,
             interceptors = interceptors
         )

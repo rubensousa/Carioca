@@ -26,9 +26,11 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFac
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageType
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestScope
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+import com.rubensousa.carioca.report.runtime.ExecutionIdGenerator
 import com.rubensousa.carioca.report.runtime.TestMetadata
 
 internal class InstrumentedBlockingTest(
@@ -82,11 +84,12 @@ internal class InstrumentedBlockingTest(
     }
 
     fun before(title: String, action: InstrumentedStageScope.() -> Unit) {
-        val stage = InstrumentedBlockingBeforeAfter(
-            delegateFactory = delegateFactory,
+        val stage = InstrumentedBlockingStage(
+            id = ExecutionIdGenerator.get(),
             title = title,
+            type = InstrumentedStageType.BEFORE,
             outputPath = outputPath,
-            before = true,
+            delegateFactory = delegateFactory,
             storageProvider = storageProvider
         )
         addStageBefore(stage)
@@ -96,11 +99,12 @@ internal class InstrumentedBlockingTest(
     }
 
     fun after(title: String, action: InstrumentedStageScope.() -> Unit) {
-        val stage = InstrumentedBlockingBeforeAfter(
-            delegateFactory = delegateFactory,
+        val stage = InstrumentedBlockingStage(
+            id = ExecutionIdGenerator.get(),
             title = title,
+            type = InstrumentedStageType.AFTER,
             outputPath = outputPath,
-            before = false,
+            delegateFactory = delegateFactory,
             storageProvider = storageProvider
         )
         addStageAfter(stage)

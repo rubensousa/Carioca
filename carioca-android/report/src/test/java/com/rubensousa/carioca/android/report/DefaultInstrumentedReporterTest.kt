@@ -49,7 +49,7 @@ class DefaultInstrumentedReporterTest {
         val outputDir = reporter.getOutputDir(metadata)
 
         // then
-        assertThat(outputDir).isEqualTo(JsonReportFiles.REPORT_DIR)
+        assertThat(outputDir).isEqualTo("/${JsonReportFiles.REPORT_DIR}")
     }
 
     @Test
@@ -58,7 +58,7 @@ class DefaultInstrumentedReporterTest {
         val reporter = DefaultInstrumentedReporter()
         val report = FakeStageReport()
         report.pass()
-        val expectedPath = "${JsonReportFiles.REPORT_DIR}/${report.executionId}_${JsonReportFiles.TEST_REPORT}"
+        val expectedPath = "/${JsonReportFiles.REPORT_DIR}/${report.executionId}_${JsonReportFiles.TEST_REPORT}"
 
         // when
         reporter.writeTestReport(metadata, report, fakeStorageProvider)

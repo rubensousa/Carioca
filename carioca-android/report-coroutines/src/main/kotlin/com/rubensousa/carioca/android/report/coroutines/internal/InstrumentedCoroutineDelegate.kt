@@ -24,6 +24,7 @@ import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageType
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ExecutionIdGenerator
 import com.rubensousa.carioca.report.runtime.StageStack
@@ -58,7 +59,7 @@ internal class InstrumentedCoroutineDelegate(
 
     override suspend fun scenario(scenario: InstrumentedCoroutineScenario) {
         executeStageAwait(createScenario(scenario)) { stage ->
-            stage.execute()
+            stage.executeScenario(scenario)
         }
     }
 
@@ -86,25 +87,26 @@ internal class InstrumentedCoroutineDelegate(
         interceptors.intercept { onStagePassed(stage) }
     }
 
-    private fun createStep(title: String, id: String?): InstrumentedCoroutineStep {
-        return InstrumentedCoroutineStep(
-            outputPath = outputPath,
-            delegateFactory = delegateFactory,
+    private fun createStep(title: String, id: String?): InstrumentedCoroutineStage {
+        return InstrumentedCoroutineStage(
             id = id ?: ExecutionIdGenerator.get(),
             title = title,
+            type = InstrumentedStageType.STEP,
+            outputPath = outputPath,
+            delegateFactory = delegateFactory,
             storageProvider = storageProvider,
         )
     }
 
     private fun createScenario(
         scenario: InstrumentedCoroutineScenario,
-    ): InstrumentedCoroutineScenarioImpl {
-        return InstrumentedCoroutineScenarioImpl(
+    ): InstrumentedCoroutineStage {
+        return InstrumentedCoroutineStage(
             outputPath = outputPath,
             delegateFactory = delegateFactory,
             id = scenario.id,
             title = scenario.title,
-            scenario = scenario,
+            type = InstrumentedStageType.SCENARIO,
             storageProvider = storageProvider
         )
     }

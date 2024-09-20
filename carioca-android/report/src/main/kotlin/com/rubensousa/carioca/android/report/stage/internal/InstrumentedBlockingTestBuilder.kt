@@ -22,23 +22,21 @@ import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
-import com.rubensousa.carioca.junit4.report.getTestMetadata
-import com.rubensousa.carioca.junit4.report.getTestReportConfig
-import org.junit.runner.Description
+import com.rubensousa.carioca.report.runtime.TestMetadata
+import com.rubensousa.carioca.report.runtime.TestReportConfig
 
-internal class InstrumentedTestBuilder(
+internal class InstrumentedBlockingTestBuilder(
     private val storageProvider: ReportStorageProvider,
 ) {
 
     fun build(
-        description: Description,
+        reportConfig: TestReportConfig?,
+        testMetadata: TestMetadata,
         recordingOptions: RecordingOptions,
         screenshotOptions: ScreenshotOptions,
         reporter: CariocaInstrumentedReporter,
         interceptors: List<CariocaInstrumentedInterceptor>,
     ): InstrumentedBlockingTest {
-        val reportConfig = description.getTestReportConfig()
-        val testMetadata = description.getTestMetadata()
         val outputPath = reporter.getOutputDir(testMetadata)
         val testReport = InstrumentedBlockingTest(
             outputPath = outputPath,

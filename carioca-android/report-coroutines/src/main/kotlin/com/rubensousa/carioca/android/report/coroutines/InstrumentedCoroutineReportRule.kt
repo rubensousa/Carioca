@@ -19,48 +19,79 @@ package com.rubensousa.carioca.android.report.coroutines
 import com.rubensousa.carioca.android.report.AbstractInstrumentedReportRule
 import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.DefaultInstrumentedReporter
-import com.rubensousa.carioca.android.report.coroutines.internal.InstrumentedCoroutineTestBuilder
+import com.rubensousa.carioca.android.report.InstrumentedReportRule
+import com.rubensousa.carioca.android.report.coroutines.internal.InstrumentedCoroutineTest
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.DumpViewHierarchyInterceptor
 import com.rubensousa.carioca.android.report.interceptor.LoggerInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
+import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
-import org.junit.runner.Description
+import com.rubensousa.carioca.report.runtime.TestMetadata
+import com.rubensousa.carioca.report.runtime.TestReportConfig
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
 /**
- * A report rule for coroutine tests
+ * A report rule for coroutine tests.
+ * Please check [InstrumentedReportRule] for more info on how to use the basic report functionality
  */
-open class InstrumentedCoroutineReportRule(
-    reporter: CariocaInstrumentedReporter = DefaultInstrumentedReporter(),
-    recordingOptions: RecordingOptions = RecordingOptions(),
-    screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
-    interceptors: List<CariocaInstrumentedInterceptor> = listOf(
-        LoggerInterceptor(),
-        DumpViewHierarchyInterceptor()
-    ),
-    storageProvider: ReportStorageProvider = TestStorageProvider
+open class InstrumentedCoroutineReportRule internal constructor(
+    reporter: CariocaInstrumentedReporter,
+    recordingOptions: RecordingOptions,
+    screenshotOptions: ScreenshotOptions,
+    private val interceptors: List<CariocaInstrumentedInterceptor>,
+    private val storageProvider: ReportStorageProvider,
 ) : AbstractInstrumentedReportRule(
     reporter = reporter,
     recordingOptions = recordingOptions,
-    screenshotOptions = screenshotOptions,
-    interceptors = interceptors
+    screenshotOptions = screenshotOptions
 ) {
 
-    private val testBuilder = InstrumentedCoroutineTestBuilder(storageProvider)
+    /**
+     * Public constructor that uses [TestStorageProvider] to save the reports
+     */
+    constructor(
+        reporter: CariocaInstrumentedReporter = DefaultInstrumentedReporter(),
+        recordingOptions: RecordingOptions = RecordingOptions(),
+        screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
+        interceptors: List<CariocaInstrumentedInterceptor> = listOf(
+            LoggerInterceptor(),
+            DumpViewHierarchyInterceptor()
+        ),
+    ) : this(
+        reporter = reporter,
+        recordingOptions = recordingOptions,
+        screenshotOptions = screenshotOptions,
+        interceptors = interceptors,
+        storageProvider = TestStorageProvider
+    )
 
-    override fun createTest(description: Description): InstrumentedTestReport {
-        return testBuilder.build(
-            description = description,
-            recordingOptions = RecordingOptions.from(description) ?: recordingOptions,
-            screenshotOptions = ScreenshotOptions.from(description) ?: screenshotOptions,
+    override fun createTest(
+        reportConfig: TestReportConfig?,
+        testMetadata: TestMetadata,
+        recordingOptions: RecordingOptions,
+        screenshotOptions: ScreenshotOptions,
+    ): InstrumentedTestReport {
+        val outputPath = reporter.getOutputDir(testMetadata)
+        val testReport = InstrumentedCoroutineTest(
+            outputPath = outputPath,
+            metadata = testMetadata,
+            recordingOptions = recordingOptions,
+            screenshotDelegate = ScreenshotDelegate(
+                outputPath = outputPath,
+                defaultOptions = screenshotOptions,
+                storageProvider = storageProvider
+            ),
+            interceptors = interceptors,
             reporter = reporter,
-            interceptors = interceptors
+            storageProvider = storageProvider
         )
+        reportConfig?.applyTo(testReport)
+        return testReport
     }
 
     /**

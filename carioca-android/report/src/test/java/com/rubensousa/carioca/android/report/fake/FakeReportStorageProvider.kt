@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.android.report.fake
 
+import android.net.Uri
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import java.io.File
 import java.io.FileOutputStream
@@ -29,6 +30,7 @@ class FakeReportStorageProvider : ReportStorageProvider {
     // Create a fake local storage for testing
     private val testDir = File(localDir, "test-files")
 
+    val uris = mutableMapOf<String, Uri>()
     val filesSaved = mutableMapOf<String, File>()
 
     var lastFile: File? = null
@@ -47,6 +49,10 @@ class FakeReportStorageProvider : ReportStorageProvider {
         file.toPath().createParentDirectories()
         lastFile = file
         return FileOutputStream(file)
+    }
+
+    override fun getOutputUri(path: String): Uri {
+        return uris[path]!!
     }
 
     override fun delete(path: String) {

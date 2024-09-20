@@ -52,13 +52,14 @@ abstract class InstrumentedTestReport(
         RecordingTaskFactoryImpl()
     )
 ) : InstrumentedStageReport(
-    reportDirPath = outputPath,
+    id = metadata.fullName,
+    title = metadata.methodName,
+    type = InstrumentedStageType.TEST,
+    outputPath = outputPath,
     storageProvider = storageProvider
 ) {
 
     protected val stageStack = StageStack<InstrumentedStageReport>()
-
-    override fun getType(): String = "Test"
 
     override fun getTitle(): String {
         return getProperty<String>(ReportProperty.Title) ?: metadata.methodName

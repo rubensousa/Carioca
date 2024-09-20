@@ -17,22 +17,25 @@
 package com.rubensousa.carioca.android.report.stage.internal
 
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.android.report.stage.InstrumentedBeforeAfterReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageType
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
-internal class InstrumentedBlockingBeforeAfter internal constructor(
-    delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
+internal class InstrumentedBlockingStage(
+    id: String,
     title: String,
+    type: InstrumentedStageType,
     outputPath: String,
-    before: Boolean,
+    delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
     storageProvider: ReportStorageProvider,
-) : InstrumentedBeforeAfterReport(
-    outputPath = outputPath,
+) : InstrumentedStageReport(
+    id = id,
     title = title,
-    before = before,
+    type = type,
+    outputPath = outputPath,
     storageProvider = storageProvider
 ), InstrumentedStageScope {
 
@@ -42,7 +45,11 @@ internal class InstrumentedBlockingBeforeAfter internal constructor(
         delegate.screenshot(description, options)
     }
 
-    override fun step(title: String, id: String?, action: InstrumentedStageScope.() -> Unit) {
+    override fun step(
+        title: String,
+        id: String?,
+        action: InstrumentedStageScope.() -> Unit,
+    ) {
         delegate.step(title, id, action)
     }
 
@@ -56,6 +63,11 @@ internal class InstrumentedBlockingBeforeAfter internal constructor(
 
     internal fun execute(action: InstrumentedStageScope.() -> Unit) {
         action(this)
+        pass()
+    }
+
+    internal fun executeScenario(scenario: InstrumentedScenario) {
+        scenario.run(this)
         pass()
     }
 
