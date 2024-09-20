@@ -17,18 +17,23 @@
 package com.rubensousa.carioca.android.report.recording
 
 import java.io.File
+import java.util.concurrent.Executors
 
-/**
- * A recording taken during a test report
- *
- * @param absoluteFilePath the absolute file path to the video recording
- * @param relativeFilePath the relative file path inside the test storage directory
- * @param filename the filename of the video recording file
- * @param tmpFile the temporary file of the recording, while it is being recorded
- */
-data class ReportRecording(
-    val absoluteFilePath: String,
-    val relativeFilePath: String,
-    val filename: String,
-    val tmpFile: File,
-)
+internal interface RecordingTaskFactory {
+    fun create(file: File, options: RecordingOptions): RecordingTask
+}
+
+internal class RecordingTaskFactoryImpl : RecordingTaskFactory {
+
+    private val executor by lazy { Executors.newFixedThreadPool(1) }
+
+    override fun create(file: File, options: RecordingOptions): RecordingTask {
+        return RecordingTaskImpl(
+            tag = "ScreenRecorder",
+            executor = executor,
+            recordingFile = file,
+            options = options
+        )
+    }
+
+}

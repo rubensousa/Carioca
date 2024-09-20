@@ -65,7 +65,7 @@ object TestStorageProvider : ReportStorageProvider {
         }
     }
 
-    fun getOutputUri(path: String): Uri {
+    override fun getOutputUri(path: String): Uri {
         return testStorage.getOutputFileUri(path)
     }
 

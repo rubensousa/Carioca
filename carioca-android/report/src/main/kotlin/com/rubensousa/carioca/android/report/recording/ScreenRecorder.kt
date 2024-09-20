@@ -16,22 +16,21 @@
 
 package com.rubensousa.carioca.android.report.recording
 
-import android.util.Log
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import java.io.BufferedInputStream
+import java.io.File
 import java.io.FileInputStream
-import java.util.concurrent.Executors
 
-class ScreenRecorder(
+class ScreenRecorder internal constructor(
     private val storageProvider: ReportStorageProvider,
+    private val taskFactory: RecordingTaskFactory,
 ) {
 
-    private val tag = "ScreenRecorder"
-    private val executor by lazy { Executors.newFixedThreadPool(1) }
     private val buffer by lazy { ByteArray(1_000_000) }
     private var task: RecordingTask? = null
+    private var currentRecording: ReportRecording? = null
 
-    fun startRecording(
+    fun start(
         options: RecordingOptions,
         relativeOutputDirPath: String,
         filename: String,
@@ -45,26 +44,33 @@ class ScreenRecorder(
             absoluteFilePath = absolutePath,
             relativeFilePath = relativePath,
             filename = videoFilename,
+            tmpFile = createTmpFile(videoFilename)
         )
-        val newTask = RecordingTask(
-            tag = tag,
-            executor = executor,
-            recordingFile = recording.tmpFile,
+        val newTask = taskFactory.create(
+            file = recording.tmpFile,
             options = options
         )
-        Log.i(tag, "Requested recording for: $relativePath")
         task = newTask
         newTask.start()
+        currentRecording = recording
         return recording
     }
 
-    fun stopRecording(recording: ReportRecording, delete: Boolean) {
-        Log.i(tag, "Stopping recording: ${recording.absoluteFilePath}")
+    fun stop(delete: Boolean) {
+        val activeRecording = currentRecording ?: return
         task?.stop(delete)
         // Now copy the file to the report storage
         if (!delete) {
-            copyTemporaryFileToReportStorage(recording)
+            copyTemporaryFileToReportStorage(activeRecording)
         }
+        currentRecording = null
+        task = null
+    }
+
+    private fun createTmpFile(filename: String): File {
+        val outputDir = storageProvider.getOutputDir()
+        outputDir.mkdirs()
+        return File(outputDir, "tmp_$filename")
     }
 
     private fun copyTemporaryFileToReportStorage(recording: ReportRecording) {

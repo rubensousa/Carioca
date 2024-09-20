@@ -17,7 +17,6 @@
 package com.rubensousa.carioca.android.report.stage
 
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
-import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageReport
 import java.io.OutputStream
@@ -39,7 +38,7 @@ abstract class InstrumentedStageReport(
 
     fun getAttachmentOutputStream(path: String): OutputStream {
         val relativePath = "$outputPath/$path"
-        return TestStorageProvider.getOutputStream(relativePath)
+        return storageProvider.getOutputStream(relativePath)
     }
 
 }

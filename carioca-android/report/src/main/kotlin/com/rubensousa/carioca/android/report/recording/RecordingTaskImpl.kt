@@ -29,12 +29,17 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
-internal class RecordingTask(
+internal interface RecordingTask {
+    fun start()
+    fun stop(delete: Boolean)
+}
+
+internal class RecordingTaskImpl(
     private val tag: String,
     private val executor: Executor,
     private val recordingFile: File,
     private val options: RecordingOptions,
-) {
+) : RecordingTask {
 
     private val recordCommand = "screenrecord"
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
@@ -47,7 +52,7 @@ internal class RecordingTask(
         }
     }
 
-    fun start() {
+    override fun start() {
         executor.execute {
             startRecording()
         }
@@ -76,7 +81,7 @@ internal class RecordingTask(
         }
     }
 
-    fun stop(delete: Boolean) {
+    override fun stop(delete: Boolean) {
         val stopLatch = CountDownLatch(1)
         InstrumentationRegistry.getInstrumentation().runOnMainSync {
             stopRecording(delete)

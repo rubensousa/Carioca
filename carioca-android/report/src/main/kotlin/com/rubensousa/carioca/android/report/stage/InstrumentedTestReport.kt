@@ -21,6 +21,7 @@ import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
+import com.rubensousa.carioca.android.report.recording.RecordingTaskFactoryImpl
 import com.rubensousa.carioca.android.report.recording.ReportRecording
 import com.rubensousa.carioca.android.report.recording.ScreenRecorder
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
@@ -46,14 +47,16 @@ abstract class InstrumentedTestReport(
     protected val reporter: CariocaInstrumentedReporter,
     protected val interceptors: List<CariocaInstrumentedInterceptor>,
     storageProvider: ReportStorageProvider,
+    private val screenRecorder: ScreenRecorder = ScreenRecorder(
+        storageProvider,
+        RecordingTaskFactoryImpl()
+    )
 ) : InstrumentedStageReport(
     reportDirPath = outputPath,
     storageProvider = storageProvider
 ) {
 
-    private val screenRecorder = ScreenRecorder(storageProvider)
     protected val stageStack = StageStack<InstrumentedStageReport>()
-    private var screenRecording: ReportRecording? = null
 
     override fun getType(): String = "Test"
 
@@ -73,12 +76,9 @@ abstract class InstrumentedTestReport(
     }
 
     fun onPassed() {
-        screenRecording?.let {
-            screenRecorder.stopRecording(
-                recording = it,
-                delete = !recordingOptions.keepOnSuccess
-            )
-        }
+        screenRecorder.stop(
+            delete = !recordingOptions.keepOnSuccess
+        )
         pass()
         interceptors.intercept { onTestPassed(this@InstrumentedTestReport) }
         writeReport()
@@ -94,12 +94,7 @@ abstract class InstrumentedTestReport(
         screenshotDelegate.takeScreenshot(this, "Screenshot of failure")
 
         // Now stop the recording, if there is one
-        screenRecording?.let { activeRecording ->
-            screenRecorder.stopRecording(
-                recording = activeRecording,
-                delete = false
-            )
-        }
+        screenRecorder.stop(delete = false)
 
         // Now loop through the entire stage stack and mark all stages as failed
         var stage = stageStack.pop()
@@ -119,7 +114,6 @@ abstract class InstrumentedTestReport(
         super.reset()
         storageProvider.deleteTemporaryFiles()
         stageStack.clear()
-        screenRecording = null
     }
 
     private fun writeReport() {
@@ -130,15 +124,13 @@ abstract class InstrumentedTestReport(
         }
     }
 
-
     private fun startRecording() {
-        val newRecording = screenRecorder.startRecording(
+        val newRecording = screenRecorder.start(
             filename = FileIdGenerator.get(),
             options = recordingOptions,
             relativeOutputDirPath = outputPath
         )
         attach(createRecordingAttachment(newRecording))
-        screenRecording = newRecording
     }
 
     private fun createRecordingAttachment(recording: ReportRecording): StageAttachment {

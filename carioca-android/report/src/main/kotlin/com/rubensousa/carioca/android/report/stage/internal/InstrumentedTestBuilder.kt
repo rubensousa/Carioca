@@ -46,7 +46,8 @@ internal class InstrumentedTestBuilder(
             recordingOptions = recordingOptions,
             screenshotDelegate = ScreenshotDelegate(
                 outputPath = outputPath,
-                defaultOptions = screenshotOptions
+                defaultOptions = screenshotOptions,
+                storageProvider = storageProvider
             ),
             interceptors = interceptors,
             reporter = reporter,
