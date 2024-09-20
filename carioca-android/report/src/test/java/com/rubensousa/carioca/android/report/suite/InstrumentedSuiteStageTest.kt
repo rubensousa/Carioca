@@ -18,10 +18,10 @@ package com.rubensousa.carioca.android.report.suite
 
 import com.google.common.truth.Truth.assertThat
 import com.rubensousa.carioca.android.report.DefaultInstrumentedReporter
-import com.rubensousa.carioca.android.report.DescriptionInterceptorRule
 import com.rubensousa.carioca.android.report.TemporaryStorageRule
 import com.rubensousa.carioca.android.report.fake.FakeReportStorageProvider
 import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTestBuilder
+import com.rubensousa.carioca.junit4.rules.TestDescriptionRule
 import org.junit.Rule
 import org.junit.Test
 
@@ -31,7 +31,7 @@ class InstrumentedSuiteStageTest {
     val temporaryStorageRule = TemporaryStorageRule()
 
     @get:Rule
-    val descriptionInterceptorRule = DescriptionInterceptorRule()
+    val testDescriptionRule = TestDescriptionRule()
 
     private val reporter = DefaultInstrumentedReporter()
     private val storageProvider = FakeReportStorageProvider()
@@ -46,7 +46,7 @@ class InstrumentedSuiteStageTest {
 
         // when
         suiteStage.addReporter(reporter)
-        suiteStage.testIgnored(descriptionInterceptorRule.getDescription())
+        suiteStage.testIgnored(testDescriptionRule.getDescription())
 
         // then
         assertThat(storageProvider.lastFile).isNotNull()

@@ -17,7 +17,7 @@
 package com.rubensousa.carioca.android.report.recording
 
 import com.google.common.truth.Truth.assertThat
-import com.rubensousa.carioca.android.report.DescriptionInterceptorRule
+import com.rubensousa.carioca.junit4.rules.TestDescriptionRule
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertFails
@@ -25,7 +25,7 @@ import kotlin.test.assertFails
 class RecordingOptionsTest {
 
     @get:Rule
-    val descriptionInterceptorRule = DescriptionInterceptorRule()
+    val testDescriptionRule = TestDescriptionRule()
 
     @Test
     fun `test default options`() {
@@ -60,7 +60,7 @@ class RecordingOptionsTest {
     @Test
     fun `annotation without values returns default values`() {
         // given
-        val description = descriptionInterceptorRule.getDescription()
+        val description = testDescriptionRule.getDescription()
 
         // when
         val options = RecordingOptions.from(description)!!
@@ -72,7 +72,7 @@ class RecordingOptionsTest {
     @Test
     fun `without annotation, config is null`() {
         // given
-        val description = descriptionInterceptorRule.getDescription()
+        val description = testDescriptionRule.getDescription()
 
         // then
         assertThat(RecordingOptions.from(description)).isNull()
@@ -90,7 +90,7 @@ class RecordingOptionsTest {
     @Test
     fun `options get assigned from annotation`() {
         // given
-        val description = descriptionInterceptorRule.getDescription()
+        val description = testDescriptionRule.getDescription()
 
         // when
         val options = RecordingOptions.from(description)!!

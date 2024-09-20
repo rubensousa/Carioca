@@ -51,9 +51,11 @@ dependencies {
     api(libs.androidx.test.uiautomator)
     implementation(libs.kotlinx.serialization.json)
 
+    testImplementation(project(":carioca-junit4:rules"))
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.kotlinx.coroutines.test)
 
+    androidTestImplementation(project(":carioca-junit4:rules"))
     androidTestUtil(libs.androidx.test.services)
 }
 

@@ -19,6 +19,7 @@ package com.rubensousa.carioca.android.report
 import com.google.common.truth.Truth.assertThat
 import com.rubensousa.carioca.android.report.fake.FakeSuiteStage
 import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
+import com.rubensousa.carioca.junit4.rules.TestDescriptionRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,7 +27,7 @@ import org.junit.Test
 class CariocaInstrumentedListenerTest {
 
     @get:Rule
-    val descriptionInterceptorRule = DescriptionInterceptorRule()
+    val testDescriptionRule = TestDescriptionRule()
 
     private val suiteStage = FakeSuiteStage()
     private lateinit var listener: CariocaInstrumentedListener
@@ -40,7 +41,7 @@ class CariocaInstrumentedListenerTest {
     @Test
     fun `ignored test is added to the suite`() {
         // given
-        val description = descriptionInterceptorRule.getDescription()
+        val description = testDescriptionRule.getDescription()
 
         // when
         listener.testIgnored(description)
