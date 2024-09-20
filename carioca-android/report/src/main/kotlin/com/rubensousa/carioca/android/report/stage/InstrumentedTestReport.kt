@@ -146,7 +146,7 @@ abstract class InstrumentedTestReport internal constructor(
         val newRecording = screenRecorder.start(
             filename = FileIdGenerator.get(),
             options = recordingOptions,
-            relativeOutputDirPath = outputPath
+            outputPath = outputPath
         )
         attach(createRecordingAttachment(newRecording))
     }

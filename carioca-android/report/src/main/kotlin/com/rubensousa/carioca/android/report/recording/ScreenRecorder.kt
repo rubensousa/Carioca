@@ -21,24 +21,25 @@ import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileInputStream
 
-class ScreenRecorder internal constructor(
+internal class ScreenRecorder(
     private val storageProvider: ReportStorageProvider,
     private val taskFactory: RecordingTaskFactory,
 ) {
 
     private val buffer by lazy { ByteArray(1_000_000) }
     private var task: RecordingTask? = null
-    private var currentRecording: ReportRecording? = null
 
     fun start(
         options: RecordingOptions,
-        relativeOutputDirPath: String,
+        outputPath: String,
         filename: String,
     ): ReportRecording {
-        task?.stop(delete = true)
+        // We don't support concurrent recordings,
+        // so cancel any ongoing task
+        stop(delete = true)
         val outputDir = storageProvider.getOutputDir()
         val videoFilename = "${filename}.mp4"
-        val relativePath = "$relativeOutputDirPath/$videoFilename"
+        val relativePath = "$outputPath/$videoFilename"
         val absolutePath = "${outputDir.absolutePath}${relativePath}"
         val recording = ReportRecording(
             absoluteFilePath = absolutePath,
@@ -47,23 +48,21 @@ class ScreenRecorder internal constructor(
             tmpFile = createTmpFile(videoFilename)
         )
         val newTask = taskFactory.create(
-            file = recording.tmpFile,
+            recording = recording,
             options = options
         )
         task = newTask
         newTask.start()
-        currentRecording = recording
         return recording
     }
 
     fun stop(delete: Boolean) {
-        val activeRecording = currentRecording ?: return
-        task?.stop(delete)
+        val currentTask = task ?: return
+        currentTask.stop(delete)
         // Now copy the file to the report storage
         if (!delete) {
-            copyTemporaryFileToReportStorage(activeRecording)
+            copyTemporaryFileToReportStorage(currentTask.getRecording())
         }
-        currentRecording = null
         task = null
     }
 

@@ -16,28 +16,29 @@
 
 package com.rubensousa.carioca.android.report.recording
 
-import java.util.concurrent.Executors
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
-internal interface RecordingTaskFactory {
-    fun create(
-        recording: ReportRecording,
-        options: RecordingOptions,
-    ): RecordingTask
-}
+class FakeRecordingTask(
+    private val recording: ReportRecording,
+    private val storageProvider: ReportStorageProvider,
+) : RecordingTask {
 
-internal class RecordingTaskFactoryImpl : RecordingTaskFactory {
+    override fun start() {
+        storageProvider.getOutputStream(recording.tmpFile.name)
+            .use {
+                it.write(0)
+                it.flush()
+            }
+    }
 
-    private val executor by lazy { Executors.newFixedThreadPool(1) }
+    override fun stop(delete: Boolean) {
+        if (delete) {
+            storageProvider.delete(recording.tmpFile.name)
+        }
+    }
 
-    override fun create(
-        recording: ReportRecording,
-        options: RecordingOptions,
-    ): RecordingTask {
-        return RecordingTaskImpl(
-            recording = recording,
-            executor = executor,
-            options = options
-        )
+    override fun getRecording(): ReportRecording {
+        return recording
     }
 
 }

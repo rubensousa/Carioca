@@ -32,16 +32,18 @@ import java.util.concurrent.TimeUnit
 internal interface RecordingTask {
     fun start()
     fun stop(delete: Boolean)
+    fun getRecording(): ReportRecording
 }
 
 internal class RecordingTaskImpl(
-    private val tag: String,
     private val executor: Executor,
-    private val recordingFile: File,
+    private val recording: ReportRecording,
     private val options: RecordingOptions,
 ) : RecordingTask {
 
+    private val tag = "RecordingTask"
     private val recordCommand = "screenrecord"
+    private val recordingFile = recording.tmpFile
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val recordingLatch = RecordingLatch()
     private val fileObserver = FileObserverCompat(recordingFile.path) { event ->
@@ -51,6 +53,8 @@ internal class RecordingTaskImpl(
             recordingLatch.setWritingStarted()
         }
     }
+
+    override fun getRecording(): ReportRecording = recording
 
     override fun start() {
         executor.execute {
@@ -71,7 +75,6 @@ internal class RecordingTaskImpl(
                 secondaryResolution = if (width > height) height else width
             )
             Thread.sleep(options.startDelay)
-            Log.i(tag, "Starting screen recording: $command")
             fileObserver.startWatching()
             device.executeShellCommand(command)
         } catch (e: Exception) {
