@@ -21,6 +21,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.platform.io.PlatformTestStorageRegistry
 import androidx.test.uiautomator.UiDevice
 import java.io.File
+import java.io.InputStream
 import java.io.OutputStream
 
 /**
@@ -32,6 +33,10 @@ object TestStorageProvider : ReportStorageProvider {
 
     override fun getOutputDir(): File {
         return TestStorageDirectory.outputDir
+    }
+
+    override fun getInputStream(path: String): InputStream {
+        return testStorage.openInputFile(path)
     }
 
     override fun getOutputStream(path: String): OutputStream {

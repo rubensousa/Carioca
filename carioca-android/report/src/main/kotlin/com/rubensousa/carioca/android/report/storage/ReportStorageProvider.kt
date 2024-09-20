@@ -18,11 +18,14 @@ package com.rubensousa.carioca.android.report.storage
 
 import android.net.Uri
 import java.io.File
+import java.io.InputStream
 import java.io.OutputStream
 
 interface ReportStorageProvider {
 
     fun getOutputStream(path: String): OutputStream
+
+    fun getInputStream(path: String): InputStream
 
     fun getOutputUri(path: String): Uri
 

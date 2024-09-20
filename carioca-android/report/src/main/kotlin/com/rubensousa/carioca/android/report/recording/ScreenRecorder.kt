@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.android.report.recording
 
+import android.util.Log
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import java.io.BufferedInputStream
 import java.io.File
@@ -87,7 +88,7 @@ internal class ScreenRecorder(
             inputStream.close()
             tmpFile.delete()
         } catch (exception: Exception) {
-            // Ignore
+           Log.e("ScreenRecorder", "Couldn't copy recording to test storage", exception)
         }
     }
 
