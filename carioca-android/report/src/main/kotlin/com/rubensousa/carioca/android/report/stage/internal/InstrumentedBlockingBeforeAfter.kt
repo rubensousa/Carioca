@@ -21,16 +21,19 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedBeforeAfterReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
 internal class InstrumentedBlockingBeforeAfter internal constructor(
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
     title: String,
     outputPath: String,
     before: Boolean,
+    storageProvider: ReportStorageProvider,
 ) : InstrumentedBeforeAfterReport(
     outputPath = outputPath,
     title = title,
     before = before,
+    storageProvider = storageProvider
 ), InstrumentedStageScope {
 
     private val delegate = delegateFactory.create(this)

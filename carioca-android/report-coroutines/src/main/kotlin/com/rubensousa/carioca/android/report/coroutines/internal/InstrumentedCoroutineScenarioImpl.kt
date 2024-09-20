@@ -21,17 +21,20 @@ import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineSta
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
 internal class InstrumentedCoroutineScenarioImpl(
     outputPath: String,
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedCoroutineStageScope>,
     id: String,
     title: String,
+    storageProvider: ReportStorageProvider,
     private val scenario: InstrumentedCoroutineScenario,
 ) : InstrumentedScenarioReport(
     outputPath = outputPath,
     id = id,
-    title = title
+    title = title,
+    storageProvider = storageProvider
 ), InstrumentedCoroutineStageScope {
 
     private val delegate = delegateFactory.create(this)

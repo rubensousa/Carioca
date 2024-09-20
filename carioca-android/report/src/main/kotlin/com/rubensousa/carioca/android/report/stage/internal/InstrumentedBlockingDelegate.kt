@@ -24,6 +24,7 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFac
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ExecutionIdGenerator
 import com.rubensousa.carioca.report.runtime.StageStack
 
@@ -38,6 +39,7 @@ internal class InstrumentedBlockingDelegate(
     private val stack: StageStack<InstrumentedStageReport>,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
     private val outputPath: String,
+    private val storageProvider: ReportStorageProvider,
 ) : InstrumentedStageScope {
 
     override fun screenshot(description: String, options: ScreenshotOptions?) {
@@ -89,7 +91,8 @@ internal class InstrumentedBlockingDelegate(
             outputPath = outputPath,
             delegateFactory = delegateFactory,
             id = id ?: ExecutionIdGenerator.get(),
-            title = title
+            title = title,
+            storageProvider = storageProvider
         )
     }
 
@@ -101,7 +104,8 @@ internal class InstrumentedBlockingDelegate(
             delegateFactory = delegateFactory,
             id = scenario.id,
             title = scenario.title,
-            scenario = scenario
+            scenario = scenario,
+            storageProvider = storageProvider
         )
     }
 

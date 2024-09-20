@@ -21,13 +21,20 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFac
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
 import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
 internal class InstrumentedBlockingStep(
     outputPath: String,
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
     id: String,
     title: String,
-) : InstrumentedStepReport(outputPath, id, title), InstrumentedStageScope {
+    storageProvider: ReportStorageProvider,
+) : InstrumentedStepReport(
+    outputPath = outputPath,
+    id = id,
+    title = title,
+    storageProvider = storageProvider
+), InstrumentedStageScope {
 
     private val delegate = delegateFactory.create(this)
 

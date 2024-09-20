@@ -16,6 +16,8 @@
 
 package com.rubensousa.carioca.android.report.stage
 
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+
 /**
  * @param outputPath the output directory for this stage's attachments
  * @param title the title of this stage
@@ -24,7 +26,8 @@ abstract class InstrumentedBeforeAfterReport(
     outputPath: String,
     private val title: String,
     private val before: Boolean,
-) : InstrumentedStageReport(outputPath) {
+    storageProvider: ReportStorageProvider
+) : InstrumentedStageReport(outputPath, storageProvider) {
 
     override fun toString(): String {
         return if (before) {

@@ -16,6 +16,8 @@
 
 package com.rubensousa.carioca.android.report.stage
 
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+
 /**
  * @param outputPath the output directory for this step's attachments
  * @param id unique id that identifies a step. By default, unique per execution
@@ -25,8 +27,10 @@ abstract class InstrumentedStepReport(
     outputPath: String,
     private val id: String,
     private val title: String,
+    storageProvider: ReportStorageProvider,
 ) : InstrumentedStageReport(
-    reportDirPath = outputPath
+    reportDirPath = outputPath,
+    storageProvider = storageProvider
 ) {
 
     override fun toString(): String {

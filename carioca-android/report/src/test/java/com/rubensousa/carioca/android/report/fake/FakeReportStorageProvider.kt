@@ -25,8 +25,11 @@ import kotlin.io.path.createParentDirectories
 class FakeReportStorageProvider : ReportStorageProvider {
 
     private val localDir = File(".").absoluteFile.parentFile
+
     // Create a fake local storage for testing
     private val testDir = File(localDir, "test-files")
+
+    val filesSaved = mutableMapOf<String, File>()
 
     var lastFile: File? = null
 
@@ -34,11 +37,25 @@ class FakeReportStorageProvider : ReportStorageProvider {
         testDir.mkdirs()
     }
 
+    override fun getOutputDir(): File {
+        return testDir
+    }
+
     override fun getOutputStream(path: String): OutputStream {
         val file = File(testDir, path)
+        filesSaved[path] = file
         file.toPath().createParentDirectories()
         lastFile = file
         return FileOutputStream(file)
+    }
+
+    override fun delete(path: String) {
+        filesSaved.remove(path)?.delete()
+    }
+
+    override fun deleteTemporaryFiles() {
+        filesSaved.clear()
+        testDir.deleteRecursively()
     }
 
     fun clean() {
@@ -46,3 +63,4 @@ class FakeReportStorageProvider : ReportStorageProvider {
     }
 
 }
+

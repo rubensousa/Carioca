@@ -37,7 +37,7 @@ internal class InstrumentedCoroutineTest(
     reporter: CariocaInstrumentedReporter,
     screenshotDelegate: ScreenshotDelegate,
     interceptors: List<CariocaInstrumentedInterceptor>,
-    storageProvider: ReportStorageProvider
+    storageProvider: ReportStorageProvider,
 ) : InstrumentedTestReport(
     outputPath = outputPath,
     metadata = metadata,
@@ -58,6 +58,7 @@ internal class InstrumentedCoroutineTest(
                     stack = stageStack,
                     interceptors = interceptors,
                     outputPath = outputPath,
+                    storageProvider = storageProvider
                 )
             }
         }

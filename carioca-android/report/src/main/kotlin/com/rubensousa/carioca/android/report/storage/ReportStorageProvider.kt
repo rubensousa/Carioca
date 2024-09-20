@@ -16,10 +16,17 @@
 
 package com.rubensousa.carioca.android.report.storage
 
+import java.io.File
 import java.io.OutputStream
 
 interface ReportStorageProvider {
 
     fun getOutputStream(path: String): OutputStream
+
+    fun delete(path: String)
+
+    fun deleteTemporaryFiles()
+
+    fun getOutputDir(): File
 
 }

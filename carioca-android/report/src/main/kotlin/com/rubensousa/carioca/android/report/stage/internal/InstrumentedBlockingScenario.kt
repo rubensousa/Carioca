@@ -21,6 +21,7 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFac
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
 internal class InstrumentedBlockingScenario(
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
@@ -28,10 +29,12 @@ internal class InstrumentedBlockingScenario(
     id: String,
     title: String,
     private val scenario: InstrumentedScenario,
+    storageProvider: ReportStorageProvider
 ) : InstrumentedScenarioReport(
     outputPath = outputPath,
     id = id,
-    title = title
+    title = title,
+    storageProvider = storageProvider
 ), InstrumentedStageScope {
 
     private val delegate = delegateFactory.create(this)

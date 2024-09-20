@@ -38,7 +38,7 @@ internal class InstrumentedBlockingTest(
     screenshotDelegate: ScreenshotDelegate,
     reporter: CariocaInstrumentedReporter,
     interceptors: List<CariocaInstrumentedInterceptor>,
-    storageProvider: ReportStorageProvider
+    storageProvider: ReportStorageProvider,
 ) : InstrumentedTestReport(
     outputPath = outputPath,
     metadata = metadata,
@@ -59,6 +59,7 @@ internal class InstrumentedBlockingTest(
                     stack = stageStack,
                     interceptors = interceptors,
                     outputPath = outputPath,
+                    storageProvider = storageProvider
                 )
             }
         }
@@ -85,7 +86,8 @@ internal class InstrumentedBlockingTest(
             delegateFactory = delegateFactory,
             title = title,
             outputPath = outputPath,
-            before = true
+            before = true,
+            storageProvider = storageProvider
         )
         addStageBefore(stage)
         executeStage(stage) {
@@ -98,7 +100,8 @@ internal class InstrumentedBlockingTest(
             delegateFactory = delegateFactory,
             title = title,
             outputPath = outputPath,
-            before = false
+            before = false,
+            storageProvider = storageProvider
         )
         addStageAfter(stage)
         executeStage(stage) {

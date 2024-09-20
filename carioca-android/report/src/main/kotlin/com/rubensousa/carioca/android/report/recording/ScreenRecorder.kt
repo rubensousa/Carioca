@@ -17,17 +17,16 @@
 package com.rubensousa.carioca.android.report.recording
 
 import android.util.Log
-import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
-import com.rubensousa.carioca.android.report.storage.TestStorageProvider
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import java.io.BufferedInputStream
 import java.io.FileInputStream
 import java.util.concurrent.Executors
 
+class ScreenRecorder(
+    private val storageProvider: ReportStorageProvider,
+) {
 
-object DeviceScreenRecorder {
-
-    private const val TAG = "ScreenRecorder"
-
+    private val tag = "ScreenRecorder"
     private val executor by lazy { Executors.newFixedThreadPool(1) }
     private val buffer by lazy { ByteArray(1_000_000) }
     private var task: RecordingTask? = null
@@ -38,7 +37,7 @@ object DeviceScreenRecorder {
         filename: String,
     ): ReportRecording {
         task?.stop(delete = true)
-        val outputDir = TestStorageDirectory.outputDir
+        val outputDir = storageProvider.getOutputDir()
         val videoFilename = "${filename}.mp4"
         val relativePath = "$relativeOutputDirPath/$videoFilename"
         val absolutePath = "${outputDir.absolutePath}${relativePath}"
@@ -48,29 +47,29 @@ object DeviceScreenRecorder {
             filename = videoFilename,
         )
         val newTask = RecordingTask(
-            tag = TAG,
+            tag = tag,
             executor = executor,
             recordingFile = recording.tmpFile,
             options = options
         )
-        Log.i(TAG, "Requested recording for: $relativePath")
+        Log.i(tag, "Requested recording for: $relativePath")
         task = newTask
         newTask.start()
         return recording
     }
 
     fun stopRecording(recording: ReportRecording, delete: Boolean) {
-        Log.i(TAG, "Stopping recording: ${recording.absoluteFilePath}")
+        Log.i(tag, "Stopping recording: ${recording.absoluteFilePath}")
         task?.stop(delete)
-        // Now copy the file to the test storage
+        // Now copy the file to the report storage
         if (!delete) {
-            copyRecordingToTestStorage(recording)
+            copyTemporaryFileToReportStorage(recording)
         }
     }
 
-    private fun copyRecordingToTestStorage(recording: ReportRecording) {
+    private fun copyTemporaryFileToReportStorage(recording: ReportRecording) {
         try {
-            val outputStream = TestStorageProvider.getOutputStream(recording.relativeFilePath)
+            val outputStream = storageProvider.getOutputStream(recording.relativeFilePath)
             val tmpFile = recording.tmpFile
             val inputStream = BufferedInputStream(FileInputStream(tmpFile))
             var bytesRead = inputStream.read(buffer)
@@ -86,6 +85,5 @@ object DeviceScreenRecorder {
             // Ignore
         }
     }
-
 
 }

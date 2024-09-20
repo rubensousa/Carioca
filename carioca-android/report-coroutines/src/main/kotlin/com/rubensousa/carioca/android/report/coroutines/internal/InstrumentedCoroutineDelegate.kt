@@ -24,6 +24,7 @@ import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ExecutionIdGenerator
 import com.rubensousa.carioca.report.runtime.StageStack
 
@@ -38,6 +39,7 @@ internal class InstrumentedCoroutineDelegate(
     private val stack: StageStack<InstrumentedStageReport>,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
     private val outputPath: String,
+    private val storageProvider: ReportStorageProvider,
 ) : InstrumentedCoroutineStageScope {
 
     override fun screenshot(description: String, options: ScreenshotOptions?) {
@@ -89,7 +91,8 @@ internal class InstrumentedCoroutineDelegate(
             outputPath = outputPath,
             delegateFactory = delegateFactory,
             id = id ?: ExecutionIdGenerator.get(),
-            title = title
+            title = title,
+            storageProvider = storageProvider,
         )
     }
 
@@ -102,6 +105,7 @@ internal class InstrumentedCoroutineDelegate(
             id = scenario.id,
             title = scenario.title,
             scenario = scenario,
+            storageProvider = storageProvider
         )
     }
 

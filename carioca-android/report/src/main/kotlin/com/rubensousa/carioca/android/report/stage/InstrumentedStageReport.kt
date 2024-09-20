@@ -16,17 +16,15 @@
 
 package com.rubensousa.carioca.android.report.stage
 
-import androidx.test.platform.app.InstrumentationRegistry
-import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.android.report.storage.TestStorageProvider
 import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageReport
-import java.io.File
 import java.io.OutputStream
 
 abstract class InstrumentedStageReport(
     reportDirPath: String,
+    protected val storageProvider: ReportStorageProvider,
 ) : StageReport() {
 
     val outputPath: String = if (!reportDirPath.startsWith("/")) {
@@ -36,32 +34,12 @@ abstract class InstrumentedStageReport(
     }
 
     override fun deleteAttachment(attachment: StageAttachment) {
-        try {
-            val outputFile = File(TestStorageDirectory.outputDir, attachment.path)
-            if (outputFile.exists()) {
-                deleteFile(outputFile)
-                outputFile.delete()
-            } else {
-                val tmpFile = File(TestStorageDirectory.tmpOutputDir, attachment.path)
-                if (tmpFile.exists()) {
-                    deleteFile(tmpFile)
-                }
-            }
-        } catch (exception: Exception) {
-            // Ignore
-        }
+        storageProvider.delete(attachment.path)
     }
 
     fun getAttachmentOutputStream(path: String): OutputStream {
         val relativePath = "$outputPath/$path"
         return TestStorageProvider.getOutputStream(relativePath)
-    }
-
-    protected fun deleteFile(file: File) {
-        if (!file.delete()) {
-            UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
-                .executeShellCommand("rm ${file.absolutePath}")
-        }
     }
 
 }
