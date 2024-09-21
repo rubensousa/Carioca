@@ -51,6 +51,6 @@ rootProject.name = "carioca"
 include(":carioca-android:report")
 include(":carioca-android:report-coroutines")
 include(":carioca-android:report-sample")
-include(":carioca-report-plugin:android-allure")
+include(":carioca-report-plugin:android-allure-plugin")
 include(":carioca-junit4:rules")
 include(":carioca-junit4:report")

@@ -1,3 +1,6 @@
+import com.vanniktech.maven.publish.GradlePlugin
+import com.vanniktech.maven.publish.JavadocJar
+
 /*
  * Copyright 2024 Rúben Sousa
  *
@@ -28,7 +31,7 @@ if (rootProject.name == "carioca") {
 gradlePlugin {
     plugins {
         register("plugin-android-allure") {
-            id = "com.rubensousa.carioca.report.plugin.android.allure"
+            id = "com.rubensousa.carioca.android.allure"
             implementationClass = "com.rubensousa.carioca.report.plugin.android.allure.AllureReportPlugin"
         }
     }
@@ -50,9 +53,15 @@ dependencies {
 }
 
 mavenPublishing {
+    configure(
+        GradlePlugin(
+            javadocJar = JavadocJar.Javadoc(),
+            sourcesJar = true
+        )
+    )
     coordinates(
-        groupId = "com.rubensousa.carioca.report.plugin",
-        artifactId = "android-allure",
+        groupId = "com.rubensousa.carioca",
+        artifactId = "android-allure-gradle-plugin",
         version = libs.versions.cariocaAllureAndroid.get()
     )
     pom {

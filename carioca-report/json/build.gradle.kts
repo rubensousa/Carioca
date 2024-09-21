@@ -21,12 +21,12 @@ dependencies {
 mavenPublishing {
     coordinates(
         groupId = "com.rubensousa.carioca.report",
-        artifactId = "serialization",
+        artifactId = "json",
         version = libs.versions.cariocaReport.get()
     )
     pom {
-        name = "Carioca Report Serialization"
-        description = "Library that provides serialization support for carioca reports"
+        name = "Carioca Report Json"
+        description = "Library that provides json serialization support for carioca reports"
         packaging = "jar"
         inceptionYear.set("2024")
         url.set("https://github.com/rubensousa/carioca/")
