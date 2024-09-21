@@ -19,17 +19,29 @@ package com.rubensousa.carioca.android.report.stage.internal
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
-import com.rubensousa.carioca.android.report.stage.InstrumentedStepReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageType
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
-internal class InstrumentedBlockingStep(
+internal class InstrumentedBlockingStage(
+    type: InstrumentedStageType,
     outputPath: String,
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
-    id: String,
-    title: String,
-) : InstrumentedStepReport(outputPath, id, title), InstrumentedStageScope {
+    storageProvider: ReportStorageProvider,
+    private val id: String,
+    private val title: String,
+) : InstrumentedStageReport(
+    type = type,
+    outputPath = outputPath,
+    storageProvider = storageProvider
+), InstrumentedStageScope {
 
     private val delegate = delegateFactory.create(this)
+
+    override fun getId(): String = id
+
+    override fun getTitle(): String = title
 
     override fun screenshot(description: String, options: ScreenshotOptions?) {
         delegate.screenshot(description, options)
@@ -53,6 +65,11 @@ internal class InstrumentedBlockingStep(
 
     internal fun execute(action: InstrumentedStageScope.() -> Unit) {
         action(this)
+        pass()
+    }
+
+    internal fun executeScenario(scenario: InstrumentedScenario) {
+        scenario.run(this)
         pass()
     }
 

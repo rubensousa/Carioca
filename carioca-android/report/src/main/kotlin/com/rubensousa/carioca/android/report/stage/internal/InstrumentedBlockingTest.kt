@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.android.report.stage.internal
 
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.InstrumentedReporter
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
@@ -26,8 +26,11 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFac
 import com.rubensousa.carioca.android.report.stage.InstrumentedScenario
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageScope
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageType
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestScope
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+import com.rubensousa.carioca.report.runtime.ExecutionIdGenerator
 import com.rubensousa.carioca.report.runtime.TestMetadata
 
 internal class InstrumentedBlockingTest(
@@ -35,15 +38,17 @@ internal class InstrumentedBlockingTest(
     metadata: TestMetadata,
     recordingOptions: RecordingOptions,
     screenshotDelegate: ScreenshotDelegate,
-    reporter: CariocaInstrumentedReporter,
+    reporter: InstrumentedReporter,
     interceptors: List<CariocaInstrumentedInterceptor>,
+    storageProvider: ReportStorageProvider,
 ) : InstrumentedTestReport(
     outputPath = outputPath,
     metadata = metadata,
     recordingOptions = recordingOptions,
     screenshotDelegate = screenshotDelegate,
     reporter = reporter,
-    interceptors = interceptors
+    interceptors = interceptors,
+    storageProvider = storageProvider
 ), InstrumentedTestScope {
 
     private val delegateFactory =
@@ -56,6 +61,7 @@ internal class InstrumentedBlockingTest(
                     stack = stageStack,
                     interceptors = interceptors,
                     outputPath = outputPath,
+                    storageProvider = storageProvider
                 )
             }
         }
@@ -78,11 +84,13 @@ internal class InstrumentedBlockingTest(
     }
 
     fun before(title: String, action: InstrumentedStageScope.() -> Unit) {
-        val stage = InstrumentedBlockingBeforeAfter(
-            delegateFactory = delegateFactory,
+        val stage = InstrumentedBlockingStage(
+            id = ExecutionIdGenerator.get(),
             title = title,
+            type = InstrumentedStageType.BEFORE,
             outputPath = outputPath,
-            before = true
+            delegateFactory = delegateFactory,
+            storageProvider = storageProvider
         )
         addStageBefore(stage)
         executeStage(stage) {
@@ -91,11 +99,13 @@ internal class InstrumentedBlockingTest(
     }
 
     fun after(title: String, action: InstrumentedStageScope.() -> Unit) {
-        val stage = InstrumentedBlockingBeforeAfter(
-            delegateFactory = delegateFactory,
+        val stage = InstrumentedBlockingStage(
+            id = ExecutionIdGenerator.get(),
             title = title,
+            type = InstrumentedStageType.AFTER,
             outputPath = outputPath,
-            before = false
+            delegateFactory = delegateFactory,
+            storageProvider = storageProvider
         )
         addStageAfter(stage)
         executeStage(stage) {

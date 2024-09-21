@@ -14,20 +14,34 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.android.report.fake
 
 import com.rubensousa.carioca.android.report.InstrumentedReporter
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
+import com.rubensousa.carioca.android.report.suite.SuiteStage
 import org.junit.runner.Description
 
-internal interface SuiteStage {
+class FakeSuiteStage : SuiteStage {
 
-    fun registerReporter(reporter: InstrumentedReporter)
+    val ignoredDescriptions = mutableListOf<Description>()
 
-    fun testStarted(test: InstrumentedTestReport)
+    private val reporters = mutableListOf<InstrumentedReporter>()
+    private val tests = mutableListOf<InstrumentedTestReport>()
 
-    fun testIgnored(description: Description)
+    override fun registerReporter(reporter: InstrumentedReporter) {
+        reporters.add(reporter)
+    }
 
-    fun getTests(): List<InstrumentedTestReport>
+    override fun testStarted(test: InstrumentedTestReport) {
+        tests.add(test)
+    }
+
+    override fun testIgnored(description: Description) {
+        ignoredDescriptions.add(description)
+    }
+
+    override fun getTests(): List<InstrumentedTestReport> {
+        return tests.toList()
+    }
 
 }

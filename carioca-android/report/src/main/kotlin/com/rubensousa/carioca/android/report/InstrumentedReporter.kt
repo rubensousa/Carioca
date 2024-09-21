@@ -16,30 +16,33 @@
 
 package com.rubensousa.carioca.android.report
 
-import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+import com.rubensousa.carioca.report.runtime.StageReport
 import com.rubensousa.carioca.report.runtime.TestMetadata
 import java.io.OutputStream
 
 /**
  * Implement this to generate your own test reports, in any format you want.
- * [DefaultInstrumentedReporter] is the default implementation that is flexible enough
+ * [DefaultInstrumentedReporter] is the default implementation
+ * that is flexible enough to convert to any other format
  */
-interface CariocaInstrumentedReporter {
+interface InstrumentedReporter {
 
     /**
      * @param metadata the test report to be saved
      *
-     * @return The relative output directory for this report
+     * @return The relative output directory for this report.
      */
     fun getOutputDir(metadata: TestMetadata): String
 
     /**
-     * @param test test report to be written
+     * @param testMetadata the metadata of the test
+     * @param report  report to be written
      * @param storageProvider the storage provider to query for a [OutputStream]
      */
     fun writeTestReport(
-        test: InstrumentedTestReport,
+        testMetadata: TestMetadata,
+        report: StageReport,
         storageProvider: ReportStorageProvider,
     )
 

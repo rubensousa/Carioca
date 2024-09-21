@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.core
+package com.rubensousa.carioca.android.report.fake
 
-import org.junit.Assert.assertEquals
-import org.junit.Test
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+import com.rubensousa.carioca.report.runtime.StageAttachment
+import com.rubensousa.carioca.report.runtime.StageReport
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitInstrumentedBlockingTestJsonStageReportInterfaceImpl {
-    @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+class FakeStageReport(
+    private val storageProvider: ReportStorageProvider = FakeReportStorageProvider(),
+) : StageReport() {
+
+    override fun deleteAttachment(attachment: StageAttachment) {
+
     }
+
+    override fun getType(): String = "Type"
+
+    override fun getTitle(): String = "Title"
 }

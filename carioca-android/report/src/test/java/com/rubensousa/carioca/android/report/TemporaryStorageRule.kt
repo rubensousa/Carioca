@@ -14,20 +14,26 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.android.report
 
-import com.rubensousa.carioca.android.report.InstrumentedReporter
-import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
+import com.rubensousa.carioca.android.report.fake.FakeReportStorageProvider
+import org.junit.rules.TestRule
 import org.junit.runner.Description
+import org.junit.runners.model.Statement
 
-internal interface SuiteStage {
+class TemporaryStorageRule : TestRule {
 
-    fun registerReporter(reporter: InstrumentedReporter)
+    private val storageProvider = FakeReportStorageProvider()
 
-    fun testStarted(test: InstrumentedTestReport)
-
-    fun testIgnored(description: Description)
-
-    fun getTests(): List<InstrumentedTestReport>
-
+    override fun apply(base: Statement, description: Description): Statement {
+        return object : Statement() {
+            override fun evaluate() {
+                try {
+                    base.evaluate()
+                } finally {
+                    storageProvider.clean()
+                }
+            }
+        }
+    }
 }

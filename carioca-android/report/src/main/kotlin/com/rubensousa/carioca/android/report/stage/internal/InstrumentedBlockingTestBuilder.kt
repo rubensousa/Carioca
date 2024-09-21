@@ -16,26 +16,27 @@
 
 package com.rubensousa.carioca.android.report.stage.internal
 
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.InstrumentedReporter
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.junit4.report.getTestMetadata
-import com.rubensousa.carioca.junit4.report.getTestReportConfig
-import org.junit.runner.Description
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
+import com.rubensousa.carioca.report.runtime.TestMetadata
+import com.rubensousa.carioca.report.runtime.TestReportConfig
 
-internal class InstrumentedTestBuilder {
+internal class InstrumentedBlockingTestBuilder(
+    private val storageProvider: ReportStorageProvider,
+) {
 
     fun build(
-        description: Description,
+        reportConfig: TestReportConfig?,
+        testMetadata: TestMetadata,
         recordingOptions: RecordingOptions,
         screenshotOptions: ScreenshotOptions,
-        reporter: CariocaInstrumentedReporter,
+        reporter: InstrumentedReporter,
         interceptors: List<CariocaInstrumentedInterceptor>,
     ): InstrumentedBlockingTest {
-        val reportConfig = description.getTestReportConfig()
-        val testMetadata = description.getTestMetadata()
         val outputPath = reporter.getOutputDir(testMetadata)
         val testReport = InstrumentedBlockingTest(
             outputPath = outputPath,
@@ -43,10 +44,12 @@ internal class InstrumentedTestBuilder {
             recordingOptions = recordingOptions,
             screenshotDelegate = ScreenshotDelegate(
                 outputPath = outputPath,
-                defaultOptions = screenshotOptions
+                defaultOptions = screenshotOptions,
+                storageProvider = storageProvider
             ),
             interceptors = interceptors,
-            reporter = reporter
+            reporter = reporter,
+            storageProvider = storageProvider
         )
         reportConfig?.applyTo(testReport)
         return testReport

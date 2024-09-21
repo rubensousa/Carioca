@@ -23,15 +23,26 @@ import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.report.runtime.ExecutionMetadata
 import com.rubensousa.carioca.report.runtime.StageAttachment
 
-class DumpViewHierarchyInterceptor(
-    private val dumpOnEveryStage: Boolean = false,
-    private val keepOnSuccess: Boolean = false,
-    private val device: UiDevice = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation()),
+class DumpViewHierarchyInterceptor internal constructor(
+    private val dumpOnSuccess: Boolean,
+    private val device: UiDevice,
 ) : CariocaInstrumentedInterceptor {
 
-    override fun onStageStarted(stage: InstrumentedStageReport) {
-        if (dumpOnEveryStage) {
-            dump(stage)
+    constructor() : this(false)
+
+    /**
+     * @param dumpOnSuccess true if view hierarchy should also be dumped on success.
+     * Default: false
+     */
+    constructor(dumpOnSuccess: Boolean = false) : this(
+        dumpOnSuccess,
+        UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+    )
+
+    override fun onTestPassed(test: InstrumentedTestReport) {
+        super.onTestPassed(test)
+        if (dumpOnSuccess) {
+            dump(test)
         }
     }
 
@@ -53,7 +64,7 @@ class DumpViewHierarchyInterceptor(
                     description = "View hierarchy dump",
                     path = filename,
                     mimeType = "text/plain",
-                    keepOnSuccess = keepOnSuccess
+                    keepOnSuccess = dumpOnSuccess
                 )
             )
         } catch (exception: Exception) {

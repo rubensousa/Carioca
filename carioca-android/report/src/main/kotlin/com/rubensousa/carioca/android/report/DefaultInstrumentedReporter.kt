@@ -16,31 +16,35 @@
 
 package com.rubensousa.carioca.android.report
 
-import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.json.JsonReportFiles
 import com.rubensousa.carioca.report.json.JsonReportWriter
+import com.rubensousa.carioca.report.runtime.StageReport
 import com.rubensousa.carioca.report.runtime.TestMetadata
 
 /**
  * A template reporter that uses [JsonReportWriter] to save the reports to the test storage
  */
-class DefaultInstrumentedReporter : CariocaInstrumentedReporter {
+class DefaultInstrumentedReporter internal constructor(
+    private val writer: JsonReportWriter,
+) : InstrumentedReporter {
 
-    private val reportWriter = JsonReportWriter()
+    constructor() : this(JsonReportWriter())
 
     override fun getOutputDir(metadata: TestMetadata): String {
-        return JsonReportFiles.REPORT_DIR
+        return "/${JsonReportFiles.REPORT_DIR}"
     }
 
     override fun writeTestReport(
-        test: InstrumentedTestReport,
+        testMetadata: TestMetadata,
+        report: StageReport,
         storageProvider: ReportStorageProvider,
     ) {
-        val metadata = test.getExecutionMetadata()
-        val filePath = "${test.outputPath}/${metadata.uniqueId}_test_report.json"
+        val executionMetadata = report.getExecutionMetadata()
+        val dir = getOutputDir(testMetadata)
+        val filePath = "${dir}/${executionMetadata.uniqueId}_${JsonReportFiles.TEST_REPORT}"
         val outputStream = storageProvider.getOutputStream(filePath)
-        reportWriter.writeReport(test.metadata, test, outputStream)
+        writer.writeReport(testMetadata, report, outputStream)
     }
 
 }

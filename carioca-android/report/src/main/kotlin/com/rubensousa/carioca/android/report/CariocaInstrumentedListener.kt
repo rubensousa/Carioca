@@ -22,20 +22,14 @@ import com.rubensousa.carioca.android.report.suite.SuiteReportRegistry
 import org.junit.runner.Description
 
 /**
- * Use this if you're interested in test suite reports.
- *
- * Please note that this does not work if you run tests using test orchestrator.
+ * Use this if you're interested in recording ignored tests,
+ * as there is no other way to do it at the moment
  */
 @Suppress("unused")
 @SuppressLint("RestrictedApi")
 class CariocaInstrumentedListener : InstrumentationRunListener() {
 
     private val stage = SuiteReportRegistry.getSuiteStage()
-
-    override fun testRunStarted(description: Description) {
-        super.testRunStarted(description)
-        stage.clear()
-    }
 
     override fun testIgnored(description: Description) {
         super.testIgnored(description)

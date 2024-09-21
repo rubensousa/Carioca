@@ -14,23 +14,23 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.junit4.rules
 
-import com.rubensousa.carioca.android.report.stage.internal.InstrumentedBlockingTestBuilder
-import com.rubensousa.carioca.android.report.storage.TestStorageProvider
+import org.junit.rules.TestWatcher
+import org.junit.runner.Description
 
-internal object SuiteReportRegistry {
+/**
+ * A Rule that catches the [Description] of the test running
+ */
+class TestDescriptionRule : TestWatcher() {
 
-    private var suiteStage: SuiteStage = InstrumentedSuiteStage(
-        testBuilder = InstrumentedBlockingTestBuilder(TestStorageProvider)
-    )
+    private var currentDescription: Description? = null
 
-    internal fun getSuiteStage(): SuiteStage {
-        return suiteStage
+    override fun starting(description: Description) {
+        super.starting(description)
+        currentDescription = description
     }
 
-    internal fun setSuiteStage(stage: SuiteStage) {
-        suiteStage = stage
-    }
+    fun getDescription() = requireNotNull(currentDescription)
 
 }

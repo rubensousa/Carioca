@@ -18,12 +18,13 @@ package com.rubensousa.carioca.android.report.screenshot
 
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
-import com.rubensousa.carioca.android.report.storage.TestStorageProvider
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.StageAttachment
 
 class ScreenshotDelegate(
     private val outputPath: String,
     private val defaultOptions: ScreenshotOptions,
+    private val storageProvider: ReportStorageProvider,
 ) {
 
     fun takeScreenshot(
@@ -33,7 +34,7 @@ class ScreenshotDelegate(
     ) {
         val options = optionsOverride ?: defaultOptions
         val screenshotUri = DeviceScreenshot.take(
-            storageDir = TestStorageProvider.getOutputUri(outputPath),
+            storageDir = storageProvider.getOutputUri(outputPath),
             options = options,
             filename = FileIdGenerator.get()
         ) ?: return

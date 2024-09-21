@@ -29,14 +29,21 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executor
 import java.util.concurrent.TimeUnit
 
-internal class RecordingTask(
-    private val tag: String,
-    private val executor: Executor,
-    private val recordingFile: File,
-    private val options: RecordingOptions,
-) {
+internal interface RecordingTask {
+    fun start()
+    fun stop(delete: Boolean)
+    fun getRecording(): ReportRecording
+}
 
+internal class RecordingTaskImpl(
+    private val executor: Executor,
+    private val recording: ReportRecording,
+    private val options: RecordingOptions,
+) : RecordingTask {
+
+    private val tag = "RecordingTask"
     private val recordCommand = "screenrecord"
+    private val recordingFile = recording.tmpFile
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val recordingLatch = RecordingLatch()
     private val fileObserver = FileObserverCompat(recordingFile.path) { event ->
@@ -47,7 +54,9 @@ internal class RecordingTask(
         }
     }
 
-    fun start() {
+    override fun getRecording(): ReportRecording = recording
+
+    override fun start() {
         executor.execute {
             startRecording()
         }
@@ -66,7 +75,6 @@ internal class RecordingTask(
                 secondaryResolution = if (width > height) height else width
             )
             Thread.sleep(options.startDelay)
-            Log.i(tag, "Starting screen recording: $command")
             fileObserver.startWatching()
             device.executeShellCommand(command)
         } catch (e: Exception) {
@@ -76,7 +84,7 @@ internal class RecordingTask(
         }
     }
 
-    fun stop(delete: Boolean) {
+    override fun stop(delete: Boolean) {
         val stopLatch = CountDownLatch(1)
         InstrumentationRegistry.getInstrumentation().runOnMainSync {
             stopRecording(delete)

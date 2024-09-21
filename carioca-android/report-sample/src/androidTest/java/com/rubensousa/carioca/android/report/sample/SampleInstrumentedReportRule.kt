@@ -47,7 +47,7 @@ class SampleInstrumentedReportRule : InstrumentedReportRule(
     interceptors = listOf(
         LoggerInterceptor(),
         DumpViewHierarchyInterceptor(
-            dumpOnEveryStage = false
+            dumpOnSuccess = true // Optional. Default is false
         )
     )
 )
@@ -77,7 +77,7 @@ class SampleCoroutineInstrumentedReportRule : InstrumentedCoroutineReportRule(
     interceptors = listOf(
         LoggerInterceptor(),
         DumpViewHierarchyInterceptor(
-            dumpOnEveryStage = false
+            dumpOnSuccess = true  // Optional. Default is false
         )
     )
 )

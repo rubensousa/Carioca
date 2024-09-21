@@ -14,19 +14,25 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca
+package com.rubensousa.carioca.junit4.rules
 
-import org.junit.Assert.assertEquals
+import com.google.common.truth.Truth.assertThat
+import org.junit.Rule
 import org.junit.Test
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
-class ExampleUnitTest {
+class TestDescriptionRuleTest {
+
+    @get:Rule
+    val descriptionInterceptorRule = TestDescriptionRule()
+
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun `description is fetched from test`() {
+        // when
+        val description = descriptionInterceptorRule.getDescription()
+
+        // then
+        assertThat(description.isTest).isTrue()
+        assertThat(description.methodName).isEqualTo("description is fetched from test")
     }
+
 }

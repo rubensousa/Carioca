@@ -17,16 +17,16 @@
 package com.rubensousa.carioca.android.report.stage
 
 import android.util.Log
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.InstrumentedReporter
 import com.rubensousa.carioca.android.report.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.android.report.interceptor.intercept
-import com.rubensousa.carioca.android.report.recording.DeviceScreenRecorder
 import com.rubensousa.carioca.android.report.recording.RecordingOptions
+import com.rubensousa.carioca.android.report.recording.RecordingTaskFactoryImpl
 import com.rubensousa.carioca.android.report.recording.ReportRecording
+import com.rubensousa.carioca.android.report.recording.ScreenRecorder
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.android.report.storage.FileIdGenerator
-import com.rubensousa.carioca.android.report.storage.TestStorageDirectory
-import com.rubensousa.carioca.android.report.storage.TestStorageProvider
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ReportProperty
 import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageStack
@@ -39,19 +39,44 @@ import com.rubensousa.carioca.report.runtime.TestMetadata
  *
  * To get the stages for reporting, use [getTestStages]
  */
-abstract class InstrumentedTestReport(
+abstract class InstrumentedTestReport internal constructor(
     outputPath: String,
+    storageProvider: ReportStorageProvider,
     val metadata: TestMetadata,
-    protected val recordingOptions: RecordingOptions,
-    protected val screenshotDelegate: ScreenshotDelegate,
-    protected val reporter: CariocaInstrumentedReporter,
     protected val interceptors: List<CariocaInstrumentedInterceptor>,
-) : InstrumentedStageReport(reportDirPath = outputPath) {
+    private val recordingOptions: RecordingOptions,
+    private val screenshotDelegate: ScreenshotDelegate,
+    private val reporter: InstrumentedReporter,
+    private val screenRecorder: ScreenRecorder,
+) : InstrumentedStageReport(
+    type = InstrumentedStageType.TEST,
+    outputPath = outputPath,
+    storageProvider = storageProvider
+) {
+
+    constructor(
+        outputPath: String,
+        metadata: TestMetadata,
+        recordingOptions: RecordingOptions,
+        screenshotDelegate: ScreenshotDelegate,
+        reporter: InstrumentedReporter,
+        interceptors: List<CariocaInstrumentedInterceptor>,
+        storageProvider: ReportStorageProvider,
+    ) : this(
+        outputPath = outputPath,
+        metadata = metadata,
+        recordingOptions = recordingOptions,
+        screenshotDelegate = screenshotDelegate,
+        reporter = reporter,
+        interceptors = interceptors,
+        storageProvider = storageProvider,
+        screenRecorder = ScreenRecorder(
+            storageProvider,
+            RecordingTaskFactoryImpl()
+        ),
+    )
 
     protected val stageStack = StageStack<InstrumentedStageReport>()
-    private var screenRecording: ReportRecording? = null
-
-    override fun getType(): String = "Test"
 
     override fun getTitle(): String {
         return getProperty<String>(ReportProperty.Title) ?: metadata.methodName
@@ -69,12 +94,9 @@ abstract class InstrumentedTestReport(
     }
 
     fun onPassed() {
-        screenRecording?.let {
-            DeviceScreenRecorder.stopRecording(
-                recording = it,
-                delete = !recordingOptions.keepOnSuccess
-            )
-        }
+        screenRecorder.stop(
+            delete = !recordingOptions.keepOnSuccess
+        )
         pass()
         interceptors.intercept { onTestPassed(this@InstrumentedTestReport) }
         writeReport()
@@ -90,12 +112,7 @@ abstract class InstrumentedTestReport(
         screenshotDelegate.takeScreenshot(this, "Screenshot of failure")
 
         // Now stop the recording, if there is one
-        screenRecording?.let { activeRecording ->
-            DeviceScreenRecorder.stopRecording(
-                recording = activeRecording,
-                delete = false
-            )
-        }
+        screenRecorder.stop(delete = false)
 
         // Now loop through the entire stage stack and mark all stages as failed
         var stage = stageStack.pop()
@@ -113,33 +130,25 @@ abstract class InstrumentedTestReport(
 
     override fun reset() {
         super.reset()
-        deleteReportFiles()
+        storageProvider.deleteTemporaryFiles()
         stageStack.clear()
-        screenRecording = null
     }
 
     private fun writeReport() {
         try {
-            reporter.writeTestReport(this, TestStorageProvider)
+            reporter.writeTestReport(metadata, this, storageProvider)
         } catch (exception: Exception) {
             Log.e("CariocaReport", "Failed writing report for test ${this.metadata.methodName}", exception)
         }
     }
 
-    private fun deleteReportFiles() {
-        TestStorageDirectory.tmpOutputDir.listFiles()?.forEach { file ->
-            deleteFile(file)
-        }
-    }
-
     private fun startRecording() {
-        val newRecording = DeviceScreenRecorder.startRecording(
+        val newRecording = screenRecorder.start(
             filename = FileIdGenerator.get(),
             options = recordingOptions,
-            relativeOutputDirPath = outputPath
+            outputPath = outputPath
         )
         attach(createRecordingAttachment(newRecording))
-        screenRecording = newRecording
     }
 
     private fun createRecordingAttachment(recording: ReportRecording): StageAttachment {

@@ -16,7 +16,7 @@
 
 package com.rubensousa.carioca.android.report.coroutines.internal
 
-import com.rubensousa.carioca.android.report.CariocaInstrumentedReporter
+import com.rubensousa.carioca.android.report.InstrumentedReporter
 import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineScenario
 import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStageScope
 import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineTestScope
@@ -27,22 +27,25 @@ import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
 import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
 import com.rubensousa.carioca.android.report.stage.InstrumentedTestReport
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.TestMetadata
 
 internal class InstrumentedCoroutineTest(
     outputPath: String,
     metadata: TestMetadata,
     recordingOptions: RecordingOptions,
-    reporter: CariocaInstrumentedReporter,
+    reporter: InstrumentedReporter,
     screenshotDelegate: ScreenshotDelegate,
     interceptors: List<CariocaInstrumentedInterceptor>,
+    storageProvider: ReportStorageProvider,
 ) : InstrumentedTestReport(
     outputPath = outputPath,
     metadata = metadata,
     recordingOptions = recordingOptions,
     screenshotDelegate = screenshotDelegate,
     reporter = reporter,
-    interceptors = interceptors
+    interceptors = interceptors,
+    storageProvider = storageProvider
 ), InstrumentedCoroutineTestScope {
 
     private val coroutineDelegateFactory =
@@ -55,6 +58,7 @@ internal class InstrumentedCoroutineTest(
                     stack = stageStack,
                     interceptors = interceptors,
                     outputPath = outputPath,
+                    storageProvider = storageProvider
                 )
             }
         }

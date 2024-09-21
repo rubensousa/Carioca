@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.core
+package com.rubensousa.carioca.android.report.stage
 
 /**
- * Instrumented test, which will execute on an Android device.
- *
- * See [testing documentation](http://d.android.com/tools/testing).
+ * The default instrumented stage types for each report
  */
-class ExampleInstrumentedBlockingTestStageReportInterface {
-
-
+enum class InstrumentedStageType(val id: String) {
+    BEFORE("Before"),
+    TEST("Test"),
+    STEP("Step"),
+    SCENARIO("Scenario"),
+    AFTER("After")
 }

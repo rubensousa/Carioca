@@ -16,19 +16,29 @@
 
 package com.rubensousa.carioca.android.report.recording
 
-import java.io.File
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
-/**
- * A recording taken during a test report
- *
- * @param absoluteFilePath the absolute file path to the video recording
- * @param relativeFilePath the relative file path inside the test storage directory
- * @param filename the filename of the video recording file
- * @param tmpFile the temporary file of the recording, while it is being recorded
- */
-data class ReportRecording(
-    val absoluteFilePath: String,
-    val relativeFilePath: String,
-    val filename: String,
-    val tmpFile: File,
-)
+class FakeRecordingTask(
+    private val recording: ReportRecording,
+    private val storageProvider: ReportStorageProvider,
+) : RecordingTask {
+
+    override fun start() {
+        storageProvider.getOutputStream(recording.tmpFile.name)
+            .use {
+                it.write(0)
+                it.flush()
+            }
+    }
+
+    override fun stop(delete: Boolean) {
+        if (delete) {
+            storageProvider.delete(recording.tmpFile.name)
+        }
+    }
+
+    override fun getRecording(): ReportRecording {
+        return recording
+    }
+
+}

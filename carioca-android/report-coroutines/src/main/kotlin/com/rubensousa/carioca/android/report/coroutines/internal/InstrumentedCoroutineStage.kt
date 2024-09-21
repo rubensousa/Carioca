@@ -20,21 +20,28 @@ import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineSce
 import com.rubensousa.carioca.android.report.coroutines.InstrumentedCoroutineStageScope
 import com.rubensousa.carioca.android.report.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.android.report.stage.InstrumentedReportDelegateFactory
-import com.rubensousa.carioca.android.report.stage.InstrumentedScenarioReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageReport
+import com.rubensousa.carioca.android.report.stage.InstrumentedStageType
+import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 
-internal class InstrumentedCoroutineScenarioImpl(
+internal class InstrumentedCoroutineStage(
+    type: InstrumentedStageType,
     outputPath: String,
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedCoroutineStageScope>,
-    id: String,
-    title: String,
-    private val scenario: InstrumentedCoroutineScenario,
-) : InstrumentedScenarioReport(
+    storageProvider: ReportStorageProvider,
+    private val id: String,
+    private val title: String,
+) : InstrumentedStageReport(
+    type = type,
     outputPath = outputPath,
-    id = id,
-    title = title
+    storageProvider = storageProvider
 ), InstrumentedCoroutineStageScope {
 
     private val delegate = delegateFactory.create(this)
+
+    override fun getId(): String = id
+
+    override fun getTitle(): String = title
 
     override fun screenshot(description: String, options: ScreenshotOptions?) {
         delegate.screenshot(description, options)
@@ -45,7 +52,11 @@ internal class InstrumentedCoroutineScenarioImpl(
         id: String?,
         action: suspend InstrumentedCoroutineStageScope.() -> Unit,
     ) {
-        delegate.step(title, id, action)
+        delegate.step(
+            title = title,
+            id = id,
+            action = action
+        )
     }
 
     override suspend fun scenario(scenario: InstrumentedCoroutineScenario) {
@@ -56,7 +67,12 @@ internal class InstrumentedCoroutineScenarioImpl(
         delegate.param(key, value)
     }
 
-    internal suspend fun execute() {
+    internal suspend fun execute(action: suspend InstrumentedCoroutineStageScope.() -> Unit) {
+        action(this)
+        pass()
+    }
+
+    internal suspend fun executeScenario(scenario: InstrumentedCoroutineScenario) {
         scenario.run(this)
         pass()
     }
