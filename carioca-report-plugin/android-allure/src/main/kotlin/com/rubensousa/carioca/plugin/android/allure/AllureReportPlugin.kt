@@ -85,7 +85,7 @@ class AllureReportPlugin : Plugin<Project> {
                     keepLogcatOnSuccess = keepLogcatOnSuccess,
                     deleteOriginalReports = deleteOriginalReports
                 )
-                println("Allure report generated in $outputPath")
+                println("Allure report generated in file:///$outputPath")
             }
         }
 
@@ -102,7 +102,7 @@ class AllureReportPlugin : Plugin<Project> {
                     keepLogcatOnSuccess = keepLogcatOnSuccess,
                     deleteOriginalReports = deleteOriginalReports
                 )
-                println("Allure report generated in $outputPath")
+                println("Allure report generated in file:///$outputPath")
             }
         }
     }
