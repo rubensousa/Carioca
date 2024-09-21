@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.plugin.android.allure
+package com.rubensousa.carioca.report.plugin.android.allure
 
 import com.google.common.io.Files
 import com.rubensousa.carioca.report.json.JsonAttachment
