@@ -54,9 +54,9 @@ android {
         jvmTarget = "17"
     }
 
-    /*   testOptions {
-           execution = "ANDROIDX_TEST_ORCHESTRATOR"
-       }*/
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+    }
 
 }
 
