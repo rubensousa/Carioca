@@ -19,7 +19,9 @@ package com.rubensousa.carioca.android.report.fake
 import android.net.Uri
 import com.rubensousa.carioca.android.report.storage.ReportStorageProvider
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
+import java.io.InputStream
 import java.io.OutputStream
 import kotlin.io.path.createParentDirectories
 
@@ -41,6 +43,10 @@ class FakeReportStorageProvider : ReportStorageProvider {
 
     override fun getOutputDir(): File {
         return testDir
+    }
+
+    override fun getInputStream(path: String): InputStream {
+        return FileInputStream(filesSaved[path]!!)
     }
 
     override fun getOutputStream(path: String): OutputStream {
