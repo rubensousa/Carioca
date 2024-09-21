@@ -54,9 +54,9 @@ android {
         jvmTarget = "17"
     }
 
-    testOptions {
+   /* testOptions {
         execution = "ANDROIDX_TEST_ORCHESTRATOR"
-    }
+    }*/
 
 }
 
@@ -77,7 +77,7 @@ dependencies {
     androidTestImplementation(project(":carioca-android:report"))
     androidTestImplementation(project(":carioca-android:report-coroutines"))
     androidTestUtil(libs.androidx.test.services)
-    androidTestUtil(libs.androidx.test.orchestrator)
+  //  androidTestUtil(libs.androidx.test.orchestrator)
 }
 
 allureReport {

@@ -24,15 +24,14 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-if (rootProject.name == "carioca") {
-    plugins.apply(libs.plugins.maven.publish.get().pluginId)
-}
+group = "com.rubensousa.carioca.android"
+version = libs.versions.cariocaAllureAndroid.get()
 
 gradlePlugin {
     plugins {
-        register("plugin-android-allure") {
+        register("allure") {
             id = "com.rubensousa.carioca.android.allure"
-            implementationClass = "com.rubensousa.carioca.report.plugin.android.allure.AllureReportPlugin"
+            implementationClass = "com.rubensousa.carioca.android.allure.gradle.AllureReportPlugin"
         }
     }
 }
@@ -43,7 +42,6 @@ java {
 }
 
 dependencies {
-    compileOnly(gradleApi())
     implementation(libs.carioca.report.json)
     implementation(libs.gradle.kotlin)
     implementation(libs.gradle.android)
@@ -59,15 +57,10 @@ mavenPublishing {
             sourcesJar = true
         )
     )
-    coordinates(
-        groupId = "com.rubensousa.carioca",
-        artifactId = "android-allure-gradle-plugin",
-        version = libs.versions.cariocaAllureAndroid.get()
-    )
+    coordinates(artifactId = "allure-gradle-plugin")
     pom {
         name = "Carioca Android Allure Report Plugin"
         description = "Plugin that generates instrumented test reports for allure"
-        packaging = "jar"
         inceptionYear.set("2024")
         url.set("https://github.com/rubensousa/carioca/")
         licenses {

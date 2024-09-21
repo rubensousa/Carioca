@@ -62,7 +62,7 @@ carioca-report-json = { group = "com.rubensousa.carioca.report", name = "json", 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-carioca-allure-android = { id = "com.rubensousa.carioca.plugin.android.allure", version = "unspecified" }
+carioca-allure-android = { id = "com.rubensousa.carioca.android.allure", version.ref = "cariocaAllureAndroid" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.29.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
