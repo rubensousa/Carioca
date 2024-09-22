@@ -63,4 +63,5 @@ nav:
   - 'Changelog Android Reports': changelog_android_reports.md
   - 'Changelog JUnit4': changelog_junit4_rules.md
   - 'Changelog Allure Plugin': changelog_allure.md
+  - 'Report API': api_report/
   - 'API': api/

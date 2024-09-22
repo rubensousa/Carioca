@@ -35,6 +35,9 @@ jobs:
         run: |
           ./gradlew dokkaHtmlMultiModule
           mv ./build/dokka/htmlMultiModule docs/api
+          cd carioca-report
+          ./gradlew dokkaHtmlMultiModule
+          mv ./build/dokka/htmlMultiModule ../docs/api_report
 
       - name: Install dependencies
         run: |
