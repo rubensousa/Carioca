@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kover)
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.kotlin.dokka)
 }
 
 android {
@@ -42,8 +43,8 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.S01)
     signAllPublications()
     coordinates(
-        groupId = "com.rubensousa.carioca.android",
-        artifactId = "report-coroutines",
+        groupId = "com.rubensousa.carioca",
+        artifactId = "android-report-coroutines",
         version = project.parent!!.properties["VERSION_ANDROID_REPORT"] as String
     )
     pom {

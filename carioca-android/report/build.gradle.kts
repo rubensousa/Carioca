@@ -22,6 +22,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kover)
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.kotlin.dokka)
 }
 
 android {
@@ -67,8 +68,8 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.S01)
     signAllPublications()
     coordinates(
-        groupId = "com.rubensousa.carioca.android",
-        artifactId = "report",
+        groupId = "com.rubensousa.carioca",
+        artifactId = "android-report",
         version = project.parent!!.properties["VERSION_ANDROID_REPORT"] as String
     )
     pom {

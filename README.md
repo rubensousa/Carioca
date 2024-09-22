@@ -1,6 +1,8 @@
 # Carioca
 
-A collection of testing tools for Android and Kotlin that include flexible reporting capabilities
+A collection of testing tools for Android that include flexible reporting capabilities
+
+See the project website for more information: https://rubensousa.github.io/Carioca
 
 ## License
 

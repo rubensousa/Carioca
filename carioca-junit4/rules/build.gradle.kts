@@ -39,8 +39,8 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.S01)
     signAllPublications()
     coordinates(
-        groupId = "com.rubensousa.carioca.junit4",
-        artifactId = "rules",
+        groupId = "com.rubensousa.carioca",
+        artifactId = "junit4-rules",
         version = project.parent!!.properties["VERSION_JUNIT4"] as String
     )
     pom {

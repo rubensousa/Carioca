@@ -25,7 +25,7 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-group = "com.rubensousa.carioca.android"
+group = "com.rubensousa.carioca"
 version = if (project.parent?.name == "carioca") {
     project.parent!!.properties["VERSION_ALLURE_PLUGIN"] as String
 } else {
@@ -65,7 +65,7 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.S01)
     signAllPublications()
     coordinates(
-        artifactId = "allure-gradle-plugin",
+        artifactId = "android-allure-gradle-plugin",
     )
     pom {
         name = "Carioca Android Allure Report Plugin"
