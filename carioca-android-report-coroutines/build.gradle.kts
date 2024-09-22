@@ -45,12 +45,11 @@ mavenPublishing {
     coordinates(
         groupId = "com.rubensousa.carioca",
         artifactId = "android-report-coroutines",
-        version = project.parent!!.properties["VERSION_ANDROID_REPORT"] as String
+        version = "1.0.0-SNAPSHOT"
     )
     pom {
         name = "Carioca Android Coroutines Report"
         description = "Coroutine extensions for instrumented test reports"
-        packaging = "aar"
         inceptionYear.set("2024")
         url.set("https://github.com/rubensousa/carioca/")
         licenses {

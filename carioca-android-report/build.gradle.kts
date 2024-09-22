@@ -24,7 +24,7 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-version = project.parent!!.properties["VERSION_ANDROID_REPORT"] as String
+version = "1.0.0-SNAPSHOT"
 
 android {
     namespace = "com.rubensousa.carioca.android.report"
@@ -70,7 +70,8 @@ mavenPublishing {
     signAllPublications()
     coordinates(
         groupId = "com.rubensousa.carioca",
-        artifactId = "android-report"
+        artifactId = "android-report",
+        version = version as String
     )
     pom {
         name = "Carioca Android Report"
