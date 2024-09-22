@@ -65,7 +65,7 @@ mavenPublishing {
     coordinates(
         groupId = "com.rubensousa.carioca.android",
         artifactId = "report",
-        version = libs.versions.cariocaAndroid.get()
+        version = project.parent!!.properties["VERSION_ANDROID_REPORT"] as String
     )
     pom {
         name = "Carioca Android Report"

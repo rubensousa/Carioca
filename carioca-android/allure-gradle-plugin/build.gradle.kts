@@ -1,5 +1,6 @@
 import com.vanniktech.maven.publish.GradlePlugin
 import com.vanniktech.maven.publish.JavadocJar
+import com.vanniktech.maven.publish.SonatypeHost
 
 /*
  * Copyright 2024 Rúben Sousa
@@ -24,9 +25,6 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
-group = "com.rubensousa.carioca.android"
-version = libs.versions.cariocaAllureAndroid.get()
-
 gradlePlugin {
     plugins {
         register("allure") {
@@ -50,37 +48,46 @@ dependencies {
     testImplementation(libs.bundles.test.unit)
 }
 
-mavenPublishing {
-    configure(
-        GradlePlugin(
-            javadocJar = JavadocJar.Javadoc(),
-            sourcesJar = true
+// Do not setup publishing for build-logic
+if (project.parent?.name == "carioca") {
+    mavenPublishing {
+        publishToMavenCentral(SonatypeHost.S01)
+        signAllPublications()
+        configure(
+            GradlePlugin(
+                javadocJar = JavadocJar.Javadoc(),
+                sourcesJar = true
+            )
         )
-    )
-    coordinates(artifactId = "allure-gradle-plugin")
-    pom {
-        name = "Carioca Android Allure Report Plugin"
-        description = "Plugin that generates instrumented test reports for allure"
-        inceptionYear.set("2024")
-        url.set("https://github.com/rubensousa/carioca/")
-        licenses {
-            license {
-                name.set("The Apache License, Version 2.0")
-                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-            }
-        }
-        developers {
-            developer {
-                id.set("rubensousa")
-                name.set("Ruben Sousa")
-                url.set("https://github.com/rubensousa/")
-            }
-        }
-        scm {
+        coordinates(
+            groupId = "com.rubensousa.carioca.android",
+            artifactId = "allure-gradle-plugin",
+            version = project.parent!!.properties["VERSION_ALLURE_PLUGIN"] as String
+        )
+        pom {
+            name = "Carioca Android Allure Report Plugin"
+            description = "Plugin that generates instrumented test reports for allure"
+            inceptionYear.set("2024")
             url.set("https://github.com/rubensousa/carioca/")
-            connection.set("scm:git:git://github.com/rubensousa/carioca.git")
-            developerConnection.set("scm:git:ssh://git@github.com/rubensousa/carioca.git")
+            licenses {
+                license {
+                    name.set("The Apache License, Version 2.0")
+                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                }
+            }
+            developers {
+                developer {
+                    id.set("rubensousa")
+                    name.set("Ruben Sousa")
+                    url.set("https://github.com/rubensousa/")
+                }
+            }
+            scm {
+                url.set("https://github.com/rubensousa/carioca/")
+                connection.set("scm:git:git://github.com/rubensousa/carioca.git")
+                developerConnection.set("scm:git:ssh://git@github.com/rubensousa/carioca.git")
+            }
         }
     }
 }

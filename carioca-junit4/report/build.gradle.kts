@@ -21,7 +21,7 @@ mavenPublishing {
     coordinates(
         groupId = "com.rubensousa.carioca.junit4",
         artifactId = "report",
-        version = libs.versions.cariocaReport.get()
+        version = project.parent!!.properties["VERSION_JUNIT4"] as String
     )
     pom {
         name = "Carioca Junit4 Report"
