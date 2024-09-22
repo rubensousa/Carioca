@@ -5,10 +5,10 @@ on:
     paths:
       - 'docs/**'
       - 'mkdocs.yml'
-      - '.github/workflows/docs.yml'
+      - '.github/workflows/docs_push.yml'
       - '.github/workflows/docs_pr.yml'
     branches:
-      - 'master'
+      - 'main'
 
 jobs:
   build:
@@ -21,13 +21,15 @@ jobs:
         with:
           python-version: 3.x
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4.2.0
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: '17'
+          check-latest: false
+          cache: "gradle"
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Build docs
         run: |
