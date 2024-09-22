@@ -24,11 +24,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Check and build core libraries
-        working-directory: ./carioca-report
-        run: ./gradlew --build-cache check assemble --stacktrace
-
-      - name: Check and build integration libraries
+      - name: Check and build libraries
         run: ./gradlew --build-cache check assemble --stacktrace
 
   publish_libraries:
@@ -48,20 +44,10 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Publish Core Snapshots
-        working-directory: ./carioca-report
-        run: ./gradlew publishMavenPublicationToMavenCentralRepository --no-parallel
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_PRIVATE_KEY }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
-
       - name: Publish Library Snapshots
         run: |
           ./gradlew publishMavenPublicationToMavenCentralRepository --no-parallel
-          ./gradlew carioca-android-allure-gradle-plugin:publishAllPublicationsToMavenCentralRepository
+          ./gradlew carioca-report:report-android-allure-gradle-plugin:publishAllPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
@@ -93,9 +79,6 @@ jobs:
           run: |
             ./gradlew dokkaHtmlMultiModule
             mv ./build/dokka/htmlMultiModule docs/api
-            cd carioca-report
-            ./gradlew dokkaHtmlMultiModule
-            mv ./build/dokka/htmlMultiModule ../docs/api_report
 
         - name: Install dependencies
           run: |
@@ -128,26 +111,11 @@ jobs:
       - name: checkout
         uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v4.2.0
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-          check-latest: false
-          cache: "gradle"
-
       - name: Enable KVM
         run: |
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Free Disk Space (Ubuntu)
-        uses: jlumbroso/free-disk-space@main
-        with:
-          android: false
 
       # Retrieve the cached emulator snapshot.
       - name: AVD cache

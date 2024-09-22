@@ -37,20 +37,13 @@ dependencyResolutionManagement {
     }
 }
 
-includeBuild("carioca-report") {
-    dependencySubstitution {
-        substitute(module("com.rubensousa.carioca:report-runtime"))
-            .using(project(":runtime"))
-        substitute(module("com.rubensousa.carioca:report-json"))
-            .using(project(":json"))
-    }
-}
-
 rootProject.name = "carioca"
 
-include(":carioca-android-allure-gradle-plugin")
-include(":carioca-android-report")
-include(":carioca-android-report-coroutines")
-include(":carioca-android-report-sample")
 include(":carioca-junit4-rules")
-include(":carioca-junit4-report")
+include(":carioca-report:report-junit4")
+include(":carioca-report:report-android")
+include(":carioca-report:report-android-allure-gradle-plugin")
+include(":carioca-report:report-android-coroutines")
+include(":carioca-report:report-runtime")
+include(":carioca-report:report-json")
+include(":sample")

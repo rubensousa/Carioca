@@ -37,14 +37,6 @@ jobs:
         run: |
           ./gradlew dokkaHtmlMultiModule
           mv ./build/dokka/htmlMultiModule docs/api
-          cd carioca-report
-          ./gradlew dokkaHtmlMultiModule
-          mv ./build/dokka/htmlMultiModule ../docs/api_report
-
-      - name: Build docs
-        run: |
-          ./gradlew dokkaHtmlMultiModule
-          mv ./build/dokka/htmlMultiModule docs/api
 
       - name: Install dependencies
         run: |
@@ -67,10 +59,6 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
-
-      - name: Check and build core libraries
-        working-directory: ./carioca-report
-        run: ./gradlew --build-cache check assemble --stacktrace
 
       - name: Check and build integration libraries
         run: ./gradlew --build-cache check assemble --stacktrace
@@ -161,7 +149,7 @@ jobs:
             ./gradlew uninstallAll
             adb shell settings put global verifier_verify_adb_installs 0
             ./gradlew --build-cache connectedDebugAndroidTest
-            ./gradlew --build-cache carioca-android-report-sample:generateAllureReport
+            ./gradlew --build-cache sample:generateAllureReport
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:

@@ -24,3 +24,8 @@ plugins {
     alias(libs.plugins.kotlin.dokka) apply true
     alias(libs.plugins.maven.publish) apply false
 }
+
+subprojects {
+    group = property("GROUP") as String
+    version = property("VERSION_NAME") as String
+}
