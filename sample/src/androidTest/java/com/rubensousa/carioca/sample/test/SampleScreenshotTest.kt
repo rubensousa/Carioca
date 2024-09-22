@@ -14,37 +14,36 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.sample.test
+package com.rubensousa.carioca.sample.test
 
+import android.graphics.Bitmap
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.junit4.rules.RepeatTest
-import com.rubensousa.carioca.junit4.rules.RepeatTestRule
-import com.rubensousa.carioca.report.android.sample.OpenNotificationScenario
-import com.rubensousa.carioca.report.android.sample.SampleInstrumentedReportRule
-import org.junit.Before
+import com.rubensousa.carioca.report.android.screenshot.TestScreenshot
+import com.rubensousa.carioca.sample.SampleInstrumentedReportRule
 import org.junit.Rule
 import org.junit.Test
 
-@RepeatTest(times = 2)
-class SampleRepeatTest {
+class SampleScreenshotTest {
 
-    @get:Rule(order = 0)
-    val repeatRule = RepeatTestRule()
-
-    @get:Rule(order = 1)
+    @get:Rule
     val report = SampleInstrumentedReportRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
-    @Before
-    fun setup() {
-        device.pressHome()
-    }
-
+    // Overrides the screenshot options
+    @TestScreenshot(
+        scale = 1.0f,
+        format = Bitmap.CompressFormat.PNG,
+    )
     @Test
-    fun testThatWillBeExecutedMultipleTimes() = report {
-        Given(OpenNotificationScenario())
+    fun testScreenshotOverride() = report {
+
+        Given("User opens notifications") {
+            device.openNotification()
+            Thread.sleep(1000L)
+            screenshot("Notifications opened")
+        }
 
         When("User presses home") {
             device.pressHome()

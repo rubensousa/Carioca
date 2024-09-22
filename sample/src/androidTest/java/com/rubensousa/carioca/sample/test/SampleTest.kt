@@ -14,16 +14,16 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.sample.test
+package com.rubensousa.carioca.sample.test
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.report.android.sample.SampleInstrumentedReportRule
-import com.rubensousa.carioca.report.android.sample.SampleScreenScenario
-import com.rubensousa.carioca.report.android.sample.sampleScreen
 import com.rubensousa.carioca.report.android.stage.InstrumentedScenario
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageScope
 import com.rubensousa.carioca.report.runtime.TestReport
+import com.rubensousa.carioca.sample.SampleInstrumentedReportRule
+import com.rubensousa.carioca.sample.SampleScreenScenario
+import com.rubensousa.carioca.sample.sampleScreen
 import org.junit.After
 import org.junit.Before
 import org.junit.Ignore

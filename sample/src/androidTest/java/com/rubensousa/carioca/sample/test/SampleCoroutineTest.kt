@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.sample.test
+package com.rubensousa.carioca.sample.test
 
-import com.rubensousa.carioca.report.android.sample.SampleCoroutineInstrumentedReportRule
+import com.rubensousa.carioca.sample.SampleCoroutineInstrumentedReportRule
 import kotlinx.coroutines.delay
 import org.junit.Rule
 import org.junit.Test

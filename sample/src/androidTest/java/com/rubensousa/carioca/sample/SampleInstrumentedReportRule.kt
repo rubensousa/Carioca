@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.sample
+package com.rubensousa.carioca.sample
 
 import com.rubensousa.carioca.report.android.InstrumentedReportRule
 import com.rubensousa.carioca.report.android.coroutines.InstrumentedCoroutineReportRule

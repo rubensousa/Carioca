@@ -18,22 +18,22 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
-    //id("com.rubensousa.carioca.android.allure")
+    id("com.rubensousa.carioca.report.allure")
 }
 
 android {
-    namespace = "com.rubensousa.carioca.android.report.sample"
+    namespace = "com.rubensousa.carioca.sample"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.rubensousa.carioca.android.report.sample"
+        applicationId = "com.rubensousa.carioca.sample"
         minSdk = 21
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunnerArguments["useTestStorageService"] = "true"
-        testInstrumentationRunnerArguments["listener"] = "com.rubensousa.carioca.android.report.CariocaInstrumentedListener"
+        testInstrumentationRunnerArguments["listener"] = "com.rubensousa.carioca.report.android.CariocaInstrumentedListener"
     }
 
     buildTypes {
@@ -77,7 +77,8 @@ dependencies {
     androidTestUtil(libs.androidx.test.services)
     //  androidTestUtil(libs.androidx.test.orchestrator)
 }
-/*
+
+
 allureReport {
     // Override to provide a variant task or another reporting task. Default: connectedDebugAndroidTest
     testTask = "connectedDebugAndroidTest"
@@ -92,4 +93,3 @@ allureReport {
      */
     deleteOriginalReports = false
 }
-*/

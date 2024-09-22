@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.sample.test
+package com.rubensousa.carioca.sample.test
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.junit4.rules.RetryTest
 import com.rubensousa.carioca.junit4.rules.RetryTestRule
-import com.rubensousa.carioca.report.android.sample.OpenNotificationScenario
-import com.rubensousa.carioca.report.android.sample.SampleInstrumentedReportRule
+import com.rubensousa.carioca.sample.OpenNotificationScenario
+import com.rubensousa.carioca.sample.SampleInstrumentedReportRule
 import org.junit.Rule
 import org.junit.Test
 
