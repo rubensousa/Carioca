@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
+version = rootProject.project.properties["VERSION_REPORT"] as String
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -24,8 +26,8 @@ mavenPublishing {
     signAllPublications()
     coordinates(
         groupId = "com.rubensousa.carioca",
-        artifactId = "junit4-report",
-        version = "1.0.0-SNAPSHOT"
+        artifactId = "report-junit4",
+        version = version as String
     )
     pom {
         name = "Carioca Junit4 Report"

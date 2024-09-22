@@ -22,9 +22,10 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kover)
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.kotlin.dokka)
 }
 
-version = "1.0.0-SNAPSHOT"
+version = rootProject.project.properties["VERSION_REPORT"] as String
 
 android {
     namespace = "com.rubensousa.carioca.android.report"
@@ -70,7 +71,7 @@ mavenPublishing {
     signAllPublications()
     coordinates(
         groupId = "com.rubensousa.carioca",
-        artifactId = "android-report",
+        artifactId = "report-android",
         version = version as String
     )
     pom {

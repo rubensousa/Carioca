@@ -8,6 +8,8 @@ plugins {
     alias(libs.plugins.kotlin.dokka)
 }
 
+version = rootProject.project.properties["VERSION_REPORT"] as String
+
 android {
     namespace = "com.rubensousa.carioca.android.report.coroutines"
     compileSdk = 34
@@ -44,8 +46,8 @@ mavenPublishing {
     signAllPublications()
     coordinates(
         groupId = "com.rubensousa.carioca",
-        artifactId = "android-report-coroutines",
-        version = "1.0.0-SNAPSHOT"
+        artifactId = "report-android-coroutines",
+        version = version as String
     )
     pom {
         name = "Carioca Android Coroutines Report"
