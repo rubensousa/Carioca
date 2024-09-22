@@ -15,7 +15,7 @@ on:
       - 'main'
 
 jobs:
-  build_libraries:
+  build:
     runs-on: ubuntu-latest
 
     steps:
