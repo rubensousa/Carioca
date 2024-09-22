@@ -65,7 +65,9 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
 
       - name: Publish Library Snapshots
-        run: ./gradlew publishMavenPublicationToMavenCentralRepository --no-parallel
+        run: |
+          ./gradlew publishMavenPublicationToMavenCentralRepository --no-parallel
+          ./gradlew carioca-android:allure-gradle-plugin:publishAllPublicationsToMavenCentralRepository
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.SONATYPE_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.SONATYPE_PASSWORD }}
