@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-    api(project(":carioca-junit4:report"))
+    api(project(":carioca-junit4-report"))
     api(libs.carioca.report.json)
     api(libs.androidx.junit)
     api(libs.androidx.test.rules)
@@ -52,12 +52,12 @@ dependencies {
     api(libs.androidx.test.runner)
     api(libs.androidx.test.uiautomator)
     implementation(libs.kotlinx.serialization.json)
+    testImplementation(project(":carioca-junit4-rules"))
 
-    testImplementation(project(":carioca-junit4:rules"))
     testImplementation(libs.bundles.test.unit)
     testImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(project(":carioca-junit4-rules"))
 
-    androidTestImplementation(project(":carioca-junit4:rules"))
     androidTestImplementation(libs.bundles.test.unit)
 
     androidTestUtil(libs.androidx.test.services)
@@ -67,8 +67,8 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.S01)
     signAllPublications()
     coordinates(
-        groupId = "com.rubensousa.carioca.android",
-        artifactId = "report",
+        groupId = "com.rubensousa.carioca",
+        artifactId = "android-report",
         version = project.parent!!.properties["VERSION_ANDROID_REPORT"] as String
     )
     pom {

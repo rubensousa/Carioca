@@ -24,8 +24,8 @@ mavenPublishing {
     publishToMavenCentral(SonatypeHost.S01)
     signAllPublications()
     coordinates(
-        groupId = "com.rubensousa.carioca.report",
-        artifactId = "json",
+        groupId = "com.rubensousa.carioca",
+        artifactId = "report-json",
         version = rootProject.properties["VERSION_NAME"] as String
     )
     pom {

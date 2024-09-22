@@ -71,9 +71,9 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.test.uiautomator)
     androidTestImplementation(libs.kotlinx.serialization.json)
-    androidTestImplementation(project(":carioca-junit4:rules"))
-    androidTestImplementation(project(":carioca-android:report"))
-    androidTestImplementation(project(":carioca-android:report-coroutines"))
+    androidTestImplementation(project(":carioca-junit4-rules"))
+    androidTestImplementation(project(":carioca-android-report"))
+    androidTestImplementation(project(":carioca-android-report-coroutines"))
     androidTestUtil(libs.androidx.test.services)
     //  androidTestUtil(libs.androidx.test.orchestrator)
 }

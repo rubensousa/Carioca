@@ -1,0 +1,47 @@
+name: Publish docs
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'mkdocs.yml'
+      - '.github/workflows/docs_push.yml'
+      - '.github/workflows/docs_pr.yml'
+    branches:
+      - 'main'
+
+jobs:
+  build:
+    name: Deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - uses: actions/setup-java@v4.2.0
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          check-latest: false
+          cache: "gradle"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build docs
+        run: |
+          ./gradlew dokkaHtmlMultiModule
+          mv ./build/dokka/htmlMultiModule docs/api
+          cd carioca-report
+          ./gradlew dokkaHtmlMultiModule
+          mv ./build/dokka/htmlMultiModule ../docs/api_report
+
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material mkdocs-material-extensions mkdocs-markdownextradata-plugin
+
+      - name: Deploy docs
+        run: mkdocs gh-deploy --force

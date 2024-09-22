@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.GradlePlugin
+import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SonatypeHost
 
 /*
@@ -15,13 +17,28 @@ import com.vanniktech.maven.publish.SonatypeHost
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 plugins {
-    id("java-library")
+    `kotlin-dsl`
+    id("java-gradle-plugin")
     alias(libs.plugins.jetbrains.kotlin.jvm)
-    alias(libs.plugins.kover)
-    alias(libs.plugins.kotlin.dokka)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.maven.publish)
+}
+
+group = "com.rubensousa.carioca"
+version = if (project.parent?.name == "carioca") {
+    project.parent!!.properties["VERSION_ALLURE_PLUGIN"] as String
+} else {
+    "1.0.0-SNAPSHOT"
+}
+
+gradlePlugin {
+    plugins {
+        register("allure") {
+            id = "com.rubensousa.carioca.android.allure"
+            implementationClass = "com.rubensousa.carioca.android.allure.gradle.AllureReportPlugin"
+        }
+    }
 }
 
 java {
@@ -30,23 +47,29 @@ java {
 }
 
 dependencies {
-    implementation(libs.junit)
+    implementation(libs.carioca.report.json)
+    implementation(libs.gradle.kotlin)
+    implementation(libs.gradle.android)
+    implementation(libs.gradle.android.tools)
+    implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.bundles.test.unit)
 }
 
-
 mavenPublishing {
+    configure(
+        GradlePlugin(
+            javadocJar = JavadocJar.Javadoc(),
+            sourcesJar = true
+        )
+    )
     publishToMavenCentral(SonatypeHost.S01)
     signAllPublications()
     coordinates(
-        groupId = "com.rubensousa.carioca.junit4",
-        artifactId = "rules",
-        version = project.parent!!.properties["VERSION_JUNIT4"] as String
+        artifactId = "android-allure-gradle-plugin",
     )
     pom {
-        name = "Carioca Junit4 Rules"
-        description = "Library that provides some rules for junit4 tests"
-        packaging = "jar"
+        name = "Carioca Android Allure Report Plugin"
+        description = "Plugin that generates instrumented test reports for allure"
         inceptionYear.set("2024")
         url.set("https://github.com/rubensousa/carioca/")
         licenses {
