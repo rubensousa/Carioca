@@ -39,9 +39,9 @@ dependencyResolutionManagement {
 
 includeBuild("carioca-report") {
     dependencySubstitution {
-        substitute(module("com.rubensousa.carioca.report:runtime"))
+        substitute(module("com.rubensousa.carioca:report-runtime"))
             .using(project(":runtime"))
-        substitute(module("com.rubensousa.carioca.report:json"))
+        substitute(module("com.rubensousa.carioca:report-json"))
             .using(project(":json"))
     }
 }
