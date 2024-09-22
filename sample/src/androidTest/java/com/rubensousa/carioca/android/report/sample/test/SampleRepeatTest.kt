@@ -18,10 +18,10 @@ package com.rubensousa.carioca.android.report.sample.test
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.sample.OpenNotificationScenario
-import com.rubensousa.carioca.android.report.sample.SampleInstrumentedReportRule
 import com.rubensousa.carioca.junit4.rules.RepeatTest
 import com.rubensousa.carioca.junit4.rules.RepeatTestRule
+import com.rubensousa.carioca.report.android.sample.OpenNotificationScenario
+import com.rubensousa.carioca.report.android.sample.SampleInstrumentedReportRule
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

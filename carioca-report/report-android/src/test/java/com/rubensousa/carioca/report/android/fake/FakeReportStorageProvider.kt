@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.fake
+package com.rubensousa.carioca.report.android.fake
 
 import android.net.Uri
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -24,7 +25,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import kotlin.io.path.createParentDirectories
 
-class FakeReportStorageProvider : com.rubensousa.carioca.report.android.storage.ReportStorageProvider {
+class FakeReportStorageProvider : ReportStorageProvider {
 
     private val localDir = File(".").absoluteFile.parentFile
 

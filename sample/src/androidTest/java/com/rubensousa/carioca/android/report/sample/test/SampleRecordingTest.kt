@@ -18,8 +18,8 @@ package com.rubensousa.carioca.android.report.sample.test
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.sample.SampleInstrumentedReportRule
 import com.rubensousa.carioca.report.android.recording.TestRecording
+import com.rubensousa.carioca.report.android.sample.SampleInstrumentedReportRule
 import org.junit.After
 import org.junit.Before
 import org.junit.Rule

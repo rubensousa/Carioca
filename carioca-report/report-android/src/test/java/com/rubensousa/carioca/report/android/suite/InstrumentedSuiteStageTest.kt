@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.suite
+package com.rubensousa.carioca.report.android.suite
 
 import com.google.common.truth.Truth.assertThat
 import com.rubensousa.carioca.junit4.rules.TestDescriptionRule

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report
+package com.rubensousa.carioca.report.android
 
 import com.rubensousa.carioca.report.android.fake.FakeReportStorageProvider
 import org.junit.rules.TestRule

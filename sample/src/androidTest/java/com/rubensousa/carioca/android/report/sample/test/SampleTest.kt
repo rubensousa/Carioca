@@ -18,9 +18,9 @@ package com.rubensousa.carioca.android.report.sample.test
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.sample.SampleInstrumentedReportRule
-import com.rubensousa.carioca.android.report.sample.SampleScreenScenario
-import com.rubensousa.carioca.android.report.sample.sampleScreen
+import com.rubensousa.carioca.report.android.sample.SampleInstrumentedReportRule
+import com.rubensousa.carioca.report.android.sample.SampleScreenScenario
+import com.rubensousa.carioca.report.android.sample.sampleScreen
 import com.rubensousa.carioca.report.android.stage.InstrumentedScenario
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageScope
 import com.rubensousa.carioca.report.runtime.TestReport

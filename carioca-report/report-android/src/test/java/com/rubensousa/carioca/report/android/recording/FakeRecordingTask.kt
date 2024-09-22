@@ -14,11 +14,13 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.recording
+package com.rubensousa.carioca.report.android.recording
+
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 
 class FakeRecordingTask(
     private val recording: ReportRecording,
-    private val storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+    private val storageProvider: ReportStorageProvider,
 ) : RecordingTask {
 
     override fun start() {

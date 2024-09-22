@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.fake
+package com.rubensousa.carioca.report.android.fake
 
 import com.rubensousa.carioca.report.android.InstrumentedReporter
 import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport

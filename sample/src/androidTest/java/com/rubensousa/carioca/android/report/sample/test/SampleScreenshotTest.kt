@@ -19,7 +19,7 @@ package com.rubensousa.carioca.android.report.sample.test
 import android.graphics.Bitmap
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.sample.SampleInstrumentedReportRule
+import com.rubensousa.carioca.report.android.sample.SampleInstrumentedReportRule
 import com.rubensousa.carioca.report.android.screenshot.TestScreenshot
 import org.junit.Rule
 import org.junit.Test
