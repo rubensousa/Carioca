@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.GradlePlugin
+import com.vanniktech.maven.publish.JavadocJar
 import com.vanniktech.maven.publish.SonatypeHost
 
 /*
@@ -15,66 +17,59 @@ import com.vanniktech.maven.publish.SonatypeHost
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 plugins {
-    alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
+    `kotlin-dsl`
+    id("java-gradle-plugin")
+    alias(libs.plugins.jetbrains.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.kover)
     alias(libs.plugins.maven.publish)
 }
 
-android {
-    namespace = "com.rubensousa.carioca.android.report"
-    compileSdk = 34
+group = "com.rubensousa.carioca.android"
+version = if (project.parent?.name == "carioca") {
+    project.parent!!.properties["VERSION_ALLURE_PLUGIN"] as String
+} else {
+    "1.0.0-SNAPSHOT"
+}
 
-    defaultConfig {
-        minSdk = 21
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+gradlePlugin {
+    plugins {
+        register("allure") {
+            id = "com.rubensousa.carioca.android.allure"
+            implementationClass = "com.rubensousa.carioca.android.allure.gradle.AllureReportPlugin"
+        }
     }
+}
 
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 dependencies {
-    api(project(":carioca-junit4:report"))
-    api(libs.carioca.report.json)
-    api(libs.androidx.junit)
-    api(libs.androidx.test.rules)
-    api(libs.androidx.espresso.core)
-    api(libs.androidx.test.runner)
-    api(libs.androidx.test.uiautomator)
+    implementation(libs.carioca.report.json)
+    implementation(libs.gradle.kotlin)
+    implementation(libs.gradle.android)
+    implementation(libs.gradle.android.tools)
     implementation(libs.kotlinx.serialization.json)
-
-    testImplementation(project(":carioca-junit4:rules"))
     testImplementation(libs.bundles.test.unit)
-    testImplementation(libs.kotlinx.coroutines.test)
-
-    androidTestImplementation(project(":carioca-junit4:rules"))
-    androidTestImplementation(libs.bundles.test.unit)
-
-    androidTestUtil(libs.androidx.test.services)
 }
 
 mavenPublishing {
+    configure(
+        GradlePlugin(
+            javadocJar = JavadocJar.Javadoc(),
+            sourcesJar = true
+        )
+    )
     publishToMavenCentral(SonatypeHost.S01)
     signAllPublications()
     coordinates(
-        groupId = "com.rubensousa.carioca.android",
-        artifactId = "report",
-        version = project.parent!!.properties["VERSION_ANDROID_REPORT"] as String
+        artifactId = "allure-gradle-plugin",
     )
     pom {
-        name = "Carioca Android Report"
-        description = "Library that generates reports for Android instrumented tests"
-        packaging = "aar"
+        name = "Carioca Android Allure Report Plugin"
+        description = "Plugin that generates instrumented test reports for allure"
         inceptionYear.set("2024")
         url.set("https://github.com/rubensousa/carioca/")
         licenses {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.plugin.android.allure
+package com.rubensousa.carioca.android.allure.gradle
 
 import kotlinx.serialization.Serializable
 

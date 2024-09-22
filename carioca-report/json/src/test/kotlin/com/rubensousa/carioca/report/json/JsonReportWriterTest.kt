@@ -24,6 +24,8 @@ import com.rubensousa.carioca.report.runtime.TestMetadata
 import org.junit.After
 import org.junit.Test
 import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class JsonReportWriterTest {
 
@@ -104,13 +106,14 @@ class JsonReportWriterTest {
         report.pass()
 
         // when
-        writer.writeReport(
+        val result = writer.writeReport(
             metadata = metadata,
             testReport = report,
             file = outputFile
         )
 
         // then
+        assertThat(result.isSuccess).isTrue()
         val parsedReport = parseWrittenReport()
         val nestedStage = parsedReport.stages.first()
         val nestedStage2 = nestedStage.stages.first()
@@ -190,6 +193,25 @@ class JsonReportWriterTest {
         // then
         val parsedReport = parseWrittenReport()
         assertThat(parsedReport.links).isEqualTo(links)
+    }
+
+    @Test
+    fun `write exception is caught`() {
+        // given
+        val report = FakeReport()
+        val stream = FileOutputStream(outputFile)
+        stream.close()
+
+        // when
+        val result = writer.writeReport(
+            metadata = metadata,
+            testReport = report,
+            outputStream = stream
+        )
+
+        // then
+        assertThat(result.isFailure).isTrue()
+        assertThat(result.exceptionOrNull()).isInstanceOf(IOException::class.java)
     }
 
     private fun parseWrittenReport(): JsonTestReport {

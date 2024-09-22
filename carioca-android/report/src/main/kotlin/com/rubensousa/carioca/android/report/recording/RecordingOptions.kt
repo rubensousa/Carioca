@@ -30,9 +30,9 @@ import org.junit.runner.Description
  * @param startDelay the minimum amount of time to wait after the recording starts.
  * Default: 1 second
  * @param stopDelay the minimum amount of time to wait before the recording should be stopped.
- * Default: 2 seconds
- * @param continueDelay the minimum amount of time to wait before assuming the recording was stopped.
  * Default: 1 second
+ * @param continueDelay the minimum amount of time to wait before assuming the recording was stopped.
+ * Default: 0.5 seconds
  */
 data class RecordingOptions(
     val enabled: Boolean = true,
@@ -40,7 +40,7 @@ data class RecordingOptions(
     val scale: Float = 0.75f,
     val keepOnSuccess: Boolean = false,
     val startDelay: Long = 1000L,
-    val stopDelay: Long = 2000L,
+    val stopDelay: Long = 1000L,
     val continueDelay: Long = 500L,
 ) {
     init {

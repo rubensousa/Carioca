@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.plugin.android.allure
+package com.rubensousa.carioca.android.allure.gradle
 
 import com.rubensousa.carioca.report.json.JsonReportParser
 import org.gradle.api.Plugin
@@ -52,10 +52,12 @@ class AllureReportPlugin : Plugin<Project> {
     private fun registerTasks(project: Project, extension: AllureReportExtension?) {
         val outputPath = project.layout.buildDirectory.file(outputDirPath).get().asFile.path
         val outputDir = File(outputPath)
-        val dependentTasks = extension?.testTask ?: "connectedDebugAndroidTest"
+        val testTask = extension?.testTask ?: "connectedDebugAndroidTest"
 
         val testOutputDir = project.layout.buildDirectory.file(testOutputDirPath).get().asFile
         val logcatOutputDir = project.layout.buildDirectory.file(logcatOutputDirPath).get().asFile
+        val keepLogcatOnSuccess = extension?.keepLogcatOnSuccess ?: false
+        val deleteOriginalReports = extension?.deleteOriginalReports ?: true
         testOutputDir.mkdirs()
         val cleanTask = project.tasks.register("cleanAllureReport") {
             description = "Deletes the previous generated allure report"
@@ -63,36 +65,15 @@ class AllureReportPlugin : Plugin<Project> {
                 // Clean-up all the files from the output dirs
                 // to avoid conflicts with the next report generation
                 outputDir.deleteRecursively()
-                testOutputDir.deleteRecursively()
-            }
-        }
-        val keepLogcatOnSuccess = extension?.keepLogcatOnSuccess ?: false
-        val deleteOriginalReports = extension?.deleteOriginalReports ?: true
-
-        // TODO: Add support for variants
-        project.tasks.register("connectedAllureReport") {
-            group = VERIFICATION_GROUP
-            description = "Runs android tests and generates the allure report"
-            dependsOn(dependentTasks)
-            dependsOn(cleanTask)
-
-            doLast {
-                outputDir.mkdirs()
-                reportGenerator.generateReport(
-                    testResultDir = testOutputDir,
-                    logcatOutputDir = logcatOutputDir,
-                    outputDir = outputDir,
-                    keepLogcatOnSuccess = keepLogcatOnSuccess,
-                    deleteOriginalReports = deleteOriginalReports
-                )
-                println("Allure report generated in file:///$outputPath")
+                if (deleteOriginalReports) {
+                    testOutputDir.deleteRecursively()
+                }
             }
         }
 
-        project.tasks.register("generateAllureReport") {
+        val generateTask = project.tasks.register("generateAllureReport") {
             group = "report"
             description = "Generates the allure report for a previous test run"
-
             doLast {
                 outputDir.deleteRecursively()
                 reportGenerator.generateReport(
@@ -105,6 +86,16 @@ class AllureReportPlugin : Plugin<Project> {
                 println("Allure report generated in file:///$outputPath")
             }
         }
+
+        // TODO: Add support for variants
+        project.tasks.register("connectedAllureReport") {
+            group = VERIFICATION_GROUP
+            description = "Runs android tests and generates the allure report"
+            dependsOn(cleanTask)
+            dependsOn(testTask)
+        }
+        // Ensures the report is generated even if the test task fails
+        project.tasks.findByName(testTask)?.finalizedBy(generateTask)
     }
 
 }

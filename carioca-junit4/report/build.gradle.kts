@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
@@ -18,10 +20,12 @@ dependencies {
 }
 
 mavenPublishing {
+    publishToMavenCentral(SonatypeHost.S01)
+    signAllPublications()
     coordinates(
         groupId = "com.rubensousa.carioca.junit4",
         artifactId = "report",
-        version = libs.versions.cariocaReport.get()
+        version = project.parent!!.properties["VERSION_JUNIT4"] as String
     )
     pom {
         name = "Carioca Junit4 Report"

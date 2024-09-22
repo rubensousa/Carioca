@@ -56,6 +56,24 @@ interface InstrumentedTestScope : InstrumentedStageScope {
     }
 
     @Suppress("FunctionName")
+    fun When(
+        scenario: InstrumentedScenario,
+        action: InstrumentedStageScope.() -> Unit = {},
+    ) {
+        scenario(
+            object : InstrumentedScenario(
+                title = "Scenario: ${scenario.title}",
+                id = scenario.id
+            ) {
+                override fun run(scope: InstrumentedStageScope) {
+                    scenario.run(scope)
+                    action(scope)
+                }
+            }
+        )
+    }
+
+    @Suppress("FunctionName")
     fun Then(
         title: String,
         action: InstrumentedStageScope.() -> Unit,

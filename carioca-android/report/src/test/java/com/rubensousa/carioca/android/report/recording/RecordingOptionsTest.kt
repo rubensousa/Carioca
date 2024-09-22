@@ -38,7 +38,7 @@ class RecordingOptionsTest {
         assertThat(options.scale).isEqualTo(0.75f)
         assertThat(options.keepOnSuccess).isEqualTo(false)
         assertThat(options.startDelay).isEqualTo(1000L)
-        assertThat(options.stopDelay).isEqualTo(2000L)
+        assertThat(options.stopDelay).isEqualTo(1000L)
         assertThat(options.continueDelay).isEqualTo(500L)
     }
 

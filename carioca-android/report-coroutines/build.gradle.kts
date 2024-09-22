@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -37,10 +39,12 @@ dependencies {
 }
 
 mavenPublishing {
+    publishToMavenCentral(SonatypeHost.S01)
+    signAllPublications()
     coordinates(
         groupId = "com.rubensousa.carioca.android",
         artifactId = "report-coroutines",
-        version = libs.versions.cariocaAndroid.get()
+        version = project.parent!!.properties["VERSION_ANDROID_REPORT"] as String
     )
     pom {
         name = "Carioca Android Coroutines Report"

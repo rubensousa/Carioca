@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 /*
  * Copyright 2024 Rúben Sousa
  *
@@ -34,10 +36,12 @@ dependencies {
 
 
 mavenPublishing {
+    publishToMavenCentral(SonatypeHost.S01)
+    signAllPublications()
     coordinates(
         groupId = "com.rubensousa.carioca.junit4",
         artifactId = "rules",
-        version = libs.versions.cariocaJunit4.get()
+        version = project.parent!!.properties["VERSION_JUNIT4"] as String
     )
     pom {
         name = "Carioca Junit4 Rules"

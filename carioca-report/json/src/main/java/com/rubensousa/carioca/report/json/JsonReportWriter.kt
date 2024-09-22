@@ -25,7 +25,6 @@ import com.rubensousa.carioca.report.runtime.TestMetadata
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
-import java.io.BufferedOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
@@ -48,9 +47,9 @@ class JsonReportWriter {
         metadata: TestMetadata,
         testReport: StageReport,
         file: File,
-    ) {
+    ): Result<Unit> {
         val outputStream = FileOutputStream(file)
-        writeReport(metadata, testReport, outputStream)
+        return writeReport(metadata, testReport, outputStream)
     }
 
     @OptIn(ExperimentalSerializationApi::class)
@@ -58,11 +57,15 @@ class JsonReportWriter {
         metadata: TestMetadata,
         testReport: StageReport,
         outputStream: OutputStream,
-    ) {
+    ): Result<Unit> = runCatching {
         val jsonReport = buildTestReport(metadata, testReport)
-        BufferedOutputStream(outputStream).use { stream ->
-            json.encodeToStream(jsonReport, stream)
-            stream.flush()
+        try {
+            json.encodeToStream(jsonReport, outputStream)
+            outputStream.flush()
+        } catch (exception: Exception) {
+            throw exception
+        } finally {
+            outputStream.close()
         }
     }
 

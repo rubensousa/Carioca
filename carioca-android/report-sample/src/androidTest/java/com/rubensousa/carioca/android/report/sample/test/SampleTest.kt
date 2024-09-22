@@ -18,7 +18,6 @@ package com.rubensousa.carioca.android.report.sample.test
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.android.report.sample.OpenNotificationScenario
 import com.rubensousa.carioca.android.report.sample.SampleInstrumentedReportRule
 import com.rubensousa.carioca.android.report.sample.SampleScreenScenario
 import com.rubensousa.carioca.android.report.sample.sampleScreen
@@ -30,7 +29,6 @@ import org.junit.Before
 import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
-
 
 class SampleTest {
 
@@ -113,20 +111,6 @@ class SampleTest {
             Thread.sleep(1000L)
             screenshot("Notifications opened")
         }
-
-        When("User presses home") {
-            device.pressHome()
-            scenario(WaitDismissScenario())
-        }
-
-        Then("Launcher is displayed") {
-            screenshot("Launcher")
-        }
-    }
-
-    @Test
-    fun testGivenWhenThenScenario() = report {
-        Given(OpenNotificationScenario())
 
         When("User presses home") {
             device.pressHome()

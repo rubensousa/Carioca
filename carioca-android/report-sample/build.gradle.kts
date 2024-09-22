@@ -18,7 +18,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
-    id("com.rubensousa.carioca.plugin.android.allure")
+    id("com.rubensousa.carioca.android.allure")
 }
 
 android {
@@ -32,10 +32,8 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunnerArguments["clearPackageData"] = "true"
         testInstrumentationRunnerArguments["useTestStorageService"] = "true"
-        testInstrumentationRunnerArguments["listener"] =
-            "com.rubensousa.carioca.android.report.CariocaInstrumentedListener"
+        testInstrumentationRunnerArguments["listener"] = "com.rubensousa.carioca.android.report.CariocaInstrumentedListener"
     }
 
     buildTypes {
@@ -54,9 +52,9 @@ android {
         jvmTarget = "17"
     }
 
-    /*   testOptions {
-           execution = "ANDROIDX_TEST_ORCHESTRATOR"
-       }*/
+    /* testOptions {
+         execution = "ANDROIDX_TEST_ORCHESTRATOR"
+     }*/
 
 }
 
@@ -77,7 +75,7 @@ dependencies {
     androidTestImplementation(project(":carioca-android:report"))
     androidTestImplementation(project(":carioca-android:report-coroutines"))
     androidTestUtil(libs.androidx.test.services)
-    androidTestUtil(libs.androidx.test.orchestrator)
+    //  androidTestUtil(libs.androidx.test.orchestrator)
 }
 
 allureReport {

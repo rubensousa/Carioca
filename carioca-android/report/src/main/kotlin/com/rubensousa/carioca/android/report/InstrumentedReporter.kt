@@ -44,6 +44,6 @@ interface InstrumentedReporter {
         testMetadata: TestMetadata,
         report: StageReport,
         storageProvider: ReportStorageProvider,
-    )
+    ): Result<Unit>
 
 }

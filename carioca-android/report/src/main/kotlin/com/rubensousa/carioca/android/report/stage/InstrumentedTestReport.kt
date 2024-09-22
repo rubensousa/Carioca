@@ -135,11 +135,14 @@ abstract class InstrumentedTestReport internal constructor(
     }
 
     private fun writeReport() {
-        try {
-            reporter.writeTestReport(metadata, this, storageProvider)
-        } catch (exception: Exception) {
-            Log.e("CariocaReport", "Failed writing report for test ${this.metadata.methodName}", exception)
-        }
+        reporter.writeTestReport(metadata, this, storageProvider)
+            .onFailure { error ->
+                Log.e(
+                    "InstrumentedTestReport",
+                    "Failed writing report for test ${this.metadata.methodName}",
+                    error
+                )
+            }
     }
 
     private fun startRecording() {
