@@ -74,7 +74,6 @@ class AllureReportPlugin : Plugin<Project> {
         val generateTask = project.tasks.register("generateAllureReport") {
             group = "report"
             description = "Generates the allure report for a previous test run"
-            dependsOn(cleanTask)
             doLast {
                 outputDir.deleteRecursively()
                 reportGenerator.generateReport(
