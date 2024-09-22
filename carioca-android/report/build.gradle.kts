@@ -1,3 +1,5 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 /*
  * Copyright 2024 Rúben Sousa
  *
@@ -62,6 +64,8 @@ dependencies {
 }
 
 mavenPublishing {
+    publishToMavenCentral(SonatypeHost.S01)
+    signAllPublications()
     coordinates(
         groupId = "com.rubensousa.carioca.android",
         artifactId = "report",

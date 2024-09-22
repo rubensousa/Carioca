@@ -55,44 +55,41 @@ dependencies {
     testImplementation(libs.bundles.test.unit)
 }
 
-// Do not setup publishing for build-logic
-if (project.parent?.name == "carioca") {
-    mavenPublishing {
-        publishToMavenCentral(SonatypeHost.S01)
-        signAllPublications()
-        configure(
-            GradlePlugin(
-                javadocJar = JavadocJar.Javadoc(),
-                sourcesJar = true
-            )
+mavenPublishing {
+    configure(
+        GradlePlugin(
+            javadocJar = JavadocJar.Javadoc(),
+            sourcesJar = true
         )
-        coordinates(
-            artifactId = "allure-gradle-plugin",
-        )
-        pom {
-            name = "Carioca Android Allure Report Plugin"
-            description = "Plugin that generates instrumented test reports for allure"
-            inceptionYear.set("2024")
+    )
+    publishToMavenCentral(SonatypeHost.S01)
+    signAllPublications()
+    coordinates(
+        artifactId = "allure-gradle-plugin",
+    )
+    pom {
+        name = "Carioca Android Allure Report Plugin"
+        description = "Plugin that generates instrumented test reports for allure"
+        inceptionYear.set("2024")
+        url.set("https://github.com/rubensousa/carioca/")
+        licenses {
+            license {
+                name.set("The Apache License, Version 2.0")
+                url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+            }
+        }
+        developers {
+            developer {
+                id.set("rubensousa")
+                name.set("Ruben Sousa")
+                url.set("https://github.com/rubensousa/")
+            }
+        }
+        scm {
             url.set("https://github.com/rubensousa/carioca/")
-            licenses {
-                license {
-                    name.set("The Apache License, Version 2.0")
-                    url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                    distribution.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
-                }
-            }
-            developers {
-                developer {
-                    id.set("rubensousa")
-                    name.set("Ruben Sousa")
-                    url.set("https://github.com/rubensousa/")
-                }
-            }
-            scm {
-                url.set("https://github.com/rubensousa/carioca/")
-                connection.set("scm:git:git://github.com/rubensousa/carioca.git")
-                developerConnection.set("scm:git:ssh://git@github.com/rubensousa/carioca.git")
-            }
+            connection.set("scm:git:git://github.com/rubensousa/carioca.git")
+            developerConnection.set("scm:git:ssh://git@github.com/rubensousa/carioca.git")
         }
     }
 }
