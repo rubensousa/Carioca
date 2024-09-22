@@ -45,7 +45,7 @@ annotation class TestRecording(
     /**
      * @see RecordingOptions.stopDelay
      */
-    val stopDelay: Long = 2000L,
+    val stopDelay: Long = 1000L,
     /**
      * @see RecordingOptions.continueDelay
      */
