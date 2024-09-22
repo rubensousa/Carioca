@@ -24,6 +24,8 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
+version = project.parent!!.properties["VERSION_ANDROID_REPORT"] as String
+
 android {
     namespace = "com.rubensousa.carioca.android.report"
     compileSdk = 34
@@ -46,11 +48,11 @@ android {
 dependencies {
     api(project(":carioca-junit4-report"))
     api(libs.carioca.report.json)
-    api(libs.androidx.junit)
-    api(libs.androidx.test.rules)
-    api(libs.androidx.espresso.core)
-    api(libs.androidx.test.runner)
-    api(libs.androidx.test.uiautomator)
+    implementation(libs.androidx.junit)
+    implementation(libs.androidx.test.rules)
+    implementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.test.runner)
+    implementation(libs.androidx.test.uiautomator)
     implementation(libs.kotlinx.serialization.json)
     testImplementation(project(":carioca-junit4-rules"))
 
@@ -68,13 +70,11 @@ mavenPublishing {
     signAllPublications()
     coordinates(
         groupId = "com.rubensousa.carioca",
-        artifactId = "android-report",
-        version = project.parent!!.properties["VERSION_ANDROID_REPORT"] as String
+        artifactId = "android-report"
     )
     pom {
         name = "Carioca Android Report"
         description = "Library that generates reports for Android instrumented tests"
-        packaging = "aar"
         inceptionYear.set("2024")
         url.set("https://github.com/rubensousa/carioca/")
         licenses {
