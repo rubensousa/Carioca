@@ -1,21 +1,5 @@
 import com.vanniktech.maven.publish.SonatypeHost
 
-/*
- * Copyright 2024 Rúben Sousa
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 plugins {
     id("java-library")
     alias(libs.plugins.jetbrains.kotlin.jvm)
@@ -30,22 +14,22 @@ java {
 }
 
 dependencies {
+    api(libs.carioca.report.runtime)
     implementation(libs.junit)
     testImplementation(libs.bundles.test.unit)
 }
-
 
 mavenPublishing {
     publishToMavenCentral(SonatypeHost.S01)
     signAllPublications()
     coordinates(
         groupId = "com.rubensousa.carioca",
-        artifactId = "junit4-rules",
-        version = project.parent!!.properties["VERSION_JUNIT4"] as String
+        artifactId = "junit4-report",
+        version = project.parent!!.properties["VERSION_JUNIT4_REPORT"] as String
     )
     pom {
-        name = "Carioca Junit4 Rules"
-        description = "Library that provides some rules for junit4 tests"
+        name = "Carioca Junit4 Report"
+        description = "Report data structures for junit4 tests"
         packaging = "jar"
         inceptionYear.set("2024")
         url.set("https://github.com/rubensousa/carioca/")
