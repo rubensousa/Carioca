@@ -14,8 +14,8 @@ theme:
   language: 'en'
   palette:
     scheme: default
-    primary: 'dark_blue'
-    accent: 'light-blue'
+    primary: 'green'
+    accent: 'light green'
   font:
     text: 'Roboto'
     code: 'Roboto Mono'
@@ -57,11 +57,11 @@ markdown_extensions:
 plugins:
   - markdownextradata: {}
 
-
 nav:
   - 'Overview': index.md
   - 'Changelog Android Reports': changelog_android_reports.md
-  - 'Changelog JUnit4': changelog_junit4_rules.md
-  - 'Changelog Allure Plugin': changelog_allure.md
+  - 'Changelog Android Allure Plugin': changelog_allure.md
+  - 'Changelog JUnit4 Rules': changelog_junit4_rules.md
+  - 'Changelog Runtime': changelog_runtime.md
   - 'Report API': api_report/
   - 'API': api/
