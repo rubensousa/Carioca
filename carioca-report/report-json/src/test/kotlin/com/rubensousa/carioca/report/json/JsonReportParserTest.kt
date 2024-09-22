@@ -258,7 +258,7 @@ class JsonReportParserTest {
     private fun findTestDir(): File {
         var currentFile = File("anchor").absoluteFile
         // Go up until we find the test directory
-        while (currentFile.name != "json") {
+        while (currentFile.name != "report-json") {
             currentFile = currentFile.parentFile
         }
         return currentFile
