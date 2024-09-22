@@ -7,25 +7,25 @@ Artifacts available:
 
 ```groovy
 // Test reports for android tests
-implementation "com.rubensousa.carioca:android-report:{{ android_report.version }}"
+implementation "com.rubensousa.carioca:report-android:{{ report.version }}"
 
-// Optional test reporting for tests with coroutines
-implementation "com.rubensousa.carioca:android-report-coroutines:{{ android_report.version }}"
-
-// Optional: useful junit4 rules for testing
+// junit4 rules for testing
 implementation "com.rubensousa.carioca:junit4-rules:{{ junit4_rules.version }}"
 
+// Optional test reporting for tests with coroutines
+implementation "com.rubensousa.carioca:report-android-coroutines:{{ report.version }}"
+
 // Optional: libraries to build your own report formats
-implementation "com.rubensousa.carioca:report-json:{{ report_json.version }}"
-implementation "com.rubensousa.carioca:report-runtime:{{ report_runtime.version }}"
+implementation "com.rubensousa.carioca:report-json:{{ report.version }}"
+implementation "com.rubensousa.carioca:report-runtime:{{ report.version }}"
 ```
 
 Plugins available for reports:
 
 ```groovy
 plugins {
-    // Allure reports
-    id 'com.rubensousa.carioca.android.allure'
+    // Allure reports for instrumented tests
+    id 'com.rubensousa.carioca.android.allure' version '{{ allure_plugin.version }}'
 }
 ```
 

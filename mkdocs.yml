@@ -23,15 +23,11 @@ theme:
     - content.code.copy
 
 extra:
-  android_report:
+  report:
     version: '1.0.0-alpha01'
   junit4_rules:
     version: '1.0.0-alpha01'
   allure_plugin:
-    version: '1.0.0-alpha01'
-  report_json:
-    version: '1.0.0-alpha01'
-  report_runtime:
     version: '1.0.0-alpha01'
   social:
     - icon: 'fontawesome/brands/github'
