@@ -59,9 +59,6 @@ plugins:
 
 nav:
   - 'Overview': index.md
-  - 'Changelog Android Reports': changelog_android_reports.md
-  - 'Changelog Android Allure Plugin': changelog_allure.md
-  - 'Changelog JUnit4 Rules': changelog_junit4_rules.md
-  - 'Changelog Runtime': changelog_runtime.md
+  - 'Changelog': changelog.md
   - 'Report API': api_report/
   - 'API': api/
