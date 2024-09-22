@@ -23,10 +23,10 @@ mavenPublishing {
     coordinates(
         groupId = "com.rubensousa.carioca",
         artifactId = "report-runtime",
-        version = rootProject.properties["VERSION_NAME"] as String
+        version = "1.0.0-SNAPSHOT"
     )
     pom {
-        name = "Carioca Report Core"
+        name = "Carioca Report Runtime"
         description = "Report data structures"
         packaging = "jar"
         inceptionYear.set("2024")

@@ -26,7 +26,7 @@ mavenPublishing {
     coordinates(
         groupId = "com.rubensousa.carioca",
         artifactId = "report-json",
-        version = rootProject.properties["VERSION_NAME"] as String
+        version = "1.0.0-SNAPSHOT"
     )
     pom {
         name = "Carioca Report Json"
