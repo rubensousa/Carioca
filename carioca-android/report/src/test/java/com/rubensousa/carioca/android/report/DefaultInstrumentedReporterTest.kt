@@ -59,10 +59,11 @@ class DefaultInstrumentedReporterTest {
         val expectedPath = "/${JsonReportFiles.REPORT_DIR}/${report.executionId}_${JsonReportFiles.TEST_REPORT}"
 
         // when
-        reporter.writeTestReport(metadata, report, fakeStorageProvider)
+        val result = reporter.writeTestReport(metadata, report, fakeStorageProvider)
 
         // then
         val file = fakeStorageProvider.filesSaved[expectedPath]
+        assertThat(result.isSuccess).isTrue()
         assertThat(parser.parseTestReport(file!!)).isNotNull()
     }
 }

@@ -39,12 +39,12 @@ class DefaultInstrumentedReporter internal constructor(
         testMetadata: TestMetadata,
         report: StageReport,
         storageProvider: ReportStorageProvider,
-    ) {
+    ): Result<Unit> {
         val executionMetadata = report.getExecutionMetadata()
         val dir = getOutputDir(testMetadata)
         val filePath = "${dir}/${executionMetadata.uniqueId}_${JsonReportFiles.TEST_REPORT}"
         val outputStream = storageProvider.getOutputStream(filePath)
-        writer.writeReport(testMetadata, report, outputStream)
+        return writer.writeReport(testMetadata, report, outputStream)
     }
 
 }
