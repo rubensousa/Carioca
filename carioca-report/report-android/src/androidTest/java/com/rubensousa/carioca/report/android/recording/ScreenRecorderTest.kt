@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.recording
+package com.rubensousa.carioca.report.android.recording
 
 import android.graphics.Bitmap
 import android.media.MediaMetadataRetriever

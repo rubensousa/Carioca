@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.android.report.storage
+package com.rubensousa.carioca.report.android.storage
 
 import android.net.Uri
 import androidx.test.platform.app.InstrumentationRegistry
@@ -25,7 +25,7 @@ import java.io.InputStream
 import java.io.OutputStream
 import kotlin.io.path.createParentDirectories
 
-class InternalStorageProvider : com.rubensousa.carioca.report.android.storage.ReportStorageProvider {
+class InternalStorageProvider : ReportStorageProvider {
 
     private val context = InstrumentationRegistry.getInstrumentation().context
     private val dir = File(context.filesDir, "local_storage")
