@@ -25,6 +25,13 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
+group = "com.rubensousa.carioca.android"
+version = if (project.parent?.name == "carioca") {
+    project.parent!!.properties["VERSION_ALLURE_PLUGIN"] as String
+} else {
+    "1.0.0-SNAPSHOT"
+}
+
 gradlePlugin {
     plugins {
         register("allure") {
@@ -60,9 +67,7 @@ if (project.parent?.name == "carioca") {
             )
         )
         coordinates(
-            groupId = "com.rubensousa.carioca.android",
             artifactId = "allure-gradle-plugin",
-            version = project.parent!!.properties["VERSION_ALLURE_PLUGIN"] as String
         )
         pom {
             name = "Carioca Android Allure Report Plugin"
