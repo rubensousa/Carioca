@@ -59,7 +59,7 @@ class InstrumentedReportRuleTest {
         // then
         val test = SuiteReportRegistry.getSuiteStage().getTests().first()
         with(test.metadata) {
-            assertThat(packageName).isEqualTo("com.rubensousa.carioca.android.report")
+            assertThat(packageName).isEqualTo("com.rubensousa.carioca.report.android")
             assertThat(methodName).isEqualTo("testMetadataIsCreatedCorrectly")
             assertThat(className).isEqualTo("InstrumentedReportRuleTest")
         }
