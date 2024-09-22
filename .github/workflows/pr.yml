@@ -5,12 +5,6 @@ env:
 
 on:
   pull_request:
-    paths-ignore:
-      - 'docs/**'
-      - 'README.MD'
-      - 'mkdocs.yml'
-      - '.github/workflows/docs.yml'
-      - '.github/workflows/docs_pr.yml'
     branches:
       - 'main'
 
@@ -19,8 +13,47 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  build_docs:
+    name: Build docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-  check_libraries:
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+
+      - uses: actions/setup-java@v4.2.0
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          check-latest: false
+          cache: "gradle"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Build docs
+        run: |
+          ./gradlew dokkaHtmlMultiModule
+          mv ./build/dokka/htmlMultiModule docs/api
+          cd carioca-report
+          ./gradlew dokkaHtmlMultiModule
+          mv ./build/dokka/htmlMultiModule ../docs/api_report
+
+      - name: Build docs
+        run: |
+          ./gradlew dokkaHtmlMultiModule
+          mv ./build/dokka/htmlMultiModule docs/api
+
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material mkdocs-material-extensions mkdocs-markdownextradata-plugin
+
+      - name: Build docs
+        run: mkdocs build -v
+
+  build_libraries:
     runs-on: ubuntu-latest
 
     steps:
@@ -44,6 +77,8 @@ jobs:
 
   instrumented_tests:
     runs-on: ubuntu-latest
+    needs:
+      - build_libraries
     timeout-minutes: 40
     strategy:
       fail-fast: false
