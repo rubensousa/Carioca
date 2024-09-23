@@ -20,14 +20,8 @@ implementation "com.rubensousa.carioca:report-json:{{ report.version }}"
 implementation "com.rubensousa.carioca:report-runtime:{{ report.version }}"
 ```
 
-Plugins available for reports:
+Jump to [this guide](android_test_reports.md) for how to integrate this library.
 
-```groovy
-plugins {
-    // Allure reports for instrumented tests
-    id 'com.rubensousa.carioca.android.allure' version '{{ allure_plugin.version }}'
-}
-```
 
 ## License
 
