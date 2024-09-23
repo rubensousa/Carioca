@@ -83,7 +83,7 @@ class AllureReportGenerator(
             val newFile = moveAttachment(
                 src = logcatFile,
                 outputDir = outputDir,
-                fileId = UUID.randomUUID().toString()
+                fileId = UUID.randomUUID().toString()+"-logcat"
             )
             newReport = newReport.copy(
                 attachments = newReport.attachments + listOf(

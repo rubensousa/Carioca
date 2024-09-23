@@ -34,11 +34,16 @@ class LogcatFileFinder {
     }
 
     private fun findDirWithLogs(dir: File): File? {
-        dir.listFiles()?.forEach { child ->
-            if (isLogcatFile(child)) {
-                return dir
-            } else if (child.isDirectory) {
-                return findDirWithLogs(child)
+        val dirs = ArrayDeque<File>()
+        dirs.addLast(dir)
+        while (dirs.isNotEmpty()) {
+            val currentDir = dirs.removeLast()
+            currentDir.listFiles()?.forEach { file ->
+                if (isLogcatFile(file)) {
+                    return currentDir
+                } else if (file.isDirectory) {
+                    dirs.addLast(file)
+                }
             }
         }
         return null
