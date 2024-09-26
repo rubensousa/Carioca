@@ -1,3 +1,5 @@
+import com.rubensousa.carioca.report.android.allure.gradle.AllureReportExtension
+
 /*
  * Copyright 2024 Rúben Sousa
  *
@@ -23,9 +25,22 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.kotlin.dokka) apply true
     alias(libs.plugins.maven.publish) apply false
+    alias(libs.plugins.carioca.allure) apply false
 }
+
 
 subprojects {
     group = property("GROUP") as String
     version = property("VERSION_NAME") as String
+
+    /**
+     * Move all allure-results to the same directory,
+     * so that all tests from the project are seen in a single report
+     */
+    plugins.withId("com.rubensousa.carioca.report.allure") {
+        extensions.getByType(AllureReportExtension::class).apply {
+            outputDir = rootProject.file("build/outputs/allure-results")
+        }
+    }
+
 }

@@ -22,11 +22,11 @@ plugins {
 }
 
 android {
-    namespace = "com.rubensousa.carioca.sample"
+    namespace = "com.rubensousa.carioca.sample2"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.rubensousa.carioca.sample"
+        applicationId = "com.rubensousa.carioca.sample2"
         minSdk = 21
         targetSdk = 35
         versionCode = 1
@@ -51,10 +51,6 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-
-    /* testOptions {
-         execution = "ANDROIDX_TEST_ORCHESTRATOR"
-     }*/
 
 }
 

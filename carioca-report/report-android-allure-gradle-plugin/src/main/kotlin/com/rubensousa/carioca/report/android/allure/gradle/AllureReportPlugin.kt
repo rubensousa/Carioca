@@ -50,8 +50,9 @@ class AllureReportPlugin : Plugin<Project> {
     }
 
     private fun registerTasks(project: Project, extension: AllureReportExtension?) {
-        val outputPath = project.layout.buildDirectory.file(outputDirPath).get().asFile.path
-        val outputDir = File(outputPath)
+        val buildOutputDir = project.layout.buildDirectory.file(outputDirPath).get().asFile
+        val outputDir = extension?.outputDir ?: buildOutputDir
+        outputDir.mkdirs()
         val testTask = extension?.testTask ?: "connectedDebugAndroidTest"
 
         val testOutputDir = project.layout.buildDirectory.file(testOutputDirPath).get().asFile
@@ -59,9 +60,9 @@ class AllureReportPlugin : Plugin<Project> {
         val keepLogcatOnSuccess = extension?.keepLogcatOnSuccess ?: false
         val deleteOriginalReports = extension?.deleteOriginalReports ?: true
         testOutputDir.mkdirs()
-        val cleanTask = project.tasks.register("cleanAllureReport") {
+        project.tasks.register("cleanAllureReport") {
+            it.group = "report"
             it.description = "Deletes the previous generated allure report"
-
             it.doFirst {
                 // Clean-up all the files from the output dirs
                 // to avoid conflicts with the next report generation
@@ -84,7 +85,7 @@ class AllureReportPlugin : Plugin<Project> {
                     keepLogcatOnSuccess = keepLogcatOnSuccess,
                     deleteOriginalReports = deleteOriginalReports
                 )
-                println("Allure report generated in file:///$outputPath")
+                println("Allure report generated in file:///$outputDirPath")
             }
         }
 
@@ -92,7 +93,6 @@ class AllureReportPlugin : Plugin<Project> {
         project.tasks.register("connectedAllureReport") {
             it.group = VERIFICATION_GROUP
             it.description = "Runs android tests and generates the allure report"
-            it.dependsOn(cleanTask)
             it.dependsOn(testTask)
         }
         // Ensures the report is generated even if the test task fails
@@ -119,4 +119,10 @@ interface AllureReportExtension {
      * Default: true to save space
      */
     var deleteOriginalReports: Boolean?
+
+    /**
+     * The report output path.
+     * Can be used to merge reports of multiple modules by using the same directory
+     */
+    var outputDir: File?
 }

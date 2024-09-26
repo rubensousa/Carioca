@@ -22,9 +22,11 @@ import com.rubensousa.carioca.junit4.rules.RetryTest
 import com.rubensousa.carioca.junit4.rules.RetryTestRule
 import com.rubensousa.carioca.sample.OpenNotificationScenario
 import com.rubensousa.carioca.sample.SampleInstrumentedReportRule
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
+@Ignore("Just for demo")
 class SampleRetryTest {
 
     @get:Rule(order = 0)
