@@ -21,9 +21,11 @@ import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.report.android.screenshot.TestScreenshot
 import com.rubensousa.carioca.sample.SampleInstrumentedReportRule
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
+@Ignore("Just for demo")
 class SampleScreenshotTest {
 
     @get:Rule

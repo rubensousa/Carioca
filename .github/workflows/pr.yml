@@ -156,5 +156,5 @@ jobs:
           name: ${{ matrix.profile }}-${{ matrix.api-level }}--instrumentation-test-results
           path: |
             logs/**
-            ./**/build/outputs/allure-results
+            build/outputs/allure-results
         if: always()

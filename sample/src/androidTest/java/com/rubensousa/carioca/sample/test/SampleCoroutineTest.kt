@@ -21,7 +21,6 @@ import kotlinx.coroutines.delay
 import org.junit.Rule
 import org.junit.Test
 
-
 class SampleCoroutineTest {
 
     @get:Rule

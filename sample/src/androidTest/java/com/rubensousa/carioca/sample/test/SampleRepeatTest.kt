@@ -23,9 +23,11 @@ import com.rubensousa.carioca.junit4.rules.RepeatTestRule
 import com.rubensousa.carioca.sample.OpenNotificationScenario
 import com.rubensousa.carioca.sample.SampleInstrumentedReportRule
 import org.junit.Before
+import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
+@Ignore("Just for demo")
 @RepeatTest(times = 2)
 class SampleRepeatTest {
 

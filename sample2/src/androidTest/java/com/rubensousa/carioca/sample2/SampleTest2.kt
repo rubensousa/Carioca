@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.sample.test
+package com.rubensousa.carioca.sample2
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
-import com.rubensousa.carioca.report.android.recording.TestRecording
-import com.rubensousa.carioca.sample.SampleInstrumentedReportRule
+import com.rubensousa.carioca.report.android.InstrumentedReportRule
+import com.rubensousa.carioca.report.runtime.TestReport
 import org.junit.After
 import org.junit.Before
-import org.junit.Ignore
 import org.junit.Rule
 import org.junit.Test
 
-@Ignore("Just for demo")
-class SampleRecordingTest {
+class SampleTest2 {
 
     @get:Rule
-    val report = SampleInstrumentedReportRule()
+    val report = InstrumentedReportRule()
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
@@ -54,25 +52,21 @@ class SampleRecordingTest {
         }
     }
 
-    // Overrides the screen recording options
-    @TestRecording(
-        scale = 1.0f,
-        keepOnSuccess = true
+    @TestReport(
+        id = "PROJECT-122",
+        description = "Opening notification and quick settings should be possible " +
+                "in pretty much all devices. This is just an example description",
+        links = ["https://developer.android.com/training/testing/other-components/ui-automator"]
     )
     @Test
-    fun testRecordingOverride() = report {
-
-        Given("User opens notifications") {
-            device.openNotification()
-            Thread.sleep(1000L)
-            screenshot("Notifications opened")
+    fun testSample2() = report {
+        step("Open quick settings") {
+            device.openQuickSettings()
+            screenshot("Quick settings displayed")
         }
 
-        When("User presses home") {
+        step("Press home") {
             device.pressHome()
-        }
-
-        Then("Launcher is displayed") {
             screenshot("Launcher")
         }
     }
