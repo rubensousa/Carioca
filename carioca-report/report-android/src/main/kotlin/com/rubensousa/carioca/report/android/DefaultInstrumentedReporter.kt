@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.report.android
 
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.json.JsonReportFiles
 import com.rubensousa.carioca.report.json.JsonReportWriter
 import com.rubensousa.carioca.report.runtime.StageReport
@@ -37,7 +38,7 @@ class DefaultInstrumentedReporter internal constructor(
     override fun writeTestReport(
         testMetadata: TestMetadata,
         report: StageReport,
-        storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+        storageProvider: ReportStorageProvider,
     ): Result<Unit> {
         val executionMetadata = report.getExecutionMetadata()
         val dir = getOutputDir(testMetadata)
