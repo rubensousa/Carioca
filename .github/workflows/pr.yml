@@ -65,8 +65,6 @@ jobs:
 
   instrumented_tests:
     runs-on: ubuntu-latest
-    needs:
-      - build_libraries
     timeout-minutes: 40
     strategy:
       fail-fast: false
@@ -148,8 +146,7 @@ jobs:
           script: |
             ./gradlew uninstallAll
             adb shell settings put global verifier_verify_adb_installs 0
-            ./gradlew --build-cache connectedDebugAndroidTest
-            ./gradlew --build-cache generateAllureReport
+            ./gradlew --build-cache sampleAndroidTests
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
