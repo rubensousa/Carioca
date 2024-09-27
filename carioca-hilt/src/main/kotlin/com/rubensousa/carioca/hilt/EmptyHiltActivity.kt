@@ -21,7 +21,7 @@ import androidx.fragment.app.FragmentActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class EmptyHiltActivity : FragmentActivity() {
+open class EmptyHiltActivity : FragmentActivity() {
 
     internal var theme: Int = HiltFragmentScenario.DEFAULT_THEME
 

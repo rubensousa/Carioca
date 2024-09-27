@@ -193,12 +193,44 @@ class HiltFragmentScenario<F : Fragment> private constructor(
             @StyleRes themeResId: Int = DEFAULT_THEME,
             initialState: Lifecycle.State = Lifecycle.State.RESUMED,
         ): HiltFragmentScenario<F> {
+            return launchInContainer(
+                fragmentClass = fragmentClass,
+                activityClass = EmptyHiltActivity::class.java,
+                fragmentArgs = fragmentArgs,
+                themeResId = themeResId,
+                initialState = initialState
+            )
+        }
+
+        /**
+         * Launches a Fragment in the Activity's root view container `android.R.id.content`, with
+         * given arguments hosted by an empty [EmptyHiltActivity] themed by [themeResId],
+         * and waits for it to reach [initialState].
+         *
+         * This method cannot be called from the main thread.
+         *
+         * @param fragmentClass a fragment class to instantiate
+         * @param activityClass the activity that will host this fragment
+         * @param fragmentArgs a bundle to passed into fragment
+         * @param themeResId a style resource id to be set to the host activity's theme
+         * @param initialState The initial [Lifecycle.State]. Passing in
+         * [DESTROYED][Lifecycle.State.DESTROYED] will result in an [IllegalArgumentException].
+         */
+        @JvmOverloads
+        @JvmStatic
+        fun <F : Fragment, A : EmptyHiltActivity> launchInContainer(
+            fragmentClass: Class<F>,
+            activityClass: Class<A>,
+            fragmentArgs: Bundle? = null,
+            @StyleRes themeResId: Int = DEFAULT_THEME,
+            initialState: Lifecycle.State = Lifecycle.State.RESUMED,
+        ): HiltFragmentScenario<F> {
             require(initialState != Lifecycle.State.DESTROYED) {
                 "Cannot set initial Lifecycle state to $initialState for FragmentScenario"
             }
             val componentName = ComponentName(
                 ApplicationProvider.getApplicationContext(),
-                EmptyHiltActivity::class.java
+                activityClass
             )
             val startActivityIntent = Intent.makeMainActivity(componentName)
                 .putExtra(EmptyHiltActivity.THEME_EXTRAS_BUNDLE_KEY, themeResId)
