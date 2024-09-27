@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.report.android.stage
 
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageReport
 import java.io.OutputStream
@@ -27,7 +28,7 @@ import java.io.OutputStream
 abstract class InstrumentedStageReport(
     private val type: InstrumentedStageType,
     protected val outputPath: String,
-    protected val storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+    protected val storageProvider: ReportStorageProvider,
 ) : StageReport() {
 
     override fun getType(): String = type.id

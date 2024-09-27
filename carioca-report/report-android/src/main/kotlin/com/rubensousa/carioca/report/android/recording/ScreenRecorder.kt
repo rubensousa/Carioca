@@ -17,12 +17,13 @@
 package com.rubensousa.carioca.report.android.recording
 
 import android.util.Log
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileInputStream
 
 internal class ScreenRecorder(
-    private val storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+    private val storageProvider: ReportStorageProvider,
     private val taskFactory: RecordingTaskFactory,
 ) {
 

@@ -26,6 +26,7 @@ import com.rubensousa.carioca.report.android.recording.ReportRecording
 import com.rubensousa.carioca.report.android.recording.ScreenRecorder
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.report.android.storage.FileIdGenerator
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ReportProperty
 import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageStack
@@ -40,7 +41,7 @@ import com.rubensousa.carioca.report.runtime.TestMetadata
  */
 abstract class InstrumentedTestReport internal constructor(
     outputPath: String,
-    storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+    storageProvider: ReportStorageProvider,
     val metadata: TestMetadata,
     protected val interceptors: List<CariocaInstrumentedInterceptor>,
     private val recordingOptions: RecordingOptions,
@@ -60,7 +61,7 @@ abstract class InstrumentedTestReport internal constructor(
         screenshotDelegate: ScreenshotDelegate,
         reporter: InstrumentedReporter,
         interceptors: List<CariocaInstrumentedInterceptor>,
-        storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+        storageProvider: ReportStorageProvider,
     ) : this(
         outputPath = outputPath,
         metadata = metadata,
