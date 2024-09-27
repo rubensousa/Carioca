@@ -23,6 +23,15 @@ implementation "com.rubensousa.carioca:report-runtime:{{ report.version }}"
 Jump to [this guide](test-reports-android.md) for how to integrate this library.
 
 
+Motivation for this library:
+
+1. I kept copying some of these classes around in multiple projects
+2. Analysing the standard junit test reports when you have long UI tests gets frustrating
+3. Consistent screen recording and screenshots across different screen resolutions
+4. Flexible APIs for any test report format
+5. No enforced inheritance in test classes unlike other testing libraries
+
+
 ## License
 
     Copyright 2024 Rúben Sousa
