@@ -23,6 +23,8 @@ plugins {
     alias(libs.plugins.kotlin.dokka)
 }
 
+version = parent!!.properties["VERSION_NAME"] as String
+
 android {
     namespace = "com.rubensousa.carioca.android.report"
     compileSdk = 34

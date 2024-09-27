@@ -3,13 +3,20 @@
 This library comes with an [Allure](https://allurereport.org/) plugin that can be used to generate test reports based on
 the metadata collected through each test execution.
 
-To use it, just add the plugin to your project:
+## Setup
+
+Add the plugin to your project:
 
 ```groovy
 plugins {
     id 'com.rubensousa.carioca.report.allure' version '{{ allure_plugin.version }}'
 }
 ```
+
+## Generating reports
+
+A test report is automatically generated when `connectedDebugAndroidTest` is executed if you're
+using `InstrumentedReportRule` from [here](test-reports-android.md)
 
 After each test execution, the plugin will generate the allure results
 at:
@@ -29,8 +36,9 @@ The following attachments are included out of the box for every failure:
 3. View hierarchy dump
 4. Logcat during test execution
 
+## Configuration options
 
-Configuration options for the plugin currently available:
+To customize the plugin use the following:
 
 ```kotlin
 allureReport {
@@ -44,8 +52,38 @@ allureReport {
      */
     keepLogcatOnSuccess = false
     /**
-     * By default, the original carioca reports are deleted to save disk space
+     * The report output path.
+     * Can be used to merge reports of multiple modules by using the same directory
+     * Null means `built/outputs/allure-results` is used
      */
-    deleteOriginalReports = true
+    outputDir = null
 }
 ```
+
+## Multi-module results
+
+You can aggregate all test reports by defining the `outputDir` option for the plugin.
+Place this in your root project `build.gradle` file:
+
+```kotlin
+
+subprojects {
+    /**
+     * Move all allure-results to the same directory,
+     * so that all tests from the project are seen in a single report
+     */
+    plugins.withId("com.rubensousa.carioca.report.allure") {
+        extensions.getByType(AllureReportExtension::class).apply {
+            outputDir = rootProject.file("build/outputs/allure-results")
+        }
+    }
+}
+```
+
+This will move all test reports of all modules with the plugin to the same `build/outputs/allure-results` in your root
+project
+
+## Sample
+
+The [sample project](https://github.com/rubensousa/Carioca/tree/main/sample) in the official repository contains a few
+examples for some reports

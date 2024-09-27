@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.maven.publish)
 }
 
+version = parent!!.properties["VERSION_NAME"] as String
+
 java {
     sourceCompatibility = JavaVersion.VERSION_17
     targetCompatibility = JavaVersion.VERSION_17
@@ -13,8 +15,4 @@ java {
 
 dependencies {
     testImplementation(libs.bundles.test.unit)
-}
-
-mavenPublishing {
-    version = parent!!.properties["VERSION_NAME"] as String
 }
