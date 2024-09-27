@@ -28,7 +28,7 @@ extra:
   junit4_rules:
     version: '1.0.0-alpha01'
   allure_plugin:
-    version: '1.0.0-alpha02'
+    version: '1.0.0-alpha03'
   social:
     - icon: 'fontawesome/brands/github'
       link: 'https://github.com/rubensousa/Carioca'
