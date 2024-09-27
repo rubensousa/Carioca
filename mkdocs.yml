@@ -24,7 +24,7 @@ theme:
 
 extra:
   report:
-    version: '1.0.0-alpha01'
+    version: '1.0.0-alpha02'
   junit4_rules:
     version: '1.0.0-alpha01'
   allure_plugin:

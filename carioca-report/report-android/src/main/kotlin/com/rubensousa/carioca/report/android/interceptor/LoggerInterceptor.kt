@@ -20,7 +20,7 @@ import android.util.Log
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageReport
 import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
 
-class LoggerInterceptor : com.rubensousa.carioca.report.android.interceptor.CariocaInstrumentedInterceptor {
+class LoggerInterceptor : CariocaInstrumentedInterceptor {
 
     private val tag = "CariocaLogger"
 

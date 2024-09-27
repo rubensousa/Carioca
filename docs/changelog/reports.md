@@ -2,19 +2,17 @@
 
 Libraries with the same version:
 
-- `com.rubensousa.carioca:report-android`
-- `com.rubensousa.carioca:report-android-coroutines`
-- `com.rubensousa.carioca:report-runtime`
-- `com.rubensousa.carioca:report-json`
-- `com.rubensousa.carioca:report-junit4`
+- `com.rubensousa.carioca:report-android:{{ report.version }}`
+- `com.rubensousa.carioca:report-android-coroutines:{{ report.version }}`
+- `com.rubensousa.carioca:report-runtime:{{ report.version }}`
+- `com.rubensousa.carioca:report-json:{{ report.version }}`
+- `com.rubensousa.carioca:report-junit4:{{ report.version }}`
 
 ## Version 1.0.0
 
 ### 1.0.0-alpha02
 
 2024-09-27
-
-`com.rubensousa.carioca:report-*:1.0.0-alpha02`:
 
 #### Improvements
 

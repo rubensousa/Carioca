@@ -23,7 +23,7 @@ Now apply the rule in your tests:
 ```kotlin
 class SampleTest {
 
-    @get:Rule(order = Int.MIN_VALUE)
+    @get:Rule
     val report = TestReportRule()
 
 }
@@ -31,7 +31,9 @@ class SampleTest {
 ```
 
 !!! note
-    `order = Int.MIN_VALUE` ensures that the report rule starts before all other rules you have in your test suite.
+    Use different orders for your rules in case you have multiple of them and assign the lowest value to `TestReportRule`.
+    This ensures that it starts before all other rules you have in your test suite. 
+    Example: `@get:Rule(order = Int.MIN_VALUE)`
 
 This basic setup will achieve this out of the box:
 

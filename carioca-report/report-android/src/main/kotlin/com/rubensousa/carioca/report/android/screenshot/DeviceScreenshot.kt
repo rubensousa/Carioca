@@ -39,7 +39,7 @@ object DeviceScreenshot {
     @SuppressLint("RestrictedApi")
     fun take(
         storageDir: Uri,
-        options: com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions,
+        options: ScreenshotOptions,
         filename: String? = null,
     ): Uri? {
         val screenshot: Bitmap? = try {
@@ -48,7 +48,7 @@ object DeviceScreenshot {
             null
         }
         if (screenshot == null) {
-            Log.w(com.rubensousa.carioca.report.android.screenshot.DeviceScreenshot.TAG, "Failed to take screenshot")
+            Log.w(TAG, "Failed to take screenshot")
             return null
         }
         try {
@@ -68,7 +68,7 @@ object DeviceScreenshot {
                 return outputUri
             }
         } catch (exception: IOException) {
-            Log.w(com.rubensousa.carioca.report.android.screenshot.DeviceScreenshot.TAG, "Failed to take screenshot", exception)
+            Log.w(TAG, "Failed to take screenshot", exception)
             return null
         } finally {
             screenshot.recycle()
