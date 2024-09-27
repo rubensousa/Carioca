@@ -35,7 +35,7 @@ import androidx.lifecycle.Lifecycle
  */
 inline fun <reified F : Fragment> launchHiltFragmentInContainer(
     fragmentArgs: Bundle? = null,
-    @StyleRes themeResId: Int = HiltFragmentScenario.DEFAULT_THEME,
+    @StyleRes themeResId: Int = EmptyHiltActivity.DEFAULT_THEME,
     initialState: Lifecycle.State = Lifecycle.State.RESUMED,
 ): HiltFragmentScenario<F> = HiltFragmentScenario.launchInContainer(
     F::class.java, fragmentArgs, themeResId, initialState
