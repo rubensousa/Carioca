@@ -252,6 +252,6 @@ and can be found in `build/outputs/connected_android_test_additional_output/**/c
 
 By default, those reports are in json format and are not really easily readable.
 To visualize them properly, this library ships with an [Allure](https://allurereport.org/) plugin that can be used to generate test reports based on
-the metadata collected through each test execution. Check it out in [this page](android-allure-plugin).
+the metadata collected through each test execution. Check it out in [this page](android-allure-plugin.md).
 
 
