@@ -32,7 +32,7 @@ class HiltFragmentScenarioTest {
     @Test
     fun testViewModelOfFragmentReceivesInjectedDependency() {
         // given
-        val scenario = launchHiltFragmentInContainer<TestFragment>()
+        val scenario = launchHiltFragment<TestFragment>()
 
         // when
         var testDependency: TestDependency? = null
@@ -47,7 +47,7 @@ class HiltFragmentScenarioTest {
     @Test
     fun testFragmentMovesToDifferentLifecycleStates() {
         // given
-        val scenario = launchHiltFragmentInContainer<TestFragment>(
+        val scenario = launchHiltFragment<TestFragment>(
             initialState = Lifecycle.State.INITIALIZED
         )
 
@@ -69,7 +69,7 @@ class HiltFragmentScenarioTest {
     @Test
     fun testActivityRemovesFragmentWhenItGetsDestroyed() {
         // given
-        val scenario = launchHiltFragmentInContainer<TestFragment>()
+        val scenario = launchHiltFragment<TestFragment>()
         val activity = scenario.withFragment {  requireActivity() }
 
         // when
@@ -83,7 +83,7 @@ class HiltFragmentScenarioTest {
     @Test
     fun testFragmentRecreation() {
         // given
-        val scenario = launchHiltFragmentInContainer<TestFragment>()
+        val scenario = launchHiltFragment<TestFragment>()
         val expectedState = 10
         scenario.onFragment { fragment ->
             fragment.setState(expectedState)
@@ -104,7 +104,7 @@ class HiltFragmentScenarioTest {
         args.putInt("key", 0)
 
         // when
-        val scenario = launchHiltFragmentInContainer<TestFragment>(
+        val scenario = launchHiltFragment<TestFragment>(
             fragmentArgs = args
         )
 
@@ -120,7 +120,7 @@ class HiltFragmentScenarioTest {
         val theme = androidx.test.espresso.core.R.style.WhiteBackgroundTheme
 
         // when
-        val scenario = launchHiltFragmentInContainer<TestFragment>(
+        val scenario = launchHiltFragment<TestFragment>(
             themeResId = theme
         )
 

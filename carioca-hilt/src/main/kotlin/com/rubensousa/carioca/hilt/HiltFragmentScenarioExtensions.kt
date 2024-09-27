@@ -33,7 +33,7 @@ import androidx.lifecycle.Lifecycle
  * @param initialState the initial [Lifecycle.State]. Passing in
  * [DESTROYED][Lifecycle.State.DESTROYED] will result in an [IllegalArgumentException].
  */
-inline fun <reified F : Fragment> launchHiltFragmentInContainer(
+inline fun <reified F : Fragment> launchHiltFragment(
     fragmentArgs: Bundle? = null,
     @StyleRes themeResId: Int = EmptyHiltActivity.DEFAULT_THEME,
     initialState: Lifecycle.State = Lifecycle.State.RESUMED,
