@@ -28,6 +28,7 @@ import com.rubensousa.carioca.report.android.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.report.android.storage.FileIdGenerator
 import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ReportProperty
+import com.rubensousa.carioca.report.runtime.ReportStatus
 import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageStack
 import com.rubensousa.carioca.report.runtime.TestMetadata
@@ -108,6 +109,15 @@ abstract class InstrumentedTestReport internal constructor(
     }
 
     fun onFailed(error: Throwable) {
+        /**
+         * We also call [onFailed] internally inside the test action reports,
+         * to ensure the report file is saved before the instrumentation marks the test as over.
+         * Since tests can just use the rule without using the stage reports,
+         * we can't distinguish the 2 use-cases without doing this
+         */
+        if (getExecutionMetadata().status == ReportStatus.FAILED) {
+            return
+        }
         // Take a screenshot asap to record the state on failures
         screenshotDelegate.takeScreenshot(this, "Screenshot of failure")
 
