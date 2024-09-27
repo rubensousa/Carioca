@@ -16,6 +16,9 @@
 
 package com.rubensousa.carioca.sample.test
 
+import androidx.test.espresso.Espresso
+import androidx.test.espresso.action.ViewActions
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.report.android.stage.InstrumentedScenario
@@ -100,7 +103,7 @@ class SampleTest {
         }
         step("Open quick settings") {
             device.openQuickSettings()
-           throw IllegalStateException("Failed")
+            Espresso.onView(withId(2)).perform(ViewActions.click())
         }
     }
 
