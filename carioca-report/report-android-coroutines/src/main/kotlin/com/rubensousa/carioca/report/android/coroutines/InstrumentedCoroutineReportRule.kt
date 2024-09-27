@@ -23,10 +23,12 @@ import com.rubensousa.carioca.report.android.InstrumentedReporter
 import com.rubensousa.carioca.report.android.coroutines.internal.InstrumentedCoroutineTest
 import com.rubensousa.carioca.report.android.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.report.android.interceptor.DumpViewHierarchyInterceptor
+import com.rubensousa.carioca.report.android.interceptor.LoggerInterceptor
 import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.android.storage.TestStorageProvider
 import com.rubensousa.carioca.report.runtime.TestMetadata
 import com.rubensousa.carioca.report.runtime.TestReportConfig
@@ -42,7 +44,7 @@ open class InstrumentedCoroutineReportRule internal constructor(
     recordingOptions: RecordingOptions,
     screenshotOptions: ScreenshotOptions,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
-    private val storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+    private val storageProvider: ReportStorageProvider,
 ) : AbstractInstrumentedReportRule(
     reporter = reporter,
     recordingOptions = recordingOptions,
@@ -57,7 +59,7 @@ open class InstrumentedCoroutineReportRule internal constructor(
         recordingOptions: RecordingOptions = RecordingOptions(),
         screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
         interceptors: List<CariocaInstrumentedInterceptor> = listOf(
-            com.rubensousa.carioca.report.android.interceptor.LoggerInterceptor(),
+            LoggerInterceptor(),
             DumpViewHierarchyInterceptor()
         ),
     ) : this(
