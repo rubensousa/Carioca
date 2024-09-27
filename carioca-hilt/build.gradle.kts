@@ -17,10 +17,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.kover)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.kotlin.dokka)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -29,7 +29,7 @@ android {
 
     defaultConfig {
         minSdk = 21
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.rubensousa.carioca.hilt.HiltTestRunner"
     }
 
     compileOptions {
@@ -47,21 +47,20 @@ android {
 }
 
 dependencies {
-    api(project(":carioca-report:report-junit4"))
-    api(project(":carioca-report:report-json"))
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.junit)
+    implementation(libs.androidx.fragment.test)
     implementation(libs.androidx.test.rules)
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.test.runner)
     implementation(libs.androidx.test.uiautomator)
-    implementation(libs.kotlinx.serialization.json)
-    testImplementation(project(":carioca-junit4-rules"))
-
-    testImplementation(libs.bundles.test.unit)
-    testImplementation(libs.kotlinx.coroutines.test)
-    androidTestImplementation(project(":carioca-junit4-rules"))
+    implementation(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
 
     androidTestImplementation(libs.bundles.test.unit)
-
+    androidTestImplementation(libs.dagger.hilt)
+    androidTestImplementation(libs.dagger.hilt.android.testing)
+    kspAndroidTest(libs.dagger.hilt.compiler)
     androidTestUtil(libs.androidx.test.services)
 }
