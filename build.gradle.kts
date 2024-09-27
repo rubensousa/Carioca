@@ -26,6 +26,8 @@ plugins {
     alias(libs.plugins.kotlin.dokka) apply true
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.carioca.allure) apply false
+    alias(libs.plugins.ksp) apply false
+    alias(libs.plugins.dagger.hilt) apply false
 }
 
 
