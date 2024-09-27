@@ -43,7 +43,6 @@ class AllureReportGenerator(
         logcatOutputDir: File,
         outputDir: File,
         keepLogcatOnSuccess: Boolean,
-        deleteOriginalReports: Boolean
     ) {
         val reportDir = parser.findReportDir(testResultDir) ?: return
         val testReportFiles = parser.parseTestReports(reportDir)
@@ -62,9 +61,6 @@ class AllureReportGenerator(
                 outputDir = outputDir,
                 logcatFile = logcatFile
             )
-            if (deleteOriginalReports) {
-                testReportFile.file.delete()
-            }
             createContainerReport(testReportFile.report)?.let {
                 moveContainerReport(it, testResultDir, outputDir)
             }
