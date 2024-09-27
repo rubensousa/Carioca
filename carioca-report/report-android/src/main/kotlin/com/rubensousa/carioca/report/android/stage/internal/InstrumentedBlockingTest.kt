@@ -29,6 +29,7 @@ import com.rubensousa.carioca.report.android.stage.InstrumentedStageScope
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageType
 import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
 import com.rubensousa.carioca.report.android.stage.InstrumentedTestScope
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ExecutionIdGenerator
 import com.rubensousa.carioca.report.runtime.TestMetadata
 
@@ -39,7 +40,7 @@ internal class InstrumentedBlockingTest(
     screenshotDelegate: ScreenshotDelegate,
     reporter: InstrumentedReporter,
     interceptors: List<CariocaInstrumentedInterceptor>,
-    storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+    storageProvider: ReportStorageProvider,
 ) : InstrumentedTestReport(
     outputPath = outputPath,
     metadata = metadata,

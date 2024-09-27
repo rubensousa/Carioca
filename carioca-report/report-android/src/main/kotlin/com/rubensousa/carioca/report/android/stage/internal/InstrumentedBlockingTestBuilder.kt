@@ -21,11 +21,12 @@ import com.rubensousa.carioca.report.android.interceptor.CariocaInstrumentedInte
 import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.TestMetadata
 import com.rubensousa.carioca.report.runtime.TestReportConfig
 
 internal class InstrumentedBlockingTestBuilder(
-    private val storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+    private val storageProvider: ReportStorageProvider,
 ) {
 
     fun build(

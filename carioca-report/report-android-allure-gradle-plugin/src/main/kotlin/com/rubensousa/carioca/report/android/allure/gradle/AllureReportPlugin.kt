@@ -58,7 +58,6 @@ class AllureReportPlugin : Plugin<Project> {
         val testOutputDir = project.layout.buildDirectory.file(testOutputDirPath).get().asFile
         val logcatOutputDir = project.layout.buildDirectory.file(logcatOutputDirPath).get().asFile
         val keepLogcatOnSuccess = extension?.keepLogcatOnSuccess ?: false
-        val deleteOriginalReports = extension?.deleteOriginalReports ?: true
         testOutputDir.mkdirs()
         project.tasks.register("cleanAllureReport") {
             it.group = "report"
@@ -67,9 +66,7 @@ class AllureReportPlugin : Plugin<Project> {
                 // Clean-up all the files from the output dirs
                 // to avoid conflicts with the next report generation
                 outputDir.deleteRecursively()
-                if (deleteOriginalReports) {
-                    testOutputDir.deleteRecursively()
-                }
+                testOutputDir.deleteRecursively()
             }
         }
 
@@ -83,7 +80,6 @@ class AllureReportPlugin : Plugin<Project> {
                     logcatOutputDir = logcatOutputDir,
                     outputDir = outputDir,
                     keepLogcatOnSuccess = keepLogcatOnSuccess,
-                    deleteOriginalReports = deleteOriginalReports
                 )
                 println("Allure report generated in file:///$outputDirPath")
             }
@@ -113,12 +109,6 @@ interface AllureReportExtension {
      * Default: false
      */
     var keepLogcatOnSuccess: Boolean?
-
-    /**
-     * True if the original reports should be removed after the allure reports are generated
-     * Default: true to save space
-     */
-    var deleteOriginalReports: Boolean?
 
     /**
      * The report output path.

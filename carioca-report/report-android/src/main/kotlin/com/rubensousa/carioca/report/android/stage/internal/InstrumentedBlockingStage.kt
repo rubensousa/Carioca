@@ -22,12 +22,13 @@ import com.rubensousa.carioca.report.android.stage.InstrumentedScenario
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageReport
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageScope
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageType
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 
 internal class InstrumentedBlockingStage(
     type: InstrumentedStageType,
     outputPath: String,
     delegateFactory: InstrumentedReportDelegateFactory<InstrumentedStageScope>,
-    storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+    storageProvider: ReportStorageProvider,
     private val id: String,
     private val title: String,
 ) : InstrumentedStageReport(

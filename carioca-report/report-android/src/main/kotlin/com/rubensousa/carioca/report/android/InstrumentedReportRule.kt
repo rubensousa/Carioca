@@ -167,7 +167,12 @@ open class InstrumentedReportRule internal constructor(
         action: InstrumentedBlockingTest.() -> Unit,
     ) {
         val currentTest = getCurrentTest<InstrumentedBlockingTest>()
-        action(currentTest)
+        try {
+            action(currentTest)
+        } catch (error: Throwable) {
+            currentTest.onFailed(error)
+            throw error
+        }
     }
 
 }

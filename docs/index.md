@@ -20,7 +20,7 @@ implementation "com.rubensousa.carioca:report-json:{{ report.version }}"
 implementation "com.rubensousa.carioca:report-runtime:{{ report.version }}"
 ```
 
-Jump to [this guide](android_test_reports.md) for how to integrate this library.
+Jump to [this guide](test-reports-android) for how to integrate this library.
 
 
 ## License

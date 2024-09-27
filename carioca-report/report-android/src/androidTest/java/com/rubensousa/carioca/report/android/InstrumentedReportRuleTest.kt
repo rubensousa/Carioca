@@ -87,4 +87,44 @@ class InstrumentedReportRuleTest {
         assertThat(execution.status).isEqualTo(ReportStatus.RUNNING)
     }
 
+    @Test
+    fun testBeforeStageIsPassedToReport() {
+        // given
+        val description = testDescriptionRule.getDescription()
+        reportRule.start(description)
+        val beforeTitle = "Something"
+        val beforeStep = "StepBefore"
+
+        // when
+        reportRule.before(beforeTitle) {
+            step(beforeStep)
+        }
+
+        // then
+        val report = reportRule.getCurrentReport()
+        val beforeStage = report.getStagesBefore().first()
+        assertThat(beforeStage.getTitle()).isEqualTo(beforeTitle)
+        assertThat(beforeStage.getTestStages().first().getTitle()).isEqualTo(beforeStep)
+    }
+
+    @Test
+    fun testAfterStageIsPassedToReport() {
+        // given
+        val description = testDescriptionRule.getDescription()
+        reportRule.start(description)
+        val afterTitle = "Something"
+        val afterStep = "StepAfter"
+
+        // when
+        reportRule.after(afterTitle) {
+            step(afterStep)
+        }
+
+        // then
+        val report = reportRule.getCurrentReport()
+        val afterStage = report.getStagesAfter().first()
+        assertThat(afterStage.getTitle()).isEqualTo(afterTitle)
+        assertThat(afterStage.getTestStages().first().getTitle()).isEqualTo(afterStep)
+    }
+
 }

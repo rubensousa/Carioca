@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.report.android
 
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.StageReport
 import com.rubensousa.carioca.report.runtime.TestMetadata
 import java.io.OutputStream
@@ -42,7 +43,7 @@ interface InstrumentedReporter {
     fun writeTestReport(
         testMetadata: TestMetadata,
         report: StageReport,
-        storageProvider: com.rubensousa.carioca.report.android.storage.ReportStorageProvider,
+        storageProvider: ReportStorageProvider,
     ): Result<Unit>
 
 }
