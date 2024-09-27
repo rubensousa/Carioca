@@ -140,21 +140,34 @@ open class InstrumentedReportRule internal constructor(
      * Use this to start reporting the main test body
      */
     fun test(block: InstrumentedTestScope.() -> Unit) {
-        block(getCurrentTest())
+        executeTestAction {
+            block()
+        }
     }
 
     /**
      * Use this to track `@Before` methods separately from the other stages
      */
     fun before(title: String = "Before", block: InstrumentedStageScope.() -> Unit) {
-        getCurrentTest<InstrumentedBlockingTest>().before(title, block)
+        executeTestAction {
+            before(title, block)
+        }
     }
 
     /**
      * Use this to track `@After` methods separately from the other stages
      */
     fun after(title: String = "After", block: InstrumentedStageScope.() -> Unit) {
-        getCurrentTest<InstrumentedBlockingTest>().after(title, block)
+        executeTestAction {
+            after(title, block)
+        }
+    }
+
+    private fun executeTestAction(
+        action: InstrumentedBlockingTest.() -> Unit,
+    ) {
+        val currentTest = getCurrentTest<InstrumentedBlockingTest>()
+        action(currentTest)
     }
 
 }
