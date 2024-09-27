@@ -18,12 +18,13 @@ package com.rubensousa.carioca.hilt
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
+import com.rubensousa.carioca.android.report.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 open class EmptyHiltActivity : FragmentActivity() {
 
-    internal var theme: Int = HiltFragmentScenario.DEFAULT_THEME
+    internal var theme: Int = DEFAULT_THEME
 
     override fun onCreate(savedInstanceState: Bundle?) {
         theme = intent.getIntExtra(THEME_EXTRAS_BUNDLE_KEY, theme)
@@ -33,6 +34,8 @@ open class EmptyHiltActivity : FragmentActivity() {
 
     companion object {
         const val THEME_EXTRAS_BUNDLE_KEY = "com.rubensousa.carioca.hilt.EmptyHiltActivity.theme"
+
+        val DEFAULT_THEME = R.style.HiltEmptyActivityTheme
     }
 
 }

@@ -41,7 +41,6 @@ import androidx.fragment.app.testing.FragmentScenario.Companion.launch
 import androidx.lifecycle.Lifecycle
 import androidx.test.core.app.ActivityScenario
 import androidx.test.core.app.ApplicationProvider
-import com.rubensousa.carioca.android.report.R
 import java.io.Closeable
 
 
@@ -170,7 +169,6 @@ class HiltFragmentScenario<F : Fragment> private constructor(
 
         private const val FRAGMENT_TAG = "HiltFragmentScenario_Fragment_Tag"
 
-        val DEFAULT_THEME = R.style.HiltEmptyActivityTheme
 
         /**
          * Launches a Fragment in the Activity's root view container `android.R.id.content`, with
@@ -190,7 +188,7 @@ class HiltFragmentScenario<F : Fragment> private constructor(
         fun <F : Fragment> launchInContainer(
             fragmentClass: Class<F>,
             fragmentArgs: Bundle? = null,
-            @StyleRes themeResId: Int = DEFAULT_THEME,
+            @StyleRes themeResId: Int = EmptyHiltActivity.DEFAULT_THEME,
             initialState: Lifecycle.State = Lifecycle.State.RESUMED,
         ): HiltFragmentScenario<F> {
             return launchInContainer(
@@ -222,7 +220,7 @@ class HiltFragmentScenario<F : Fragment> private constructor(
             fragmentClass: Class<F>,
             activityClass: Class<A>,
             fragmentArgs: Bundle? = null,
-            @StyleRes themeResId: Int = DEFAULT_THEME,
+            @StyleRes themeResId: Int = EmptyHiltActivity.DEFAULT_THEME,
             initialState: Lifecycle.State = Lifecycle.State.RESUMED,
         ): HiltFragmentScenario<F> {
             require(initialState != Lifecycle.State.DESTROYED) {
