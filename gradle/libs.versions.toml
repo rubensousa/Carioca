@@ -63,7 +63,6 @@ gradle-android-tools = { group = "com.android.tools", name = "common", version.r
 gradle-kotlin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
 
 # Own
-carioca-report-runtime = { group = "com.rubensousa.carioca", name = "report-runtime", version.ref = "cariocaReport" }
 carioca-report-json = { group = "com.rubensousa.carioca", name = "report-json", version.ref = "cariocaReport" }
 
 [plugins]

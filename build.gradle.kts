@@ -33,7 +33,6 @@ plugins {
 
 subprojects {
     group = property("GROUP") as String
-    version = property("VERSION_NAME") as String
 
     /**
      * Move all allure-results to the same directory,
