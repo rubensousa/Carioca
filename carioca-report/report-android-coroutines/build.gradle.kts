@@ -36,3 +36,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
+
+mavenPublishing {
+    version = parent!!.properties["VERSION_NAME"] as String
+}

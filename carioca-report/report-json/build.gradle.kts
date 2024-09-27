@@ -17,3 +17,7 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.bundles.test.unit)
 }
+
+mavenPublishing {
+    version = parent!!.properties["VERSION_NAME"] as String
+}

@@ -16,3 +16,7 @@ dependencies {
     implementation(libs.junit)
     testImplementation(libs.bundles.test.unit)
 }
+
+mavenPublishing {
+    version = parent!!.properties["VERSION_NAME"] as String
+}
