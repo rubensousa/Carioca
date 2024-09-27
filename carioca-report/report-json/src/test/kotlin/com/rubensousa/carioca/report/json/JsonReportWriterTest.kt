@@ -30,7 +30,7 @@ import java.io.IOException
 class JsonReportWriterTest {
 
     private val currentDir = File(".").absoluteFile.parentFile
-    private val reportDir = File(currentDir, "carioca-report").also {
+    private val reportDir = File(currentDir, JsonReportFiles.REPORT_DIR).also {
         it.mkdirs()
     }
     private val outputFile = File(reportDir, "dummy_test_report.json")
