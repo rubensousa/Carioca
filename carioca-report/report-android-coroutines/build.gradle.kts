@@ -6,6 +6,8 @@ plugins {
     alias(libs.plugins.kotlin.dokka)
 }
 
+version = parent!!.properties["VERSION_NAME"] as String
+
 android {
     namespace = "com.rubensousa.carioca.android.report.coroutines"
     compileSdk = 34
@@ -35,8 +37,4 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-}
-
-mavenPublishing {
-    version = parent!!.properties["VERSION_NAME"] as String
 }
