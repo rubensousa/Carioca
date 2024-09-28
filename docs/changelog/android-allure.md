@@ -4,6 +4,14 @@ Plugin id: `com.rubensousa.carioca.report.allure`
 
 ## Version 1.0.0
 
+### 1.0.0-alpha04
+
+2024-09-28
+
+#### Bug fixes
+
+- Fix aggregated reports being replaced by subsequent test runs [#56](https://github.com/rubensousa/Carioca/pull/56)
+
 ### 1.0.0-alpha03
 
 2024-09-27

@@ -65,7 +65,7 @@ class AllureReportPlugin : Plugin<Project> {
             it.doFirst {
                 // Clean-up all the files from the output dirs
                 // to avoid conflicts with the next report generation
-                outputDir.deleteRecursively()
+                buildOutputDir.deleteRecursively()
                 testOutputDir.deleteRecursively()
             }
         }
@@ -74,7 +74,7 @@ class AllureReportPlugin : Plugin<Project> {
             it.group = "report"
             it.description = "Generates the allure report for a previous test run"
             it.doLast {
-                outputDir.deleteRecursively()
+                buildOutputDir.deleteRecursively()
                 reportGenerator.generateReport(
                     testResultDir = testOutputDir,
                     logcatOutputDir = logcatOutputDir,
