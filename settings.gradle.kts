@@ -41,6 +41,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "carioca"
 
+
+include(":carioca-hilt:carioca-hilt-fragment")
+include(":carioca-hilt:carioca-hilt-manifest")
 include(":carioca-junit4-rules")
 include(":carioca-report:report-junit4")
 include(":carioca-report:report-android")
@@ -48,6 +51,5 @@ include(":carioca-report:report-android-allure-gradle-plugin")
 include(":carioca-report:report-android-coroutines")
 include(":carioca-report:report-runtime")
 include(":carioca-report:report-json")
-include(":sample")
-include(":sample2")
-include(":carioca-hilt")
+include(":sample-mobile")
+include(":sample-tv")
