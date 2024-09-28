@@ -69,13 +69,13 @@ dependencies {
     implementation(libs.dagger.hilt)
     ksp(libs.dagger.hilt.compiler)
 
-    implementation("androidx.compose.material3:material3-android:1.3.0")
-    implementation("androidx.activity:activity-compose:1.9.2")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.5")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.7.2")
-    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation(libs.androidx.material3.android)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.ui.tooling.preview)
+    implementation(libs.androidx.hilt.navigation.compose)
 
-    debugImplementation("androidx.compose.ui:ui-tooling:1.7.2")
+    debugImplementation(libs.ui.tooling)
     debugImplementation(project(":carioca-hilt:carioca-hilt-manifest"))
 
 

@@ -16,14 +16,11 @@
 
 package com.rubensousa.carioca.sample.screen
 
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.test.junit4.createAndroidComposeRule
-import androidx.test.platform.app.InstrumentationRegistry
 import com.google.common.truth.Truth.assertThat
 import com.rubensousa.carioca.android.sample.SampleScreen
-import com.rubensousa.carioca.hilt.manifest.EmptyHiltActivity
+import com.rubensousa.carioca.hilt.compose.createHiltComposeRule
 import com.rubensousa.carioca.sample.SampleInstrumentedReportRule
 import com.rubensousa.carioca.sample.logger.TestLogger
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -46,7 +43,7 @@ class SampleScreenTest {
     val hiltTestRule = HiltAndroidRule(this)
 
     @get:Rule(order = 1)
-    val composeTestRule = createAndroidComposeRule(EmptyHiltActivity::class.java)
+    val composeTestRule = createHiltComposeRule()
 
     @Inject
     lateinit var logger: TestLogger
@@ -61,12 +58,10 @@ class SampleScreenTest {
     @Test
     fun testButtonClickTriggersLogMessage() = report {
         Given("Setup compose content") {
-            InstrumentationRegistry.getInstrumentation().runOnMainSync {
-                composeTestRule.activity.setContent {
-                    SampleScreen(
-                        modifier = Modifier.fillMaxSize()
-                    )
-                }
+            composeTestRule.setContent {
+                SampleScreen(
+                    modifier = Modifier.fillMaxSize()
+                )
             }
         }
 

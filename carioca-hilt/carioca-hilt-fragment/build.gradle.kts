@@ -63,6 +63,8 @@ dependencies {
 
     ksp(libs.dagger.hilt.compiler)
 
+    androidTestImplementation(project(":carioca-hilt:carioca-hilt-runner"))
+    androidTestImplementation(project(":carioca-hilt:carioca-hilt-manifest"))
     androidTestImplementation(libs.bundles.test.unit)
     androidTestImplementation(libs.dagger.hilt)
     androidTestImplementation(libs.dagger.hilt.android.testing)

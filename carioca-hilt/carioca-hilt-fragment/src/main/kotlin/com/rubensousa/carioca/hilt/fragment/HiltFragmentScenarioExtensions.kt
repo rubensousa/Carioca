@@ -38,9 +38,40 @@ inline fun <reified F : Fragment> launchHiltFragment(
     fragmentArgs: Bundle? = null,
     @StyleRes themeResId: Int = EmptyHiltActivity.DEFAULT_THEME,
     initialState: Lifecycle.State = Lifecycle.State.RESUMED,
-): HiltFragmentScenario<F> = HiltFragmentScenario.launchInContainer(
-    F::class.java, fragmentArgs, themeResId, initialState
-)
+): HiltFragmentScenario<F> {
+    return HiltFragmentScenario.launchInContainer(
+        fragmentClass = F::class.java,
+        fragmentArgs = fragmentArgs,
+        themeResId = themeResId,
+        initialState = initialState
+    )
+}
+
+/**
+ * Launches a Fragment in the Activity's root view container `android.R.id.content`, with
+ * given arguments hosted by an empty [FragmentActivity] and waits for it to reach [initialState].
+ *
+ * This method cannot be called from the main thread.
+ *
+ * @param fragmentArgs a bundle to passed into fragment
+ * @param themeResId a style resource id to be set to the host activity's theme
+ * @param initialState the initial [Lifecycle.State]. Passing in
+ * [DESTROYED][Lifecycle.State.DESTROYED] will result in an [IllegalArgumentException].
+ */
+inline fun <reified F : Fragment, reified A : EmptyHiltActivity> launchHiltFragment(
+    fragmentArgs: Bundle? = null,
+    activityClass: Class<A>,
+    @StyleRes themeResId: Int = EmptyHiltActivity.DEFAULT_THEME,
+    initialState: Lifecycle.State = Lifecycle.State.RESUMED,
+): HiltFragmentScenario<F> {
+    return HiltFragmentScenario.launchInContainer(
+        fragmentClass = F::class.java,
+        activityClass = activityClass,
+        fragmentArgs = fragmentArgs,
+        themeResId = themeResId,
+        initialState = initialState
+    )
+}
 
 /**
  * Run [block] using [HiltFragmentScenario.onFragment], returning the result of the [block].

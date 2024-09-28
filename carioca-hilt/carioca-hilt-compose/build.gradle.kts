@@ -18,9 +18,11 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.maven.publish)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.dokka)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt)
+
 }
 
 version = parent!!.properties["VERSION_NAME"] as String
@@ -49,23 +51,18 @@ android {
 }
 
 dependencies {
-    api(libs.androidx.ui.test.junit4)
     api(project(":carioca-hilt:carioca-hilt-manifest"))
-    implementation(libs.androidx.ui.test.manifest)
-    implementation(libs.androidx.fragment)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.junit)
-    implementation(libs.androidx.test.rules)
-    implementation(libs.androidx.espresso.core)
-    implementation(libs.androidx.test.runner)
-    implementation(libs.androidx.test.uiautomator)
-    implementation(libs.dagger.hilt)
+    api(libs.androidx.ui.test.junit4)
+    api(libs.androidx.ui.test.manifest)
+    api(libs.androidx.test.core)
+    api(libs.dagger.hilt)
     ksp(libs.dagger.hilt.compiler)
 
-    implementation(libs.bundles.test.unit)
-    implementation(libs.dagger.hilt)
-    implementation(libs.dagger.hilt.android.testing)
     androidTestImplementation(project(":carioca-hilt:carioca-hilt-runner"))
+    androidTestImplementation(libs.bundles.test.unit)
+    androidTestImplementation(libs.androidx.lifecycle.viewmodel)
+    androidTestImplementation(libs.androidx.lifecycle.viewmodel.compose)
+    androidTestImplementation(libs.dagger.hilt.android.testing)
     kspAndroidTest(libs.dagger.hilt.compiler)
     androidTestUtil(libs.androidx.test.services)
 }

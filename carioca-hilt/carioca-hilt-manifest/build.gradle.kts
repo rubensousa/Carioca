@@ -51,6 +51,9 @@ android {
 dependencies {
     api(libs.androidx.fragment)
     api(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
+
+    androidTestImplementation(project(":carioca-hilt:carioca-hilt-runner"))
     androidTestImplementation(libs.bundles.test.unit)
     kspAndroidTest(libs.dagger.hilt.compiler)
     androidTestUtil(libs.androidx.test.services)

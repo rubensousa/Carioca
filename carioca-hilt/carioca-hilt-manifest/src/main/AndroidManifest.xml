@@ -3,7 +3,9 @@
 
     <application>
 
-        <activity android:name="com.rubensousa.carioca.hilt.manifest.EmptyHiltActivity" />
+        <activity
+            android:name="com.rubensousa.carioca.hilt.manifest.EmptyHiltActivity" />
+
     </application>
 
 </manifest>
