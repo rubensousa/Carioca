@@ -52,20 +52,14 @@ dependencies {
     api(project(":carioca-hilt:carioca-hilt-manifest"))
     api(libs.androidx.fragment)
     api(libs.dagger.hilt)
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.junit)
-    implementation(libs.androidx.fragment.test)
-    implementation(libs.androidx.test.rules)
-    implementation(libs.androidx.espresso.core)
-    implementation(libs.androidx.test.runner)
-    implementation(libs.androidx.test.uiautomator)
-
+    api(libs.androidx.test.core)
+    api(libs.androidx.fragment.test)
     ksp(libs.dagger.hilt.compiler)
 
     androidTestImplementation(project(":carioca-hilt:carioca-hilt-runner"))
     androidTestImplementation(project(":carioca-hilt:carioca-hilt-manifest"))
     androidTestImplementation(libs.bundles.test.unit)
+    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.dagger.hilt)
     androidTestImplementation(libs.dagger.hilt.android.testing)
     kspAndroidTest(libs.dagger.hilt.compiler)
