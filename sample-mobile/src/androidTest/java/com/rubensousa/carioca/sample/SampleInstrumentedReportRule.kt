@@ -25,6 +25,7 @@ import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 
 class SampleInstrumentedReportRule : InstrumentedReportRule(
     recordingOptions = RecordingOptions(
+        enabled = false,
         bitrate = 20_000_000,
         scale = 1.0f,
         /**
@@ -54,16 +55,7 @@ class SampleInstrumentedReportRule : InstrumentedReportRule(
 
 // Rule for tests with coroutines
 class SampleCoroutineInstrumentedReportRule : InstrumentedCoroutineReportRule(
-    recordingOptions = RecordingOptions(
-        bitrate = 20_000_000,
-        scale = 1.0f,
-        /**
-         * Be extra careful with this option,
-         * as this might fill up the entire device depending on the number of tests.
-         * For demo purposes, we have it on
-         */
-        keepOnSuccess = true
-    ),
+    recordingOptions = RecordingOptions(enabled = false),
     screenshotOptions = ScreenshotOptions(
         scale = 0.5f,
         quality = 100,
