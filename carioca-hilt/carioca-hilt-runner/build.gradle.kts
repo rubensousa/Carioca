@@ -26,7 +26,7 @@ plugins {
 version = parent!!.properties["VERSION_NAME"] as String
 
 android {
-    namespace = "com.rubensousa.carioca.hilt.manifest"
+    namespace = "com.rubensousa.carioca.hilt.runner"
     compileSdk = 34
 
     defaultConfig {
@@ -49,9 +49,8 @@ android {
 }
 
 dependencies {
-    api(libs.androidx.fragment)
     api(libs.dagger.hilt)
-    androidTestImplementation(libs.bundles.test.unit)
-    kspAndroidTest(libs.dagger.hilt.compiler)
-    androidTestUtil(libs.androidx.test.services)
+    ksp(libs.dagger.hilt.compiler)
+    api(libs.dagger.hilt.android.testing)
+    api(libs.androidx.test.runner)
 }

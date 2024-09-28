@@ -31,7 +31,7 @@ android {
 
     defaultConfig {
         minSdk = 21
-        testInstrumentationRunner = "com.rubensousa.carioca.hilt.manifest.HiltTestRunner"
+        testInstrumentationRunner = "com.rubensousa.carioca.hilt.runner.HiltTestRunner"
     }
 
     compileOptions {
@@ -49,8 +49,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":carioca-hilt:carioca-hilt-manifest"))
-    implementation(libs.androidx.fragment)
+    api(project(":carioca-hilt:carioca-hilt-manifest"))
+    api(libs.androidx.fragment)
+    api(libs.dagger.hilt)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.junit)
     implementation(libs.androidx.fragment.test)
@@ -58,7 +60,7 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.test.runner)
     implementation(libs.androidx.test.uiautomator)
-    implementation(libs.dagger.hilt)
+
     ksp(libs.dagger.hilt.compiler)
 
     androidTestImplementation(libs.bundles.test.unit)

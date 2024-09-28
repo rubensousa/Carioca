@@ -34,7 +34,7 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-        testInstrumentationRunner = "com.rubensousa.carioca.hilt.manifest.HiltTestRunner"
+        testInstrumentationRunner = "com.rubensousa.carioca.hilt.runner.HiltTestRunner"
         testInstrumentationRunnerArguments["useTestStorageService"] = "true"
         testInstrumentationRunnerArguments["listener"] = "com.rubensousa.carioca.report.android.CariocaInstrumentedListener"
     }
@@ -80,8 +80,8 @@ dependencies {
 
 
     // UI Tests
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.7.2")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.7.2")
+    androidTestImplementation(libs.androidx.ui.test.junit4)
+    debugImplementation(libs.androidx.ui.test.manifest)
     androidTestImplementation(libs.bundles.test.unit)
     androidTestImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
@@ -93,6 +93,8 @@ dependencies {
     kspAndroidTest(libs.dagger.hilt.compiler)
     androidTestImplementation(project(":carioca-junit4-rules"))
     androidTestImplementation(project(":carioca-hilt:carioca-hilt-fragment"))
+    androidTestImplementation(project(":carioca-hilt:carioca-hilt-compose"))
+    androidTestImplementation(project(":carioca-hilt:carioca-hilt-runner"))
     androidTestImplementation(project(":carioca-report:report-android"))
     androidTestImplementation(project(":carioca-report:report-android-coroutines"))
     androidTestUtil(libs.androidx.test.services)

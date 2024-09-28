@@ -26,7 +26,7 @@ plugins {
 version = parent!!.properties["VERSION_NAME"] as String
 
 android {
-    namespace = "com.rubensousa.carioca.hilt.manifest"
+    namespace = "com.rubensousa.carioca.hilt.compose"
     compileSdk = 34
 
     defaultConfig {
@@ -49,9 +49,23 @@ android {
 }
 
 dependencies {
-    api(libs.androidx.fragment)
-    api(libs.dagger.hilt)
-    androidTestImplementation(libs.bundles.test.unit)
+    api(libs.androidx.ui.test.junit4)
+    api(project(":carioca-hilt:carioca-hilt-manifest"))
+    implementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.fragment)
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.junit)
+    implementation(libs.androidx.test.rules)
+    implementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.test.runner)
+    implementation(libs.androidx.test.uiautomator)
+    implementation(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
+
+    implementation(libs.bundles.test.unit)
+    implementation(libs.dagger.hilt)
+    implementation(libs.dagger.hilt.android.testing)
+    androidTestImplementation(project(":carioca-hilt:carioca-hilt-runner"))
     kspAndroidTest(libs.dagger.hilt.compiler)
     androidTestUtil(libs.androidx.test.services)
 }
