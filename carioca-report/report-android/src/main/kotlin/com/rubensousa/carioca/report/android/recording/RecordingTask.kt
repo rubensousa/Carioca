@@ -49,7 +49,8 @@ internal class RecordingTaskImpl(
     private val fileObserver = FileObserverCompat(recordingFile.path) { event ->
         if (event == FileObserver.CLOSE_WRITE
             || event == FileObserver.DELETE
-            || event == FileObserver.DELETE_SELF) {
+            || event == FileObserver.DELETE_SELF
+        ) {
             recordingLatch.setWritingFinished()
         } else if (event == FileObserver.CREATE || event == FileObserver.MODIFY) {
             recordingLatch.setWritingStarted()
@@ -70,11 +71,34 @@ internal class RecordingTaskImpl(
         val displayMetrics = InstrumentationRegistry.getInstrumentation().targetContext
             .applicationContext.resources.displayMetrics
         try {
-            val width = scaleToDivisibleByEight(displayMetrics.widthPixels, options.scale)
-            val height = scaleToDivisibleByEight(displayMetrics.heightPixels, options.scale)
+            var width = scaleToDivisibleByEight(displayMetrics.widthPixels, options.scale)
+            var height = scaleToDivisibleByEight(displayMetrics.heightPixels, options.scale)
+            when (options.orientation) {
+                RecordingOrientation.LANDSCAPE -> {
+                    // Phone case, we need to switch the dimensions
+                    if (height > width) {
+                        val tmp = width
+                        width = height
+                        height = tmp
+                    }
+                }
+
+                RecordingOrientation.PORTRAIT -> {
+                    // TV case, we need to switch the dimensions
+                    if (width > height) {
+                        val tmp = height
+                        height = width
+                        width = tmp
+                    }
+                }
+
+                RecordingOrientation.NATURAL -> {
+                    // Do nothing
+                }
+            }
             val command = getScreenRecordingCommand(
-                primaryResolution = if (width > height) width else height,
-                secondaryResolution = if (width > height) height else width
+                width = width,
+                height = height
             )
             Thread.sleep(options.startDelay)
             fileObserver.startWatching()
@@ -123,11 +147,11 @@ internal class RecordingTaskImpl(
     }
 
     private fun getScreenRecordingCommand(
-        primaryResolution: Int,
-        secondaryResolution: Int,
+        width: Int,
+        height: Int,
     ): String {
         val commandBuilder = StringBuilder()
-        commandBuilder.append("$recordCommand --size ${primaryResolution}x${secondaryResolution} ")
+        commandBuilder.append("$recordCommand --size ${width}x${height} ")
         commandBuilder.append("--bit-rate ${options.bitrate} ")
         commandBuilder.append(recordingFile.absolutePath)
         return commandBuilder.toString()

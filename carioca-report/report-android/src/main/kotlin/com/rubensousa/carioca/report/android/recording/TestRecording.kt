@@ -50,4 +50,8 @@ annotation class TestRecording(
      * @see RecordingOptions.continueDelay
      */
     val continueDelay: Long = 250L,
+    /**
+     * @see RecordingOptions.orientation
+     */
+    val orientation: RecordingOrientation = RecordingOrientation.NATURAL,
 )
