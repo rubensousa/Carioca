@@ -18,7 +18,6 @@ package com.rubensousa.carioca.report.android.suite
 import com.rubensousa.carioca.junit4.report.getTestMetadata
 import com.rubensousa.carioca.junit4.report.getTestReportConfig
 import com.rubensousa.carioca.report.android.InstrumentedReporter
-import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
 import com.rubensousa.carioca.report.android.stage.internal.InstrumentedBlockingTestBuilder
@@ -45,7 +44,6 @@ internal class InstrumentedSuiteStage(
             val test = testBuilder.build(
                 reportConfig = description.getTestReportConfig(),
                 testMetadata = description.getTestMetadata(),
-                recordingOptions = RecordingOptions(enabled = false),
                 screenshotOptions = ScreenshotOptions(),
                 reporter = reporter,
                 interceptors = emptyList()

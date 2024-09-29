@@ -27,8 +27,8 @@ import java.io.OutputStream
  * Attachments should be stored in [storageProvider]
  */
 abstract class InstrumentedStageReport(
+    val outputPath: String,
     private val type: InstrumentedStageType,
-    protected val outputPath: String,
     protected val storageProvider: ReportStorageProvider,
 ) : StageReport() {
 

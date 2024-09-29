@@ -124,10 +124,13 @@ open class InstrumentedReportRule internal constructor(
         return testBuilder.build(
             reportConfig = reportConfig,
             testMetadata = testMetadata,
-            recordingOptions = recordingOptions,
             screenshotOptions = screenshotOptions,
             reporter = reporter,
-            interceptors = interceptors
+            interceptors = getAllInterceptors(
+                clientInterceptors = interceptors,
+                storageProvider = storageProvider,
+                recordingOptions = recordingOptions
+            ),
         )
     }
 

@@ -18,7 +18,6 @@ package com.rubensousa.carioca.report.android.stage.internal
 
 import com.rubensousa.carioca.report.android.InstrumentedReporter
 import com.rubensousa.carioca.report.android.interceptor.CariocaInstrumentedInterceptor
-import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
@@ -32,7 +31,6 @@ internal class InstrumentedBlockingTestBuilder(
     fun build(
         reportConfig: TestReportConfig?,
         testMetadata: TestMetadata,
-        recordingOptions: RecordingOptions,
         screenshotOptions: ScreenshotOptions,
         reporter: InstrumentedReporter,
         interceptors: List<CariocaInstrumentedInterceptor>,
@@ -41,7 +39,6 @@ internal class InstrumentedBlockingTestBuilder(
         val testReport = InstrumentedBlockingTest(
             outputPath = outputPath,
             metadata = testMetadata,
-            recordingOptions = recordingOptions,
             screenshotDelegate = ScreenshotDelegate(
                 outputPath = outputPath,
                 defaultOptions = screenshotOptions,

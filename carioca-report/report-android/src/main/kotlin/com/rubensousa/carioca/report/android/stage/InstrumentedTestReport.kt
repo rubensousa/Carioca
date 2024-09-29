@@ -20,15 +20,9 @@ import android.util.Log
 import com.rubensousa.carioca.report.android.InstrumentedReporter
 import com.rubensousa.carioca.report.android.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.report.android.interceptor.intercept
-import com.rubensousa.carioca.report.android.recording.RecordingOptions
-import com.rubensousa.carioca.report.android.recording.RecordingTaskFactoryImpl
-import com.rubensousa.carioca.report.android.recording.ReportRecording
-import com.rubensousa.carioca.report.android.recording.ScreenRecorder
-import com.rubensousa.carioca.report.android.storage.FileIdGenerator
 import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ReportProperty
 import com.rubensousa.carioca.report.runtime.ReportStatus
-import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageStack
 import com.rubensousa.carioca.report.runtime.TestMetadata
 
@@ -39,39 +33,17 @@ import com.rubensousa.carioca.report.runtime.TestMetadata
  *
  * To get the stages for reporting, use [getTestStages]
  */
-abstract class InstrumentedTestReport internal constructor(
+abstract class InstrumentedTestReport(
     outputPath: String,
     storageProvider: ReportStorageProvider,
     val metadata: TestMetadata,
-    protected val interceptors: List<CariocaInstrumentedInterceptor>,
-    private val recordingOptions: RecordingOptions,
-    private val reporter: InstrumentedReporter,
-    private val screenRecorder: ScreenRecorder,
+    val interceptors: List<CariocaInstrumentedInterceptor>,
+    val reporter: InstrumentedReporter,
 ) : InstrumentedStageReport(
     type = InstrumentedStageType.TEST,
     outputPath = outputPath,
     storageProvider = storageProvider
 ) {
-
-    constructor(
-        outputPath: String,
-        metadata: TestMetadata,
-        recordingOptions: RecordingOptions,
-        reporter: InstrumentedReporter,
-        interceptors: List<CariocaInstrumentedInterceptor>,
-        storageProvider: ReportStorageProvider,
-    ) : this(
-        outputPath = outputPath,
-        metadata = metadata,
-        recordingOptions = recordingOptions,
-        reporter = reporter,
-        interceptors = interceptors,
-        storageProvider = storageProvider,
-        screenRecorder = ScreenRecorder(
-            storageProvider,
-            RecordingTaskFactoryImpl()
-        ),
-    )
 
     protected val stageStack = StageStack<InstrumentedStageReport>()
 
@@ -85,15 +57,9 @@ abstract class InstrumentedTestReport internal constructor(
 
     fun onStarted() {
         interceptors.intercept { onTestStarted(this@InstrumentedTestReport) }
-        if (recordingOptions.enabled) {
-            startRecording()
-        }
     }
 
     fun onPassed() {
-        screenRecorder.stop(
-            delete = !recordingOptions.keepOnSuccess
-        )
         pass()
         interceptors.intercept { onTestPassed(this@InstrumentedTestReport) }
         writeReport()
@@ -114,9 +80,6 @@ abstract class InstrumentedTestReport internal constructor(
         if (getExecutionMetadata().status == ReportStatus.FAILED) {
             return
         }
-
-        // Now stop the recording, if there is one
-        screenRecorder.stop(delete = false)
 
         // Now loop through the entire stage stack and mark all stages as failed
         var stage = stageStack.pop()
@@ -147,24 +110,6 @@ abstract class InstrumentedTestReport internal constructor(
                     error
                 )
             }
-    }
-
-    private fun startRecording() {
-        val newRecording = screenRecorder.start(
-            filename = FileIdGenerator.get(),
-            options = recordingOptions,
-            outputPath = outputPath
-        )
-        attach(createRecordingAttachment(newRecording))
-    }
-
-    private fun createRecordingAttachment(recording: ReportRecording): StageAttachment {
-        return StageAttachment(
-            description = "Screen recording",
-            path = recording.relativeFilePath,
-            mimeType = "video/mp4",
-            keepOnSuccess = recordingOptions.keepOnSuccess
-        )
     }
 
     override fun toString(): String {
