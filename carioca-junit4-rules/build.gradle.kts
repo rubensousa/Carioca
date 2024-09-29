@@ -28,6 +28,8 @@ java {
 }
 
 dependencies {
-    implementation(libs.junit)
+    api(libs.junit)
+    api(libs.kotlinx.coroutines.core)
+    api(libs.kotlinx.coroutines.test)
     testImplementation(libs.bundles.test.unit)
 }
