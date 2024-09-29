@@ -25,11 +25,11 @@ plugins {
 }
 
 android {
-    namespace = "com.rubensousa.carioca.sample"
+    namespace = "com.rubensousa.carioca.sample.compose"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.rubensousa.carioca.sample"
+        applicationId = "com.rubensousa.carioca.sample.compose"
         minSdk = 21
         targetSdk = 35
         versionCode = 1
