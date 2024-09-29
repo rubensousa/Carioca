@@ -21,7 +21,6 @@ import com.rubensousa.carioca.report.android.coroutines.InstrumentedCoroutineSce
 import com.rubensousa.carioca.report.android.coroutines.InstrumentedCoroutineStageScope
 import com.rubensousa.carioca.report.android.coroutines.InstrumentedCoroutineTestScope
 import com.rubensousa.carioca.report.android.interceptor.CariocaInstrumentedInterceptor
-import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.android.stage.InstrumentedReportDelegateFactory
@@ -33,7 +32,6 @@ import com.rubensousa.carioca.report.runtime.TestMetadata
 internal class InstrumentedCoroutineTest(
     outputPath: String,
     metadata: TestMetadata,
-    recordingOptions: RecordingOptions,
     reporter: InstrumentedReporter,
     screenshotDelegate: ScreenshotDelegate,
     interceptors: List<CariocaInstrumentedInterceptor>,
@@ -41,7 +39,6 @@ internal class InstrumentedCoroutineTest(
 ) : InstrumentedTestReport(
     outputPath = outputPath,
     metadata = metadata,
-    recordingOptions = recordingOptions,
     reporter = reporter,
     interceptors = interceptors,
     storageProvider = storageProvider

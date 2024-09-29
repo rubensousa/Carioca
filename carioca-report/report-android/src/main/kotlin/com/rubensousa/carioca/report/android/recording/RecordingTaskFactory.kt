@@ -27,7 +27,8 @@ internal interface RecordingTaskFactory {
 
 internal class RecordingTaskFactoryImpl : RecordingTaskFactory {
 
-    private val executor by lazy { Executors.newFixedThreadPool(1) }
+    // One thread for starting the recording, another for stopping it
+    private val executor by lazy { Executors.newFixedThreadPool(2) }
 
     override fun create(
         recording: ReportRecording,

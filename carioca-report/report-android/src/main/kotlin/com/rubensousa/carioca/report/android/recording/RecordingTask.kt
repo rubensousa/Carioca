@@ -47,7 +47,9 @@ internal class RecordingTaskImpl(
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     private val recordingLatch = RecordingLatch()
     private val fileObserver = FileObserverCompat(recordingFile.path) { event ->
-        if (event == FileObserver.CLOSE_WRITE) {
+        if (event == FileObserver.CLOSE_WRITE
+            || event == FileObserver.DELETE
+            || event == FileObserver.DELETE_SELF) {
             recordingLatch.setWritingFinished()
         } else if (event == FileObserver.CREATE || event == FileObserver.MODIFY) {
             recordingLatch.setWritingStarted()
@@ -86,7 +88,7 @@ internal class RecordingTaskImpl(
 
     override fun stop(delete: Boolean) {
         val stopLatch = CountDownLatch(1)
-        InstrumentationRegistry.getInstrumentation().runOnMainSync {
+        executor.execute {
             stopRecording(delete)
             stopLatch.countDown()
         }

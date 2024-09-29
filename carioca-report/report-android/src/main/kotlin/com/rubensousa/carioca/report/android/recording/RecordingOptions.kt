@@ -28,20 +28,21 @@ import org.junit.runner.Description
  * @param keepOnSuccess true if the recording should be kept if the test passes,
  * false if it should be deleted
  * @param startDelay the minimum amount of time to wait after the recording starts.
- * Default: 1 second
+ * Default: 500ms
  * @param stopDelay the minimum amount of time to wait before the recording should be stopped.
  * Default: 1 second
- * @param continueDelay the minimum amount of time to wait before assuming the recording was stopped.
- * Default: 0.5 seconds
+ * @param continueDelay the minimum amount of time to wait
+ * before continuing to the recording of a next test
+ * Default: 250ms
  */
 data class RecordingOptions(
     val enabled: Boolean = true,
     val bitrate: Int = 16_000_000,
     val scale: Float = 0.75f,
     val keepOnSuccess: Boolean = false,
-    val startDelay: Long = 1000L,
+    val startDelay: Long = 500L,
     val stopDelay: Long = 1000L,
-    val continueDelay: Long = 500L,
+    val continueDelay: Long = 250L,
 ) {
     init {
         require(scale > 0 && scale <= 1) {

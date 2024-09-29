@@ -18,9 +18,15 @@ package com.rubensousa.carioca.report.android
 
 import com.rubensousa.carioca.junit4.report.getTestMetadata
 import com.rubensousa.carioca.junit4.report.getTestReportConfig
+import com.rubensousa.carioca.report.android.interceptor.CariocaInstrumentedInterceptor
+import com.rubensousa.carioca.report.android.interceptor.RecordingInterceptor
 import com.rubensousa.carioca.report.android.recording.RecordingOptions
+import com.rubensousa.carioca.report.android.recording.RecordingTaskFactoryImpl
+import com.rubensousa.carioca.report.android.recording.ScreenRecorder
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
+import com.rubensousa.carioca.report.android.storage.FileIdGenerator
+import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.android.suite.SuiteReportRegistry
 import com.rubensousa.carioca.report.runtime.TestMetadata
 import com.rubensousa.carioca.report.runtime.TestReportConfig
@@ -103,6 +109,28 @@ abstract class AbstractInstrumentedReportRule(
 
     protected open fun <T : InstrumentedTestReport> getCurrentTest(): T {
         return requireNotNull(instrumentedTest as T) { "Test not started yet" }
+    }
+
+    protected fun getAllInterceptors(
+        clientInterceptors: List<CariocaInstrumentedInterceptor>,
+        storageProvider: ReportStorageProvider,
+        recordingOptions: RecordingOptions,
+    ): List<CariocaInstrumentedInterceptor> {
+        val allInterceptors = mutableListOf<CariocaInstrumentedInterceptor>()
+        if (recordingOptions.enabled) {
+            allInterceptors.add(
+                RecordingInterceptor(
+                    recordingOptions,
+                    screenRecorder = ScreenRecorder(
+                        storageProvider,
+                        RecordingTaskFactoryImpl()
+                    ),
+                    idGenerator = FileIdGenerator
+                )
+            )
+        }
+        allInterceptors.addAll(clientInterceptors)
+        return allInterceptors
     }
 
 }

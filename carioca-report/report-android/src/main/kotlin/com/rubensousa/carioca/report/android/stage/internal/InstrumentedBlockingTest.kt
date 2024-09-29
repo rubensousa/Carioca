@@ -19,7 +19,6 @@ package com.rubensousa.carioca.report.android.stage.internal
 import com.rubensousa.carioca.report.android.InstrumentedReporter
 import com.rubensousa.carioca.report.android.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.report.android.interceptor.intercept
-import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.android.stage.InstrumentedReportDelegateFactory
@@ -36,7 +35,6 @@ import com.rubensousa.carioca.report.runtime.TestMetadata
 internal class InstrumentedBlockingTest(
     outputPath: String,
     metadata: TestMetadata,
-    recordingOptions: RecordingOptions,
     screenshotDelegate: ScreenshotDelegate,
     reporter: InstrumentedReporter,
     interceptors: List<CariocaInstrumentedInterceptor>,
@@ -44,7 +42,6 @@ internal class InstrumentedBlockingTest(
 ) : InstrumentedTestReport(
     outputPath = outputPath,
     metadata = metadata,
-    recordingOptions = recordingOptions,
     reporter = reporter,
     interceptors = interceptors,
     storageProvider = storageProvider
