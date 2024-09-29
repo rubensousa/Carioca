@@ -2,8 +2,18 @@
 
 A collection of testing tools for Android that include flexible reporting capabilities
 
-Artifacts available for test reports:
+Motivation for these libraries:
 
+1. I kept copying some of these classes around in multiple projects
+2. Analysing the standard junit test reports when you have long UI tests gets frustrating
+3. Consistent screen recording and screenshots across different screen resolutions
+4. Flexible APIs for any test report format
+5. No enforced inheritance in test classes unlike other testing libraries
+
+
+Libraries currently available:
+
+1. [Instrumented test reports](test-reports-android.md) and [Allure Plugin](android-allure-plugin.md)
 ```groovy
 // Test reports for android tests
 androidTestImplementation "com.rubensousa.carioca:report-android:{{ report.version }}"
@@ -15,9 +25,7 @@ androidTestImplementation "com.rubensousa.carioca:report-android-coroutines:{{ r
 androidTestImplementation "com.rubensousa.carioca:report-json:{{ report.version }}"
 androidTestImplementation "com.rubensousa.carioca:report-runtime:{{ report.version }}"
 ```
-
-Artifacts available for hilt tests:
-
+2. [Instrumented tests with Hilt](hilt.md)
 ```groovy
 // Contains HiltFragmentScenario
 androidTestImplementation "com.rubensousa.carioca:hilt-fragment:{{ hilt.version }}"
@@ -32,25 +40,10 @@ debugImplementation "com.rubensousa.carioca:hilt-manifest:{{ hilt.version }}"
 // Optional: default HiltTestRunner if you don't have your own
 androidTestImplementation "com.rubensousa.carioca:hilt-runner:{{ hilt.version }}"
 ```
-
-Other artifacts:
-
+3. Junit4 rules
 ```groovy
-// Contains RepeatTest and RetryTest
-implementation "com.rubensousa.carioca:junit4-rules:{{ junit4_rules.version }}"
+testImplementation "com.rubensousa.carioca:junit4-rules:{{ junit4_rules.version }}"
 ```
-
-Jump to [this guide](test-reports-android.md) for how to integrate this library.
-
-
-Motivation for this library:
-
-1. I kept copying some of these classes around in multiple projects
-2. Analysing the standard junit test reports when you have long UI tests gets frustrating
-3. Consistent screen recording and screenshots across different screen resolutions
-4. Flexible APIs for any test report format
-5. No enforced inheritance in test classes unlike other testing libraries
-
 
 ## License
 

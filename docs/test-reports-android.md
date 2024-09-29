@@ -33,13 +33,22 @@ class SampleTest {
 !!! note
     Use different orders for your rules in case you have multiple of them and assign the lowest value to `TestReportRule`.
     This ensures that it starts before all other rules you have in your test suite. 
-    Example: `@get:Rule(order = Int.MIN_VALUE)`
+    Example: `@get:Rule(order = 0)` for the report rule and `order = 1` for the next rule
 
 This basic setup will achieve this out of the box:
 
 1. Automatic screen recordings for every test
 2. Automatic screenshot when the test fails
 3. Automatic dumps of the view hierarchy if the test fails
+
+## Visualize reports
+
+The test reports are generated automatically after running any task like `connectedDebugAndroidTest`
+and can be found in `build/outputs/connected_android_test_additional_output/**/carioca-report`.
+
+By default, those reports are in json format and are not really easily readable.
+To visualize them properly, this library ships with an [Allure](https://allurereport.org/) plugin that can be used to generate test reports based on
+the metadata collected through each test execution. Check it out in [this page](android-allure-plugin.md).
 
 
 ## Test structure 
@@ -48,7 +57,7 @@ This basic setup will achieve this out of the box:
 
 You can decorate your tests with individual reports for every execution step:
 
-```kotlin
+```kotlin linenums="1"
 @Test
 fun testHomeIsDisplayedAfterQuickSettings() = report {
     
@@ -71,7 +80,7 @@ fun testHomeIsDisplayedAfterQuickSettings() = report {
 
 Optionally, `Given`, `When`, `Then` statements from BDD are also available to describe your tests:
 
-```kotlin
+```kotlin linenums="1"
 @Test
 fun testHomeIsDisplayedAfterQuickSettings() = report {
     
@@ -96,7 +105,7 @@ fun testHomeIsDisplayedAfterQuickSettings() = report {
 If you have re-usable logic in `@Before` or `@After` that you want to include in your reports,
 just use the following APIs:
 
-```kotlin
+```kotlin linenums="1"
 @Before
 fun before() = report.before {
     step("Press home") {
@@ -119,7 +128,7 @@ fun after() = report.after {
 
 The library includes an `InstrumentedScenario` which allows you to re-use a set of steps across multiple tests:
 
-```kotlin
+```kotlin linenums="1"
 class ClickNotification : InstrumentedScenario("Click Notification") {
 
     private val device = UiDevice.getInstance(
@@ -152,7 +161,7 @@ class ClickNotification : InstrumentedScenario("Click Notification") {
 
 Then, in your tests, can use it like so:
 
-```kotlin
+```kotlin linenums="1" hl_lines="9"
 @Test
 fun testAppOpensHomeAfterClickingNotification() = report {
     
@@ -170,11 +179,11 @@ fun testAppOpensHomeAfterClickingNotification() = report {
 }
 ```
 
-## Test descriptions
+### Extra metadata
 
 Using `@TestReport` allows you to describe your tests in more detail:
 
-```kotlin
+```kotlin linenums="1"
 @TestReport(
     id = "TicketID",
     title = "App opens home after notification click",
@@ -187,18 +196,7 @@ Using `@TestReport` allows you to describe your tests in more detail:
 )
 @Test
 fun testAppOpensHomeAfterClickingNotification() = report {
-    
-    step("Trigger notification") {
-        sendNotificationIntent()
-    }
-
-    // Or When(ClickNotification())
-    scenario(ClickNotification())
-
-    step("Home screen is visible") {
-        assertHomeScreenDisplayed()
-    }
-
+    // Test body
 }
 ```
 
@@ -206,23 +204,27 @@ fun testAppOpensHomeAfterClickingNotification() = report {
 
 To override the recording options for individual tests, use `@TestRecording`:
 
-```kotlin
-@TestRecording(
-    scale = 1.0f,
-    keepOnSuccess = true,
-)
-@Test
-fun testSomething() {
-}
-```
-
-```kotlin
+```kotlin linenums="1"
 // Disables screen recording for this test only
 @TestRecording(
     enabled = false
 )
 @Test
 fun fastTestThatShouldFinishInLessThan1Second() {
+}
+```
+
+Or also:
+
+```kotlin linenums="1"
+// Records this test in landscape mode 
+// and keeps the recording file even if the test passes
+@TestRecording(
+    keepOnSuccess = true,
+    orientation = RecordingOrientation.LANDSCAPE
+)
+@Test
+fun testInLandscape() {
 }
 ```
 
@@ -233,7 +235,7 @@ This configuration will replace the `RecordingOptions` from `InstrumentedReportR
 
 To override the screenshot options for individual tests, use `@TestScreenshot`:
 
-```kotlin
+```kotlin linenums="1"
 @TestScreenshot(
     scale = 1.0f,
     format = Bitmap.CompressFormat.PNG,
@@ -244,14 +246,3 @@ fun testSomething() {
 ```
 
 This configuration will replace the `ScreenshotOptions` from `InstrumentedReportRule`
-
-## Test reports
-
-The test reports are generated automatically after running any task like `connectedDebugAndroidTest`
-and can be found in `build/outputs/connected_android_test_additional_output/**/carioca-report`.
-
-By default, those reports are in json format and are not really easily readable.
-To visualize them properly, this library ships with an [Allure](https://allurereport.org/) plugin that can be used to generate test reports based on
-the metadata collected through each test execution. Check it out in [this page](android-allure-plugin.md).
-
-
