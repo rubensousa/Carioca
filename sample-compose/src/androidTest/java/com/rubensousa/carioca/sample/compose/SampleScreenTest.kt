@@ -21,6 +21,7 @@ import androidx.compose.ui.Modifier
 import com.google.common.truth.Truth.assertThat
 import com.rubensousa.carioca.android.sample.SampleScreen
 import com.rubensousa.carioca.hilt.compose.createHiltComposeRule
+import com.rubensousa.carioca.report.android.recording.TestRecording
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import org.junit.Before
@@ -53,6 +54,7 @@ class SampleScreenTest {
         hiltTestRule.inject()
     }
 
+    @TestRecording(keepOnSuccess = true)
     @Test
     fun testButtonClickTriggersLogMessage() = report {
         Given("Setup compose content") {
