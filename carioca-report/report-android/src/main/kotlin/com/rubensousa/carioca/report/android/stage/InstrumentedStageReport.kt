@@ -16,6 +16,7 @@
 
 package com.rubensousa.carioca.report.android.stage
 
+import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.StageAttachment
 import com.rubensousa.carioca.report.runtime.StageReport
@@ -36,6 +37,8 @@ abstract class InstrumentedStageReport(
     override fun deleteAttachment(attachment: StageAttachment) {
         storageProvider.delete(attachment.path)
     }
+
+    abstract fun screenshot(description: String, options: ScreenshotOptions?)
 
     fun getAttachmentOutputStream(path: String): OutputStream {
         val relativePath = "$outputPath/$path"

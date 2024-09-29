@@ -18,8 +18,6 @@ package com.rubensousa.carioca.sample.reports
 
 import com.rubensousa.carioca.report.android.InstrumentedReportRule
 import com.rubensousa.carioca.report.android.coroutines.InstrumentedCoroutineReportRule
-import com.rubensousa.carioca.report.android.interceptor.DumpViewHierarchyInterceptor
-import com.rubensousa.carioca.report.android.interceptor.LoggerInterceptor
 import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 
@@ -45,12 +43,6 @@ class SampleInstrumentedReportRule : InstrumentedReportRule(
          */
         keepOnSuccess = true
     ),
-    interceptors = listOf(
-        LoggerInterceptor(),
-        DumpViewHierarchyInterceptor(
-            dumpOnSuccess = true // Optional. Default is false
-        )
-    )
 )
 
 // Rule for tests with coroutines
@@ -65,11 +57,5 @@ class SampleCoroutineInstrumentedReportRule : InstrumentedCoroutineReportRule(
          * For demo purposes, we have it on
          */
         keepOnSuccess = true
-    ),
-    interceptors = listOf(
-        LoggerInterceptor(),
-        DumpViewHierarchyInterceptor(
-            dumpOnSuccess = true  // Optional. Default is false
-        )
     )
 )

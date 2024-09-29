@@ -24,7 +24,6 @@ import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.recording.RecordingTaskFactoryImpl
 import com.rubensousa.carioca.report.android.recording.ReportRecording
 import com.rubensousa.carioca.report.android.recording.ScreenRecorder
-import com.rubensousa.carioca.report.android.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.report.android.storage.FileIdGenerator
 import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ReportProperty
@@ -46,7 +45,6 @@ abstract class InstrumentedTestReport internal constructor(
     val metadata: TestMetadata,
     protected val interceptors: List<CariocaInstrumentedInterceptor>,
     private val recordingOptions: RecordingOptions,
-    private val screenshotDelegate: ScreenshotDelegate,
     private val reporter: InstrumentedReporter,
     private val screenRecorder: ScreenRecorder,
 ) : InstrumentedStageReport(
@@ -59,7 +57,6 @@ abstract class InstrumentedTestReport internal constructor(
         outputPath: String,
         metadata: TestMetadata,
         recordingOptions: RecordingOptions,
-        screenshotDelegate: ScreenshotDelegate,
         reporter: InstrumentedReporter,
         interceptors: List<CariocaInstrumentedInterceptor>,
         storageProvider: ReportStorageProvider,
@@ -67,7 +64,6 @@ abstract class InstrumentedTestReport internal constructor(
         outputPath = outputPath,
         metadata = metadata,
         recordingOptions = recordingOptions,
-        screenshotDelegate = screenshotDelegate,
         reporter = reporter,
         interceptors = interceptors,
         storageProvider = storageProvider,
@@ -118,8 +114,6 @@ abstract class InstrumentedTestReport internal constructor(
         if (getExecutionMetadata().status == ReportStatus.FAILED) {
             return
         }
-        // Take a screenshot asap to record the state on failures
-        screenshotDelegate.takeScreenshot(this, "Screenshot of failure")
 
         // Now stop the recording, if there is one
         screenRecorder.stop(delete = false)
