@@ -51,13 +51,8 @@ class ScreenRecorderTest {
             .applicationContext.resources.displayMetrics
         val width = displayMetrics.widthPixels.divisibleByEight()
         val height = displayMetrics.heightPixels.divisibleByEight()
-        if (width > height) {
-            assertThat(frame.width).isEqualTo(width)
-            assertThat(frame.height).isEqualTo(height)
-        } else {
-            assertThat(frame.width).isEqualTo(height)
-            assertThat(frame.height).isEqualTo(width)
-        }
+        assertThat(frame.width).isEqualTo(width)
+        assertThat(frame.height).isEqualTo(height)
     }
 
     private fun Int.divisibleByEight(): Int {
