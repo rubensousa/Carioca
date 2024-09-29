@@ -82,7 +82,7 @@ jobs:
 
         - name: Install dependencies
           run: |
-            pip install mkdocs-material mkdocs-material-extensions mkdocs-markdownextradata-plugin
+            pip install mkdocs-material mkdocs-material-extensions mkdocs-markdownextradata-plugin mkdocs-open-in-new-tab
 
         - name: Deploy docs
           run: mkdocs gh-deploy --force
