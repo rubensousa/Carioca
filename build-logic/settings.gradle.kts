@@ -14,4 +14,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "build-logic"
 include(":allure-gradle-plugin")
-project(":allure-gradle-plugin").projectDir = File("../carioca-report/report-android-allure-gradle-plugin")
+project(":allure-gradle-plugin").projectDir = File("../carioca-report-allure-gradle-plugin")

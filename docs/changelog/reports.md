@@ -10,6 +10,23 @@ Libraries with the same version:
 
 ## Version 1.0.0
 
+### 1.0.0-alpha03
+
+2024-09-30
+
+#### API changes
+
+- Removed `dumpOnSuccess` from `DumpViewHierarchyInterceptor`
+
+#### Improvements
+
+- Decreased default delays for screen recordings, which decreases the total test execution time by around 25% [#63](https://github.com/rubensousa/Carioca/pull/63)
+- Added `RecordingOrientation` to `RecordingOptions` to allow overriding the default orientation of the video [#65](https://github.com/rubensousa/Carioca/pull/65)
+
+#### Bug fixes
+
+- Fixed screenshot options inside steps or scenarios not using the provided options [#62](https://github.com/rubensousa/Carioca/pull/62)
+
 ### 1.0.0-alpha02
 
 2024-09-27
