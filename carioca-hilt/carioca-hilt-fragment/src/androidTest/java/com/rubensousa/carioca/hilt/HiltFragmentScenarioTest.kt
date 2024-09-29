@@ -1,6 +1,11 @@
 package com.rubensousa.carioca.hilt
 
+import android.graphics.Color
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -49,6 +54,21 @@ class HiltFragmentScenarioTest {
     }
 
     @Test
+    fun testViewModelOfDialogFragmentReceivesInjectedDependency() {
+        // given
+        val scenario = launchHiltFragment<TestDialogFragment>()
+
+        // when
+        var testDependency: TestDependency? = null
+        scenario.onFragment { fragment ->
+            testDependency = fragment.getTestDependency()
+        }
+
+        // then
+        assertThat(testDependency).isSameInstanceAs(providedDependency)
+    }
+
+    @Test
     fun testFragmentMovesToDifferentLifecycleStates() {
         // given
         val scenario = launchHiltFragment<TestFragment>(
@@ -74,7 +94,7 @@ class HiltFragmentScenarioTest {
     fun testActivityRemovesFragmentWhenItGetsDestroyed() {
         // given
         val scenario = launchHiltFragment<TestFragment>()
-        val activity = scenario.withFragment {  requireActivity() }
+        val activity = scenario.withFragment { requireActivity() }
 
         // when
         scenario.moveToState(Lifecycle.State.DESTROYED)
@@ -139,6 +159,29 @@ class HiltFragmentScenarioTest {
             currentState = fragment.lifecycle.currentState
         }
         return currentState
+    }
+
+    @AndroidEntryPoint
+    class TestDialogFragment : DialogFragment() {
+
+        private val viewModel by viewModels<TestViewModel>()
+
+        override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?,
+        ): View {
+            return View(inflater.context).apply {
+                layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.MATCH_PARENT
+                )
+                setBackgroundColor(Color.YELLOW)
+            }
+        }
+
+        fun getTestDependency() = viewModel.getTestDependency()
+
     }
 
     @AndroidEntryPoint
