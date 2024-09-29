@@ -37,9 +37,9 @@ class RecordingOptionsTest {
         assertThat(options.bitrate).isEqualTo(16_000_000L)
         assertThat(options.scale).isEqualTo(0.75f)
         assertThat(options.keepOnSuccess).isEqualTo(false)
-        assertThat(options.startDelay).isEqualTo(1000L)
+        assertThat(options.startDelay).isEqualTo(500L)
         assertThat(options.stopDelay).isEqualTo(1000L)
-        assertThat(options.continueDelay).isEqualTo(500L)
+        assertThat(options.continueDelay).isEqualTo(250L)
     }
 
     @Test
