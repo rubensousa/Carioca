@@ -12,3 +12,10 @@
 ## Bug fixes
 
 - Fixed screenshot options inside steps or scenarios not using the provided options [#62](https://github.com/rubensousa/Carioca/pull/62)
+
+
+# Rules 1.0.0-alpha02
+
+## New features
+
+- Added `MainDispatcherRule` to replace `Dispatcher.Main` in unit tests
