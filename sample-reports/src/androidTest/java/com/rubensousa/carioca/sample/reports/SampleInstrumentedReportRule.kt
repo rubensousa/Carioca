@@ -62,8 +62,6 @@ class SampleCoroutineInstrumentedReportRule : InstrumentedCoroutineReportRule(
     ),
     interceptors = listOf(
         LoggerInterceptor(),
-        DumpViewHierarchyInterceptor(
-            dumpOnSuccess = true  // Optional. Default is false
-        )
+        DumpViewHierarchyInterceptor()
     )
 )

@@ -20,6 +20,9 @@ import android.util.Log
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageReport
 import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
 
+/**
+ * A [CariocaInstrumentedInterceptor] that logs the different stages
+ */
 class LoggerInterceptor : CariocaInstrumentedInterceptor {
 
     private val tag = "CariocaLogger"

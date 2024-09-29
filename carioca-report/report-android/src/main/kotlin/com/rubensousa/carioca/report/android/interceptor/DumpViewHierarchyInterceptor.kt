@@ -23,28 +23,16 @@ import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
 import com.rubensousa.carioca.report.runtime.ExecutionMetadata
 import com.rubensousa.carioca.report.runtime.StageAttachment
 
+/**
+ * A [CariocaInstrumentedInterceptor] that dumps the view hierarchy to a file whenever the test fails
+ */
 class DumpViewHierarchyInterceptor internal constructor(
-    private val dumpOnSuccess: Boolean,
     private val device: UiDevice,
 ) : CariocaInstrumentedInterceptor {
 
-    constructor() : this(false)
-
-    /**
-     * @param dumpOnSuccess true if view hierarchy should also be dumped on success.
-     * Default: false
-     */
-    constructor(dumpOnSuccess: Boolean = false) : this(
-        dumpOnSuccess,
+    constructor() : this(
         UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
     )
-
-    override fun onTestPassed(test: InstrumentedTestReport) {
-        super.onTestPassed(test)
-        if (dumpOnSuccess) {
-            dump(test)
-        }
-    }
 
     override fun onTestFailed(test: InstrumentedTestReport) {
         dump(test)
@@ -64,7 +52,7 @@ class DumpViewHierarchyInterceptor internal constructor(
                     description = "View hierarchy dump",
                     path = filename,
                     mimeType = "text/plain",
-                    keepOnSuccess = dumpOnSuccess
+                    keepOnSuccess = false
                 )
             )
         } catch (exception: Exception) {
