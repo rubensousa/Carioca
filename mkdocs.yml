@@ -61,5 +61,6 @@ nav:
   - 'Android Test Reports': test-reports-android.md
   - 'Android Allure Plugin': android-allure-plugin.md
   - 'Testing with Hilt': hilt.md
+  - 'JUnit4 Rules': junit4-rules.md
   - 'Changelog': changelog.md
   - 'API': api/
