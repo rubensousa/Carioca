@@ -45,11 +45,3 @@ subprojects {
     }
 
 }
-
-tasks.register("sampleAndroidTests") {
-    group = "Verification"
-    dependsOn(
-        "sample:connectedDebugAndroidTest",
-        "sample2:connectedDebugAndroidTest",
-    )
-}

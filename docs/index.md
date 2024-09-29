@@ -2,22 +2,42 @@
 
 A collection of testing tools for Android that include flexible reporting capabilities
 
-Artifacts available:
-
+Artifacts available for test reports:
 
 ```groovy
 // Test reports for android tests
-implementation "com.rubensousa.carioca:report-android:{{ report.version }}"
+androidTestImplementation "com.rubensousa.carioca:report-android:{{ report.version }}"
 
-// junit4 rules for testing
-implementation "com.rubensousa.carioca:junit4-rules:{{ junit4_rules.version }}"
-
-// Optional test reporting for tests with coroutines
-implementation "com.rubensousa.carioca:report-android-coroutines:{{ report.version }}"
+// Optional: test reporting for tests with coroutines
+androidTestImplementation "com.rubensousa.carioca:report-android-coroutines:{{ report.version }}"
 
 // Optional: libraries to build your own report formats
-implementation "com.rubensousa.carioca:report-json:{{ report.version }}"
-implementation "com.rubensousa.carioca:report-runtime:{{ report.version }}"
+androidTestImplementation "com.rubensousa.carioca:report-json:{{ report.version }}"
+androidTestImplementation "com.rubensousa.carioca:report-runtime:{{ report.version }}"
+```
+
+Artifacts available for hilt tests:
+
+```groovy
+// Contains HiltFragmentScenario
+androidTestImplementation "com.rubensousa.carioca:hilt-fragment:{{ hilt.version }}"
+
+// Contains createHiltComposeRule()
+androidTestImplementation "com.rubensousa.carioca:hilt-compose:{{ hilt.version }}"
+
+// Contains an empty hilt activity that is required 
+// by both of the dependencies above
+debugImplementation "com.rubensousa.carioca:hilt-manifest:{{ hilt.version }}"
+
+// Optional: default HiltTestRunner if you don't have your own
+androidTestImplementation "com.rubensousa.carioca:hilt-runner:{{ hilt.version }}"
+```
+
+Other artifacts:
+
+```groovy
+// Contains RepeatTest and RetryTest
+implementation "com.rubensousa.carioca:junit4-rules:{{ junit4_rules.version }}"
 ```
 
 Jump to [this guide](test-reports-android.md) for how to integrate this library.

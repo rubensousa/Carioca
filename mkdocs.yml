@@ -28,7 +28,9 @@ extra:
   junit4_rules:
     version: '1.0.0-alpha01'
   allure_plugin:
-    version: '1.0.0-alpha03'
+    version: '1.0.0-alpha04'
+  hilt:
+    version: '1.0.0'
   social:
     - icon: 'fontawesome/brands/github'
       link: 'https://github.com/rubensousa/Carioca'
@@ -52,10 +54,12 @@ markdown_extensions:
 
 plugins:
   - markdownextradata: {}
+  - open-in-new-tab
 
 nav:
   - 'Overview': index.md
   - 'Android Test Reports': test-reports-android.md
   - 'Android Allure Plugin': android-allure-plugin.md
+  - 'Testing with Hilt': hilt.md
   - 'Changelog': changelog.md
   - 'API': api/

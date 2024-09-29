@@ -1,6 +1,8 @@
 [versions]
+activityCompose = "1.9.2"
 agp = "8.6.1"
 android-tools = "31.6.0"
+hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.20"
 coreKtx = "1.13.1"
 fragment = "1.8.3"
@@ -9,7 +11,10 @@ junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
 kotlinxSerializationJson = "1.7.2"
+lifecycle = "2.8.6"
+material3Android = "1.3.0"
 testRules = "1.6.1"
+testCore = "1.6.1"
 testRunner = "1.6.2"
 appcompat = "1.7.0"
 material = "1.12.0"
@@ -25,10 +30,16 @@ ksp = "2.0.20-1.0.24"
 
 # Publishing
 cariocaReport = "1.0.0-alpha02"
+uiTestJunit4 = "1.7.2"
+uiTooling = "1.7.2"
 
 [libraries]
 
 # Kotlin libraries
+
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+androidx-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "uiTestJunit4" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
@@ -41,11 +52,19 @@ dagger-hilt = { module = "com.google.dagger:hilt-android", version.ref = "dagger
 dagger-hilt-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger" }
 dagger-hilt-android-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "dagger" }
 
+# Compose
+androidx-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "uiTestJunit4" }
+ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "uiTooling" }
+ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "uiTooling" }
+androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+
 # Android Libraries
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
+androidx-lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel", version.ref = "lifecycle" }
 androidx-fragment-test = { group = "androidx.fragment", name = "fragment-testing", version.ref = "fragment" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "testCore" }
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "testRules" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "testRunner" }
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "uiautomator" }
@@ -56,6 +75,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 # Sample
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+androidx-material3-android = { module = "androidx.compose.material3:material3-android", version.ref = "material3Android" }
 
 # Gradle plugins
 gradle-android = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
@@ -70,6 +90,7 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 dagger-hilt = { id = "com.google.dagger.hilt.android", version.ref = "dagger" }
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 maven-publish = { id = "com.vanniktech.maven.publish", version = "0.29.0" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }

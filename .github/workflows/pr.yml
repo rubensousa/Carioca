@@ -40,7 +40,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install mkdocs-material mkdocs-material-extensions mkdocs-markdownextradata-plugin
+          pip install mkdocs-material mkdocs-material-extensions mkdocs-markdownextradata-plugin mkdocs-open-in-new-tab
 
       - name: Build docs
         run: mkdocs build -v
