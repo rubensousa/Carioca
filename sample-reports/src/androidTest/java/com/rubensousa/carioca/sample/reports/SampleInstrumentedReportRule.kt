@@ -45,12 +45,6 @@ class SampleInstrumentedReportRule : InstrumentedReportRule(
          */
         keepOnSuccess = true
     ),
-    interceptors = listOf(
-        LoggerInterceptor(),
-        DumpViewHierarchyInterceptor(
-            dumpOnSuccess = true // Optional. Default is false
-        )
-    )
 )
 
 // Rule for tests with coroutines

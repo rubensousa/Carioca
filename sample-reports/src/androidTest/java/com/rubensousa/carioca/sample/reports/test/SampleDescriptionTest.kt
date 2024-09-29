@@ -88,7 +88,6 @@ class SampleDescriptionTest {
         links = ["https://developer.android.com/training/testing/other-components/ui-automator"]
     )
     @Test
-    @Ignore("Just for checking reports")
     fun testThatFails() = report {
         scenario(SampleScreenScenario())
 
@@ -101,8 +100,6 @@ class SampleDescriptionTest {
             Espresso.onView(withId(2)).perform(ViewActions.click())
         }
     }
-
-
 
     @Ignore("Just for checking reports")
     @Test

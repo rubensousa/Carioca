@@ -44,7 +44,7 @@ internal class InstrumentedBlockingDelegate(
 ) : InstrumentedStageScope {
 
     override fun screenshot(description: String, options: ScreenshotOptions?) {
-        screenshotDelegate.takeScreenshot(host, description)
+        screenshotDelegate.takeScreenshot(host, description, options)
     }
 
     override fun step(

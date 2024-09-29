@@ -45,7 +45,6 @@ internal class InstrumentedBlockingTest(
     outputPath = outputPath,
     metadata = metadata,
     recordingOptions = recordingOptions,
-    screenshotDelegate = screenshotDelegate,
     reporter = reporter,
     interceptors = interceptors,
     storageProvider = storageProvider

@@ -19,6 +19,7 @@ package com.rubensousa.carioca.report.android
 import com.rubensousa.carioca.report.android.interceptor.CariocaInstrumentedInterceptor
 import com.rubensousa.carioca.report.android.interceptor.DumpViewHierarchyInterceptor
 import com.rubensousa.carioca.report.android.interceptor.LoggerInterceptor
+import com.rubensousa.carioca.report.android.interceptor.TakeScreenshotOnFailureInterceptor
 import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageScope
@@ -103,7 +104,8 @@ open class InstrumentedReportRule internal constructor(
         screenshotOptions: ScreenshotOptions = ScreenshotOptions(),
         interceptors: List<CariocaInstrumentedInterceptor> = listOf(
             LoggerInterceptor(),
-            DumpViewHierarchyInterceptor()
+            TakeScreenshotOnFailureInterceptor(),
+            DumpViewHierarchyInterceptor(),
         ),
     ) : this(
         reporter = reporter,
