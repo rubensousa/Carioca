@@ -40,6 +40,7 @@ class RecordingOptionsTest {
         assertThat(options.startDelay).isEqualTo(500L)
         assertThat(options.stopDelay).isEqualTo(1000L)
         assertThat(options.continueDelay).isEqualTo(250L)
+        assertThat(options.orientation).isEqualTo(RecordingOrientation.NATURAL)
     }
 
     @Test
@@ -85,7 +86,8 @@ class RecordingOptionsTest {
         keepOnSuccess = true,
         startDelay = 1,
         stopDelay = 2,
-        continueDelay = 3
+        continueDelay = 3,
+        orientation = RecordingOrientation.LANDSCAPE
     )
     @Test
     fun `options get assigned from annotation`() {
@@ -103,6 +105,7 @@ class RecordingOptionsTest {
         assertThat(options.startDelay).isEqualTo(1)
         assertThat(options.stopDelay).isEqualTo(2)
         assertThat(options.continueDelay).isEqualTo(3)
+        assertThat(options.orientation).isEqualTo(RecordingOrientation.LANDSCAPE)
     }
 
 }

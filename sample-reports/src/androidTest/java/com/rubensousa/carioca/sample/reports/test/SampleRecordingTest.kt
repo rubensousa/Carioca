@@ -18,9 +18,10 @@ package com.rubensousa.carioca.sample.reports.test
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.uiautomator.UiDevice
+import com.rubensousa.carioca.report.android.recording.RecordingOrientation
 import com.rubensousa.carioca.report.android.recording.TestRecording
-import com.rubensousa.carioca.sample.reports.OpenNotificationScenario
 import com.rubensousa.carioca.sample.reports.SampleInstrumentedReportRule
+import org.junit.After
 import org.junit.Rule
 import org.junit.Test
 
@@ -31,22 +32,36 @@ class SampleRecordingTest {
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
 
+    @After
+    fun after() {
+        device.setOrientationNatural()
+    }
+
     // Overrides the screen recording options
     @TestRecording(
         scale = 1.0f,
-        keepOnSuccess = true
+        keepOnSuccess = true,
+        orientation = RecordingOrientation.LANDSCAPE
     )
     @Test
     fun testRecordingOverride() = report {
-
-        Given(OpenNotificationScenario())
-
-        When("User presses home") {
-            device.pressHome()
+        step("Open settings") {
+            device.executeShellCommand("am start -a android.settings.SETTINGS")
+            Thread.sleep(2000L)
         }
 
-        Then("Launcher is displayed") {
-            screenshot("Launcher")
+        step("Rotate device to landscape") {
+            device.setOrientationLandscape()
+            Thread.sleep(2000L)
+        }
+
+        step("Open quick settings") {
+            device.openQuickSettings()
+            Thread.sleep(2000L)
+        }
+
+        step("Press home") {
+            device.pressHome()
         }
     }
 

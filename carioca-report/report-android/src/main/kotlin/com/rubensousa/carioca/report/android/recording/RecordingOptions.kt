@@ -34,6 +34,8 @@ import org.junit.runner.Description
  * @param continueDelay the minimum amount of time to wait
  * before continuing to the recording of a next test
  * Default: 250ms
+ * @param orientation the orientation of the screen recording.
+ * Default: [RecordingOrientation.NATURAL]
  */
 data class RecordingOptions(
     val enabled: Boolean = true,
@@ -43,12 +45,14 @@ data class RecordingOptions(
     val startDelay: Long = 500L,
     val stopDelay: Long = 1000L,
     val continueDelay: Long = 250L,
+    val orientation: RecordingOrientation = RecordingOrientation.NATURAL,
 ) {
     init {
         require(scale > 0 && scale <= 1) {
             "scale must be greater than 0 and smaller or equal than 1"
         }
     }
+
 
     companion object {
 
@@ -62,7 +66,8 @@ data class RecordingOptions(
                 keepOnSuccess = annotation.keepOnSuccess,
                 startDelay = annotation.startDelay,
                 stopDelay = annotation.stopDelay,
-                continueDelay = annotation.continueDelay
+                continueDelay = annotation.continueDelay,
+                orientation = annotation.orientation
             )
         }
 
