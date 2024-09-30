@@ -19,7 +19,7 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
-if (parent?.parent?.name == "carioca") {
+if (parent?.name == "carioca") {
     apply plugin: libs.plugins.maven.publish.get().pluginId
 }
 
