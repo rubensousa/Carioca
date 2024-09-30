@@ -74,12 +74,13 @@ class RetryTestRule : TestRule {
         return object : Statement() {
             override fun evaluate() {
                 var lastError: Throwable? = null
-                repeat(times + 1) {
+                var passed = false
+                while (!passed && currentExecution < times + 1) {
                     try {
                         base.evaluate()
                         // Clear the error, since the test now passed
                         lastError = null
-                        return@repeat
+                        passed = true
                     } catch (error: Throwable) {
                         lastError = error
                     }
