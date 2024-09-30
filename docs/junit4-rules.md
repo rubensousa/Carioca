@@ -8,7 +8,7 @@ This rule can be useful for end-to-end tests that have some degree of tolerable 
 
 Avoid using it for all sorts of tests!
 
-Total executions = `max(1, 1 + times)`
+Total executions = `[1, 1 + times]`, depends on which execution the test actually passes
 
 ```kotlin linenums="1"
 @RetryTest(times = 9)
