@@ -1,19 +1,4 @@
 /*
- * Copyright 2019 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/*
  * Copyright 2024 Rúben Sousa
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -29,74 +14,32 @@
  * limitations under the License.
  */
 
-package com.rubensousa.carioca.sample.compose.hierarchy
+package com.rubensousa.carioca.report.android.compose
 
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.node.RootForTest
-import androidx.compose.ui.platform.AbstractComposeView
 import androidx.compose.ui.semantics.AccessibilityAction
 import androidx.compose.ui.semantics.SemanticsConfiguration
 import androidx.compose.ui.semantics.SemanticsNode
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.toSize
+import androidx.core.view.children
 import androidx.test.espresso.Espresso
 import androidx.test.espresso.UiController
 import androidx.test.espresso.ViewAction
 import androidx.test.espresso.matcher.ViewMatchers.withId
-import com.rubensousa.carioca.report.android.interceptor.CariocaInstrumentedInterceptor
-import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
-import com.rubensousa.carioca.report.runtime.ExecutionMetadata
-import com.rubensousa.carioca.report.runtime.StageAttachment
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
-/**
- * A [CariocaInstrumentedInterceptor] that dumps the compose hierarchy on test failures
- *
- * @param useUnmergedTree Find within merged composables like Buttons
- */
-class DumpComposeHierarchyInterceptor(
-    private val useUnmergedTree: Boolean = true,
-) : CariocaInstrumentedInterceptor {
+object ComposeHierarchyInspector {
 
-    override fun onTestFailed(test: InstrumentedTestReport) {
-        super.onTestFailed(test)
-        dump(test)
-    }
-
-    private fun getFilename(metadata: ExecutionMetadata): String {
-        return metadata.uniqueId + "_compose_hierarchy.txt"
-    }
-
-    private fun dump(stage: InstrumentedTestReport) {
-        try {
-            val filename = getFilename(stage.getExecutionMetadata())
-            val outputStream = stage.getAttachmentOutputStream(filename)
-            outputStream.use {
-                outputStream.bufferedWriter().apply {
-                    write(dumpComposeHierarchy())
-                    flush()
-                }
-            }
-            stage.attach(
-                StageAttachment(
-                    description = "Compose hierarchy dump",
-                    path = filename,
-                    mimeType = "text/plain",
-                    keepOnSuccess = false
-                )
-            )
-        } catch (exception: Exception) {
-            // Ignore
-            Log.e("DUMP", "Failed getting dump", exception)
-        }
-    }
-
-    private fun dumpComposeHierarchy(): String {
+    /**
+     * @param useUnmergedTree Find within merged composables like Buttons
+     */
+    fun dump(useUnmergedTree: Boolean): String {
         val semanticsOwner = getRootForTest()?.semanticsOwner ?: return ""
         val node = if (useUnmergedTree) {
             semanticsOwner.unmergedRootSemanticsNode
@@ -106,29 +49,9 @@ class DumpComposeHierarchyInterceptor(
         return node.printToString()
     }
 
-    private fun getRootForTest(): RootForTest? {
-        var rootForTest: RootForTest? = null
-        Espresso.onView(withId(android.R.id.content)).perform(object : ViewAction {
-            override fun getConstraints(): Matcher<View> {
-                return Matchers.any(View::class.java)
-            }
-
-            override fun getDescription(): String {
-                return "Finding ComposeView in the view hierarchy"
-            }
-
-            override fun perform(uiController: UiController?, view: View) {
-                if (view is ViewGroup) {
-                    val child = view.getChildAt(0)
-                    if (child is AbstractComposeView) {
-                        rootForTest = child.getChildAt(0) as? RootForTest
-                    }
-                }
-            }
-        })
-        return rootForTest
-    }
-
+    /**
+     * Taken from SemanticsNodeInteraction
+     */
     private fun SemanticsNode.printToString(maxDepth: Int = Int.MAX_VALUE): String {
         val sb = StringBuilder()
         printToStringInner(
@@ -285,4 +208,39 @@ class DumpComposeHierarchyInterceptor(
             append("ClearAndSetSemantics = 'true'")
         }
     }
+
+    private fun getRootForTest(): RootForTest? {
+        var rootForTest: RootForTest? = null
+        Espresso.onView(withId(android.R.id.content)).perform(object : ViewAction {
+            override fun getConstraints(): Matcher<View> {
+                return Matchers.any(View::class.java)
+            }
+
+            override fun getDescription(): String {
+                return "Finding a RootForTest in the view hierarchy"
+            }
+
+            override fun perform(uiController: UiController?, view: View) {
+                if (view is ViewGroup) {
+                    rootForTest = findRootForTest(view)
+                }
+            }
+        })
+        return rootForTest
+    }
+
+    private fun findRootForTest(viewGroup: ViewGroup): RootForTest? {
+        if (viewGroup is RootForTest) {
+            return viewGroup
+        }
+        viewGroup.children.forEach { child ->
+            if (child is ViewGroup) {
+                findRootForTest(child)?.let {
+                    return it
+                }
+            }
+        }
+        return null
+    }
+
 }
