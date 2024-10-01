@@ -128,6 +128,34 @@ class RetryTestRuleFailureTest {
 
 }
 
+@RetryTest(times = 10)
+class RetryTestRuleSuccessfulTest {
+
+    @get:Rule
+    val retryRule = RetryTestRule()
+
+    @Test
+    fun `test is executed once because it passes`() {
+        assertThat(retryRule.currentExecution).isEqualTo(0)
+        SingletonState.iteration++
+    }
+
+    companion object {
+
+        @BeforeClass
+        @JvmStatic
+        fun before() {
+            SingletonState.iteration = 0
+        }
+
+        @AfterClass
+        @JvmStatic
+        fun after() {
+            SingletonState.assertIterations(1)
+        }
+    }
+}
+
 class RetryTestRuleEmptyTest {
 
     @get:Rule

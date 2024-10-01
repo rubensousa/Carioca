@@ -2,6 +2,14 @@
 
 ## Version 1.0.0
 
+### 1.0.0-beta01
+
+2024-10-01
+
+#### Bug fixes
+
+- Fixed `RetryTestRule` not finishing up correctly if test passes [#70](https://github.com/rubensousa/Carioca/pull/70)
+
 ### 1.0.0-alpha02
 
 2024-09-30
