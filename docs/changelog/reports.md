@@ -3,12 +3,21 @@
 Libraries with the same version:
 
 - `com.rubensousa.carioca:report-android:{{ report.version }}`
+- `com.rubensousa.carioca:report-android-compose:{{ report.version }}`
 - `com.rubensousa.carioca:report-android-coroutines:{{ report.version }}`
 - `com.rubensousa.carioca:report-runtime:{{ report.version }}`
 - `com.rubensousa.carioca:report-json:{{ report.version }}`
 - `com.rubensousa.carioca:report-junit4:{{ report.version }}`
 
 ## Version 1.0.0
+
+### 1.0.0-alpha04
+
+2024-10-01
+
+#### New features
+
+- Added `dumpOnSuccess` from `DumpViewHierarchyInterceptor`
 
 ### 1.0.0-alpha03
 

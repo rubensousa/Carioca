@@ -51,10 +51,6 @@ class DumpComposeHierarchyInterceptor(
         dump(test)
     }
 
-    private fun getFilename(metadata: ExecutionMetadata): String {
-        return metadata.uniqueId + "_compose_hierarchy.txt"
-    }
-
     private fun dump(stage: InstrumentedTestReport) {
         try {
             val filename = getFilename(stage.getExecutionMetadata())
@@ -84,6 +80,10 @@ class DumpComposeHierarchyInterceptor(
                 "Failed to dump compose hierarchy", exception
             )
         }
+    }
+
+    private fun getFilename(metadata: ExecutionMetadata): String {
+        return metadata.uniqueId + "_compose_hierarchy.txt"
     }
 
 }

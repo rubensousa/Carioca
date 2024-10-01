@@ -34,6 +34,10 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers
 
+/**
+ * Dumps the semantic nodes as a string representation.
+ * Currently only works for the first/root Composable rendered in the screen
+ */
 object ComposeHierarchyInspector {
 
     /**
