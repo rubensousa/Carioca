@@ -28,7 +28,6 @@ import com.rubensousa.carioca.report.android.interceptor.TakeScreenshotOnFailure
 import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotDelegate
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
-import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
 import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.android.storage.TestStorageProvider
 import com.rubensousa.carioca.report.runtime.TestMetadata
@@ -46,7 +45,7 @@ open class InstrumentedCoroutineReportRule internal constructor(
     screenshotOptions: ScreenshotOptions,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
     private val storageProvider: ReportStorageProvider,
-) : AbstractInstrumentedReportRule(
+) : AbstractInstrumentedReportRule<InstrumentedCoroutineTest>(
     reporter = reporter,
     recordingOptions = recordingOptions,
     screenshotOptions = screenshotOptions
@@ -77,7 +76,7 @@ open class InstrumentedCoroutineReportRule internal constructor(
         testMetadata: TestMetadata,
         recordingOptions: RecordingOptions,
         screenshotOptions: ScreenshotOptions,
-    ): InstrumentedTestReport {
+    ): InstrumentedCoroutineTest {
         val outputPath = reporter.getOutputDir(testMetadata)
         val testReport = InstrumentedCoroutineTest(
             outputPath = outputPath,

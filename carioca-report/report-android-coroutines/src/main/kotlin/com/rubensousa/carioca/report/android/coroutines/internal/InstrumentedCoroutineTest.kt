@@ -29,7 +29,7 @@ import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
 import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.TestMetadata
 
-internal class InstrumentedCoroutineTest(
+class InstrumentedCoroutineTest internal constructor(
     outputPath: String,
     metadata: TestMetadata,
     reporter: InstrumentedReporter,

@@ -18,6 +18,9 @@ Libraries currently available:
 // Test reports for android tests
 androidTestImplementation "com.rubensousa.carioca:report-android:{{ report.version }}"
 
+// DumpComposeHierarchyInterceptor
+androidTestImplementation "com.rubensousa.carioca:report-android-compose:{{ report.version }}"
+
 // Optional: test reporting for tests with coroutines
 androidTestImplementation "com.rubensousa.carioca:report-android-coroutines:{{ report.version }}"
 
@@ -40,7 +43,7 @@ debugImplementation "com.rubensousa.carioca:hilt-manifest:{{ hilt.version }}"
 // Optional: default HiltTestRunner if you don't have your own
 androidTestImplementation "com.rubensousa.carioca:hilt-runner:{{ hilt.version }}"
 ```
-3. Junit4 rules
+3. [Junit4 rules](junit4-rules.md)
 ```groovy
 testImplementation "com.rubensousa.carioca:junit4-rules:{{ junit4_rules.version }}"
 ```

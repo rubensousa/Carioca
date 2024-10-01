@@ -32,7 +32,7 @@ import com.rubensousa.carioca.report.android.storage.ReportStorageProvider
 import com.rubensousa.carioca.report.runtime.ExecutionIdGenerator
 import com.rubensousa.carioca.report.runtime.TestMetadata
 
-internal class InstrumentedBlockingTest(
+class InstrumentedBlockingTest internal constructor(
     outputPath: String,
     metadata: TestMetadata,
     screenshotDelegate: ScreenshotDelegate,

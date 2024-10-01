@@ -41,13 +41,13 @@ import org.junit.runner.Description
  * You can extend this class directly to create your own scopes,
  * by returning your own test report class in [createTest]
  */
-abstract class AbstractInstrumentedReportRule(
+abstract class AbstractInstrumentedReportRule<T : InstrumentedTestReport>(
     protected val reporter: InstrumentedReporter,
     protected val recordingOptions: RecordingOptions,
     protected val screenshotOptions: ScreenshotOptions,
 ) : TestWatcher() {
 
-    private var instrumentedTest: InstrumentedTestReport? = null
+    private var instrumentedTest: T? = null
     private var lastDescription: Description? = null
 
     protected abstract fun createTest(
@@ -55,7 +55,7 @@ abstract class AbstractInstrumentedReportRule(
         testMetadata: TestMetadata,
         recordingOptions: RecordingOptions,
         screenshotOptions: ScreenshotOptions,
-    ): InstrumentedTestReport
+    ): T
 
     final override fun starting(description: Description) {
         /**
@@ -105,10 +105,10 @@ abstract class AbstractInstrumentedReportRule(
     }
 
     // Visible for testing
-    internal fun getCurrentReport() = getCurrentTest<InstrumentedTestReport>()
+    internal fun getCurrentReport() = getCurrentTest()
 
-    protected open fun <T : InstrumentedTestReport> getCurrentTest(): T {
-        return requireNotNull(instrumentedTest as T) { "Test not started yet" }
+    protected open fun getCurrentTest(): T {
+        return requireNotNull(instrumentedTest) { "Test not started yet" }
     }
 
     protected fun getAllInterceptors(

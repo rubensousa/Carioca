@@ -23,7 +23,6 @@ import com.rubensousa.carioca.report.android.interceptor.TakeScreenshotOnFailure
 import com.rubensousa.carioca.report.android.recording.RecordingOptions
 import com.rubensousa.carioca.report.android.screenshot.ScreenshotOptions
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageScope
-import com.rubensousa.carioca.report.android.stage.InstrumentedTestReport
 import com.rubensousa.carioca.report.android.stage.InstrumentedTestScope
 import com.rubensousa.carioca.report.android.stage.internal.InstrumentedBlockingTest
 import com.rubensousa.carioca.report.android.stage.internal.InstrumentedBlockingTestBuilder
@@ -87,7 +86,7 @@ open class InstrumentedReportRule internal constructor(
     screenshotOptions: ScreenshotOptions,
     private val interceptors: List<CariocaInstrumentedInterceptor>,
     private val storageProvider: ReportStorageProvider,
-) : AbstractInstrumentedReportRule(
+) : AbstractInstrumentedReportRule<InstrumentedBlockingTest>(
     reporter = reporter,
     recordingOptions = recordingOptions,
     screenshotOptions = screenshotOptions
@@ -120,7 +119,7 @@ open class InstrumentedReportRule internal constructor(
         testMetadata: TestMetadata,
         recordingOptions: RecordingOptions,
         screenshotOptions: ScreenshotOptions,
-    ): InstrumentedTestReport {
+    ): InstrumentedBlockingTest {
         return testBuilder.build(
             reportConfig = reportConfig,
             testMetadata = testMetadata,
@@ -171,7 +170,7 @@ open class InstrumentedReportRule internal constructor(
     private fun executeTestAction(
         action: InstrumentedBlockingTest.() -> Unit,
     ) {
-        val currentTest = getCurrentTest<InstrumentedBlockingTest>()
+        val currentTest = getCurrentTest()
         try {
             action(currentTest)
         } catch (error: Throwable) {

@@ -42,7 +42,7 @@ class AllureReportGenerator(
         testResultDir: File,
         logcatOutputDir: File,
         outputDir: File,
-        keepLogcatOnSuccess: Boolean,
+        attachLogcatOnSuccess: Boolean,
     ) {
         val reportDir = parser.findReportDir(testResultDir) ?: return
         val testReportFiles = parser.parseTestReports(reportDir)
@@ -50,7 +50,7 @@ class AllureReportGenerator(
         outputDir.mkdirs()
         testReportFiles.forEach { testReportFile ->
             val originalReport = createTestReport(testReportFile.report)
-            val logcatFile = if (keepLogcatOnSuccess || originalReport.status == brokenStatus) {
+            val logcatFile = if (attachLogcatOnSuccess || originalReport.status == brokenStatus) {
                 logcatFiles[originalReport.fullName]
             } else {
                 null
