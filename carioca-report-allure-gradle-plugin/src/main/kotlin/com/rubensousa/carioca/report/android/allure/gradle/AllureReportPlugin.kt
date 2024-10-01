@@ -16,16 +16,25 @@
 
 package com.rubensousa.carioca.report.android.allure.gradle
 
+import com.android.build.api.variant.AndroidComponentsExtension
+import com.android.build.api.variant.AndroidTest
+import com.android.build.api.variant.ApplicationAndroidComponentsExtension
+import com.android.build.api.variant.DynamicFeatureAndroidComponentsExtension
+import com.android.build.api.variant.HasAndroidTest
+import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import com.android.build.api.variant.Variant
 import com.rubensousa.carioca.report.json.JsonReportParser
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.language.base.plugins.LifecycleBasePlugin.VERIFICATION_GROUP
+import org.gradle.api.Task
+import org.gradle.api.tasks.TaskProvider
+import org.gradle.configurationcache.extensions.capitalized
 import java.io.File
 
 class AllureReportPlugin : Plugin<Project> {
 
-    private val logcatOutputDirPath = "outputs/androidTest-results"
-    private val testOutputDirPath = "outputs/connected_android_test_additional_output"
+    private val logcatOutputDirPath = "outputs/androidTest-results/connected"
+    private val connectedOutputDir = "outputs/connected_android_test_additional_output"
     private val outputDirPath = "outputs/allure-results"
     private val supportedPlugins = listOf(
         "com.android.application",
@@ -40,59 +49,138 @@ class AllureReportPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         target.extensions.add("allureReport", AllureReportExtension::class.java)
 
-        target.afterEvaluate {
-            check(supportedPlugins.any { target.plugins.hasPlugin(it) }) {
-                "Report generation only works for modules of type: $supportedPlugins"
-            }
-            val extension = target.extensions.getByType(AllureReportExtension::class.java)
-            registerTasks(target, extension)
+        check(supportedPlugins.any { target.plugins.hasPlugin(it) }) {
+            "Report generation only works for modules of type: $supportedPlugins"
+        }
+        val allureExtension = target.extensions.getByType(AllureReportExtension::class.java)
+        val androidComponents = target.extensions.getByType(AndroidComponentsExtension::class.java)
+        when (androidComponents) {
+            is LibraryAndroidComponentsExtension,
+            is ApplicationAndroidComponentsExtension,
+            is DynamicFeatureAndroidComponentsExtension,
+            -> Unit
+
+            else -> error("${androidComponents.javaClass.name} is not supported")
+        }
+        registerTasks(target, allureExtension, androidComponents)
+    }
+
+    private fun registerTasks(
+        project: Project,
+        allureExtension: AllureReportExtension?,
+        extension: AndroidComponentsExtension<*, *, *>,
+    ) {
+        extension.onVariants { variant ->
+            val testVariant = (variant as? HasAndroidTest)?.androidTest ?: return@onVariants
+            registerVariantReportTasks(
+                project = project,
+                allureExtension = allureExtension,
+                variant = variant,
+                testVariant = testVariant,
+            )
         }
     }
 
-    private fun registerTasks(project: Project, extension: AllureReportExtension?) {
-        val buildOutputDir = project.layout.buildDirectory.file(outputDirPath).get().asFile
-        val outputDir = extension?.outputDir ?: buildOutputDir
-        outputDir.mkdirs()
-        val testTask = extension?.testTask ?: "connectedDebugAndroidTest"
+    private fun registerVariantReportTasks(
+        project: Project,
+        allureExtension: AllureReportExtension?,
+        variant: Variant,
+        testVariant: AndroidTest,
+    ) {
+        val buildOutputDir = getBuildOutputDir(project)
+        val connectedOutputDir = getConnectedOutputDir(project, testVariant)
+        connectedOutputDir.mkdirs()
 
-        val testOutputDir = project.layout.buildDirectory.file(testOutputDirPath).get().asFile
-        val logcatOutputDir = project.layout.buildDirectory.file(logcatOutputDirPath).get().asFile
-        val keepLogcatOnSuccess = extension?.keepLogcatOnSuccess ?: false
-        testOutputDir.mkdirs()
-        project.tasks.register("cleanAllureReport") {
+        registerCleanTask(
+            project = project,
+            variant = variant,
+            buildOutputDir = buildOutputDir,
+            connectedOutputDir = connectedOutputDir
+        )
+
+        val generationTask = registerGenerateTask(
+            project = project,
+            allureExtension = allureExtension,
+            variant = variant,
+            connectedOutputDir = connectedOutputDir,
+        )
+
+        project.afterEvaluate {
+            /**
+             * This will ensure that all test tasks will trigger a report generation
+             */
+            val testTaskName = getTestTaskName(testVariant)
+            val testTask = project.tasks.findByName(testTaskName)
+            testTask?.finalizedBy(generationTask)
+        }
+    }
+
+    private fun getBuildOutputDir(project: Project): File {
+        return project.layout.buildDirectory.file(outputDirPath).get().asFile
+    }
+
+    private fun registerCleanTask(
+        project: Project,
+        variant: Variant,
+        buildOutputDir: File,
+        connectedOutputDir: File,
+    ) {
+        project.tasks.register("clean${variant.name.capitalized()}AllureReport") {
             it.group = "report"
             it.description = "Deletes the previous generated allure report"
             it.doFirst {
                 // Clean-up all the files from the output dirs
                 // to avoid conflicts with the next report generation
                 buildOutputDir.deleteRecursively()
-                testOutputDir.deleteRecursively()
+                connectedOutputDir.deleteRecursively()
             }
         }
+    }
 
-        val generateTask = project.tasks.register("generateAllureReport") {
+    private fun registerGenerateTask(
+        project: Project,
+        allureExtension: AllureReportExtension?,
+        variant: Variant,
+        connectedOutputDir: File,
+    ): TaskProvider<Task> {
+        val logcatOutputDir = getLogcatOutputDir(project, variant)
+        val reportOutputDir = allureExtension?.outputDir ?: getBuildOutputDir(project)
+        val attachLogcatOnSuccess = allureExtension?.attachLogcatOnSuccess ?: false
+
+        return project.tasks.register("generate${variant.name.capitalized()}AllureReport") {
             it.group = "report"
             it.description = "Generates the allure report for a previous test run"
             it.doLast {
-                buildOutputDir.deleteRecursively()
+                reportOutputDir.mkdirs()
                 reportGenerator.generateReport(
-                    testResultDir = testOutputDir,
+                    testResultDir = connectedOutputDir,
                     logcatOutputDir = logcatOutputDir,
-                    outputDir = outputDir,
-                    keepLogcatOnSuccess = keepLogcatOnSuccess,
+                    outputDir = reportOutputDir,
+                    attachLogcatOnSuccess = attachLogcatOnSuccess,
                 )
-                println("Allure report generated in file:///$outputDirPath")
+                println("Allure results saved in file:///${reportOutputDir.absolutePath}")
             }
         }
+    }
 
-        // TODO: Add support for variants
-        project.tasks.register("connectedAllureReport") {
-            it.group = VERIFICATION_GROUP
-            it.description = "Runs android tests and generates the allure report"
-            it.dependsOn(testTask)
+    private fun getTestTaskName(testVariant: AndroidTest): String {
+        return "connected${testVariant.name.capitalized()}"
+    }
+
+    private fun getConnectedOutputDir(project: Project, testVariant: AndroidTest): File {
+        val path = "$connectedOutputDir/${testVariant.name}"
+        return project.layout.buildDirectory.file(path).get().asFile
+    }
+
+    private fun getLogcatOutputDir(project: Project, variant: Variant): File {
+        val flavorName = variant.flavorName
+        val buildType = variant.buildType ?: "debug"
+        val path = if (flavorName == null) {
+            "$logcatOutputDirPath/$buildType"
+        } else {
+            "$logcatOutputDirPath/$buildType/flavors/$flavorName"
         }
-        // Ensures the report is generated even if the test task fails
-        project.tasks.findByName(testTask)?.finalizedBy(generateTask)
+        return project.layout.buildDirectory.file(path).get().asFile
     }
 
 }
@@ -100,15 +188,10 @@ class AllureReportPlugin : Plugin<Project> {
 
 interface AllureReportExtension {
     /**
-     * The name of the test task that will be invoked to generate the report
-     */
-    var testTask: String?
-
-    /**
      * True to keep logcat files even if tests pass, or false to only pull them if tests fail.
      * Default: false
      */
-    var keepLogcatOnSuccess: Boolean?
+    var attachLogcatOnSuccess: Boolean?
 
     /**
      * The report output path.

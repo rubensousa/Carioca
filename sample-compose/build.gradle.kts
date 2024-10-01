@@ -35,8 +35,10 @@ android {
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner = "com.rubensousa.carioca.hilt.runner.HiltTestRunner"
+        testInstrumentationRunnerArguments["clearPackageData"] = "true"
         testInstrumentationRunnerArguments["useTestStorageService"] = "true"
-        testInstrumentationRunnerArguments["listener"] = "com.rubensousa.carioca.report.android.CariocaInstrumentedListener"
+        testInstrumentationRunnerArguments["listener"] =
+            "com.rubensousa.carioca.report.android.CariocaInstrumentedListener"
     }
 
     buildTypes {
@@ -55,10 +57,34 @@ android {
         jvmTarget = "17"
     }
 
-    /* testOptions {
-         execution = "ANDROIDX_TEST_ORCHESTRATOR"
-     }*/
 
+    /* Uncomment to check support for flavors
+    flavorDimensions += "version"
+    flavorDimensions += "store"
+
+    productFlavors {
+        create("demo") {
+            dimension = "version"
+            versionNameSuffix = "-demo"
+        }
+        create("full") {
+            dimension = "version"
+            versionNameSuffix = "-full"
+        }
+        create("google") {
+            dimension = "store"
+            versionNameSuffix = "-google"
+        }
+        create("amazon") {
+            dimension = "store"
+            versionNameSuffix = "-amazon"
+        }
+    }
+    */
+
+    testOptions {
+        execution = "ANDROIDX_TEST_ORCHESTRATOR"
+    }
 }
 
 dependencies {
@@ -99,5 +125,5 @@ dependencies {
     androidTestImplementation(project(":carioca-report:report-android-compose"))
     androidTestImplementation(project(":carioca-report:report-android-coroutines"))
     androidTestUtil(libs.androidx.test.services)
-    //  androidTestUtil(libs.androidx.test.orchestrator)
+    androidTestUtil(libs.androidx.test.orchestrator)
 }
