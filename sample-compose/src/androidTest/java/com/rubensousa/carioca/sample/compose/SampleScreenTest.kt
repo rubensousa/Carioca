@@ -21,6 +21,10 @@ import androidx.compose.ui.Modifier
 import com.google.common.truth.Truth.assertThat
 import com.rubensousa.carioca.android.sample.SampleScreen
 import com.rubensousa.carioca.hilt.compose.createHiltComposeRule
+import com.rubensousa.carioca.report.android.InstrumentedReportRule
+import com.rubensousa.carioca.report.android.compose.DumpComposeHierarchyInterceptor
+import com.rubensousa.carioca.report.android.interceptor.DumpViewHierarchyInterceptor
+import com.rubensousa.carioca.report.android.interceptor.TakeScreenshotOnFailureInterceptor
 import com.rubensousa.carioca.report.android.recording.TestRecording
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -36,7 +40,13 @@ import javax.inject.Inject
 class SampleScreenTest {
 
     @get:Rule
-    val report = SampleInstrumentedReportRule()
+    val report = InstrumentedReportRule(
+        interceptors = listOf(
+            TakeScreenshotOnFailureInterceptor(),
+            DumpComposeHierarchyInterceptor(),
+            DumpViewHierarchyInterceptor(),
+        )
+    )
 
     @get:Rule(order = 0)
     val hiltTestRule = HiltAndroidRule(this)

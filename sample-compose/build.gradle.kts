@@ -96,6 +96,7 @@ dependencies {
     androidTestImplementation(project(":carioca-hilt:carioca-hilt-compose"))
     androidTestImplementation(project(":carioca-hilt:carioca-hilt-runner"))
     androidTestImplementation(project(":carioca-report:report-android"))
+    androidTestImplementation(project(":carioca-report:report-android-compose"))
     androidTestImplementation(project(":carioca-report:report-android-coroutines"))
     androidTestUtil(libs.androidx.test.services)
     //  androidTestUtil(libs.androidx.test.orchestrator)

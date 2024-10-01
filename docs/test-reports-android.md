@@ -15,8 +15,8 @@ class TestReportRule : InstrumentedReportRule()
 ```
 
 !!! note
-    The goal of extending InstrumentedReportRule is to apply consistent report rules throughout your test suite.
-    It contains settings regarding screen recording and screenshot that you can customize.
+The goal of extending InstrumentedReportRule is to apply consistent report rules throughout your test suite.
+It contains settings regarding screen recording and screenshot that you can customize.
 
 Now apply the rule in your tests:
 
@@ -31,9 +31,9 @@ class SampleTest {
 ```
 
 !!! note
-    Use different orders for your rules in case you have multiple of them and assign the lowest value to `TestReportRule`.
-    This ensures that it starts before all other rules you have in your test suite. 
-    Example: `@get:Rule(order = 0)` for the report rule and `order = 1` for the next rule
+Use different orders for your rules in case you have multiple of them and assign the lowest value to `TestReportRule`.
+This ensures that it starts before all other rules you have in your test suite.
+Example: `@get:Rule(order = 0)` for the report rule and `order = 1` for the next rule
 
 This basic setup will achieve this out of the box:
 
@@ -47,11 +47,11 @@ The test reports are generated automatically after running any task like `connec
 and can be found in `build/outputs/connected_android_test_additional_output/**/carioca-report`.
 
 By default, those reports are in json format and are not really easily readable.
-To visualize them properly, this library ships with an [Allure](https://allurereport.org/) plugin that can be used to generate test reports based on
+To visualize them properly, this library ships with an [Allure](https://allurereport.org/) plugin that can be used to
+generate test reports based on
 the metadata collected through each test execution. Check it out in [this page](android-allure-plugin.md).
 
-
-## Test structure 
+## Test structure
 
 ### Test body
 
@@ -60,22 +60,22 @@ You can decorate your tests with individual reports for every execution step:
 ```kotlin linenums="1"
 @Test
 fun testHomeIsDisplayedAfterQuickSettings() = report {
-    
-    step("Open quick settings") {
-        device.openQuickSettings()
-        screenshot("Quick settings displayed")
-    }
 
-    step("Press home") {
-        device.pressHome()
+        step("Open quick settings") {
+            device.openQuickSettings()
+            screenshot("Quick settings displayed")
+        }
+
+        step("Press home") {
+            device.pressHome()
+        }
+
+        step("Home is displayed") {
+            screenshot("Launcher displayed")
+            assertLauncherIsDisplayed()
+        }
+
     }
-    
-    step("Home is displayed") {
-        screenshot("Launcher displayed")
-        assertLauncherIsDisplayed()
-    }
-        
-}
 ```
 
 Optionally, `Given`, `When`, `Then` statements from BDD are also available to describe your tests:
@@ -83,21 +83,21 @@ Optionally, `Given`, `When`, `Then` statements from BDD are also available to de
 ```kotlin linenums="1"
 @Test
 fun testHomeIsDisplayedAfterQuickSettings() = report {
-    
-    Given("User opens quick settings") {
-        device.openQuickSettings()
-        screenshot("Quick settings displayed")
-    }
 
-    When("User presses home") {
-        device.pressHome()
+        Given("User opens quick settings") {
+            device.openQuickSettings()
+            screenshot("Quick settings displayed")
+        }
+
+        When("User presses home") {
+            device.pressHome()
+        }
+
+        Then("Home is displayed") {
+            assertLauncherIsDisplayed()
+        }
+
     }
-    
-    Then("Home is displayed") {
-        assertLauncherIsDisplayed()
-    }
-        
-}
 ```
 
 ### Before and after
@@ -108,13 +108,13 @@ just use the following APIs:
 ```kotlin linenums="1"
 @Before
 fun before() = report.before {
-    step("Press home") {
-        device.pressHome()
+        step("Press home") {
+            device.pressHome()
+        }
+        step("Set device orientation to natural") {
+            device.setOrientationNatural()
+        }
     }
-    step("Set device orientation to natural") {
-        device.setOrientationNatural()
-    }
-}
 
 @After
 fun after() = report.after {
@@ -147,7 +147,7 @@ class ClickNotification : InstrumentedScenario("Click Notification") {
         }
 
         screenshot("After opening notifications")
-        
+
         step("Click notification") {
             device.click()
         }
@@ -164,19 +164,19 @@ Then, in your tests, can use it like so:
 ```kotlin linenums="1" hl_lines="9"
 @Test
 fun testAppOpensHomeAfterClickingNotification() = report {
-    
-    step("Trigger notification") {
-        sendNotificationIntent()
+
+        step("Trigger notification") {
+            sendNotificationIntent()
+        }
+
+        // Or When(ClickNotification())
+        scenario(ClickNotification())
+
+        step("Home screen is visible") {
+            assertHomeScreenDisplayed()
+        }
+
     }
-
-    // Or When(ClickNotification())
-    scenario(ClickNotification())
-
-    step("Home screen is visible") {
-        assertHomeScreenDisplayed()
-    }
-
-}
 ```
 
 ### Extra metadata
@@ -196,8 +196,8 @@ Using `@TestReport` allows you to describe your tests in more detail:
 )
 @Test
 fun testAppOpensHomeAfterClickingNotification() = report {
-    // Test body
-}
+        // Test body
+    }
 ```
 
 ## Recording options
@@ -230,7 +230,6 @@ fun testInLandscape() {
 
 This configuration will replace the `RecordingOptions` from `InstrumentedReportRule`
 
-
 ## Screenshot options
 
 To override the screenshot options for individual tests, use `@TestScreenshot`:
@@ -246,3 +245,48 @@ fun testSomething() {
 ```
 
 This configuration will replace the `ScreenshotOptions` from `InstrumentedReportRule`
+
+## Compose
+
+`com.rubensousa.carioca:report-android-compose` contains a `DumpComposeHierarchyInterceptor`
+that can be used to inspect the compose hierarchy when tests fail.
+
+To use it, create your rule and pass it in the list of interceptors:
+
+```kotlin linenums="1" hl_lines="7"
+class SampleScreenTest {
+
+    @get:Rule
+    val report = InstrumentedReportRule(
+        interceptors = listOf(
+            TakeScreenshotOnFailureInterceptor(),
+            DumpComposeHierarchyInterceptor(),
+            DumpViewHierarchyInterceptor(),
+        )
+    )
+}
+```
+
+The output of the hierarchy looks similar to this:
+
+```
+Node #1 at (left=0.0, top=0.0, right=1920.0, bottom=1080.0)px
+ |-Node #2 at (left=0.0, top=0.0, right=1920.0, bottom=1080.0)px
+   IsTraversalGroup = 'true'
+    |-Node #14 at (left=835.0, top=500.0, right=1085.0, bottom=580.0)px
+    | Focused = 'false'
+    | Role = 'Button'
+    | Actions = [OnClick, RequestFocus]
+    | MergeDescendants = 'true'
+    |  |-Node #16 at (left=883.0, top=520.0, right=1037.0, bottom=560.0)px
+    |    Text = '[Main button]'
+    |    Actions = [SetTextSubstitution, ShowTextSubstitution, ClearTextSubstitution, GetTextLayoutResult]
+    |-Node #7 at (left=1728.0, top=936.0, right=1888.0, bottom=1048.0)px
+      Focused = 'false'
+      Role = 'Button'
+      Actions = [OnClick, RequestFocus]
+      MergeDescendants = 'true'
+       |-Node #10 at (left=1782.0, top=972.0, right=1834.0, bottom=1012.0)px
+         Text = '[FAB]'
+         Actions = [SetTextSubstitution, ShowTextSubstitution, ClearTextSubstitution, GetTextLayoutResult]
+```
