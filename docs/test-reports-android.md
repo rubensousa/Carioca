@@ -290,3 +290,29 @@ Node #1 at (left=0.0, top=0.0, right=1920.0, bottom=1080.0)px
          Text = '[FAB]'
          Actions = [SetTextSubstitution, ShowTextSubstitution, ClearTextSubstitution, GetTextLayoutResult]
 ```
+
+## Tracking ignored tests
+
+To include ignored tests in the reports, you need to attach the library's instrumentation listener:
+
+```groovy
+android {
+    defaultConfig {
+        testInstrumentationRunnerArguments listener: 'com.rubensousa.carioca.report.android.CariocaInstrumentedListener'
+    }
+}
+```
+
+Or in kotlin DSL:
+
+```kotlin
+android {
+    defaultConfig {
+        testInstrumentationRunnerArguments["listener"] =
+                "com.rubensousa.carioca.report.android.CariocaInstrumentedListener"
+    }
+}
+```
+
+!!! note
+    If you use other listeners, just separate them with a comma in the same string

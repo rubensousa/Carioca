@@ -43,14 +43,9 @@ To customize the plugin use the following:
 ```kotlin
 allureReport {
     /**
-     * The name of the test task that will be invoked
-     * to generate the report on `connectedAllureReport`
-     */
-    testTask = "connectedDebugAndroidTest"
-    /**
      * By default, logcat files are not included if the test passes
      */
-    keepLogcatOnSuccess = false
+    attachLogcatOnSuccess = false
     /**
      * The report output path.
      * Can be used to merge reports of multiple modules by using the same directory
