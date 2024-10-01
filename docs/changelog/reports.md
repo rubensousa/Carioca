@@ -17,7 +17,7 @@ Libraries with the same version:
 
 #### New features
 
-- Added `dumpOnSuccess` from `DumpViewHierarchyInterceptor`
+- Added `DumpComposeHierarchyInterceptor` in `com.rubensousa.carioca:report-android-compose`: [#71](https://github.com/rubensousa/Carioca/pull/71/)
 
 ### 1.0.0-alpha03
 
