@@ -15,8 +15,8 @@ class TestReportRule : InstrumentedReportRule()
 ```
 
 !!! note
-The goal of extending InstrumentedReportRule is to apply consistent report rules throughout your test suite.
-It contains settings regarding screen recording and screenshot that you can customize.
+    The goal of extending InstrumentedReportRule is to apply consistent report rules throughout your test suite.
+    It contains settings regarding screen recording and screenshot that you can customize.
 
 Now apply the rule in your tests:
 
@@ -31,9 +31,9 @@ class SampleTest {
 ```
 
 !!! note
-Use different orders for your rules in case you have multiple of them and assign the lowest value to `TestReportRule`.
-This ensures that it starts before all other rules you have in your test suite.
-Example: `@get:Rule(order = 0)` for the report rule and `order = 1` for the next rule
+    Use different orders for your rules in case you have multiple of them and assign the lowest value to `TestReportRule`.
+    This ensures that it starts before all other rules you have in your test suite.
+    Example: `@get:Rule(order = 0)` for the report rule and `order = 1` for the next rule
 
 This basic setup will achieve this out of the box:
 
