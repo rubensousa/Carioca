@@ -61,21 +61,21 @@ You can decorate your tests with individual reports for every execution step:
 @Test
 fun testHomeIsDisplayedAfterQuickSettings() = report {
 
-        step("Open quick settings") {
-            device.openQuickSettings()
-            screenshot("Quick settings displayed")
-        }
-
-        step("Press home") {
-            device.pressHome()
-        }
-
-        step("Home is displayed") {
-            screenshot("Launcher displayed")
-            assertLauncherIsDisplayed()
-        }
-
+    step("Open quick settings") {
+        device.openQuickSettings()
+        screenshot("Quick settings displayed")
     }
+
+    step("Press home") {
+        device.pressHome()
+    }
+
+    step("Home is displayed") {
+        screenshot("Launcher displayed")
+        assertLauncherIsDisplayed()
+    }
+
+}
 ```
 
 Optionally, `Given`, `When`, `Then` statements from BDD are also available to describe your tests:
@@ -84,20 +84,20 @@ Optionally, `Given`, `When`, `Then` statements from BDD are also available to de
 @Test
 fun testHomeIsDisplayedAfterQuickSettings() = report {
 
-        Given("User opens quick settings") {
-            device.openQuickSettings()
-            screenshot("Quick settings displayed")
-        }
-
-        When("User presses home") {
-            device.pressHome()
-        }
-
-        Then("Home is displayed") {
-            assertLauncherIsDisplayed()
-        }
-
+    Given("User opens quick settings") {
+        device.openQuickSettings()
+        screenshot("Quick settings displayed")
     }
+
+    When("User presses home") {
+        device.pressHome()
+    }
+
+    Then("Home is displayed") {
+        assertLauncherIsDisplayed()
+    }
+
+}
 ```
 
 ### Before and after
@@ -108,13 +108,13 @@ just use the following APIs:
 ```kotlin linenums="1"
 @Before
 fun before() = report.before {
-        step("Press home") {
-            device.pressHome()
-        }
-        step("Set device orientation to natural") {
-            device.setOrientationNatural()
-        }
+    step("Press home") {
+        device.pressHome()
     }
+    step("Set device orientation to natural") {
+        device.setOrientationNatural()
+    }
+}
 
 @After
 fun after() = report.after {
@@ -165,18 +165,18 @@ Then, in your tests, can use it like so:
 @Test
 fun testAppOpensHomeAfterClickingNotification() = report {
 
-        step("Trigger notification") {
-            sendNotificationIntent()
-        }
-
-        // Or When(ClickNotification())
-        scenario(ClickNotification())
-
-        step("Home screen is visible") {
-            assertHomeScreenDisplayed()
-        }
-
+    step("Trigger notification") {
+        sendNotificationIntent()
     }
+
+    // Or When(ClickNotification())
+    scenario(ClickNotification())
+
+    step("Home screen is visible") {
+        assertHomeScreenDisplayed()
+    }
+
+}
 ```
 
 ### Extra metadata
