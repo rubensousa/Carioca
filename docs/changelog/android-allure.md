@@ -4,6 +4,12 @@ Plugin id: `com.rubensousa.carioca.report.allure`
 
 ## Version 1.0.0
 
+### 1.0.0-beta01
+
+2024-11-11
+
+No changes since `1.0.0-alpha05`
+
 ### 1.0.0-alpha05
 
 2024-10-02
@@ -28,8 +34,7 @@ Plugin id: `com.rubensousa.carioca.report.allure`
 
 - Added support for multi-module report aggregation with `outputDir`
   option [#44](https://github.com/rubensousa/Carioca/pull/44)
-- Do not delete original reports by default since they can be used by other
-  plugins [#51](https://github.com/rubensousa/Carioca/pull/51)
+- Do not delete original reports by default since they can be used by other plugins [#51](https://github.com/rubensousa/Carioca/pull/51)
 
 ### 1.0.0-alpha02
 
