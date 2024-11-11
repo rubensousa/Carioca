@@ -27,6 +27,10 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 dependencies {
     api(libs.junit)
     api(libs.kotlinx.coroutines.core)

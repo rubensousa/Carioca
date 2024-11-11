@@ -11,6 +11,12 @@ Libraries with the same version:
 
 ## Version 1.0.0
 
+### 1.0.0-beta01
+
+2024-11-11
+
+No changes since `1.0.0-alpha04`
+
 ### 1.0.0-alpha04
 
 2024-10-01
