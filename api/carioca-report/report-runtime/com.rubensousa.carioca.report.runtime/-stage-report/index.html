@@ -1,0 +1,498 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>StageReport</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../../index.html">
+                            carioca
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":carioca-report:report-runtime:dokkaHtmlPartial/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="report-runtime::com.rubensousa.carioca.report.runtime/StageReport///PointingToDeclaration//-1563365686">
+  <div class="breadcrumbs"><a href="../../index.html">report-runtime</a><span class="delimiter">/</span><a href="../index.html">com.rubensousa.carioca.report.runtime</a><span class="delimiter">/</span><span class="current">StageReport</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Stage</span><wbr><span><span>Report</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">class </span><a href="index.html">StageReport</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>executionId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>ExecutionIdGenerator.get()</span></span><span class="token punctuation">)</span></div><p class="paragraph">The building block of all test reports</p><p class="paragraph">To get the main result of this report, use <a href="get-execution-metadata.html">getExecutionMetadata</a></p><p class="paragraph">To get the reports within this own report, use: <a href="get-stages-before.html">getStagesBefore</a>, <a href="get-test-stages.html">getTestStages</a>, <a href="get-stages-after.html">getStagesAfter</a></p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-193162365%2FConstructors%2F-1563365686" anchor-label="StageReport" id="-193162365%2FConstructors%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-stage-report.html"><span>Stage</span><wbr><span><span>Report</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-193162365%2FConstructors%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">executionId<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span>ExecutionIdGenerator.get()</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="-905516640%2FProperties%2F-1563365686" anchor-label="executionId" id="-905516640%2FProperties%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="execution-id.html"><span>execution</span><wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-905516640%2FProperties%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">val </span><a href="execution-id.html">executionId</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="1730867844%2FFunctions%2F-1563365686" anchor-label="addProperty" id="1730867844%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-property.html"><span>add</span><wbr><span><span>Property</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1730867844%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="add-property.html"><span class="token function">addProperty</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="../-report-property/index.html">ReportProperty</a><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-any/index.html">Any</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Adds an extra property to this report</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-832120780%2FFunctions%2F-1563365686" anchor-label="addStageAfter" id="-832120780%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-stage-after.html"><span>add</span><wbr><span>Stage</span><wbr><span><span>After</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-832120780%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="add-stage-after.html"><span class="token function">addStageAfter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stage<span class="token operator">: </span><a href="index.html">StageReport</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1350673949%2FFunctions%2F-1563365686" anchor-label="addStageBefore" id="1350673949%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-stage-before.html"><span>add</span><wbr><span>Stage</span><wbr><span><span>Before</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1350673949%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="add-stage-before.html"><span class="token function">addStageBefore</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stage<span class="token operator">: </span><a href="index.html">StageReport</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1966622196%2FFunctions%2F-1563365686" anchor-label="addTestStage" id="-1966622196%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="add-test-stage.html"><span>add</span><wbr><span>Test</span><wbr><span><span>Stage</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1966622196%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="add-test-stage.html"><span class="token function">addTestStage</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">stage<span class="token operator">: </span><a href="index.html">StageReport</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1130375913%2FFunctions%2F-1563365686" anchor-label="attach" id="-1130375913%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="attach.html"><span><span>attach</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1130375913%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="attach.html"><span class="token function">attach</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">attachment<span class="token operator">: </span><a href="../-stage-attachment/index.html">StageAttachment</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1036689600%2FFunctions%2F-1563365686" anchor-label="deleteAttachment" id="1036689600%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="delete-attachment.html"><span>delete</span><wbr><span><span>Attachment</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1036689600%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="delete-attachment.html"><span class="token function">deleteAttachment</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">attachment<span class="token operator">: </span><a href="../-stage-attachment/index.html">StageAttachment</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1000591899%2FFunctions%2F-1563365686" anchor-label="detach" id="-1000591899%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="detach.html"><span><span>detach</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1000591899%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="detach.html"><span class="token function">detach</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">attachment<span class="token operator">: </span><a href="../-stage-attachment/index.html">StageAttachment</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="30700730%2FFunctions%2F-1563365686" anchor-label="equals" id="30700730%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="equals.html"><span><span>equals</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="30700730%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">operator override </span><span class="token keyword">fun </span><a href="equals.html"><span class="token function">equals</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">other<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="469709942%2FFunctions%2F-1563365686" anchor-label="fail" id="469709942%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="fail.html"><span><span>fail</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="469709942%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="fail.html"><span class="token function">fail</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cause<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-throwable/index.html">Throwable</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Marks this stage as failed</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-640387603%2FFunctions%2F-1563365686" anchor-label="getAttachments" id="-640387603%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-attachments.html"><span>get</span><wbr><span><span>Attachments</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-640387603%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-attachments.html"><span class="token function">getAttachments</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../-stage-attachment/index.html">StageAttachment</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1644449002%2FFunctions%2F-1563365686" anchor-label="getExecutionMetadata" id="-1644449002%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-execution-metadata.html"><span>get</span><wbr><span>Execution</span><wbr><span><span>Metadata</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1644449002%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-execution-metadata.html"><span class="token function">getExecutionMetadata</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="../-execution-metadata/index.html">ExecutionMetadata</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1517648094%2FFunctions%2F-1563365686" anchor-label="getId" id="-1517648094%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-id.html"><span>get</span><wbr><span><span>Id</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1517648094%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="get-id.html"><span class="token function">getId</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-25073357%2FFunctions%2F-1563365686" anchor-label="getParameters" id="-25073357%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-parameters.html"><span>get</span><wbr><span><span>Parameters</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-25073357%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-parameters.html"><span class="token function">getParameters</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-896617974%2FFunctions%2F-1563365686" anchor-label="getProperties" id="-896617974%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-properties.html"><span>get</span><wbr><span><span>Properties</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-896617974%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-properties.html"><span class="token function">getProperties</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-map/index.html">Map</a><span class="token operator">&lt;</span><a href="../-report-property/index.html">ReportProperty</a><span class="token punctuation">, </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1539134247%2FFunctions%2F-1563365686" anchor-label="getProperty" id="1539134247%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-property.html"><span>get</span><wbr><span><span>Property</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1539134247%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">inline </span><span class="token keyword">fun </span><span class="token operator">&lt;</span><a href="get-property.html">T</a><span class="token operator">&gt; </span><a href="get-property.html"><span class="token function">getProperty</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="../-report-property/index.html">ReportProperty</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="get-property.html">T</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1186356266%2FFunctions%2F-1563365686" anchor-label="getStagesAfter" id="-1186356266%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-stages-after.html"><span>get</span><wbr><span>Stages</span><wbr><span><span>After</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1186356266%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-stages-after.html"><span class="token function">getStagesAfter</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="index.html">StageReport</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-311731895%2FFunctions%2F-1563365686" anchor-label="getStagesBefore" id="-311731895%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-stages-before.html"><span>get</span><wbr><span>Stages</span><wbr><span><span>Before</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-311731895%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-stages-before.html"><span class="token function">getStagesBefore</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="index.html">StageReport</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-102766250%2FFunctions%2F-1563365686" anchor-label="getTestStages" id="-102766250%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-test-stages.html"><span>get</span><wbr><span>Test</span><wbr><span><span>Stages</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-102766250%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="get-test-stages.html"><span class="token function">getTestStages</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="index.html">StageReport</a><span class="token operator">&gt;</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1843844165%2FFunctions%2F-1563365686" anchor-label="getTitle" id="1843844165%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-title.html"><span>get</span><wbr><span><span>Title</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1843844165%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-title.html"><span class="token function">getTitle</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-634860061%2FFunctions%2F-1563365686" anchor-label="getType" id="-634860061%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="get-type.html"><span>get</span><wbr><span><span>Type</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-634860061%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">abstract </span><span class="token keyword">fun </span><a href="get-type.html"><span class="token function">getType</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="588815084%2FFunctions%2F-1563365686" anchor-label="hashCode" id="588815084%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="hash-code.html"><span>hash</span><wbr><span><span>Code</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="588815084%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="hash-code.html"><span class="token function">hashCode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1677756309%2FFunctions%2F-1563365686" anchor-label="ignore" id="1677756309%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="ignore.html"><span><span>ignore</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1677756309%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="ignore.html"><span class="token function">ignore</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Marks this stage as skipped</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1278978230%2FFunctions%2F-1563365686" anchor-label="pass" id="1278978230%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="pass.html"><span><span>pass</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1278978230%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="pass.html"><span class="token function">pass</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Marks this stage as passed</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="513271460%2FFunctions%2F-1563365686" anchor-label="reset" id="513271460%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="reset.html"><span><span>reset</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="513271460%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="reset.html"><span class="token function">reset</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Clears all the metadata associated to this report</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1596218569%2FFunctions%2F-1563365686" anchor-label="setParameter" id="1596218569%2FFunctions%2F-1563365686" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-runtime:dokkaHtmlPartial/main" data-filterable-set=":carioca-report:report-runtime:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="set-parameter.html"><span>set</span><wbr><span><span>Parameter</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1596218569%2FFunctions%2F-1563365686"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-runtime:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">fun </span><a href="set-parameter.html"><span class="token function">setParameter</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">key<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">value<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
