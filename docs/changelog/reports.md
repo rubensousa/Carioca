@@ -11,6 +11,18 @@ Libraries with the same version:
 
 ## Version 1.0.0
 
+### 1.0.0
+
+2025-04-05
+
+- No changes since `1.0.0-rc01`
+
+### 1.0.0-rc01
+
+2025-04-05
+
+- No changes since `1.0.0-beta01`
+
 ### 1.0.0-beta01
 
 2024-11-11
