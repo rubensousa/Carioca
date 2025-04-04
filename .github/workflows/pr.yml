@@ -69,10 +69,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x86_64, x86]
+        arch: [ x86_64, x86 ]
         target: [ google_apis, android-tv ]
-        api-level: [34]
-        profile: [pixel_6, tv_1080p]
+        api-level: [ 34 ]
+        profile: [ pixel_6, tv_1080p ]
         exclude:
           - target: google_apis
             profile: tv_1080p
@@ -148,7 +148,7 @@ jobs:
             adb shell settings put global verifier_verify_adb_installs 0
             ./gradlew --build-cache connectedDebugAndroidTest
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.profile }}-${{ matrix.api-level }}--instrumentation-test-results
           path: |

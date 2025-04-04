@@ -56,36 +56,36 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_KEY_PASSWORD }}
 
   publish_docs:
-      name: Deploy docs
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v4
+    name: Deploy docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-        - uses: actions/setup-python@v4
-          with:
-            python-version: 3.x
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
 
-        - uses: actions/setup-java@v4.2.0
-          with:
-            distribution: 'zulu'
-            java-version: '17'
-            check-latest: false
-            cache: "gradle"
+      - uses: actions/setup-java@v4.2.0
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          check-latest: false
+          cache: "gradle"
 
-        - name: Setup Gradle
-          uses: gradle/actions/setup-gradle@v4
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
-        - name: Build docs
-          run: |
-            ./gradlew dokkaHtmlMultiModule
-            mv ./build/dokka/htmlMultiModule docs/api
+      - name: Build docs
+        run: |
+          ./gradlew dokkaHtmlMultiModule
+          mv ./build/dokka/htmlMultiModule docs/api
 
-        - name: Install dependencies
-          run: |
-            pip install mkdocs-material mkdocs-material-extensions mkdocs-markdownextradata-plugin mkdocs-open-in-new-tab
+      - name: Install dependencies
+        run: |
+          pip install mkdocs-material mkdocs-material-extensions mkdocs-markdownextradata-plugin mkdocs-open-in-new-tab
 
-        - name: Deploy docs
-          run: mkdocs gh-deploy --force
+      - name: Deploy docs
+        run: mkdocs gh-deploy --force
 
   create_avds:
     runs-on: ubuntu-latest
@@ -93,10 +93,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x86_64, x86]
+        arch: [ x86_64, x86 ]
         target: [ google_apis, android-tv ]
-        api-level: [34]
-        profile: [pixel_6, tv_1080p]
+        api-level: [ 34 ]
+        profile: [ pixel_6, tv_1080p ]
         exclude:
           - target: google_apis
             profile: tv_1080p
@@ -142,7 +142,7 @@ jobs:
           script: echo "Generated AVD snapshot."
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.api-level }}-${{ matrix.arch }}-instrumentation-test-results
           path: |
