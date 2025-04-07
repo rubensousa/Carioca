@@ -1,0 +1,183 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>InstrumentedReportRule</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../../index.html">
+                            carioca
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":carioca-report:report-android:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="report-android::com.rubensousa.carioca.report.android/InstrumentedReportRule///PointingToDeclaration//493861790">
+  <div class="breadcrumbs"><a href="../../index.html">report-android</a><span class="delimiter">/</span><a href="../index.html">com.rubensousa.carioca.report.android</a><span class="delimiter">/</span><span class="current">InstrumentedReportRule</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Instrumented</span><wbr><span>Report</span><wbr><span><span>Rule</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">class </span><a href="index.html">InstrumentedReportRule</a> : <a href="../-abstract-instrumented-report-rule/index.html">AbstractInstrumentedReportRule</a><span class="token operator">&lt;</span><a href="../../com.rubensousa.carioca.report.android.stage.internal/-instrumented-blocking-test/index.html">InstrumentedBlockingTest</a><span class="token operator">&gt; </span></div><p class="paragraph">A test rule that builds a detailed report for a test, including its steps.</p><p class="paragraph">You can also extend this class to provide a default report configuration across all tests:</p><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">class SampleReportRule : InstrumentedReportRule(<br>    reporter = CariocaAllureReporter(),<br>    recordingOptions = RecordingOptions(<br>        bitrate = 20_000_000,<br>        resolutionScale = 1.0f,<br>    ),<br>    screenshotOptions = ScreenshotOptions(<br>        scale = 1f<br>    ),<br>    interceptors = listOf(LoggerInterceptor(), DumpHierarchyInterceptor())<br>)</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><div class="sample-container"><pre><code class="block lang-kotlin" theme="idea">@get:Rule<br>val report = SampleReportRule()<br><br>@Test<br>fun sampleTest() = report {<br>    step("Open notification and quick settings") {<br>        step("Open notification") {<br>            device.openNotification()<br>            screenshot("Notification bar visible")<br>        }<br>        step("Open quick settings") {<br>            device.openQuickSettings()<br>            screenshot("Quick settings displayed")<br>        }<br>    }<br>    step("Press home") {<br>        device.pressHome()<br>    }<br>}</code></pre><span class="top-right-position"><span class="copy-icon"></span><div class="copy-popup-wrapper popup-to-left"><span class="copy-popup-icon"></span><span>Content copied to clipboard</span></div></span></div><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>reporter</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the instrumented reporter for this report</p></div></div></div></div><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>recording</span><wbr><span><span>Options</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the default recording options for this report</p></div></div></div></div><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>screenshot</span><wbr><span><span>Options</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the default screenshot options for this report</p></div></div></div></div><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>interceptors</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the interceptors that will receive multiple stage events during the lifecycle of this report</p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="760030896%2FConstructors%2F493861790" anchor-label="InstrumentedReportRule" id="760030896%2FConstructors%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-instrumented-report-rule.html"><span>Instrumented</span><wbr><span>Report</span><wbr><span><span>Rule</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="760030896%2FConstructors%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">reporter<span class="token operator">: </span><a href="../-instrumented-reporter/index.html">InstrumentedReporter</a><span class="token operator"> = </span>DefaultInstrumentedReporter()<span class="token punctuation">, </span></span><span class="parameter ">recordingOptions<span class="token operator">: </span><a href="../../com.rubensousa.carioca.report.android.recording/-recording-options/index.html">RecordingOptions</a><span class="token operator"> = </span>RecordingOptions()<span class="token punctuation">, </span></span><span class="parameter ">screenshotOptions<span class="token operator">: </span><a href="../../com.rubensousa.carioca.report.android.screenshot/-screenshot-options/index.html">ScreenshotOptions</a><span class="token operator"> = </span>ScreenshotOptions()<span class="token punctuation">, </span></span><span class="parameter ">interceptors<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.collections/-list/index.html">List</a><span class="token operator">&lt;</span><a href="../../com.rubensousa.carioca.report.android.interceptor/-carioca-instrumented-interceptor/index.html">CariocaInstrumentedInterceptor</a><span class="token operator">&gt;</span><span class="token operator"> = </span>listOf(
+            LoggerInterceptor(),
+            TakeScreenshotOnFailureInterceptor(),
+            DumpViewHierarchyInterceptor(),
+        )</span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Public constructor that uses <a href="../../com.rubensousa.carioca.report.android.storage/-test-storage-provider/index.html">TestStorageProvider</a> to save the reports</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="">Functions</h2>
+        <div class="table"><a data-name="-1469346505%2FFunctions%2F493861790" anchor-label="after" id="-1469346505%2FFunctions%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="after.html"><span><span>after</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1469346505%2FFunctions%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="after.html"><span class="token function">after</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">title<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">"After"</span><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="../../com.rubensousa.carioca.report.android.stage/-instrumented-stage-scope/index.html">InstrumentedStageScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Use this to track <code class="lang-kotlin">@After</code> methods separately from the other stages</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1929544992%2FFunctions%2F493861790" anchor-label="apply" id="-1929544992%2FFunctions%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1929544992%2FFunctions%2F493861790"><span><span>apply</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1929544992%2FFunctions%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="index.html#-1929544992%2FFunctions%2F493861790"><span class="token function">apply</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">p0<span class="token operator">: </span><span data-unresolved-link="org.junit.runners.model/Statement///PointingToDeclaration/">Statement</span><span class="token punctuation">, </span></span><span class="parameter ">p1<span class="token operator">: </span><span data-unresolved-link="org.junit.runner/Description///PointingToDeclaration/">Description</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><span data-unresolved-link="org.junit.runners.model/Statement///PointingToDeclaration/">Statement</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-8356314%2FFunctions%2F493861790" anchor-label="before" id="-8356314%2FFunctions%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="before.html"><span><span>before</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-8356314%2FFunctions%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="before.html"><span class="token function">before</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">title<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator"> = </span><span class="token string">"Before"</span><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="../../com.rubensousa.carioca.report.android.stage/-instrumented-stage-scope/index.html">InstrumentedStageScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Use this to track <code class="lang-kotlin">@Before</code> methods separately from the other stages</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1123180184%2FFunctions%2F493861790" anchor-label="invoke" id="1123180184%2FFunctions%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="invoke.html"><span><span>invoke</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1123180184%2FFunctions%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">operator </span><span class="token keyword">fun </span><a href="invoke.html"><span class="token function">invoke</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="../../com.rubensousa.carioca.report.android.stage/-instrumented-test-scope/index.html">InstrumentedTestScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Same as <a href="test.html">test</a>, but without the extra method call</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1196688782%2FFunctions%2F493861790" anchor-label="test" id="-1196688782%2FFunctions%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="test.html"><span><span>test</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1196688782%2FFunctions%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">fun </span><a href="test.html"><span class="token function">test</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">block<span class="token operator">: </span><a href="../../com.rubensousa.carioca.report.android.stage/-instrumented-test-scope/index.html">InstrumentedTestScope</a><span class="token punctuation">.</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator"> -&gt; </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-unit/index.html">Unit</a></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Use this to start reporting the main test body</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
