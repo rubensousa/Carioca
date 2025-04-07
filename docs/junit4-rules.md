@@ -14,7 +14,7 @@ Total executions = `[1, 1 + times]`, depends on which execution the test actuall
 @RetryTest(times = 9)
 class SampleRetryTest {
 
-    // Make sure that this rule starts after all rules that shouldn't be repeated
+    // Make sure that this rule starts after all rules that shouldn't be re-executed
     // E.g: compose test rule can only be applied once
     @get:Rule(order = 100)
     val retryRule = RetryTestRule()
@@ -43,8 +43,9 @@ Total executions = `1 + times`
 @RepeatTest(times = 2)
 class SampleRepeatTest {
 
-    // Make sure that this rule starts before any other rule
-    @get:Rule(order = 0)
+    // Make sure that this rule starts after all rules that shouldn't be re-executed
+    // E.g: compose test rule can only be applied once
+    @get:Rule(order = 100)
     val repeatRule = RepeatTestRule()
     
     @RepeatTest(times = 99)
