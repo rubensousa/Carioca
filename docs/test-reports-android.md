@@ -2,13 +2,13 @@
 
 ## Setup
 
-1. Start by including the library:
+- Start by including the library:
 
 ```groovy
 androidTestImplementation("com.rubensousa.carioca:report-android:{{ report.version }}")
 ```
 
-2. Enable the test storage service:
+- Enable the test storage service:
 
 ```groovy
 android {
@@ -20,7 +20,7 @@ android {
 androidTestUtil("androidx.test.services:test-services:1.5.0")
 ```
 
-3. Then create your own report rule that extends `InstrumentedReportRule`:
+- Then create your own report rule that extends `InstrumentedReportRule`:
 
 ```kotlin
 class TestReportRule : InstrumentedReportRule()
