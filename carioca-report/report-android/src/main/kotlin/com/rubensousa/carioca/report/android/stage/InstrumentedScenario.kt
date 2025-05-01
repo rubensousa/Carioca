@@ -26,9 +26,18 @@ package com.rubensousa.carioca.report.android.stage
  * Default: same as [title]
  */
 abstract class InstrumentedScenario(
-    val title: String,
-    val id: String = title,
+    title: String? = null,
+    id: String? = null
 ) {
+
+    private var requestedTitle: String? = title
+    private var requestedId: String? = id
+
+    open fun getTitle(): String {
+        return requestedTitle ?: this::class.simpleName.orEmpty()
+    }
+
+    open fun getId(): String = requestedId ?: getTitle()
 
     abstract fun run(scope: InstrumentedStageScope)
 

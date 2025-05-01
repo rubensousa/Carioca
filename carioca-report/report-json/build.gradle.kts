@@ -14,6 +14,10 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 dependencies {
     api(project(":carioca-report:report-runtime"))
     implementation(libs.kotlinx.serialization.json)
