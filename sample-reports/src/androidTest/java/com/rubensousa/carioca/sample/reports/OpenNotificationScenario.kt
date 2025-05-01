@@ -21,9 +21,13 @@ import androidx.test.uiautomator.UiDevice
 import com.rubensousa.carioca.report.android.stage.InstrumentedScenario
 import com.rubensousa.carioca.report.android.stage.InstrumentedStageScope
 
-class OpenNotificationScenario : InstrumentedScenario("Open Notification") {
+class OpenNotificationScenario : InstrumentedScenario() {
 
     private val device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation())
+
+    override fun getTitle(): String {
+        return "Open Notification"
+    }
 
     override fun run(scope: InstrumentedStageScope) = with(scope) {
         screenshot("Before opening notifications")

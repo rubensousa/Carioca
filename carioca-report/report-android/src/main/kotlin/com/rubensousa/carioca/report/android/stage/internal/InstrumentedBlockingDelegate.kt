@@ -102,8 +102,8 @@ internal class InstrumentedBlockingDelegate(
         scenario: InstrumentedScenario,
     ): InstrumentedBlockingStage {
         return InstrumentedBlockingStage(
-            id = scenario.id,
-            title = scenario.title,
+            id = scenario.getId(),
+            title = scenario.getTitle(),
             type = InstrumentedStageType.SCENARIO,
             outputPath = outputPath,
             delegateFactory = delegateFactory,

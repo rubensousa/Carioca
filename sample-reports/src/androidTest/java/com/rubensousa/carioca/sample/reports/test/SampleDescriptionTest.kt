@@ -108,10 +108,15 @@ class SampleDescriptionTest {
         // Nothing
     }
 
-    class SampleScreenScenario : InstrumentedScenario(
-        title = "Sample Scenario",
-        id = "Persistent scenario id"
-    ) {
+    class SampleScreenScenario : InstrumentedScenario() {
+
+        override fun getTitle(): String {
+            return "SampleScenario"
+        }
+
+        override fun getId(): String {
+            return "Persistent scenario id"
+        }
 
         override fun run(scope: InstrumentedStageScope) = with(scope) {
             param("Name", "Test")

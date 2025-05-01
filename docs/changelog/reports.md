@@ -11,6 +11,12 @@ Libraries with the same version:
 
 ## Version 1.0.0
 
+### 1.0.1
+
+2025-05-01
+
+- Allow subclasses of scenario to customize their title and id via `getTitle()` and `getId()`: [#83](https://github.com/rubensousa/Carioca/pull/83)
+
 ### 1.0.0
 
 2025-04-05

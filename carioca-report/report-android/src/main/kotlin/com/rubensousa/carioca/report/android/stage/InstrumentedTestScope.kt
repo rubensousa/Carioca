@@ -28,8 +28,8 @@ interface InstrumentedTestScope : InstrumentedStageScope {
     ) {
         scenario(
             object : InstrumentedScenario(
-                title = "Given: ${scenario.title}",
-                id = scenario.id
+                title = "Given: ${scenario.getTitle()}",
+                id = scenario.getId()
             ) {
                 override fun run(scope: InstrumentedStageScope) {
                     scenario.run(scope)
@@ -62,8 +62,8 @@ interface InstrumentedTestScope : InstrumentedStageScope {
     ) {
         scenario(
             object : InstrumentedScenario(
-                title = "When: ${scenario.title}",
-                id = scenario.id
+                title = "When: ${scenario.getTitle()}",
+                id = scenario.getId()
             ) {
                 override fun run(scope: InstrumentedStageScope) {
                     scenario.run(scope)
