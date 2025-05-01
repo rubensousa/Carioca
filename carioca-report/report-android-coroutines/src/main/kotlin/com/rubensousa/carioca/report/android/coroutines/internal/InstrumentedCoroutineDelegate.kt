@@ -104,8 +104,8 @@ internal class InstrumentedCoroutineDelegate(
         return InstrumentedCoroutineStage(
             outputPath = outputPath,
             delegateFactory = delegateFactory,
-            id = scenario.id,
-            title = scenario.title,
+            id = scenario.getId(),
+            title = scenario.getTitle(),
             type = InstrumentedStageType.SCENARIO,
             storageProvider = storageProvider
         )
