@@ -24,8 +24,8 @@ interface InstrumentedCoroutineTestScope : InstrumentedCoroutineStageScope {
     ) {
         scenario(
             object : InstrumentedCoroutineScenario(
-                title = "Given: ${scenario.title}",
-                id = scenario.id
+                title = "Given: ${scenario.getTitle()}",
+                id = scenario.getId()
             ) {
                 override suspend fun run(scope: InstrumentedCoroutineStageScope) {
                     scenario.run(scope)
