@@ -52,16 +52,6 @@ android {
 
 dependencies {
     implementation(project(":sample-compose"))
-    implementation(project(":carioca-report:report-android"))
-    implementation(libs.androidx.junit)
-    implementation(libs.junit)
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.material)
-    implementation(libs.kotlinx.coroutines.android)
-    implementation(libs.dagger.hilt)
-    ksp(libs.dagger.hilt.compiler)
-
     implementation(libs.ui.tooling.preview)
     debugImplementation(libs.ui.tooling)
     debugImplementation(project(":carioca-hilt:carioca-hilt-manifest"))
@@ -69,12 +59,10 @@ dependencies {
     implementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.bundles.test.unit)
-    implementation(libs.kotlinx.coroutines.test)
     implementation(libs.androidx.junit)
     implementation(libs.androidx.espresso.core)
-    implementation(libs.androidx.test.uiautomator)
-    implementation(libs.kotlinx.serialization.json)
     implementation(libs.dagger.hilt)
+    ksp(libs.dagger.hilt.compiler)
     implementation(libs.dagger.hilt.android.testing)
     implementation(project(":carioca-junit4-rules"))
     implementation(project(":carioca-hilt:carioca-hilt-fragment"))
@@ -82,7 +70,6 @@ dependencies {
     implementation(project(":carioca-hilt:carioca-hilt-runner"))
     implementation(project(":carioca-report:report-android"))
     implementation(project(":carioca-report:report-android-compose"))
-    implementation(project(":carioca-report:report-android-coroutines"))
     androidTestUtil(libs.androidx.test.services)
     androidTestUtil(libs.androidx.test.orchestrator)
 }
