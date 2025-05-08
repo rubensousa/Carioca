@@ -2,6 +2,12 @@
 
 Plugin id: `com.rubensousa.carioca.report.allure`
 
+## Version 1.0.1
+
+2025-05-08
+
+- Added support for `com.android.test` modules [#84](https://github.com/rubensousa/Carioca/pull/84/files)
+
 ## Version 1.0.0
 
 ### 1.0.0
