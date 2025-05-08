@@ -18,7 +18,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.carioca.allure)
+    // Not needed for real projects, just here, because we build the plugin locally:
+    // https://github.com/gradle/gradle/issues/20084#issuecomment-1060822638
+    id(libs.plugins.carioca.allure.get().pluginId)
 }
 
 android {
@@ -41,7 +43,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 

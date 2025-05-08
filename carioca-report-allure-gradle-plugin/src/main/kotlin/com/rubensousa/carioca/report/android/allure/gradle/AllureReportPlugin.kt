@@ -22,6 +22,8 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import com.android.build.api.variant.DynamicFeatureAndroidComponentsExtension
 import com.android.build.api.variant.HasAndroidTest
 import com.android.build.api.variant.LibraryAndroidComponentsExtension
+import com.android.build.api.variant.TestAndroidComponentsExtension
+import com.android.build.api.variant.TestVariant
 import com.android.build.api.variant.Variant
 import com.rubensousa.carioca.report.json.JsonReportParser
 import org.gradle.api.Plugin
@@ -37,6 +39,7 @@ class AllureReportPlugin : Plugin<Project> {
     private val connectedOutputDir = "outputs/connected_android_test_additional_output"
     private val outputDirPath = "outputs/allure-results"
     private val supportedPlugins = listOf(
+        "com.android.test",
         "com.android.application",
         "com.android.library",
         "com.android.dynamic-feature"
@@ -55,10 +58,11 @@ class AllureReportPlugin : Plugin<Project> {
         val allureExtension = target.extensions.getByType(AllureReportExtension::class.java)
         val androidComponents = target.extensions.getByType(AndroidComponentsExtension::class.java)
         when (androidComponents) {
+            is TestAndroidComponentsExtension,
             is LibraryAndroidComponentsExtension,
             is ApplicationAndroidComponentsExtension,
             is DynamicFeatureAndroidComponentsExtension,
-            -> Unit
+                -> Unit
 
             else -> error("${androidComponents.javaClass.name} is not supported")
         }
@@ -71,13 +75,23 @@ class AllureReportPlugin : Plugin<Project> {
         extension: AndroidComponentsExtension<*, *, *>,
     ) {
         extension.onVariants { variant ->
-            val testVariant = (variant as? HasAndroidTest)?.androidTest ?: return@onVariants
-            registerVariantReportTasks(
-                project = project,
-                allureExtension = allureExtension,
-                variant = variant,
-                testVariant = testVariant,
-            )
+            val testVariant = (variant as? HasAndroidTest)?.androidTest
+            val variantName = if (testVariant != null) {
+                testVariant.name
+            } else if (variant is TestVariant) {
+                variant.name
+            } else {
+                null
+            }
+            if (variantName != null) {
+                registerVariantReportTasks(
+                    project = project,
+                    allureExtension = allureExtension,
+                    variant = variant,
+                    testVariant = testVariant,
+                    variantName = variantName
+                )
+            }
         }
     }
 
@@ -85,10 +99,15 @@ class AllureReportPlugin : Plugin<Project> {
         project: Project,
         allureExtension: AllureReportExtension?,
         variant: Variant,
-        testVariant: AndroidTest,
+        testVariant: AndroidTest?,
+        variantName: String,
     ) {
         val buildOutputDir = getBuildOutputDir(project)
-        val connectedOutputDir = getConnectedOutputDir(project, testVariant)
+        val connectedOutputDir = if (testVariant != null) {
+            getConnectedOutputDir(project, testVariant)
+        } else {
+            getConnectedOutputDir(project, variantName)
+        }
         connectedOutputDir.mkdirs()
 
         registerCleanTask(
@@ -109,7 +128,11 @@ class AllureReportPlugin : Plugin<Project> {
             /**
              * This will ensure that all test tasks will trigger a report generation
              */
-            val testTaskName = getTestTaskName(testVariant)
+            val testTaskName = if (testVariant != null) {
+                getTestTaskName(testVariant)
+            } else {
+                getTestTaskName(variantName)
+            }
             val testTask = project.tasks.findByName(testTaskName)
             testTask?.finalizedBy(generationTask)
         }
@@ -167,8 +190,17 @@ class AllureReportPlugin : Plugin<Project> {
         return "connected${testVariant.name.capitalized()}"
     }
 
+    private fun getTestTaskName(variantName: String): String {
+        return "connected${variantName.capitalized()}AndroidTest"
+    }
+
     private fun getConnectedOutputDir(project: Project, testVariant: AndroidTest): File {
         val path = "$connectedOutputDir/${testVariant.name}"
+        return project.layout.buildDirectory.file(path).get().asFile
+    }
+
+    private fun getConnectedOutputDir(project: Project, variantName: String): File {
+        val path = "$connectedOutputDir/${variantName}"
         return project.layout.buildDirectory.file(path).get().asFile
     }
 
@@ -184,7 +216,6 @@ class AllureReportPlugin : Plugin<Project> {
     }
 
 }
-
 
 interface AllureReportExtension {
     /**

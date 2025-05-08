@@ -21,7 +21,9 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt)
-    alias(libs.plugins.carioca.allure)
+    // Not needed for real projects, just here, because we build the plugin locally:
+    // https://github.com/gradle/gradle/issues/20084#issuecomment-1060822638
+    id(libs.plugins.carioca.allure.get().pluginId)
 }
 
 android {
@@ -44,7 +46,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -58,29 +63,28 @@ android {
     }
 
 
-    /* Uncomment to check support for flavors
-    flavorDimensions += "version"
-    flavorDimensions += "store"
+    //    Uncomment to check support for flavors
+    /* flavorDimensions += "version"
+     flavorDimensions += "store"
 
-    productFlavors {
-        create("demo") {
-            dimension = "version"
-            versionNameSuffix = "-demo"
-        }
-        create("full") {
-            dimension = "version"
-            versionNameSuffix = "-full"
-        }
-        create("google") {
-            dimension = "store"
-            versionNameSuffix = "-google"
-        }
-        create("amazon") {
-            dimension = "store"
-            versionNameSuffix = "-amazon"
-        }
-    }
-    */
+     productFlavors {
+         create("demo") {
+             dimension = "version"
+             versionNameSuffix = "-demo"
+         }
+         create("full") {
+             dimension = "version"
+             versionNameSuffix = "-full"
+         }
+         create("google") {
+             dimension = "store"
+             versionNameSuffix = "-google"
+         }
+         create("amazon") {
+             dimension = "store"
+             versionNameSuffix = "-amazon"
+         }
+     }*/
 
     testOptions {
         execution = "ANDROIDX_TEST_ORCHESTRATOR"
