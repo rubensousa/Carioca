@@ -10,14 +10,14 @@ is a good starting point.
 Add the following dependency:
 
 ```groovy
-debugImplementation "com.rubensousa.carioca:hilt-manifest:{{ hilt.version }}"
+debugImplementation "com.rubensousa.carioca:hilt-manifest:{{ version.hilt }}"
 ```
 
 Then pick one or both of these:
 
 ```groovy
-androidTestImplementation "com.rubensousa.carioca:hilt-fragment:{{ hilt.version }}"
-androidTestImplementation "com.rubensousa.carioca:hilt-compose:{{ hilt.version }}"
+androidTestImplementation "com.rubensousa.carioca:hilt-fragment:{{ version.hilt }}"
+androidTestImplementation "com.rubensousa.carioca:hilt-compose:{{ version.hilt }}"
 ```
 
 If you don't have a default `HiltTestRunner`, you can also use this one, as recommended by the [official docs](https://developer.android.com/training/dependency-injection/hilt-testing#instrumented-tests).
@@ -31,7 +31,7 @@ android {
 }
 
 dependencies {
-    androidTestImplementation "com.rubensousa.carioca:hilt-runner:{{ hilt.version }}"
+    androidTestImplementation "com.rubensousa.carioca:hilt-runner:{{ version.hilt }}"
 }
 ```
 

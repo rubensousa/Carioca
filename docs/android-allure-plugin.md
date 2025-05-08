@@ -9,7 +9,7 @@ Add the plugin to your project:
 
 ```groovy
 plugins {
-    id 'com.rubensousa.carioca.report.allure' version '{{ allure_plugin.version }}'
+    id 'com.rubensousa.carioca.report.allure' version '{{ version.allure_plugin }}'
 }
 ```
 

@@ -2,10 +2,10 @@
 
 Libraries with the same version:
 
-- `com.rubensousa.carioca:hilt-compose:{{ hilt.version }}`
-- `com.rubensousa.carioca:hilt-fragment:{{ hilt.version }}`
-- `com.rubensousa.carioca:hilt-manifest:{{ hilt.version }}`
-- `com.rubensousa.carioca:hilt-runner:{{ hilt.version }}`
+- `com.rubensousa.carioca:hilt-compose:{{ version.hilt }}`
+- `com.rubensousa.carioca:hilt-fragment:{{ version.hilt }}`
+- `com.rubensousa.carioca:hilt-manifest:{{ version.hilt }}`
+- `com.rubensousa.carioca:hilt-runner:{{ version.hilt }}`
 
 ## Version 1.0.0
 
