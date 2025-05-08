@@ -5,7 +5,7 @@
 - Start by including the library:
 
 ```groovy
-androidTestImplementation("com.rubensousa.carioca:report-android:{{ report.version }}")
+androidTestImplementation("com.rubensousa.carioca:report-android:{{ version.report }}")
 ```
 
 - Enable the test storage service:

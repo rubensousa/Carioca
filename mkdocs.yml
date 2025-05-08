@@ -23,14 +23,11 @@ theme:
     - content.code.copy
 
 extra:
-  report:
-    version: '1.0.0'
-  junit4_rules:
-    version: '1.0.0'
-  allure_plugin:
-    version: '1.0.0'
-  hilt:
-    version: '1.0.0'
+  version:
+    report: '1.0.1'
+    junit4: '1.0.0'
+    allure_plugin: '1.0.1'
+    hilt: '1.0.0'
   social:
     - icon: 'fontawesome/brands/github'
       link: 'https://github.com/rubensousa/Carioca'

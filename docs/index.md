@@ -15,42 +15,48 @@ Libraries currently available:
 
 1. [Instrumented test reports](test-reports-android.md) and [Allure Plugin](android-allure-plugin.md)
 ```groovy
-// Test reports for android tests
-androidTestImplementation "com.rubensousa.carioca:report-android:{{ report.version }}"
+plugins {
+    id 'com.rubensousa.carioca.report.allure' version '{{ version.allure_plugin }}'
+}
 
-// DumpComposeHierarchyInterceptor
-androidTestImplementation "com.rubensousa.carioca:report-android-compose:{{ report.version }}"
+dependencies {
+    // Test reports for android tests
+    androidTestImplementation "com.rubensousa.carioca:report-android:{{ version.report }}"
 
-// Optional: test reporting for tests with coroutines
-androidTestImplementation "com.rubensousa.carioca:report-android-coroutines:{{ report.version }}"
+    // DumpComposeHierarchyInterceptor
+    androidTestImplementation "com.rubensousa.carioca:report-android-compose:{{ version.report }}"
 
-// Optional: libraries to build your own report formats
-androidTestImplementation "com.rubensousa.carioca:report-json:{{ report.version }}"
-androidTestImplementation "com.rubensousa.carioca:report-runtime:{{ report.version }}"
+    // Optional: test reporting for tests with coroutines
+    androidTestImplementation "com.rubensousa.carioca:report-android-coroutines:{{ version.report }}"
+
+    // Optional: libraries to build your own report formats
+    androidTestImplementation "com.rubensousa.carioca:report-json:{{ version.report }}"
+    androidTestImplementation "com.rubensousa.carioca:report-runtime:{{ version.report }}"
+}
 ```
 2. [Instrumented tests with Hilt](hilt.md)
 ```groovy
 // Contains HiltFragmentScenario
-androidTestImplementation "com.rubensousa.carioca:hilt-fragment:{{ hilt.version }}"
+androidTestImplementation "com.rubensousa.carioca:hilt-fragment:{{ version.hilt }}"
 
 // Contains createHiltComposeRule()
-androidTestImplementation "com.rubensousa.carioca:hilt-compose:{{ hilt.version }}"
+androidTestImplementation "com.rubensousa.carioca:hilt-compose:{{ version.hilt }}"
 
 // Contains an empty hilt activity that is required 
 // by both of the dependencies above
-debugImplementation "com.rubensousa.carioca:hilt-manifest:{{ hilt.version }}"
+debugImplementation "com.rubensousa.carioca:hilt-manifest:{{ version.hilt }}"
 
 // Optional: default HiltTestRunner if you don't have your own
-androidTestImplementation "com.rubensousa.carioca:hilt-runner:{{ hilt.version }}"
+androidTestImplementation "com.rubensousa.carioca:hilt-runner:{{ version.hilt }}"
 ```
 3. [Junit4 rules](junit4-rules.md)
 ```groovy
-testImplementation "com.rubensousa.carioca:junit4-rules:{{ junit4_rules.version }}"
+testImplementation "com.rubensousa.carioca:junit4-rules:{{ version.junit4 }}"
 ```
 
 ## License
 
-    Copyright 2024 Rúben Sousa
+    Copyright 2025 Rúben Sousa
     
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.

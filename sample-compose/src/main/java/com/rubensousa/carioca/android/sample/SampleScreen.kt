@@ -27,12 +27,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+
 
 @Composable
 fun SampleScreen(
     modifier: Modifier = Modifier,
-    viewModel: SampleViewModel = viewModel<SampleViewModel>(),
+    viewModel: SampleViewModel = hiltViewModel<SampleViewModel>(),
 ) {
     SampleScreen(
         modifier = modifier,
