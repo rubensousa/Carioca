@@ -15,8 +15,6 @@ android {
     defaultConfig {
         minSdk = 21
         targetSdk = 35
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         testInstrumentationRunner = "com.rubensousa.carioca.hilt.runner.HiltTestRunner"
         testInstrumentationRunnerArguments["clearPackageData"] = "true"
         testInstrumentationRunnerArguments["useTestStorageService"] = "true"
