@@ -1,0 +1,243 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>RecordingOptions</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../../../index.html">
+                            carioca
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":carioca-report:report-android:dokkaHtmlPartial/release">androidJvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="report-android::com.rubensousa.carioca.report.android.recording/RecordingOptions///PointingToDeclaration//493861790">
+  <div class="breadcrumbs"><a href="../../index.html">report-android</a><span class="delimiter">/</span><a href="../index.html">com.rubensousa.carioca.report.android.recording</a><span class="delimiter">/</span><span class="current">RecordingOptions</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Recording</span><wbr><span><span>Options</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">data </span><span class="token keyword">class </span><a href="index.html">RecordingOptions</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>enabled<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>bitrate<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>scale<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token operator"> = </span><span class="token constant">0.75f</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>keepOnSuccess<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>startDelay<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">500</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>stopDelay<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">1000</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>continueDelay<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">250</span><span class="token punctuation">, </span></span><span class="parameter "><span class="token keyword">val </span>orientation<span class="token operator">: </span><a href="../-recording-orientation/index.html">RecordingOrientation</a><span class="token operator"> = </span>RecordingOrientation.NATURAL</span></span><span class="token punctuation">)</span></div><p class="paragraph">See more information <a href="https://developer.android.com/tools/adb#screenrecord">here</a></p><h4 class="">Parameters</h4><div class="table"><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>enabled</span></span></u></div></span></div><div><div class="title"><p class="paragraph">true if screen recording should start for the test. Default: true</p></div></div></div></div><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>bitrate</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the bitrate of the video file. Default: 16 mbps</p></div></div></div></div><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>scale</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the video scale in relation to the original display size. Default: 75% of the screen resolution</p></div></div></div></div><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>keep</span><wbr><span>On</span><wbr><span><span>Success</span></span></u></div></span></div><div><div class="title"><p class="paragraph">true if the recording should be kept if the test passes, false if it should be deleted</p></div></div></div></div><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>start</span><wbr><span><span>Delay</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the minimum amount of time to wait after the recording starts. Default: 500ms</p></div></div></div></div><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>stop</span><wbr><span><span>Delay</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the minimum amount of time to wait before the recording should be stopped. Default: 1 second</p></div></div></div></div><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span>continue</span><wbr><span><span>Delay</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the minimum amount of time to wait before continuing to the recording of a next test Default: 250ms</p></div></div></div></div><div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="main-subrow keyValue "><div class=""><span class="inline-flex"><div><u><span><span>orientation</span></span></u></div></span></div><div><div class="title"><p class="paragraph">the orientation of the screen recording. Default: <a href="../-recording-orientation/-n-a-t-u-r-a-l/index.html">RecordingOrientation.NATURAL</a></p></div></div></div></div></div></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="">Constructors</h2>
+        <div class="table"><a data-name="-1758138827%2FConstructors%2F493861790" anchor-label="RecordingOptions" id="-1758138827%2FConstructors%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-togglable="CONSTRUCTOR" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-recording-options.html"><span>Recording</span><wbr><span><span>Options</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1758138827%2FConstructors%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">enabled<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span><span class="token punctuation">, </span></span><span class="parameter ">bitrate<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">scale<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token operator"> = </span><span class="token constant">0.75f</span><span class="token punctuation">, </span></span><span class="parameter ">keepOnSuccess<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span><span class="token punctuation">, </span></span><span class="parameter ">startDelay<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">500</span><span class="token punctuation">, </span></span><span class="parameter ">stopDelay<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">1000</span><span class="token punctuation">, </span></span><span class="parameter ">continueDelay<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">250</span><span class="token punctuation">, </span></span><span class="parameter ">orientation<span class="token operator">: </span><a href="../-recording-orientation/index.html">RecordingOrientation</a><span class="token operator"> = </span>RecordingOrientation.NATURAL</span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-2112642969%2FClasslikes%2F493861790" anchor-label="Companion" id="-2112642969%2FClasslikes%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-companion/index.html"><span><span>Companion</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2112642969%2FClasslikes%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">object </span><a href="-companion/index.html">Companion</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="">Properties</h2>
+        <div class="table"><a data-name="93426963%2FProperties%2F493861790" anchor-label="bitrate" id="93426963%2FProperties%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="bitrate.html"><span><span>bitrate</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="93426963%2FProperties%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="bitrate.html">bitrate</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1748283396%2FProperties%2F493861790" anchor-label="continueDelay" id="1748283396%2FProperties%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="continue-delay.html"><span>continue</span><wbr><span><span>Delay</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1748283396%2FProperties%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="continue-delay.html">continueDelay</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">250</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1614887871%2FProperties%2F493861790" anchor-label="enabled" id="1614887871%2FProperties%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="enabled.html"><span><span>enabled</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1614887871%2FProperties%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="enabled.html">enabled</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">true</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="683047777%2FProperties%2F493861790" anchor-label="keepOnSuccess" id="683047777%2FProperties%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="keep-on-success.html"><span>keep</span><wbr><span>On</span><wbr><span><span>Success</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="683047777%2FProperties%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="keep-on-success.html">keepOnSuccess</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a><span class="token operator"> = </span><span class="token boolean">false</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1437054608%2FProperties%2F493861790" anchor-label="orientation" id="1437054608%2FProperties%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="orientation.html"><span><span>orientation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1437054608%2FProperties%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="orientation.html">orientation</a><span class="token operator">: </span><a href="../-recording-orientation/index.html">RecordingOrientation</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="301799062%2FProperties%2F493861790" anchor-label="scale" id="301799062%2FProperties%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="scale.html"><span><span>scale</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="301799062%2FProperties%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="scale.html">scale</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-float/index.html">Float</a><span class="token operator"> = </span><span class="token constant">0.75f</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="527945113%2FProperties%2F493861790" anchor-label="startDelay" id="527945113%2FProperties%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="start-delay.html"><span>start</span><wbr><span><span>Delay</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="527945113%2FProperties%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="start-delay.html">startDelay</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">500</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1365369759%2FProperties%2F493861790" anchor-label="stopDelay" id="1365369759%2FProperties%2F493861790" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release"></a>
+          <div class="table-row" data-filterable-current=":carioca-report:report-android:dokkaHtmlPartial/release" data-filterable-set=":carioca-report:report-android:dokkaHtmlPartial/release">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="stop-delay.html"><span>stop</span><wbr><span><span>Delay</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1365369759%2FProperties%2F493861790"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-report:report-android:dokkaHtmlPartial/release"><div class="symbol monospace"><span class="token keyword">val </span><a href="stop-delay.html">stopDelay</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-long/index.html">Long</a><span class="token operator"> = </span><span class="token constant">1000</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

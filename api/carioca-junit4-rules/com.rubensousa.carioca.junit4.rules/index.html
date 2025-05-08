@@ -1,0 +1,174 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>com.rubensousa.carioca.junit4.rules</title>
+<link href="../../images/logo-icon.svg" rel="icon" type="image/svg">    <script>var pathToRoot = "../../";</script>
+    <script>document.documentElement.classList.replace("no-js","js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+    if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    } else {
+        const savedDarkMode = JSON.parse(storage)
+        if(savedDarkMode === true) {
+            document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+    }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../styles/style.css" rel="Stylesheet">
+<link href="../../styles/main.css" rel="Stylesheet">
+<link href="../../styles/prism.css" rel="Stylesheet">
+<link href="../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../styles/font-jb-sans-auto.css" rel="Stylesheet">
+<script type="text/javascript" src="../../scripts/clipboard.js" async></script>
+<script type="text/javascript" src="../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../scripts/symbol-parameters-wrapper_deferred.js" defer></script></head>
+<body>
+    <div class="root">
+<nav class="navigation" id="navigation-wrapper">
+    <div class="navigation--inner">
+        <div class="navigation-title">
+            <button class="menu-toggle" id="menu-toggle" type="button">toggle menu</button>
+            <div class="library-name">
+<a class="library-name--link" href="../../index.html">
+                            carioca
+                    </a>            </div>
+            <div class="library-version">
+            </div>
+        </div>
+        <div class="filter-section" id="filter-section">
+                <button class="platform-tag platform-selector jvm-like" data-active="" data-filter=":carioca-junit4-rules:dokkaHtmlPartial/main">jvm</button>
+        </div>
+    </div>
+    <div class="navigation-controls">
+        <button class="navigation-controls--btn navigation-controls--theme" id="theme-toggle-button" type="button">switch theme</button>
+        <div class="navigation-controls--btn navigation-controls--search" id="searchBar" role="button">search in API</div>
+    </div>
+</nav>
+        <div id="container">
+            <div class="sidebar" id="leftColumn">
+                <div class="sidebar--inner" id="sideMenu"></div>
+            </div>
+            <div id="main">
+<div class="main-content" data-page-type="package" id="content" pageids="carioca-junit4-rules::com.rubensousa.carioca.junit4.rules////PointingToDeclaration//-2068483997">
+  <div class="breadcrumbs"><a href="../index.html">carioca-junit4-rules</a><span class="delimiter">/</span><span class="current">com.rubensousa.carioca.junit4.rules</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span><span>Package-level</span></span> <span><span>declarations</span></span></h1>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="TYPE">Types</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="TYPE">
+        <h2 class="">Types</h2>
+        <div class="table"><a data-name="-1164092307%2FClasslikes%2F-2068483997" anchor-label="MainDispatcherRule" id="-1164092307%2FClasslikes%2F-2068483997" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-junit4-rules:dokkaHtmlPartial/main" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-main-dispatcher-rule/index.html"><span>Main</span><wbr><span>Dispatcher</span><wbr><span><span>Rule</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1164092307%2FClasslikes%2F-2068483997"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-junit4-rules:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-main-dispatcher-rule/index.html">MainDispatcherRule</a>&nbsp;<span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>testDispatcher<span class="token operator">: </span><span data-unresolved-link="kotlinx.coroutines.test/TestDispatcher///PointingToDeclaration/">TestDispatcher</span><span class="token operator"> = </span>UnconfinedTestDispatcher()</span></span><span class="token punctuation">)</span> : <span data-unresolved-link="org.junit.rules/TestWatcher///PointingToDeclaration/">TestWatcher</span></div><div class="brief "><p class="paragraph">A test rule that replaces the <span data-unresolved-link="kotlinx.coroutines/Dispatchers/Main/#/PointingToDeclaration/">Dispatchers.Main</span> with another <span data-unresolved-link="kotlinx.coroutines/CoroutineDispatcher///PointingToDeclaration/">CoroutineDispatcher</span>. See <a href="https://developer.android.com/kotlin/coroutines/test#setting-main-dispatcher">here</a> for more information</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="983947548%2FClasslikes%2F-2068483997" anchor-label="RepeatTest" id="983947548%2FClasslikes%2F-2068483997" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-junit4-rules:dokkaHtmlPartial/main" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-repeat-test/index.html"><span>Repeat</span><wbr><span><span>Test</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="983947548%2FClasslikes%2F-2068483997"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-junit4-rules:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.annotation/-target/index.html"><span class="token annotation builtin">Target</span></a><span class="token punctuation">(</span><span>allowedTargets<span class="token operator"> = </span><span class="token punctuation">[</span><span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.annotation/-annotation-target/-f-u-n-c-t-i-o-n/index.html">AnnotationTarget.FUNCTION</a><span class="token punctuation">, </span></span><wbr><span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.annotation/-annotation-target/-c-l-a-s-s/index.html">AnnotationTarget.CLASS</a></span><wbr><span class="token punctuation">]</span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">annotation class </span><a href="-repeat-test/index.html">RepeatTest</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>times<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">2</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Annotates either a test class or a test method for total executions of 1 + <a href="-repeat-test/times.html">times</a>. This is extremely useful for checking if a test is flaky, but otherwise dangerous.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-837494784%2FClasslikes%2F-2068483997" anchor-label="RepeatTestRule" id="-837494784%2FClasslikes%2F-2068483997" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-junit4-rules:dokkaHtmlPartial/main" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-repeat-test-rule/index.html"><span>Repeat</span><wbr><span>Test</span><wbr><span><span>Rule</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-837494784%2FClasslikes%2F-2068483997"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-junit4-rules:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-repeat-test-rule/index.html">RepeatTestRule</a> : <span data-unresolved-link="org.junit.rules/TestRule///PointingToDeclaration/">TestRule</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-258289153%2FClasslikes%2F-2068483997" anchor-label="RetryTest" id="-258289153%2FClasslikes%2F-2068483997" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-junit4-rules:dokkaHtmlPartial/main" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-retry-test/index.html"><span>Retry</span><wbr><span><span>Test</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-258289153%2FClasslikes%2F-2068483997"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-junit4-rules:dokkaHtmlPartial/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.annotation/-target/index.html"><span class="token annotation builtin">Target</span></a><span class="token punctuation">(</span><span>allowedTargets<span class="token operator"> = </span><span class="token punctuation">[</span><span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.annotation/-annotation-target/-f-u-n-c-t-i-o-n/index.html">AnnotationTarget.FUNCTION</a><span class="token punctuation">, </span></span><wbr><span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin.annotation/-annotation-target/-c-l-a-s-s/index.html">AnnotationTarget.CLASS</a></span><wbr><span class="token punctuation">]</span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">annotation class </span><a href="-retry-test/index.html">RetryTest</a><span class="token punctuation">(</span><span class="parameters "><span class="parameter "><span class="token keyword">val </span>times<span class="token operator">: </span><a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token operator"> = </span><span class="token constant">1</span></span></span><span class="token punctuation">)</span></div><div class="brief "><p class="paragraph">Annotates either a test class or a test method with a retry request of <a href="-retry-test/times.html">times</a>.</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="491562851%2FClasslikes%2F-2068483997" anchor-label="RetryTestRule" id="491562851%2FClasslikes%2F-2068483997" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-junit4-rules:dokkaHtmlPartial/main" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-retry-test-rule/index.html"><span>Retry</span><wbr><span>Test</span><wbr><span><span>Rule</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="491562851%2FClasslikes%2F-2068483997"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-junit4-rules:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-retry-test-rule/index.html">RetryTestRule</a> : <span data-unresolved-link="org.junit.rules/TestRule///PointingToDeclaration/">TestRule</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2066228915%2FClasslikes%2F-2068483997" anchor-label="TestDescriptionRule" id="2066228915%2FClasslikes%2F-2068483997" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main"></a>
+          <div class="table-row" data-filterable-current=":carioca-junit4-rules:dokkaHtmlPartial/main" data-filterable-set=":carioca-junit4-rules:dokkaHtmlPartial/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-test-description-rule/index.html"><span>Test</span><wbr><span>Description</span><wbr><span><span>Rule</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2066228915%2FClasslikes%2F-2068483997"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-junit4-rules:dokkaHtmlPartial/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="-test-description-rule/index.html">TestDescriptionRule</a> : <span data-unresolved-link="org.junit.rules/TestWatcher///PointingToDeclaration/">TestWatcher</span></div><div class="brief "><p class="paragraph">A Rule that catches the <span data-unresolved-link="org.junit.runner/Description///PointingToDeclaration/">Description</span> of the test running</p></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      <div class="footer">
+        <span class="go-to-top-icon"><a href="#content" id="go-to-top-link"></a></span><span>© 2025 Copyright</span><span class="pull-right"><span>Generated by </span><a href="https://github.com/Kotlin/dokka"><span>dokka</span><span class="padded-icon"></span></a></span>
+      </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
