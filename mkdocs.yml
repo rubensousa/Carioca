@@ -24,11 +24,11 @@ theme:
 
 extra:
   report:
-    version: '1.0.0'
+    version: '1.0.1'
   junit4_rules:
     version: '1.0.0'
   allure_plugin:
-    version: '1.0.0'
+    version: '1.0.1'
   hilt:
     version: '1.0.0'
   social:
