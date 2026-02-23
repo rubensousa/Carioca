@@ -41,6 +41,7 @@ subprojects {
     plugins.withId("com.rubensousa.carioca.report.allure") {
         extensions.getByType(AllureReportExtension::class).apply {
             outputDir = rootProject.file("build/outputs/allure-results")
+            attachLogcatOnSuccess = true
         }
     }
 

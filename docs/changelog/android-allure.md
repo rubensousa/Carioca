@@ -2,6 +2,12 @@
 
 Plugin id: `com.rubensousa.carioca.report.allure`
 
+## Version 1.0.2
+
+2026-02-24
+
+- Fixed logcat not being attached to reports [#86](https://github.com/rubensousa/Carioca/pull/86)
+
 ## Version 1.0.1
 
 2025-05-08
