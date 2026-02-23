@@ -1,6 +1,6 @@
 [versions]
 activityCompose = "1.9.2"
-agp = "8.9.2"
+agp = "8.13.2"
 android-tools = "31.6.0"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.20"
