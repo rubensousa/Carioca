@@ -207,7 +207,7 @@ class AllureReportPlugin : Plugin<Project> {
     private fun getLogcatOutputDir(project: Project, variant: Variant): File {
         val flavorName = variant.flavorName
         val buildType = variant.buildType ?: "debug"
-        val path = if (flavorName == null) {
+        val path = if (flavorName.isNullOrBlank()) {
             "$logcatOutputDirPath/$buildType"
         } else {
             "$logcatOutputDirPath/$buildType/flavors/$flavorName"
