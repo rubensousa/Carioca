@@ -1,6 +1,5 @@
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kover)
     alias(libs.plugins.maven.publish)
     alias(libs.plugins.kotlin.dokka)
@@ -27,8 +26,8 @@ android {
         targetSdk = 34
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        jvmToolchain(17)
     }
 }
 
