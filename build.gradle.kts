@@ -19,17 +19,16 @@ import com.rubensousa.carioca.report.android.allure.gradle.AllureReportExtension
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 plugins {
-    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.application) apply false apply false
+    alias(libs.plugins.android.library) apply false apply false
     alias(libs.plugins.kotlin.android) apply false
-    alias(libs.plugins.android.library) apply false
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
-    alias(libs.plugins.kotlin.dokka) apply true
     alias(libs.plugins.maven.publish) apply false
     alias(libs.plugins.ksp) apply false
     alias(libs.plugins.dagger.hilt) apply false
     id(libs.plugins.carioca.allure.get().pluginId) apply false
+    alias(libs.plugins.kotlin.dokka) apply true
 }
-
 
 subprojects {
     group = property("GROUP") as String
@@ -45,4 +44,18 @@ subprojects {
         }
     }
 
+}
+
+dependencies {
+    dokka(project(":carioca-report:report-android"))
+    dokka(project(":carioca-report:report-android-compose"))
+    dokka(project(":carioca-report:report-android-coroutines"))
+    dokka(project(":carioca-report:report-json"))
+    dokka(project(":carioca-report:report-junit4"))
+    dokka(project(":carioca-report:report-runtime"))
+    dokka(project(":carioca-hilt:carioca-hilt-compose"))
+    dokka(project(":carioca-hilt:carioca-hilt-fragment"))
+    dokka(project(":carioca-hilt:carioca-hilt-manifest"))
+    dokka(project(":carioca-hilt:carioca-hilt-runner"))
+    dokka(project(":carioca-junit4-rules"))
 }

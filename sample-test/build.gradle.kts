@@ -1,5 +1,6 @@
 plugins {
     id("com.android.test")
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt)
     // Not needed for real projects, just here, because we build the plugin locally:

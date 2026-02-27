@@ -16,7 +16,8 @@
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.maven.publish)    
     alias(libs.plugins.kotlin.dokka)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt)
