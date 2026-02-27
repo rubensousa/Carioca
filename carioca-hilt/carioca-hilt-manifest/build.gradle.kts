@@ -17,7 +17,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.maven.publish)    
     alias(libs.plugins.kotlin.dokka)
     alias(libs.plugins.ksp)
     alias(libs.plugins.dagger.hilt)
@@ -39,8 +39,8 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "17"
+    kotlin {
+        jvmToolchain(17)
     }
 
     testOptions {

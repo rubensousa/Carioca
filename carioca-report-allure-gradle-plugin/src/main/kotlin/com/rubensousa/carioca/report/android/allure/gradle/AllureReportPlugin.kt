@@ -25,12 +25,12 @@ import com.android.build.api.variant.LibraryAndroidComponentsExtension
 import com.android.build.api.variant.TestAndroidComponentsExtension
 import com.android.build.api.variant.TestVariant
 import com.android.build.api.variant.Variant
+import com.android.build.api.variant.impl.capitalizeFirstChar
 import com.rubensousa.carioca.report.json.JsonReportParser
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.Task
 import org.gradle.api.tasks.TaskProvider
-import org.gradle.configurationcache.extensions.capitalized
 import java.io.File
 
 class AllureReportPlugin : Plugin<Project> {
@@ -148,7 +148,7 @@ class AllureReportPlugin : Plugin<Project> {
         buildOutputDir: File,
         connectedOutputDir: File,
     ) {
-        project.tasks.register("clean${variant.name.capitalized()}AllureReport") {
+        project.tasks.register("clean${variant.name.capitalizeFirstChar()}AllureReport") {
             it.group = "report"
             it.description = "Deletes the previous generated allure report"
             it.doFirst {
@@ -170,7 +170,7 @@ class AllureReportPlugin : Plugin<Project> {
         val reportOutputDir = allureExtension?.outputDir ?: getBuildOutputDir(project)
         val attachLogcatOnSuccess = allureExtension?.attachLogcatOnSuccess ?: false
 
-        return project.tasks.register("generate${variant.name.capitalized()}AllureReport") {
+        return project.tasks.register("generate${variant.name.capitalizeFirstChar()}AllureReport") {
             it.group = "report"
             it.description = "Generates the allure report for a previous test run"
             it.doLast {
@@ -187,11 +187,11 @@ class AllureReportPlugin : Plugin<Project> {
     }
 
     private fun getTestTaskName(testVariant: AndroidTest): String {
-        return "connected${testVariant.name.capitalized()}"
+        return "connected${testVariant.name.capitalizeFirstChar()}"
     }
 
     private fun getTestTaskName(variantName: String): String {
-        return "connected${variantName.capitalized()}AndroidTest"
+        return "connected${variantName.capitalizeFirstChar()}AndroidTest"
     }
 
     private fun getConnectedOutputDir(project: Project, testVariant: AndroidTest): File {
