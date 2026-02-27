@@ -1,0 +1,1125 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" charset="UTF-8">
+    <title>HiltTestRunner</title>
+<link href="../../../../images/logo-icon.svg" rel="icon" type="image/svg"><script>var pathToRoot = "../../../../";</script>
+    <script>document.documentElement.classList.replace("no-js", "js");</script>
+    <script>const storage = localStorage.getItem("dokka-dark-mode")
+      if (storage == null) {
+        const osDarkSchemePreferred = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+        if (osDarkSchemePreferred === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      } else {
+        const savedDarkMode = JSON.parse(storage)
+        if (savedDarkMode === true) {
+          document.getElementsByTagName("html")[0].classList.add("theme-dark")
+        }
+      }
+    </script>
+<script type="text/javascript" src="https://unpkg.com/kotlin-playground@1/dist/playground.min.js" async></script>
+<script type="text/javascript" src="../../../../scripts/sourceset_dependencies.js" async></script>
+<link href="../../../../styles/style.css" rel="Stylesheet">
+<link href="../../../../styles/main.css" rel="Stylesheet">
+<link href="../../../../styles/prism.css" rel="Stylesheet">
+<link href="../../../../styles/logo-styles.css" rel="Stylesheet">
+<link href="../../../../ui-kit/ui-kit.min.css" rel="Stylesheet">
+<script type="text/javascript" src="../../../../scripts/safe-local-storage_blocking.js"></script>
+<script type="text/javascript" src="../../../../scripts/navigation-loader.js" async></script>
+<script type="text/javascript" src="../../../../scripts/platform-content-handler.js" async></script>
+<script type="text/javascript" src="../../../../scripts/main.js" defer></script>
+<script type="text/javascript" src="../../../../scripts/prism.js" async></script>
+<script type="text/javascript" src="../../../../ui-kit/ui-kit.min.js" defer></script></head>
+<body>
+<div class="root">
+    <header class="navigation theme-dark" id="navigation-wrapper" role="banner">
+<a class="library-name--link" href="../../../../index.html" tabindex="1">
+                    carioca
+            </a>        <button class="navigation-controls--btn navigation-controls--btn_toc ui-kit_mobile-only" id="toc-toggle" type="button">Toggle table of contents
+        </button>
+        <div class="navigation-controls--break ui-kit_mobile-only"></div>
+        <div class="library-version" id="library-version">
+        </div>
+        <div class="navigation-controls">
+        <ul class="filter-section filter-section_loading" id="filter-section" aria-label="Target filter">
+                <button class="platform-tag platform-selector jvm-like" data-active="" aria-pressed="true" data-filter=":carioca-hilt:carioca-hilt-runner/main">androidJvm</button>
+            <div class="dropdown filter-section--dropdown" data-role="dropdown" id="filter-section-dropdown">
+                <button class="button button_dropdown filter-section--dropdown-toggle" role="combobox" data-role="dropdown-toggle" aria-controls="platform-tags-listbox" aria-haspopup="listbox" aria-expanded="false" aria-label="Toggle source sets"></button>
+                <ul role="listbox" id="platform-tags-listbox" class="dropdown--list" data-role="dropdown-listbox" aria-label="Target filter">
+                    <div class="dropdown--header"><span>Target filter</span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close target filter">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                        <li role="option" class="dropdown--option platform-selector-option jvm-like" tabindex="0">
+                            <label class="checkbox">
+                                <input type="checkbox" class="checkbox--input" id=":carioca-hilt:carioca-hilt-runner/main" data-filter=":carioca-hilt:carioca-hilt-runner/main">
+                                <span class="checkbox--icon"></span>
+                                androidJvm
+                            </label>
+                        </li>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </ul>
+            <button class="navigation-controls--btn navigation-controls--btn_theme" id="theme-toggle-button" type="button">Switch theme
+            </button>
+            <div class="navigation-controls--btn navigation-controls--btn_search" id="searchBar" role="button">Search in
+                API
+            </div>
+        </div>
+    </header>
+    <div id="container">
+        <nav id="leftColumn" class="sidebar" data-item-type="SECTION" data-item-config="{&quot;defaultSize&quot;: 280, &quot;minSize&quot;: 200, &quot;maxSize&quot;: 400}">
+            <a class="toc--skip-link" href="#main">Skip to content</a>
+            <div class="dropdown theme-dark_mobile" data-role="dropdown" id="toc-dropdown">
+                <ul role="listbox" id="toc-listbox" class="dropdown--list dropdown--list_toc-list" data-role="dropdown-listbox" aria-label="Table of contents">
+                    <div class="dropdown--header">
+                            <span>
+                                    carioca
+                            </span>
+                        <button class="button" data-role="dropdown-toggle" aria-label="Close table of contents">
+                            <i class="ui-kit-icon ui-kit-icon_cross"></i>
+                        </button>
+                    </div>
+                    <div class="sidebar--inner" id="sideMenu"></div>
+                </ul>
+                <div class="dropdown--overlay"></div>
+            </div>
+        </nav>
+        <div id="resizer" class="resizer" data-item-type="BAR"></div>
+        <div id="main" data-item-type="SECTION" role="main">
+<div class="main-content" data-page-type="classlike" id="content" pageids="carioca-hilt-runner::com.rubensousa.carioca.hilt.runner/HiltTestRunner///PointingToDeclaration//244041574">
+  <div class="breadcrumbs"><a href="../../index.html">carioca-hilt-runner</a><span class="delimiter">/</span><a href="../index.html">com.rubensousa.carioca.hilt.runner</a><span class="delimiter">/</span><span class="current">HiltTestRunner</span></div>
+  <div class="cover ">
+    <h1 class="cover"><span>Hilt</span><wbr><span>Test</span><wbr><span><span>Runner</span></span></h1>
+    <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">class </span><a href="index.html">HiltTestRunner</a> : <a href="https://developer.android.com/reference/kotlin/androidx/test/runner/AndroidJUnitRunner.html">AndroidJUnitRunner</a></div><p class="paragraph">Default Hilt test runner that Hilt does not provide out of the box Useful for running Hilt tests isolated from the rest of the application, like feature module testing</p></div></div>
+  </div>
+  <div class="tabbedcontent">
+    <div class="tabs-section" tabs-section="tabs-section"><button class="section-tab" data-active="" data-togglable="CONSTRUCTOR,TYPE,PROPERTY,FUNCTION">Members</button></div>
+    <div class="tabs-section-body">
+      <div data-togglable="CONSTRUCTOR">
+        <h2 class="tableheader">Constructors</h2>
+        <div class="table"><a data-name="1844272672%2FConstructors%2F244041574" anchor-label="HiltTestRunner" id="1844272672%2FConstructors%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-togglable="CONSTRUCTOR" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="-hilt-test-runner.html"><span>Hilt</span><wbr><span>Test</span><wbr><span><span>Runner</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1844272672%2FConstructors%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="PROPERTY">
+        <h2 class="tableheader">Properties</h2>
+        <div class="table"><a data-name="-1226696462%2FProperties%2F244041574" anchor-label="allocCounts" id="-1226696462%2FProperties%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1226696462%2FProperties%2F244041574"><span>alloc</span><wbr><span><span>Counts</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1226696462%2FProperties%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="index.html#-1226696462%2FProperties%2F244041574">allocCounts</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2098286017%2FProperties%2F244041574" anchor-label="binderCounts" id="2098286017%2FProperties%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#2098286017%2FProperties%2F244041574"><span>binder</span><wbr><span><span>Counts</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2098286017%2FProperties%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="index.html#2098286017%2FProperties%2F244041574">binderCounts</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1459119101%2FProperties%2F244041574" anchor-label="componentName" id="-1459119101%2FProperties%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1459119101%2FProperties%2F244041574"><span>component</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1459119101%2FProperties%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="index.html#-1459119101%2FProperties%2F244041574">componentName</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/ComponentName.html">ComponentName</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="785443804%2FProperties%2F244041574" anchor-label="context" id="785443804%2FProperties%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#785443804%2FProperties%2F244041574"><span><span>context</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="785443804%2FProperties%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="index.html#785443804%2FProperties%2F244041574">context</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1763263217%2FProperties%2F244041574" anchor-label="isProfiling" id="-1763263217%2FProperties%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1763263217%2FProperties%2F244041574"><span>is</span><wbr><span><span>Profiling</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1763263217%2FProperties%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="index.html#-1763263217%2FProperties%2F244041574">isProfiling</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1899828399%2FProperties%2F244041574" anchor-label="processName" id="-1899828399%2FProperties%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1899828399%2FProperties%2F244041574"><span>process</span><wbr><span><span>Name</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1899828399%2FProperties%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="index.html#-1899828399%2FProperties%2F244041574">processName</a><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1248824563%2FProperties%2F244041574" anchor-label="targetContext" id="-1248824563%2FProperties%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1248824563%2FProperties%2F244041574"><span>target</span><wbr><span><span>Context</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1248824563%2FProperties%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="index.html#-1248824563%2FProperties%2F244041574">targetContext</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="337776932%2FProperties%2F244041574" anchor-label="uiAutomation" id="337776932%2FProperties%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#337776932%2FProperties%2F244041574"><span>ui</span><wbr><span><span>Automation</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="337776932%2FProperties%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">val </span><a href="index.html#337776932%2FProperties%2F244041574">uiAutomation</a><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/UiAutomation.html">UiAutomation</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div data-togglable="FUNCTION">
+        <h2 class="tableheader">Functions</h2>
+        <div class="table"><a data-name="-1383723203%2FFunctions%2F244041574" anchor-label="acquireLooperManager" id="-1383723203%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1383723203%2FFunctions%2F244041574"><span>acquire</span><wbr><span>Looper</span><wbr><span><span>Manager</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1383723203%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1383723203%2FFunctions%2F244041574"><span class="token function">acquireLooperManager</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">looper<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Looper.html">Looper</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/TestLooperManager.html">TestLooperManager</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-754637271%2FFunctions%2F244041574" anchor-label="addMonitor" id="-754637271%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#805655725%2FFunctions%2F244041574"><span>add</span><wbr><span><span>Monitor</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-754637271%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#805655725%2FFunctions%2F244041574"><span class="token function">addMonitor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">monitor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityMonitor.html">Instrumentation.ActivityMonitor</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1912256853%2FFunctions%2F244041574"><span class="token function">addMonitor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">filter<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/IntentFilter.html">IntentFilter</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">result<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityResult.html">Instrumentation.ActivityResult</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityMonitor.html">Instrumentation.ActivityMonitor</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#520632139%2FFunctions%2F244041574"><span class="token function">addMonitor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cls<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">result<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityResult.html">Instrumentation.ActivityResult</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">block<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityMonitor.html">Instrumentation.ActivityMonitor</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1061211685%2FFunctions%2F244041574" anchor-label="addResults" id="-1061211685%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1061211685%2FFunctions%2F244041574"><span>add</span><wbr><span><span>Results</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1061211685%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1061211685%2FFunctions%2F244041574"><span class="token function">addResults</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">results<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1518560394%2FFunctions%2F244041574" anchor-label="callActivityOnCreate" id="-1518560394%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1321114142%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span><span>Create</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1518560394%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1321114142%2FFunctions%2F244041574"><span class="token function">callActivityOnCreate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">bundle<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1210604920%2FFunctions%2F244041574"><span class="token function">callActivityOnCreate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">icicle<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">persistentState<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/PersistableBundle.html">PersistableBundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-499808254%2FFunctions%2F244041574" anchor-label="callActivityOnDestroy" id="-499808254%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-499808254%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span><span>Destroy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-499808254%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-499808254%2FFunctions%2F244041574"><span class="token function">callActivityOnDestroy</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1223429521%2FFunctions%2F244041574" anchor-label="callActivityOnNewIntent" id="-1223429521%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1223429521%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span>New</span><wbr><span><span>Intent</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1223429521%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1223429521%2FFunctions%2F244041574"><span class="token function">callActivityOnNewIntent</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="109033990%2FFunctions%2F244041574" anchor-label="callActivityOnPause" id="109033990%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#109033990%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span><span>Pause</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="109033990%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#109033990%2FFunctions%2F244041574"><span class="token function">callActivityOnPause</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1912254167%2FFunctions%2F244041574" anchor-label="callActivityOnPictureInPictureRequested" id="-1912254167%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1912254167%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span>Picture</span><wbr><span>In</span><wbr><span>Picture</span><wbr><span><span>Requested</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1912254167%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1912254167%2FFunctions%2F244041574"><span class="token function">callActivityOnPictureInPictureRequested</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-137829313%2FFunctions%2F244041574" anchor-label="callActivityOnPostCreate" id="-137829313%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1343667457%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span>Post</span><wbr><span><span>Create</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-137829313%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1343667457%2FFunctions%2F244041574"><span class="token function">callActivityOnPostCreate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token punctuation">, </span></span><span class="parameter ">savedInstanceState<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1522515786%2FFunctions%2F244041574"><span class="token function">callActivityOnPostCreate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token punctuation">, </span></span><span class="parameter ">savedInstanceState<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">persistentState<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/PersistableBundle.html">PersistableBundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1320282125%2FFunctions%2F244041574" anchor-label="callActivityOnRestart" id="1320282125%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1320282125%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span><span>Restart</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1320282125%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1320282125%2FFunctions%2F244041574"><span class="token function">callActivityOnRestart</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-288713952%2FFunctions%2F244041574" anchor-label="callActivityOnRestoreInstanceState" id="-288713952%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#423762192%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span>Restore</span><wbr><span>Instance</span><wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-288713952%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#423762192%2FFunctions%2F244041574"><span class="token function">callActivityOnRestoreInstanceState</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token punctuation">, </span></span><span class="parameter ">savedInstanceState<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1886394724%2FFunctions%2F244041574"><span class="token function">callActivityOnRestoreInstanceState</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token punctuation">, </span></span><span class="parameter ">savedInstanceState<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">persistentState<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/PersistableBundle.html">PersistableBundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1825543237%2FFunctions%2F244041574" anchor-label="callActivityOnResume" id="-1825543237%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1825543237%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span><span>Resume</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1825543237%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1825543237%2FFunctions%2F244041574"><span class="token function">callActivityOnResume</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-2033045266%2FFunctions%2F244041574" anchor-label="callActivityOnSaveInstanceState" id="-2033045266%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1098938739%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span>Save</span><wbr><span>Instance</span><wbr><span><span>State</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-2033045266%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1098938739%2FFunctions%2F244041574"><span class="token function">callActivityOnSaveInstanceState</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token punctuation">, </span></span><span class="parameter ">outState<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a></span></span><span class="token punctuation">)</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#651386759%2FFunctions%2F244041574"><span class="token function">callActivityOnSaveInstanceState</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token punctuation">, </span></span><span class="parameter ">outState<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token punctuation">, </span></span><span class="parameter ">outPersistentState<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/PersistableBundle.html">PersistableBundle</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1218077926%2FFunctions%2F244041574" anchor-label="callActivityOnStart" id="-1218077926%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1218077926%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span><span>Start</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1218077926%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1218077926%2FFunctions%2F244041574"><span class="token function">callActivityOnStart</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1976540282%2FFunctions%2F244041574" anchor-label="callActivityOnStop" id="-1976540282%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1976540282%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span><span>Stop</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1976540282%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1976540282%2FFunctions%2F244041574"><span class="token function">callActivityOnStop</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1895004147%2FFunctions%2F244041574" anchor-label="callActivityOnUserLeaving" id="1895004147%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1895004147%2FFunctions%2F244041574"><span>call</span><wbr><span>Activity</span><wbr><span>On</span><wbr><span>User</span><wbr><span><span>Leaving</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1895004147%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1895004147%2FFunctions%2F244041574"><span class="token function">callActivityOnUserLeaving</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">activity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1955847232%2FFunctions%2F244041574" anchor-label="callApplicationOnCreate" id="1955847232%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1955847232%2FFunctions%2F244041574"><span>call</span><wbr><span>Application</span><wbr><span>On</span><wbr><span><span>Create</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1955847232%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1955847232%2FFunctions%2F244041574"><span class="token function">callApplicationOnCreate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">app<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Application.html">Application</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1928713820%2FFunctions%2F244041574" anchor-label="checkMonitorHit" id="-1928713820%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1928713820%2FFunctions%2F244041574"><span>check</span><wbr><span>Monitor</span><wbr><span><span>Hit</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1928713820%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1928713820%2FFunctions%2F244041574"><span class="token function">checkMonitorHit</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">monitor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityMonitor.html">Instrumentation.ActivityMonitor</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">minHits<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1154415626%2FFunctions%2F244041574" anchor-label="endPerformanceSnapshot" id="-1154415626%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1154415626%2FFunctions%2F244041574"><span>end</span><wbr><span>Performance</span><wbr><span><span>Snapshot</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1154415626%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1154415626%2FFunctions%2F244041574"><span class="token function">endPerformanceSnapshot</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-853221334%2FFunctions%2F244041574" anchor-label="execStartActivities" id="-853221334%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-853221334%2FFunctions%2F244041574"><span>exec</span><wbr><span>Start</span><wbr><span><span>Activities</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-853221334%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-853221334%2FFunctions%2F244041574"><span class="token function">execStartActivities</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">who<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">contextThread<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">token<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">intents<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-array/index.html">Array</a><span class="token operator">&lt;</span><span class="token keyword">out </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token operator">?</span><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-798306830%2FFunctions%2F244041574" anchor-label="execStartActivity" id="-798306830%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-957543719%2FFunctions%2F244041574"><span>exec</span><wbr><span>Start</span><wbr><span><span>Activity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-798306830%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-957543719%2FFunctions%2F244041574"><span class="token function">execStartActivity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">who<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">contextThread<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">token<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">requestCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityResult.html">Instrumentation.ActivityResult</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1022128175%2FFunctions%2F244041574"><span class="token function">execStartActivity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">who<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">contextThread<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">token<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">requestCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityResult.html">Instrumentation.ActivityResult</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-434854322%2FFunctions%2F244041574"><span class="token function">execStartActivity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">who<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">contextThread<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">token<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Fragment.html">Fragment</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">requestCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityResult.html">Instrumentation.ActivityResult</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#364682818%2FFunctions%2F244041574"><span class="token function">execStartActivity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">who<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">contextThread<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">token<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">requestCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityResult.html">Instrumentation.ActivityResult</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#68314260%2FFunctions%2F244041574"><span class="token function">execStartActivity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">who<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">contextThread<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">token<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">target<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">requestCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">user<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/UserHandle.html">UserHandle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityResult.html">Instrumentation.ActivityResult</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1236850800%2FFunctions%2F244041574" anchor-label="finish" id="-1236850800%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1236850800%2FFunctions%2F244041574"><span><span>finish</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1236850800%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1236850800%2FFunctions%2F244041574"><span class="token function">finish</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">resultCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">results<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="289016565%2FFunctions%2F244041574" anchor-label="interceptActivityUsing" id="289016565%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#289016565%2FFunctions%2F244041574"><span>intercept</span><wbr><span>Activity</span><wbr><span><span>Using</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="289016565%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#289016565%2FFunctions%2F244041574"><span class="token function">interceptActivityUsing</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">interceptingActivityFactory<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/androidx/test/runner/intercepting/InterceptingActivityFactory.html">InterceptingActivityFactory</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="896567364%2FFunctions%2F244041574" anchor-label="invokeContextMenuAction" id="896567364%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#896567364%2FFunctions%2F244041574"><span>invoke</span><wbr><span>Context</span><wbr><span>Menu</span><wbr><span><span>Action</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="896567364%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#896567364%2FFunctions%2F244041574"><span class="token function">invokeContextMenuAction</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">targetActivity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">flag<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="218581324%2FFunctions%2F244041574" anchor-label="invokeMenuActionSync" id="218581324%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#218581324%2FFunctions%2F244041574"><span>invoke</span><wbr><span>Menu</span><wbr><span>Action</span><wbr><span><span>Sync</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="218581324%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#218581324%2FFunctions%2F244041574"><span class="token function">invokeMenuActionSync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">targetActivity<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">flag<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="727031393%2FFunctions%2F244041574" anchor-label="newActivity" id="727031393%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-420940261%2FFunctions%2F244041574"><span>new</span><wbr><span><span>Activity</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="727031393%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-420940261%2FFunctions%2F244041574"><span class="token function">newActivity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cl<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/ClassLoader.html">ClassLoader</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">className<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-442584110%2FFunctions%2F244041574"><span class="token function">newActivity</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">clazz<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/Class.html">Class</a><span class="token operator">&lt;</span><span class="token operator">*</span><span class="token operator">&gt;</span><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">token<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/IBinder.html">IBinder</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">application<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Application.html">Application</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">info<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/pm/ActivityInfo.html">ActivityInfo</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">title<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-char-sequence/index.html">CharSequence</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">parent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">id<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">lastNonConfigurationInstance<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-575719267%2FFunctions%2F244041574" anchor-label="newApplication" id="-575719267%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="new-application.html"><span>new</span><wbr><span><span>Application</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-575719267%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">override </span><span class="token keyword">fun </span><a href="new-application.html"><span class="token function">newApplication</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">cl<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/ClassLoader.html">ClassLoader</a><span class="token punctuation">, </span></span><span class="parameter ">name<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token punctuation">, </span></span><span class="parameter ">context<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Context.html">Context</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Application.html">Application</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1065372033%2FFunctions%2F244041574" anchor-label="onCreate" id="1065372033%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1065372033%2FFunctions%2F244041574"><span>on</span><wbr><span><span>Create</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1065372033%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1065372033%2FFunctions%2F244041574"><span class="token function">onCreate</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">arguments<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-534450576%2FFunctions%2F244041574" anchor-label="onDestroy" id="-534450576%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-534450576%2FFunctions%2F244041574"><span>on</span><wbr><span><span>Destroy</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-534450576%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-534450576%2FFunctions%2F244041574"><span class="token function">onDestroy</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1599757712%2FFunctions%2F244041574" anchor-label="onException" id="-1599757712%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1599757712%2FFunctions%2F244041574"><span>on</span><wbr><span><span>Exception</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1599757712%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1599757712%2FFunctions%2F244041574"><span class="token function">onException</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">obj<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-any/index.html">Any</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">e<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-throwable/index.html">Throwable</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="471785908%2FFunctions%2F244041574" anchor-label="onOrchestratorConnect" id="471785908%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#471785908%2FFunctions%2F244041574"><span>on</span><wbr><span>Orchestrator</span><wbr><span><span>Connect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="471785908%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RestrictTo.html"><span class="token annotation builtin">RestrictTo</span></a><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="token punctuation">[</span><span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RestrictTo.Scope.html#LIBRARY">RestrictTo.Scope.LIBRARY</a></span><wbr><span class="token punctuation">]</span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#471785908%2FFunctions%2F244041574"><span class="token function"><strike>onOrchestratorConnect</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1321895496%2FFunctions%2F244041574" anchor-label="onStart" id="1321895496%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1321895496%2FFunctions%2F244041574"><span>on</span><wbr><span><span>Start</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1321895496%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1321895496%2FFunctions%2F244041574"><span class="token function">onStart</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-237605268%2FFunctions%2F244041574" anchor-label="onTestEventClientConnect" id="-237605268%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-237605268%2FFunctions%2F244041574"><span>on</span><wbr><span>Test</span><wbr><span>Event</span><wbr><span>Client</span><wbr><span><span>Connect</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-237605268%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><div class="block"><div class="block"><span class="token annotation builtin">@</span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RestrictTo.html"><span class="token annotation builtin">RestrictTo</span></a><span class="token punctuation">(</span><span>value<span class="token operator"> = </span><span class="token punctuation">[</span><span><a href="https://developer.android.com/reference/kotlin/androidx/annotation/RestrictTo.Scope.html#LIBRARY">RestrictTo.Scope.LIBRARY</a></span><wbr><span class="token punctuation">]</span></span><wbr><span class="token punctuation">)</span></div></div><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-237605268%2FFunctions%2F244041574"><span class="token function">onTestEventClientConnect</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1881326258%2FFunctions%2F244041574" anchor-label="removeMonitor" id="-1881326258%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1881326258%2FFunctions%2F244041574"><span>remove</span><wbr><span><span>Monitor</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1881326258%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1881326258%2FFunctions%2F244041574"><span class="token function">removeMonitor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">monitor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityMonitor.html">Instrumentation.ActivityMonitor</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-25175231%2FFunctions%2F244041574" anchor-label="resetInTouchMode" id="-25175231%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-25175231%2FFunctions%2F244041574"><span>reset</span><wbr><span>In</span><wbr><span>Touch</span><wbr><span><span>Mode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-25175231%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-25175231%2FFunctions%2F244041574"><span class="token function">resetInTouchMode</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1097988228%2FFunctions%2F244041574" anchor-label="runOnMainSync" id="-1097988228%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1097988228%2FFunctions%2F244041574"><span>run</span><wbr><span>On</span><wbr><span>Main</span><wbr><span><span>Sync</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1097988228%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1097988228%2FFunctions%2F244041574"><span class="token function">runOnMainSync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">runnable<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/Runnable.html">Runnable</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1211311923%2FFunctions%2F244041574" anchor-label="sendCharacterSync" id="-1211311923%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1211311923%2FFunctions%2F244041574"><span>send</span><wbr><span>Character</span><wbr><span><span>Sync</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1211311923%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1211311923%2FFunctions%2F244041574"><span class="token function">sendCharacterSync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keyCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1385012614%2FFunctions%2F244041574" anchor-label="sendKeyDownUpSync" id="-1385012614%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1385012614%2FFunctions%2F244041574"><span>send</span><wbr><span>Key</span><wbr><span>Down</span><wbr><span>Up</span><wbr><span><span>Sync</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1385012614%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1385012614%2FFunctions%2F244041574"><span class="token function">sendKeyDownUpSync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">keyCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-673585916%2FFunctions%2F244041574" anchor-label="sendKeySync" id="-673585916%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-673585916%2FFunctions%2F244041574"><span>send</span><wbr><span>Key</span><wbr><span><span>Sync</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-673585916%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-673585916%2FFunctions%2F244041574"><span class="token function">sendKeySync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">event<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/view/KeyEvent.html">KeyEvent</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-831813279%2FFunctions%2F244041574" anchor-label="sendPointerSync" id="-831813279%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-831813279%2FFunctions%2F244041574"><span>send</span><wbr><span>Pointer</span><wbr><span><span>Sync</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-831813279%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-831813279%2FFunctions%2F244041574"><span class="token function">sendPointerSync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">event<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/view/MotionEvent.html">MotionEvent</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1543343081%2FFunctions%2F244041574" anchor-label="sendStatus" id="1543343081%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1543343081%2FFunctions%2F244041574"><span>send</span><wbr><span><span>Status</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1543343081%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1543343081%2FFunctions%2F244041574"><span class="token function">sendStatus</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">resultCode<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-int/index.html">Int</a><span class="token punctuation">, </span></span><span class="parameter ">results<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1613612727%2FFunctions%2F244041574" anchor-label="sendStringSync" id="-1613612727%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1613612727%2FFunctions%2F244041574"><span>send</span><wbr><span>String</span><wbr><span><span>Sync</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1613612727%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1613612727%2FFunctions%2F244041574"><span class="token function">sendStringSync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">text<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-string/index.html">String</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1496887458%2FFunctions%2F244041574" anchor-label="sendTrackballEventSync" id="1496887458%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1496887458%2FFunctions%2F244041574"><span>send</span><wbr><span>Trackball</span><wbr><span>Event</span><wbr><span><span>Sync</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1496887458%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1496887458%2FFunctions%2F244041574"><span class="token function">sendTrackballEventSync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">event<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/view/MotionEvent.html">MotionEvent</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1578529575%2FFunctions%2F244041574" anchor-label="setAutomaticPerformanceSnapshots" id="1578529575%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1578529575%2FFunctions%2F244041574"><span>set</span><wbr><span>Automatic</span><wbr><span>Performance</span><wbr><span><span>Snapshots</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1578529575%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1578529575%2FFunctions%2F244041574"><span class="token function">setAutomaticPerformanceSnapshots</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2050342297%2FFunctions%2F244041574" anchor-label="setInTouchMode" id="2050342297%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#2050342297%2FFunctions%2F244041574"><span>set</span><wbr><span>In</span><wbr><span>Touch</span><wbr><span><span>Mode</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2050342297%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#2050342297%2FFunctions%2F244041574"><span class="token function">setInTouchMode</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">inTouch<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-boolean/index.html">Boolean</a></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="183509001%2FFunctions%2F244041574" anchor-label="start" id="183509001%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#183509001%2FFunctions%2F244041574"><span><span>start</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="183509001%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#183509001%2FFunctions%2F244041574"><span class="token function">start</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2115259041%2FFunctions%2F244041574" anchor-label="startActivitySync" id="2115259041%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-171729105%2FFunctions%2F244041574"><span>start</span><wbr><span>Activity</span><wbr><span><span>Sync</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2115259041%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-171729105%2FFunctions%2F244041574"><span class="token function">startActivitySync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></div><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1138859134%2FFunctions%2F244041574"><span class="token function">startActivitySync</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">intent<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/content/Intent.html">Intent</a><span class="token punctuation">, </span></span><span class="parameter ">options<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/os/Bundle.html">Bundle</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1272732343%2FFunctions%2F244041574" anchor-label="startAllocCounting" id="-1272732343%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1272732343%2FFunctions%2F244041574"><span>start</span><wbr><span>Alloc</span><wbr><span><span>Counting</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1272732343%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1272732343%2FFunctions%2F244041574"><span class="token function"><strike>startAllocCounting</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-1463630723%2FFunctions%2F244041574" anchor-label="startPerformanceSnapshot" id="-1463630723%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-1463630723%2FFunctions%2F244041574"><span>start</span><wbr><span>Performance</span><wbr><span><span>Snapshot</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-1463630723%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-1463630723%2FFunctions%2F244041574"><span class="token function">startPerformanceSnapshot</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-343199829%2FFunctions%2F244041574" anchor-label="startProfiling" id="-343199829%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-343199829%2FFunctions%2F244041574"><span>start</span><wbr><span><span>Profiling</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-343199829%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-343199829%2FFunctions%2F244041574"><span class="token function">startProfiling</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="2115073541%2FFunctions%2F244041574" anchor-label="stopAllocCounting" id="2115073541%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#2115073541%2FFunctions%2F244041574"><span>stop</span><wbr><span>Alloc</span><wbr><span><span>Counting</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="2115073541%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#2115073541%2FFunctions%2F244041574"><span class="token function"><strike>stopAllocCounting</strike></span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-677986713%2FFunctions%2F244041574" anchor-label="stopProfiling" id="-677986713%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-677986713%2FFunctions%2F244041574"><span>stop</span><wbr><span><span>Profiling</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-677986713%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-677986713%2FFunctions%2F244041574"><span class="token function">stopProfiling</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1998993357%2FFunctions%2F244041574" anchor-label="useDefaultInterceptingActivityFactory" id="1998993357%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1998993357%2FFunctions%2F244041574"><span>use</span><wbr><span>Default</span><wbr><span>Intercepting</span><wbr><span>Activity</span><wbr><span><span>Factory</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1998993357%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1998993357%2FFunctions%2F244041574"><span class="token function">useDefaultInterceptingActivityFactory</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-497889390%2FFunctions%2F244041574" anchor-label="waitForIdle" id="-497889390%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-497889390%2FFunctions%2F244041574"><span>wait</span><wbr><span>For</span><wbr><span><span>Idle</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-497889390%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-497889390%2FFunctions%2F244041574"><span class="token function">waitForIdle</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">recipient<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/java/lang/Runnable.html">Runnable</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="-759289272%2FFunctions%2F244041574" anchor-label="waitForIdleSync" id="-759289272%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#-759289272%2FFunctions%2F244041574"><span>wait</span><wbr><span>For</span><wbr><span>Idle</span><wbr><span><span>Sync</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="-759289272%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#-759289272%2FFunctions%2F244041574"><span class="token function">waitForIdleSync</span></a><span class="token punctuation">(</span><span class="token punctuation">)</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="482604378%2FFunctions%2F244041574" anchor-label="waitForMonitor" id="482604378%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#482604378%2FFunctions%2F244041574"><span>wait</span><wbr><span>For</span><wbr><span><span>Monitor</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="482604378%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#482604378%2FFunctions%2F244041574"><span class="token function">waitForMonitor</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">monitor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityMonitor.html">Instrumentation.ActivityMonitor</a><span class="token operator">?</span></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+<a data-name="1933537447%2FFunctions%2F244041574" anchor-label="waitForMonitorWithTimeout" id="1933537447%2FFunctions%2F244041574" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main"></a>
+          <div class="table-row table-row_content" data-filterable-current=":carioca-hilt:carioca-hilt-runner/main" data-filterable-set=":carioca-hilt:carioca-hilt-runner/main">
+            <div class="main-subrow keyValue ">
+              <div class=""><span class="inline-flex">
+                  <div><a href="index.html#1933537447%2FFunctions%2F244041574"><span>wait</span><wbr><span>For</span><wbr><span>Monitor</span><wbr><span>With</span><wbr><span><span>Timeout</span></span></a></div>
+<span class="anchor-wrapper"><span class="anchor-icon" pointing-to="1933537447%2FFunctions%2F244041574"></span>
+                    <div class="copy-popup-wrapper "><span class="copy-popup-icon"></span><span>Link copied to clipboard</span></div>
+                  </span></span></div>
+              <div>
+                <div class="title">
+                  <div class="platform-hinted " data-platform-hinted="data-platform-hinted"><div class="content sourceset-dependent-content" data-active="" data-togglable=":carioca-hilt:carioca-hilt-runner/main"><div class="symbol monospace"><span class="token keyword">open </span><span class="token keyword">fun </span><a href="index.html#1933537447%2FFunctions%2F244041574"><span class="token function">waitForMonitorWithTimeout</span></a><span class="token punctuation">(</span><span class="parameters "><span class="parameter ">monitor<span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Instrumentation.ActivityMonitor.html">Instrumentation.ActivityMonitor</a><span class="token operator">?</span><span class="token punctuation">, </span></span><span class="parameter ">timeOut<span class="token operator">: </span><a href="https://kotlinlang.org/api/core/kotlin-stdlib/kotlin/-long/index.html">Long</a></span></span><span class="token punctuation">)</span><span class="token operator">: </span><a href="https://developer.android.com/reference/kotlin/android/app/Activity.html">Activity</a><span class="token operator">?</span></div></div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="footer">
+        <div class="footer--container">
+            <a href="#content" id="go-to-top-link" class="footer--button footer--button_go-to-top"></a>
+            <div class="footer--content">
+                <div>
+                    <span>Generated by </span>
+                    <a class="footer--link footer--link_external" href="https://github.com/Kotlin/dokka">
+                        Dokka
+                    </a>
+                    <div>© 2026 Copyright</div>
+                </div>
+            </div>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
